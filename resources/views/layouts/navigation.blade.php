@@ -25,7 +25,7 @@
 
                 <!-- extracts Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('extracts.index')">
+                    <x-nav-link :href="route('extracts.conditions')">
                         {{ __('抽出') }}
                     </x-nav-link>
                 </div>

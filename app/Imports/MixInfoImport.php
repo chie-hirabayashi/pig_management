@@ -56,16 +56,21 @@ class MixInfoImport implements OnEachRow, WithHeadingRow
             'trouble_id'                 => $row['trouble_id'],
             'born_day'                   => Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['born_day'])),
             'born_num'                   => $row['born_num'],
-            // 'created_at'                 => $row['created_at'],
-            // 'updated_at'                 => $row['updated_at'],
         ]);
 
         if($mixInfo->wasRecentlyCreated){
-                $born_day=Carbon::createFromFormat('Y-m-d H:i:s', $mixInfo->born_day)->format('Y-m-d');
-                if($born_day=='1970-01-01'){
-                    $mixInfo->born_day=null;
-                    $mixInfo->update();
-                }
+            // trouble_dayの修正
+            $trouble_day=Carbon::createFromFormat('Y-m-d H:i:s', $mixInfo->trouble_day)->format('Y-m-d');
+            if($trouble_day=='1970-01-01'){
+                $mixInfo->trouble_day=null;
+                $mixInfo->update();
+            }
+            // born_dayの修正
+            $born_day=Carbon::createFromFormat('Y-m-d H:i:s', $mixInfo->born_day)->format('Y-m-d');
+            if($born_day=='1970-01-01'){
+                $mixInfo->born_day=null;
+                $mixInfo->update();
+            }
         }
     }
 }

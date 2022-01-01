@@ -106,7 +106,8 @@ class FemalePigController extends Controller
         } else {
             $born_infos = [];
             $born_info = null;
-            return view('female_pigs.show')->with(compact('femalePig', 'mixInfos', 'mixInfo', 'born_infos', 'born_info'));
+            $born_info_last_time = null;
+            return view('female_pigs.show')->with(compact('femalePig', 'mixInfos', 'mixInfo', 'born_infos', 'born_info', 'born_info_last_time'));
         }
 
         // 全出産回数
@@ -159,12 +160,13 @@ class FemalePigController extends Controller
                 // 出産なし
                 $born_infos = [];
                 $born_info = null;
+                $born_info_last_time = null;
             }
         }
 // softDelete対策必要
         self::softDeleteResolution($born_infos);
         self::softDeleteResolution($mixInfos);
-// dd($born_info);
+// dd($born_info_last_time);
         return view('female_pigs.show')->with(compact('femalePig', 'mixInfos', 'mixInfo', 'born_infos', 'born_info', 'born_info_last_time'));
     }
 

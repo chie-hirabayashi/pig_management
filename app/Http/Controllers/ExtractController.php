@@ -10,8 +10,9 @@ use Carbon\Carbon;
 
 class ExtractController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        // dd($request->first_rotate);
         // 抽出に必要な要件
         // 過去２回の回転数
         // 過去２回の出産頭数
@@ -19,10 +20,28 @@ class ExtractController extends Controller
 
         // 仮設定
         // $female_id = 5;
-        $criterion_rotate = 1.8;
-        $criterion_num = 8;
+        // $criterion_rotate = 1.8;
+        // $criterion_num = 8;
+
+        // 本設定(1:かつ、2:または)
+        $condition_first_rotate = $request->first_rotate;
+        $condition_second_rotate = $request->second_rotate;
+        $condition_first_num = $request->first_born_num;
+        $condition_second_num = $request->second_born_num;
+        $rotate_operator = $request->rotate_operator;
+        $born_num_operator = $request->born_num_operator;
+        $operator = $request->operator;
         $extracts = [];
-        
+        $conditions['first_rotate'] = $condition_first_rotate ;
+        $conditions['second_rotate'] = $condition_second_rotate ;
+        $conditions['first_num'] = $condition_first_num ;
+        $conditions['second_num'] = $condition_second_num ;
+        $conditions['rotate_operator'] = $rotate_operator ;
+        $conditions['born_num_operator'] = $born_num_operator ;
+        $conditions['operator'] = $operator ;
+        // var_dump($rotate_operator);
+        // var_dump($born_num_operator);
+        // dd($conditions);
         // 稼働中のfemalePig取得
         $femalePigs = FemalePig::where('deleted_at', null)->get();
 
@@ -62,18 +81,107 @@ class ExtractController extends Controller
             }
             
             // 仮設定による抽出
-            foreach ($bornInfo_past2 as $bornInfo) {
-                if ($bornInfo->rotate < $criterion_rotate ||
-                    $bornInfo->born_num < $criterion_num) {
-                    $extracts[] = $bornInfo;
-                }
+            // foreach ($bornInfo_past2 as $bornInfo) {
+            //     if ($bornInfo->rotate < $criterion_rotate ||
+            //         $bornInfo->born_num < $criterion_num) {
+            //         $extracts[] = $bornInfo;
+            //     }
+            // }
+            
+            // 本設定による抽出
+            switch (true) {
+                case ($rotate_operator == 1 && $operator ==1);
+                    // かつ,かつ,かつ
+                    if ($bornInfo_past2[0]->rotate <= $condition_first_rotate &&
+                        $bornInfo_past2[0]->born_num <= $condition_first_num &&
+                        $bornInfo_past2[1]->rotate <= $condition_second_rotate &&
+                        $bornInfo_past2[1]->born_num <= $condition_second_num ) {
+                        $extracts[] = $bornInfo_past2[0];
+                        $extracts[] = $bornInfo_past2[1];
+                    }
+                    break;
+                
+                case ($rotate_operator == 1 && $operator ==2);
+                    // かつ,または,かつ
+                    if ($bornInfo_past2[0]->rotate <= $condition_first_rotate &&
+                        $bornInfo_past2[1]->rotate <= $condition_second_rotate) {
+                        $extracts[] = $bornInfo_past2[0];
+                        $extracts[] = $bornInfo_past2[1];
+                    }
+                    if ($bornInfo_past2[0]->born_num <= $condition_first_num &&
+                        $bornInfo_past2[1]->born_num <= $condition_second_num ) {
+                        $extracts[] = $bornInfo_past2[0];
+                        $extracts[] = $bornInfo_past2[1];
+                    }
+                    break;
+
+                case ($rotate_operator == 2 && $operator ==1);
+                    // または,かつ,または
+                    if (($bornInfo_past2[0]->rotate < $condition_first_rotate ||
+                        $bornInfo_past2[0]->born_num < $condition_first_num) &&
+                        ($bornInfo_past2[1]->rotate < $condition_second_rotate ||
+                        $bornInfo_past2[1]->born_num < $condition_second_num) ) {
+                        $extracts[] = $bornInfo_past2[0];
+                        $extracts[] = $bornInfo_past2[1];
+                    }
+                    break;
+
+                case ($rotate_operator == 2 && $operator ==2);
+                    // または,または,または
+                    if ($bornInfo_past2[0]->rotate < $condition_first_rotate ||
+                        $bornInfo_past2[0]->born_num < $condition_first_num ) {
+                        $extracts[] = $bornInfo_past2[0];
+                    }
+                    if ($bornInfo_past2[1]->rotate < $condition_second_rotate ||
+                        $bornInfo_past2[1]->born_num < $condition_second_num ) {
+                        $extracts[] = $bornInfo_past2[1];
+                    }
+                    break;
             }
         }
+
+                // // かつ,かつ,または
+                // if ($bornInfo_past2[0]->rotate <= $condition_first_rotate &&
+                //     $bornInfo_past2[1]->rotate <= $condition_second_rotate &&
+                //     ($bornInfo_past2[0]->born_num <= $condition_first_num ||
+                //     $bornInfo_past2[1]->born_num <= $condition_second_num) ) {
+                //     $extracts[] = $bornInfo_past2[0];
+                //     $extracts[] = $bornInfo_past2[1];
+                // }
+
+                // // かつ,または,または
+                // if ($bornInfo_past2[0]->rotate <= $condition_first_rotate &&
+                //     $bornInfo_past2[1]->rotate <= $condition_second_rotate) {
+                //     $extracts[] = $bornInfo_past2[0];
+                //     $extracts[] = $bornInfo_past2[1];
+                // }
+                // if ($bornInfo_past2[0]->born_num <= $condition_first_num ||
+                //     $bornInfo_past2[1]->born_num <= $condition_second_num ) {
+                //     $extracts[] = $bornInfo_past2[0];
+                //     $extracts[] = $bornInfo_past2[1];
+                // }
+
+                // // または,または,かつ
+                // if ($bornInfo_past2[0]->rotate <= $condition_first_rotate ||
+                //     $bornInfo_past2[1]->rotate <= $condition_second_rotate) {
+                //     $extracts[] = $bornInfo_past2[0];
+                //     $extracts[] = $bornInfo_past2[1];
+                // }
+                // if ($bornInfo_past2[0]->born_num <= $condition_first_num &&
+                //     $bornInfo_past2[1]->born_num <= $condition_second_num ) {
+                //     $extracts[] = $bornInfo_past2[0];
+                //     $extracts[] = $bornInfo_past2[1];
+                // }
         
         self::softDeleteResolution($extracts);
-        // dd($extracts);
+        dd($extracts);
         return view('extracts.index')
-            ->with(compact('extracts'));
+            ->with(compact('extracts', 'conditions'));
+    }
+
+    public function conditions()
+    {
+        return view('extracts.conditions');
     }
 
     // 回転数算出function

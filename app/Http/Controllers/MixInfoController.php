@@ -71,33 +71,34 @@ class MixInfoController extends Controller
      */
     public function store(StoreMixInfoRequest $request, FemalePig $femalePig)
     {
+        // オス1の導入日
+        $firstMale_add_day = MalePig::find($request->male_first_id)->add_day;
+        // dd($firstMale_add_day);
+        
+        // オス2の導入日
+        if ($request->male_second_id) {
+            $secondMale_add_day = MalePig::find($request->male_second_id)->add_day;
+        } else {
+            $secondMale_add_day = $firstMale_add_day;
+        }
+        
+        // 交配日の適正確認
+        if ($request->mix_day < $femalePig->add_day ||
+            $request->mix_day < $firstMale_add_day ||
+            $request->mix_day < $secondMale_add_day) {
+            return back()->withErrors('交配日は導入日の後です。');
+        }
+        
         // 交配日
         $mix_day = Carbon::create($request->mix_day);
-        // メス導入日
-        $female_add_day = Carbon::create($femalePig->add_day);
-        // オス導入日
-        $firstMale = MalePig::find($request->male_first_id);
-        $secondMale = MalePig::find($request->male_second_id);
-        $firstM_add_day = Carbon::create($firstMale->add_day);
-        $secondM_add_day = Carbon::create($secondMale->add_day);
-
-        // mix_dayがメス,オス1,オス2のadd_day以降か確認
-        if ($mix_day < $female_add_day ||
-            $mix_day < $firstM_add_day ||
-            $mix_day < $secondM_add_day) {
-
-            $request->validate([
-                'mix_day' => 'required|date|before_or_equal:today|after_add_day'
-            ]);
-        }
         
         // 登録情報準備
         $mixInfo = new MixInfo($request->all());
-        $mixInfo->recurrence_first_schedule = $mix_day->addDay(20)->toDateString();
-        $mixInfo->recurrence_second_schedule = $mix_day->addDay(40)->toDateString();
+        $mixInfo->recurrence_first_schedule = $mix_day->addDay(21)->toDateString();
+        $mixInfo->recurrence_second_schedule = $mix_day->addDay(42)->toDateString();
+        $mixInfo->delivery_schedule = $mix_day->addDay(113)->toDateString();
 
         try {
-            // $mixInfo->save();
             $femalePig->mix_infos()->save($mixInfo);
             return redirect()
                 ->route('female_pigs.show', $femalePig)
@@ -129,7 +130,10 @@ class MixInfoController extends Controller
         $femalePigs = FemalePig::all();
         $malePigs = MalePig::all();
         $troubleCategories = TroubleCategory::all();
-
+        // softDelete対策必要
+        // self::softDeleteResolution($born_infos);
+        self::softDeleteResolution($mixInfo);
+        // dd($femalePig);
         return view('mix_infos.edit')
             ->with(compact('femalePig', 'mixInfo', 'femalePigs', 'malePigs', 'troubleCategories'));
     }
@@ -302,5 +306,42 @@ class MixInfoController extends Controller
         return redirect()
             ->route('female_pigs.index')
             ->with('notice', 'インポートしました');
+    }
+
+    // first_male_pigとsecond_male_pigの
+    // softDeleteとnull対策function
+    public function softDeleteResolution($mixInfo)
+    {
+        // first_male_pigのsoftDelete対策
+        $judge_1 = MalePig::where('id',$mixInfo->male_first_id)->onlyTrashed()->get();
+        if (!$judge_1->isEmpty()) {
+            $deletePig_1 = $judge_1[0]->individual_num;
+            $mixInfo->first_delete_male = $deletePig_1;
+            $mixInfo->first_male = null;
+        } else {
+            $mixInfo->first_delete_male = null;
+            $mixInfo->first_male = $mixInfo->first_male_pig->individual_num;
+        }
+        // second_male_pigのnullとsoftDelete対策
+        if ($mixInfo->male_second_id !== null) {
+            $judge_2 = MalePig::where('id',$mixInfo->male_second_id)->onlyTrashed()->get();
+            if (!$judge_2->isEmpty()) {
+                $deletePig_2 = $judge_2[0]->individual_num;
+                $mixInfo->second_delete_male = $deletePig_2;
+                $mixInfo->second_male = null;
+            } else {
+                $mixInfo->second_delete_male = null;
+                $mixInfo->second_male = $mixInfo->second_male_pig->individual_num;
+            }
+        } else {
+                $mixInfo->second_delete_male = null;
+                $mixInfo->second_male = null;
+        }
+        return $mixInfo;
+    }
+
+    // cssテスト用
+    public function test(){
+        return view('born_infos.index');
     }
 }

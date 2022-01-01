@@ -44,8 +44,10 @@ Route::patch('/mix_infos/{mix_info}/update', [MixInfoController::class, 'updateB
 Route::patch('/mix_infos/{mix_info}/delete', [MixInfoController::class, 'destroyBorn'])
     ->name('born_infos.destroy'); //deleteという名のpatch
 
-Route::get('/extracts', [ExtractController::class, 'index'])
+Route::post('/extracts', [ExtractController::class, 'index'])
     ->name('extracts.index');
+Route::get('/extracts/conditions', [ExtractController::class, 'conditions'])
+    ->name('extracts.conditions');
 
 // インポートフォーム
 Route::get('/imports/import', [ImportController::class, 'import'])
@@ -69,3 +71,6 @@ Route::post('/mix_infos/export', [MixInfoController::class, 'export'])
 Route::post('/Mix_infos/import', [MixInfoController::class, 'import'])
     ->name('mix_infos.import');
 
+// cssテスト用
+Route::get('/test', [MixInfoController::class, 'test'])
+    ->name('born_infos.index');

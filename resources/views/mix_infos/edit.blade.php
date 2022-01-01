@@ -10,7 +10,6 @@
         <h2 class="text-center text-lg font-bold pt-6 tracking-widest">交配記録の修正</h2>
 
         <x-error-validation :errors="$errors" />
-
         <form action="{{ route('female_pigs.mix_infos.update', [$femalePig, $mixInfo]) }}" method="POST"
             class="rounded pt-3 pb-8 mb-4">
             @csrf
@@ -22,9 +21,9 @@
                 <select name="female_id" id="" required
                     class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                     <option value="{{ $femalePig->id }}">{{ $femalePig->individual_num }}</option>
-                    @foreach ($femalePigs as $femalePig)
-                        <option value="{{ $femalePig->id }}">
-                            {{ $femalePig->individual_num }}
+                    @foreach ($femalePigs as $female_pig)
+                        <option value="{{ $female_pig->id }}">
+                            {{ $female_pig->individual_num }}
                         </option>
                     @endforeach
                 </select>
@@ -37,7 +36,9 @@
                     </label>
                     <select name="male_first_id" id="" required
                         class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <option value="{{ $mixInfo->male_first_id }}">{{ $mixInfo->first_male_pig->individual_num }}
+                        <option value="{{ $mixInfo->male_first_id }}">
+                            {{ $mixInfo->first_male }}
+                            {{ $mixInfo->first_delete_male }}
                         </option>
                         @foreach ($malePigs as $malePig)
                             <option value="{{ $malePig->id }}">
@@ -52,7 +53,9 @@
                     </label>
                     <select name="male_second_id" id=""
                         class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <option value="{{ $mixInfo->male_second_id }}">{{ $mixInfo->second_male_pig->individual_num }}
+                        <option value="{{ $mixInfo->male_second_id }}">
+                            {{ $mixInfo->second_male }}
+                            {{ $mixInfo->second_delete_male }}
                         </option>
                         @foreach ($malePigs as $malePig)
                             <option value="{{ $malePig->id }}">

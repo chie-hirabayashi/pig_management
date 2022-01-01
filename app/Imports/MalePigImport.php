@@ -26,23 +26,30 @@ class MalePigImport implements OnEachRow, WithHeadingRow
     {
         $row = $row->toArray();
 
-        $femalePig = MalePig::firstOrCreate([
+        $malePig = MalePig::firstOrCreate([
             'id'             => $row['id'],
             'individual_num' => $row['individual_num'],
             'add_day'=>Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['add_day'])),
             'left_day'=>Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['left_day'])),
             'warn_flag'      => $row['warn_flag'],
-            'created_at'     => $row['created_at'],
-            'updated_at'     => $row['updated_at'],
+            // 'created_at'     => $row['created_at'],
+            // 'updated_at'     => $row['updated_at'],
             'deleted_at'=>Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['deleted_at'])),
         ]);
 
-        if($femalePig->wasRecentlyCreated){
-                $deleted_at=Carbon::createFromFormat('Y-m-d H:i:s', $femalePig->deleted_at)->format('Y-m-d');
-                if($deleted_at=='1980-01-01'){
-                    $femalePig->deleted_at=null;
-                    $femalePig->update();
-                }
+        if($malePig->wasRecentlyCreated){
+            // left_dayの修正
+            $left_day=Carbon::createFromFormat('Y-m-d H:i:s', $malePig->left_day)->format('Y-m-d');
+            if($left_day=='1970-01-01'){
+                $malePig->left_day=null;
+                $malePig->update();
+            }
+            // deleted_atの修正
+            $deleted_at=Carbon::createFromFormat('Y-m-d H:i:s', $malePig->deleted_at)->format('Y-m-d');
+            if($deleted_at=='1980-01-01'){
+                $malePig->deleted_at=null;
+                $malePig->update();
+            }
         }
     }
 }

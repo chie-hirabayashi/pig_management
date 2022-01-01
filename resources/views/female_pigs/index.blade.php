@@ -9,7 +9,7 @@
             <h2 class="text-gray-800 text-2xl lg:text-3xl font-bold text-center mb-8 md:mb-12">
                 femalePigs 一覧
             </h2>
-
+mix_dayから42日:再発観察、born_dayから？日:保育、born_dayから？日待機中、再発、流産で待機中
             <x-flash-msg :message="session('notice')" />
 
             <div class="grid sm:grid-cols-5 lg:grid-cols-5 gap-y-10 sm:gap-y-12 lg:divide-x">
