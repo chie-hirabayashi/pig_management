@@ -133,4 +133,9 @@ return [
             'rule-name' => 'custom-message',
         ],
     ],
+    'attributes'           => [
+        'individual_num' => '個体番号',
+        'add_day'        => '導入日',
+        'today'          => '今日',
+    ],
 ];
