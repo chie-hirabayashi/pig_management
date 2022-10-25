@@ -1,8 +1,9 @@
-<nav x-data="{ open: false }" class="bg-gradient-to-b from-stone-400 to-stone-200 border-b border-stone-100">
-{{-- <nav x-data="{ open: false }" class="bg-gradient-to-r from-blue-500 border-b border-gray-100"> --}}
+{{-- <nav x-data="{ open: false }" class="bg-gradient-to-b from-stone-400 to-stone-200 border-b border-stone-100 shadow"> --}}
+<nav x-data="{ open: false }" class="bg-stone-200 shadow border-b border-gray-300">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
+        {{-- <div class="flex justify-between h-16"> --}}
+        <div class="flex justify-between h-10">
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
@@ -12,11 +13,17 @@
                     </a>
                 </div>
 
+                <!-- malePigs Links -->
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('male_pigs.index')">
+                        {{ __('malePigs') }}
+                    </x-nav-link>
+                </div>
+
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{-- {{ __('Dashboard') }} --}}
-                        取扱説明書
+                        {{ __('取扱説明書') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -60,7 +67,10 @@
                                 {{ __('Log In') }}
                             </x-dropdown-link>
                             <x-dropdown-link :href="route('female_pigs.create')">
-                                母豚登録
+                                {{ __('母豚登録') }}
+                            </x-dropdown-link>
+                            <x-dropdown-link :href="route('male_pigs.create')">
+                                {{ __('父豚登録') }}
                             </x-dropdown-link>
                         @endauth
                     </x-slot>

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FemalePigController;
+use App\Http\Controllers\MalePigController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,3 +27,4 @@ require __DIR__.'/auth.php';
 
 
 Route::resource('female_pigs', FemalePigController::class);
+Route::resource('male_pigs', MalePigController::class);

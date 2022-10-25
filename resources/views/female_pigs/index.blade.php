@@ -1,13 +1,13 @@
 <x-app-layout>
-    {{-- <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Posts.index') }}
+    <x-slot name="header">
+        <h2 class="font-semibold leading-tight">
+            {{ __('female_pigs.index') }}
         </h2>
-    </x-slot> --}}
+    </x-slot>
 
     <div class="container max-w-7xl mx-auto px-4 md:px-12 pb-3 mt-3">
 
-        <x-flash-msg :message="session('flash_msg')" />
+        <x-flash-msg :message="session('notice')" />
 
         <div class="flex flex-wrap -mx-1 lg:-mx-4 mb-4">
             @foreach ($femalePigs as $femalePig)

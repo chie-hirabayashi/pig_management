@@ -1,7 +1,13 @@
 <x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl leading-tight">
+            {{ __('female_pigs.show') }}
+        </h2>
+    </x-slot>
+
     <div class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-8 px-8 py-4 bg-stone-200 rounded shadow-md">
         
-        <x-flash-msg :message="session('flash_msg')" />
+        <x-flash-msg :message="session('notice')" />
         <x-error-validation :errors="$errors" />
 
         <article class="mb-2">
