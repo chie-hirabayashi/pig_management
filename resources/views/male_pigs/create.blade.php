@@ -1,16 +1,17 @@
 <x-app-layout>
     <x-slot name="header">
+        {{-- <h2 class="font-semibold text-xl text-gray-800 leading-tight"> --}}
         <h2 class="font-semibold text-xl leading-tight">
-            {{ __('female_pigs.create') }}
+            {{ __('male_pigs.create') }}
         </h2>
     </x-slot>
 
     <div class="container lg:w-1/2 md:w-4/5 w-11/12 mx-auto mt-8 px-8 bg-white shadow-md">
-        <h2 class="text-center text-lg font-bold pt-6 tracking-widest">母豚の新規登録</h2>
+        <h2 class="text-center text-lg font-bold pt-6 tracking-widest">父豚の新規登録</h2>
 
         <x-error-validation :errors="$errors" />
 
-        <form action="{{ route('female_pigs.store') }}" method="POST" class="rounded pt-3 pb-8 mb-4">
+        <form action="{{ route('male_pigs.store') }}" method="POST" class="rounded pt-3 pb-8 mb-4">
             @csrf
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm mb-2" for="individual_num">

@@ -86,15 +86,18 @@ class FemalePigController extends Controller
         UpdateFemalePigRequest $request,
         FemalePig $femalePig
     ) {
+        // 変更前の個体番号を保持
         $individual_num = $femalePig->individual_num;
         $femalePig->fill($request->all());
 
+        // 個体番号を変更する場合は複合ユニークを確認
         if ($individual_num !== $request->individual_num) {
             $request->validate([
                 'individual_num' => 'required|string|max:20|unique:female_pigs,individual_num,NULL,exist,exist,1'
             ]);
         }
 
+        // 登録
         try {
             $femalePig->save();
             return redirect()
@@ -113,14 +116,14 @@ class FemalePigController extends Controller
      */
     public function destroy(FemalePig $femalePig)
     {
-        $individual_num = $femalePig->individual_num;
-        $flash_msg = $individual_num . 'を廃用にしました';
+        // フラッシュメッセージ作成
+        $flash_msg = $femalePig->individual_num . 'を廃用にしました';
 
         try {
             $femalePig->delete();
             return redirect()
                 ->route('female_pigs.index')
-                ->with('flash_msg', $flash_msg);
+                ->with('notice', $flash_msg);
         } catch (\Throwable $th) {
             return back()->withErrors($th->getMessage());
         }
