@@ -24,9 +24,19 @@ class MalePig extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function mix_infos()
+    public function first_mix_infos()
     {
-        return $this->hasMany(MixInfo::class);
+        return $this->hasMany(MixInfo::class, 'male_first_id', 'id');
+    }
+
+    /**
+     * Get all of the mix_infos for the MalePig
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function second_mix_infos()
+    {
+        return $this->hasMany(MixInfo::class, 'male_second_id', 'id');
     }
 
     // アクセサ

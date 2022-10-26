@@ -38,8 +38,18 @@ class MixInfo extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function male_pig()
+    public function first_male_pig()
     {
-        return $this->belongsTo(MalePig::class);
+        return $this->belongsTo(MalePig::class, 'male_first_id', 'id');
+    }
+
+    /**
+     * Get the male_pig that owns the MixInfo
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function second_male_pig()
+    {
+        return $this->belongsTo(MalePig::class, 'male_second_id', 'id');
     }
 }

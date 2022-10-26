@@ -34,7 +34,7 @@ class ValidatorServiceProvider extends ServiceProvider
         Validator::extend(
             'individual_num',
             function ($attribute, $value, $parameters, $validator) {
-                return $value === intval($value);
+                return $value === strval($value) && $value != '選択してください';
             }
         );
     }

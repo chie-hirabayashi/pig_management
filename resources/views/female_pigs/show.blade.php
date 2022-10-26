@@ -63,8 +63,8 @@
                 @foreach ($mixInfos as $mixInfo)
                 <tr>
                     <td>{{ $mixInfo->mix_day }}</td>
-                    <td>{{ $mixInfo->male_first_id }}</td>
-                    <td>{{ $mixInfo->male_second_id }}</td>
+                    <td>{{ $mixInfo->first_male_pig->individual_num }}</td>
+                    <td>{{ $mixInfo->second_male_pig->individual_num }}</td>
                     <td>{{ $mixInfo->recurrence_first_schedule }}</td>
                     <td>{{ $mixInfo->recurrence_second_schedule }}</td>
                     <td>{{ $mixInfo->recurrence_day }}</td>

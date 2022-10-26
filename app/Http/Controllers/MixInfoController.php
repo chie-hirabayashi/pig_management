@@ -43,11 +43,12 @@ class MixInfoController extends Controller
     public function store(StoreMixInfoRequest $request, FemalePig $femalePig)
     {
         $mixInfo = new MixInfo($request->all());
+        // var_dump($mixInfo->male_first_id);
+        // dd($mixInfo);
         $mix_day = Carbon::create($request->mix_day);
         $mixInfo->recurrence_first_schedule = $mix_day->addDay(20)->toDateString();
         $mixInfo->recurrence_second_schedule = $mix_day->addDay(40)->toDateString();
         $mixInfo->female_id = $femalePig->id;
-        // dd($mixInfo);
 
         try {
             $mixInfo->save();
