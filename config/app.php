@@ -1,5 +1,7 @@
 <?php
 
+use App\Providers\ValidatorServiceProvider;
+
 return [
 
     /*
@@ -165,6 +167,7 @@ return [
         /*
          * Package Service Providers...
          */
+        App\Providers\ValidatorServiceProvider::class,
 
         /*
          * Application Service Providers...

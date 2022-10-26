@@ -133,9 +133,17 @@ return [
             'rule-name' => 'custom-message',
         ],
     ],
+
+    // カスタムエラーメッセージ
+    'select_male' => ':attributeを指定してください。',
+    'after_add_day' => 'after_add_dayです',
+
     'attributes'           => [
         'individual_num' => '個体番号',
+        'male_first_id'  => 'オス1の個体番号',
+        'male_second_id' => 'オス2の個体番号',
         'add_day'        => '導入日',
+        'mix_day'        => '交配日',
         'today'          => '今日',
     ],
 ];

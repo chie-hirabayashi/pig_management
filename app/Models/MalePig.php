@@ -12,11 +12,34 @@ class MalePig extends Model
     use HasFactory;
     use SoftDeletes;
 
+    // Mass Assignment対策
     protected $fillable = [
         'individual_num',
         'add_day',
     ];
 
+    // リレーション
+    /**
+     * Get all of the mix_infos for the MalePig
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function first_mix_infos()
+    {
+        return $this->hasMany(MixInfo::class, 'male_first_id', 'id');
+    }
+
+    /**
+     * Get all of the mix_infos for the MalePig
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function second_mix_infos()
+    {
+        return $this->hasMany(MixInfo::class, 'male_second_id', 'id');
+    }
+
+    // アクセサ
     public function getAgeAttribute()
     {
         $add_day = Carbon::create($this->add_day);

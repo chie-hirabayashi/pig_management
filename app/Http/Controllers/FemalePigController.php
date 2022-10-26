@@ -59,9 +59,8 @@ class FemalePigController extends Controller
      */
     public function show(FemalePig $femalePig)
     {
-        // アクセサ->ageで年齢
-
-        return view('female_pigs.show')->with(compact('femalePig'));
+        $mixInfos = $femalePig->mix_infos;
+        return view('female_pigs.show')->with(compact('femalePig', 'mixInfos'));
     }
 
     /**
