@@ -133,9 +133,16 @@ return [
             'rule-name' => 'custom-message',
         ],
     ],
+
+    // カスタムエラーメッセージ
+    'individual_num' => ':attributeを指定してください。',
+
     'attributes'           => [
         'individual_num' => '個体番号',
+        'male_first_id'  => 'オス豚の個体番号1',
+        'male_second_id' => 'オス豚の個体番号2',
         'add_day'        => '導入日',
+        'mix_day'        => '交配日',
         'today'          => '今日',
     ],
 ];

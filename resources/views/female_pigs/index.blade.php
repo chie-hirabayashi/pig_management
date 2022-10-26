@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold leading-tight">
+        <h2 class="">
             {{ __('female_pigs.index') }}
         </h2>
     </x-slot>

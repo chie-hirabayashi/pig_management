@@ -24,7 +24,7 @@
             <!-- Page Heading -->
             {{-- <header class="bg-gradient-to-b from-stone-400 to-stone-200 shadow"> --}}
             <header class="bg-stone-200 shadow">
-                <div class="text-gray-600 text-2xl max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+                <div class="font-semibold text-xl leading-tight text-gray-600 max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
                     {{ $header }}
                 </div>
             </header>
