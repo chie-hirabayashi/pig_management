@@ -19,6 +19,10 @@
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-stone-300">
+        {{-- <div class="max-h-96 bg-stone-300"> --}}
+        {{-- <div class="min-h-full bg-stone-300"> --}}
+        {{-- <div class="min-h-max bg-stone-300"> --}}
+        {{-- <div class="min-h-fit bg-stone-300"> --}}
             @include('layouts.navigation')
 
             <!-- Page Heading -->
@@ -34,5 +38,7 @@
                 {{ $slot }}
             </main>
         </div>
+        {{-- <div class="min-h-screen bg-stone-300">
+        </div> --}}
     </body>
 </html>

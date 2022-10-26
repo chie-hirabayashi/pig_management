@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMixInfoRequest;
 use App\Http\Requests\UpdateMixInfoRequest;
+use Illuminate\Http\Request;
 use App\Models\FemalePig;
 use App\Models\MalePig;
 use App\Models\MixInfo;
@@ -26,7 +27,7 @@ class MixInfoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(FemalePig $femalePig, MalePig $malePig)
+    public function create(FemalePig $femalePig)
     {
         $malePigs = MalePig::all();
         
@@ -42,10 +43,28 @@ class MixInfoController extends Controller
      */
     public function store(StoreMixInfoRequest $request, FemalePig $femalePig)
     {
-        $mixInfo = new MixInfo($request->all());
-        // var_dump($mixInfo->male_first_id);
-        // dd($mixInfo);
+        // 交配日
         $mix_day = Carbon::create($request->mix_day);
+        // メス導入日
+        $female_add_day = Carbon::create($femalePig->add_day);
+        // オス導入日
+        $firstMale = MalePig::find($request->male_first_id);
+        $secondMale = MalePig::find($request->male_second_id);
+        $firstM_add_day = Carbon::create($firstMale->add_day);
+        $secondM_add_day = Carbon::create($secondMale->add_day);
+
+        // mix_dayがメス,オス1,オス2のadd_day以降か確認
+        if ($mix_day < $female_add_day ||
+            $mix_day < $firstM_add_day ||
+            $mix_day < $secondM_add_day) {
+
+            $request->validate([
+                'mix_day' => 'required|date|before_or_equal:today|after_add_day'
+            ]);
+        }
+        
+        // 登録情報準備
+        $mixInfo = new MixInfo($request->all());
         $mixInfo->recurrence_first_schedule = $mix_day->addDay(20)->toDateString();
         $mixInfo->recurrence_second_schedule = $mix_day->addDay(40)->toDateString();
         $mixInfo->female_id = $femalePig->id;
@@ -78,9 +97,12 @@ class MixInfoController extends Controller
      * @param  \App\Models\MixInfo  $mixInfo
      * @return \Illuminate\Http\Response
      */
-    public function edit(MixInfo $mixInfo)
+    public function edit(FemalePig $femalePig, MixInfo $mixInfo)
     {
-        //
+        $femalePigs = FemalePig::all();
+        $malePigs = MalePig::all();
+        return view('mix_infos.edit')
+            ->with(compact('femalePig', 'mixInfo', 'femalePigs', 'malePigs'));
     }
 
     /**
@@ -90,9 +112,41 @@ class MixInfoController extends Controller
      * @param  \App\Models\MixInfo  $mixInfo
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateMixInfoRequest $request, MixInfo $mixInfo)
+    public function update(UpdateMixInfoRequest $request, FemalePig $femalePig, MixInfo $mixInfo)
     {
-        //
+        // 交配日
+        $mix_day = Carbon::create($request->mix_day);
+        // メス導入日
+        $female_add_day = Carbon::create($femalePig->add_day);
+        // オス導入日
+        $firstMale = MalePig::find($request->male_first_id);
+        $secondMale = MalePig::find($request->male_second_id);
+        $firstM_add_day = Carbon::create($firstMale->add_day);
+        $secondM_add_day = Carbon::create($secondMale->add_day);
+
+        // mix_dayがメス,オス1,オス2のadd_day以降か確認
+        if ($mix_day < $female_add_day ||
+            $mix_day < $firstM_add_day ||
+            $mix_day < $secondM_add_day) {
+
+            $request->validate([
+                'mix_day' => 'required|date|before_or_equal:today|after_add_day'
+            ]);
+        }
+
+        // 更新内容準備
+        $mixInfo->fill($request->all());
+        $mixInfo->recurrence_first_schedule = $mix_day->addDay(20)->toDateString();
+        $mixInfo->recurrence_second_schedule = $mix_day->addDay(40)->toDateString();
+
+        try {
+            $mixInfo->save();
+            return redirect()
+                ->route('female_pigs.show', $femalePig)
+                ->with('notice', '交配記録を修正しました');
+        } catch (\Throwable $th) {
+            return back()->withErrors($th->getMessage());
+        }
     }
 
     /**
@@ -101,8 +155,16 @@ class MixInfoController extends Controller
      * @param  \App\Models\MixInfo  $mixInfo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(MixInfo $mixInfo)
+    // public function destroy(MixInfo $mixInfo, FemalePig $femalePig)
+    public function destroy(FemalePig $femalePig, MixInfo $mixInfo)
     {
-        //
+        try {
+            $mixInfo->delete();
+            return redirect()
+                ->route('female_pigs.show', $femalePig)
+                ->with('notice', '交配記録を削除しました');
+        } catch (\Throwable $th) {
+            return back()->withErrors($th->getMessage());
+        }
     }
 }

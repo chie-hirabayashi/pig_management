@@ -13,7 +13,7 @@ class UpdateMixInfoRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,9 @@ class UpdateMixInfoRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'male_first_id'  => 'required|select_male',
+            'male_second_id' => 'required|select_male|different:male_first_id',
+            'mix_day'        => 'required|date|before_or_equal:today',
         ];
     }
 }

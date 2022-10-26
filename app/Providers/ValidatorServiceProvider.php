@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
+use GuzzleHttp\Promise\Create;
 
 class ValidatorServiceProvider extends ServiceProvider
 {
@@ -31,10 +33,19 @@ class ValidatorServiceProvider extends ServiceProvider
             }
         );
 
+        // オス1,オス2の選択
         Validator::extend(
-            'individual_num',
+            'select_male',
             function ($attribute, $value, $parameters, $validator) {
                 return $value === strval($value) && $value != '選択してください';
+            }
+        );
+
+        // オス1,オス2の選択
+        Validator::extend(
+            'after_add_day',
+            function ($attribute, $value, $parameters, $validator) {
+                return false;
             }
         );
     }
