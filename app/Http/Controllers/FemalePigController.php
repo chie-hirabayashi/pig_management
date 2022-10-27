@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreFemalePigRequest;
 use App\Http\Requests\UpdateFemalePigRequest;
+use App\Models\BornInfo;
 use App\Models\FemalePig;
+use Carbon\Carbon;
 
 class FemalePigController extends Controller
 {
@@ -60,7 +62,21 @@ class FemalePigController extends Controller
     public function show(FemalePig $femalePig)
     {
         $mixInfos = $femalePig->mix_infos;
-        return view('female_pigs.show')->with(compact('femalePig', 'mixInfos'));
+        $bornInfos = $femalePig->born_infos;
+        // $mixInfo = $mixInfos->sortByDesc('mix_day')->first();
+        $mixInfo = $mixInfos->last();
+
+        $count = count($bornInfos);
+        // 回転数算出
+        for ($i=0; $i < $count-1 ; $i++) { 
+            $carbon_0 = Carbon::create($bornInfos[$i]->born_day);
+            $carbon_1 = Carbon::create($bornInfos[$i+1]->born_day);
+            $rotate_date = 365 / $carbon_0->diffInDays($carbon_1);
+
+            $bornInfos[$i+1]['rotate'] = round($rotate_date, 2);
+        }
+
+        return view('female_pigs.show')->with(compact('femalePig', 'mixInfos', 'bornInfos', 'mixInfo'));
     }
 
     /**
