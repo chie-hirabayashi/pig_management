@@ -29,36 +29,48 @@
 
                 <div class="overflow-x-auto relative">
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-900 uppercase dark:text-gray-400">
+                        <thead class="border-t text-xs text-gray-900 uppercase dark:text-gray-400">
                             <tr>
                                 <th scope="col" class="py-3 px-6">
-                                    Product name
+
                                 </th>
                                 <th scope="col" class="py-3 px-6">
                                     直近
                                 </th>
                                 <th scope="col" class="py-3 px-6">
-                                    平均
+                                    過去1年平均
                                 </th>
                                 <th scope="col" class="py-3 px-6">
-                                    Price
+                                    平均
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="border-t border-b">
                             <tr class="bg-white dark:bg-gray-800">
                                 <th scope="row"
                                     class="py-3 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     回転数
                                 </th>
                                 <td class="py-3 px-6">
-                                    Sliver
+                                    @if ($bornInfo)
+                                        {{ $bornInfo->rotate }}
+                                    @else
+                                        0
+                                    @endif
                                 </td>
                                 <td class="py-3 px-6">
-                                    Laptop
+                                    @if ($bornInfo)
+                                        {{ $bornInfo->lastYav_rotate }}
+                                    @else
+                                        0
+                                    @endif
                                 </td>
                                 <td class="py-3 px-6">
-                                    $2999
+                                    @if ($bornInfo)
+                                        {{ $bornInfo->av_rotate }}
+                                    @else
+                                        0
+                                    @endif
                                 </td>
                             </tr>
                             <tr class="bg-white dark:bg-gray-800">
@@ -67,29 +79,62 @@
                                     産子数
                                 </th>
                                 <td class="py-3 px-6">
-                                    Sliver
+                                    @if ($bornInfo)
+                                        {{ $bornInfo->born_num }} 匹
+                                    @else
+                                        0
+                                    @endif
                                 </td>
                                 <td class="py-3 px-6">
-                                    Laptop
+                                    @if ($bornInfo)
+                                        {{ $bornInfo->lastYav_born_num }} 匹
+                                    @else
+                                        0
+                                    @endif
                                 </td>
                                 <td class="py-3 px-6">
-                                    $2999
+                                    @if ($bornInfo)
+                                        {{ $bornInfo->av_born_num }} 匹
+                                    @else
+                                        0
+                                    @endif
                                 </td>
                             </tr>
+                        </tbody>
+                        <thead class="text-xs text-gray-900 uppercase dark:text-gray-400">
+                            <tr>
+                                <th scope="col" class="py-3 px-6">
+
+                                </th>
+                                <th scope="col" class="py-3 px-6">
+                                    過去1年
+                                </th>
+                                <th scope="col" class="py-3 px-6">
+                                    合計
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="border-t border-b">
                             <tr class="bg-white dark:bg-gray-800">
                                 <th scope="row"
                                     class="py-3 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     再発回数
                                 </th>
                                 <td class="py-3 px-6">
-                                    3回
+                                    @if ($mixInfo)
+                                        {{ $mixInfo->lastYsum_recurrences }} 回
+                                    @else
+                                        0 回
+                                    @endif
                                 </td>
                                 <td class="py-3 px-6">
-                                    1回/年
+                                    @if ($mixInfo)
+                                        {{ $mixInfo->sum_recurrence }} 回
+                                    @else
+                                        0 回
+                                    @endif
                                 </td>
-                                <td class="py-3 px-6">
-                                    $1999
-                                </td>
+
                             </tr>
                             <tr class="bg-white dark:bg-gray-800">
                                 <th scope="row"
@@ -97,15 +142,35 @@
                                     流産回数
                                 </th>
                                 <td class="py-3 px-6">
-                                    0回
+                                    @if ($mixInfo)
+                                        {{ $mixInfo->lastYsum_abortions }} 回
+                                    @else
+                                        0 回
+                                    @endif
                                 </td>
                                 <td class="py-3 px-6">
-                                    Accessories
-                                </td>
-                                <td class="py-3 px-6">
-                                    $99
+                                    @if ($mixInfo)
+                                        {{ $mixInfo->sum_abortion }} 回
+                                    @else
+                                        0 回
+                                    @endif
                                 </td>
                             </tr>
+                        </tbody>
+                        <thead class="text-xs text-gray-900 uppercase dark:text-gray-400">
+                            <tr>
+                                <th scope="col" class="py-3 px-6">
+
+                                </th>
+                                <th scope="col" class="py-3 px-6">
+                                    NO.1
+                                </th>
+                                <th scope="col" class="py-3 px-6">
+                                    NO.2
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="border-t border-b">
                             <tr class="bg-white dark:bg-gray-800">
                                 <th scope="row"
                                     class="py-3 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -116,9 +181,6 @@
                                 </td>
                                 <td class="py-3 px-6">
                                     102-0
-                                </td>
-                                <td class="py-3 px-6">
-                                    $99
                                 </td>
                             </tr>
                             <tr class="bg-white dark:bg-gray-800">
@@ -131,9 +193,6 @@
                                 </td>
                                 <td class="py-3 px-6">
                                     102-0
-                                </td>
-                                <td class="py-3 px-6">
-                                    $99
                                 </td>
                             </tr>
                         </tbody>
@@ -225,47 +284,44 @@
                 </tr>
             </thead>
             <tbody>
-                @if ($bornInfos)
-                    @foreach ($bornInfos as $bornInfo)
-                        <tr
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            {{-- <td scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"> --}}
-                            <td class="py-4 px-6">
-                                {{ $bornInfo->born_day }}
-                            </td>
-                            <td class="py-4 px-6">
-                                {{ $bornInfo->born_num }}
-                            </td>
-                            <td class="py-4 px-6">
-                                {{ $bornInfo->mix_info->first_male_pig->individual_num }}
-                            </td>
-                            <td class="py-4 px-6">
-                                {{ $bornInfo->mix_info->second_male_pig->individual_num }}
-                            </td>
-                            <td class="py-4 px-6">
-                                {{ $bornInfo->rotate }}
-                            </td>
-                            <td class="py-4 px-6">
+                @foreach ($bornInfos as $bornInfo)
+                    <tr
+                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        {{-- <td scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"> --}}
+                        <td class="py-4 px-6">
+                            {{ $bornInfo->born_day }}
+                        </td>
+                        <td class="py-4 px-6">
+                            {{ $bornInfo->born_num }}
+                        </td>
+                        <td class="py-4 px-6">
+                            {{ $bornInfo->mix_info->first_male_pig->individual_num }}
+                        </td>
+                        <td class="py-4 px-6">
+                            {{ $bornInfo->mix_info->second_male_pig->individual_num }}
+                        </td>
+                        <td class="py-4 px-6">
+                            {{ $bornInfo->rotate }}
+                        </td>
+                        <td class="py-4 px-6">
 
-                            </td>
-                            <td class="py-4 px-6">
+                        </td>
+                        <td class="py-4 px-6">
 
-                            </td>
-                            <td class="flex items-center py-4 px-6 space-x-3">
-                                <a href="{{ route('female_pigs.mix_infos.edit', [$femalePig, $mixInfo]) }}"
-                                    class="font-medium text-blue-600 dark:text-blue-500 hover:underline">編 集</a>
-                                <form action="{{ route('female_pigs.mix_infos.destroy', [$femalePig, $mixInfo]) }}"
-                                    method="post">
-                                    @csrf
-                                    @method('DELETE')
-                                    <input type="submit" value="削 除"
-                                        onclick="if(!confirm('削除しますか？')){return false};"
-                                        class="font-medium text-red-600 dark:text-red-500 hover:underline">
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                @endif
+                        </td>
+                        <td class="flex items-center py-4 px-6 space-x-3">
+                            <a href="{{ route('female_pigs.mix_infos.edit', [$femalePig, $mixInfo]) }}"
+                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">編 集</a>
+                            <form action="{{ route('female_pigs.mix_infos.destroy', [$femalePig, $mixInfo]) }}"
+                                method="post">
+                                @csrf
+                                @method('DELETE')
+                                <input type="submit" value="削 除" onclick="if(!confirm('削除しますか？')){return false};"
+                                    class="font-medium text-red-600 dark:text-red-500 hover:underline">
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
     </div>

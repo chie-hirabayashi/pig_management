@@ -1,4 +1,5 @@
 <x-app-layout>
+オスを選択すると交配可能日を表示、99年9月9日以降に交配可能です
     <x-slot name="header">
         <h2 class="">
             {{ __('mix_infos.create') }}

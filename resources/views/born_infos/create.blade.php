@@ -1,4 +1,5 @@
 <x-app-layout>
+交配日より前NG
     <x-slot name="header">
         <h2 class="">
             {{ __('born_infos.create') }}

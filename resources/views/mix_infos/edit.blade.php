@@ -1,4 +1,5 @@
 <x-app-layout>
+変更箇所は赤色にホバー
     <x-slot name="header">
         <h2 class="">
             {{ __('mix_infos.edit') }}
@@ -36,7 +37,7 @@
                     </label>
                     <select name="male_first_id" id="" required
                         class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <option hidden>選択してください</option>
+                        <option value="{{ $mixInfo->male_first_id }}">{{ $mixInfo->first_male_pig->individual_num }}</option>
                         @foreach ($malePigs as $malePig)
                             <option value="{{ $malePig->id }}">
                                 {{ $malePig->individual_num }}
@@ -50,7 +51,7 @@
                     </label>
                     <select name="male_second_id" id="" required
                         class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <option hidden>選択してください</option>
+                        <option value="{{ $mixInfo->male_second_id }}">{{ $mixInfo->second_male_pig->individual_num }}</option>
                         @foreach ($malePigs as $malePig)
                             <option value="{{ $malePig->id }}">
                                 {{ $malePig->individual_num }}
@@ -65,7 +66,7 @@
                 </label>
                 <input type="date" name="mix_day"
                     class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                    required placeholder="交配日" value="{{ old('mix_day') }}">
+                    required placeholder="交配日" value="{{ old('mix_day', $mixInfo->mix_day) }}">
             </div>
             <input type="submit" value="修 正"
                 class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
