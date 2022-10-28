@@ -27,7 +27,7 @@ class CreateMalePigsTable extends Migration
             // 論理削除でnull,存在で1になるexistカラムを定義
             $table->boolean('exist')->nullable()->storedAs('case when deleted_at is null then 1 else null end');
 
-            // 複合ユニーク成約
+            // 複合ユニーク制約
             $table->unique(['individual_num', 'exist']);
         });
     }

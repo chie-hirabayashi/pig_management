@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMixInfoRequest;
 use App\Http\Requests\UpdateMixInfoRequest;
+use App\Models\BornInfo;
 use Illuminate\Http\Request;
 use App\Models\FemalePig;
 use App\Models\MalePig;
@@ -29,10 +30,29 @@ class MixInfoController extends Controller
      */
     public function create(FemalePig $femalePig)
     {
-        $malePigs = MalePig::all();
-        
-        return view('mix_infos.create')
-            ->with(compact('femalePig', 'malePigs'));
+        // 交配記録の確認
+        if (!MixInfo::where('female_id', $femalePig->id)->exists()) {
+            // 交配記録なし
+            $malePigs = MalePig::all();
+            return view('mix_infos.create')
+                ->with(compact('femalePig', 'malePigs'));
+
+        } else {
+            $mixInfos = $femalePig->mix_infos;
+            $mixInfo = $mixInfos->sortByDesc('mix_day')->first();
+            
+            // born_infosテーブルのmix_id確認
+            if (BornInfo::where('mix_id', $mixInfo->id)->exists() ||
+                // mix_infosテーブルのflag確認
+                $mixInfo->recurrence_flag === 1 ||
+                $mixInfo->abortion_flag ===1) {
+                    $malePigs = MalePig::all();
+                    return view('mix_infos.create')
+                        ->with(compact('femalePig', 'malePigs'));
+            }
+        }
+
+        return back()->withErrors('未処理の交配記録があります。');
     }
 
     /**
@@ -67,13 +87,13 @@ class MixInfoController extends Controller
         $mixInfo = new MixInfo($request->all());
         $mixInfo->recurrence_first_schedule = $mix_day->addDay(20)->toDateString();
         $mixInfo->recurrence_second_schedule = $mix_day->addDay(40)->toDateString();
-        $mixInfo->female_id = $femalePig->id;
+        // $mixInfo->female_id = $femalePig->id;
 
         try {
-            $mixInfo->save();
-            // $femalePig->mix_infos()->save($mixInfo);
+            // $mixInfo->save();
+            $femalePig->mix_infos()->save($mixInfo);
             return redirect()
-                ->route('female_pigs.index')
+                ->route('female_pigs.show', $femalePig)
                 ->with('notice', '交配記録を登録しました');
         } catch (\Throwable $th) {
             return back()->withErrors($th->getMessage());

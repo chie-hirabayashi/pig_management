@@ -18,7 +18,7 @@
         <script src="{{ asset('js/app.js') }}" defer></script>
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-stone-300">
+        <div class="min-h-screen bg-stone-200">
         {{-- <div class="max-h-96 bg-stone-300"> --}}
         {{-- <div class="min-h-full bg-stone-300"> --}}
         {{-- <div class="min-h-max bg-stone-300"> --}}

@@ -9,14 +9,15 @@
         <x-flash-msg :message="session('notice')" />
     </div>
 
-    <div class="container lg:w-1/2 md:w-4/5 w-11/12 mx-auto mt-8 px-8 bg-white rounded shadow-md">
+    <div class="container lg:w-1/2 md:w-4/5 w-11/12 mx-auto mt-8 px-0 bg-white rounded shadow-md">
+    {{-- <div class="container lg:w-1/2 md:w-4/5 w-11/12 mx-auto mt-8 px-8 bg-white rounded shadow-md"> --}}
     {{-- <div class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-8 px-8 py-4 bg-stone-100 rounded shadow-md"> --}}
     {{-- <div class=" rounded container lg:w-1/2 md:w-4/5 w-full mx-auto mt-8 px-0 bg-white shadow-md"> --}}
         <table class="w-full">
             <thead class="table-header-group">
                 <tr class="table-row border">
-                    <th class="table-cell text-center">個体番号</th>
-                    <th class="table-cell text-left">年齢</th>
+                    <th class="text-center">個体番号</th>
+                    <th class="text-left">年齢</th>
                     <th class="">フラグ</th>
                     <th class="">更新</th>
                     <th class="">廃用</th>

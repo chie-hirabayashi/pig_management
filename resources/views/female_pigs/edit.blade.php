@@ -18,7 +18,6 @@
                     母豚の個体番号
                 </label>
                 <input type="text" name="individual_num"
-                    {{-- class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 py-2 px-3" --}}
                     class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     required placeholder="個体番号" value="{{ old('individual_num', $femalePig->individual_num) }}">
             </div>
