@@ -91,9 +91,10 @@ class BornInfoController extends Controller
      * @param  \App\Models\BornInfo  $bornInfo
      * @return \Illuminate\Http\Response
      */
-    public function edit(BornInfo $bornInfo)
+    public function edit(MixInfo $mixInfo, BornInfo $bornInfo)
     {
-        //
+        return view('born_infos.edit')
+            ->with(compact('mixInfo', 'bornInfo'));
     }
 
     /**
@@ -114,8 +115,17 @@ class BornInfoController extends Controller
      * @param  \App\Models\BornInfo  $bornInfo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(BornInfo $bornInfo)
+    public function destroy(MixInfo $mixInfo, BornInfo $bornInfo)
     {
-        //
+        $femalePig = $bornInfo->female_pig;
+        // dd($femalePig);
+        try {
+            $bornInfo->delete();
+            return redirect()
+                ->route('female_pigs.show', $femalePig)
+                ->with('notice', '出産情報を削除しました');
+        } catch (\Throwable $th) {
+            return back()->withErrors($th->getMessage());
+        }
     }
 }

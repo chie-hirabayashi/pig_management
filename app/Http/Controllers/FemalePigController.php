@@ -119,6 +119,10 @@ class FemalePigController extends Controller
                 // bornInfoにrotateを追加
                 $bornInfos[$i+1]['rotate'] = round($rotate_date, 2);
             }
+
+            if (count($bornInfos) == 1) {
+                $bornInfos[0]['rotate'] = 0;
+            }
             
             // 過去1年間の回転数算出
             $lastY_born_rotates = [];

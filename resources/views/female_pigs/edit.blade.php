@@ -28,7 +28,7 @@
                 <input type="date" name="add_day" class="rounded-md border-gray-300"
                     required value="{{ old('add_day', $femalePig->add_day) }}">
             </div>
-            <input type="submit" value="編　集"
+            <input type="submit" value="編 集"
                 class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
         </form>
     </div>

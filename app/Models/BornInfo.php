@@ -32,7 +32,7 @@ class BornInfo extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function femele_pig()
+    public function female_pig()
     {
         return $this->belongsTo(FemalePig::class, 'female_id', 'id');
     }
