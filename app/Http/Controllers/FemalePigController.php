@@ -177,6 +177,12 @@ class FemalePigController extends Controller
         UpdateFemalePigRequest $request,
         FemalePig $femalePig
     ) {
+        // 一番古い交配日を取得、バリデーション
+        $mix_day = $femalePig->mix_infos->first()->mix_day;
+        if ($mix_day < $request->add_day) {
+            return back()->withErrors('導入日が正しくありません。交配日より前の日付に変更してください。');
+        }
+        
         // 変更前の個体番号を保持
         $individual_num = $femalePig->individual_num;
         $femalePig->fill($request->all());

@@ -144,6 +144,7 @@ return [
         'male_second_id' => 'オス2の個体番号',
         'add_day'        => '導入日',
         'mix_day'        => '交配日',
+        'born_day'       => '出産日',
         'today'          => '今日',
     ],
 ];

@@ -1,5 +1,4 @@
 <x-app-layout>
-交配日より前NG
     <x-slot name="header">
         <h2 class="">
             {{ __('born_infos.create') }}
@@ -38,7 +37,7 @@
                     class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     required placeholder="匹" value="{{ old('born_num', $bornInfo->born_num) }}" min="1" max="20">
             </div>
-            <input type="submit" value="登録"
+            <input type="submit" value="修 正"
                 class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
         </form>
     </div>

@@ -1,5 +1,5 @@
 <x-app-layout>
-交配日より前NG
+交配日の確認ボタン
     <x-slot name="header">
         <h2 class="">
             {{ __('born_infos.create') }}
@@ -36,9 +36,23 @@
                 <input type="number" name="born_num"
                     class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     required placeholder="匹" value="{{ old('born_num') }}" min="1" max="20">
+            <div class="mt-4">
+                <input type="button" id="check" value="交配日の確認"
+                    class="text-gray-700 text-sm dark:text-blue-500 hover:underline">
+                <div id="box" class="text-red-700 text-sm"></div>
+            </div>
             </div>
             <input type="submit" value="登録"
                 class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
         </form>
+        <div>
+            <a href="{{ route('female_pigs.show', $femalePig) }}"
+                class="relative px-4 py-3 font-bold text-black group">
+                <span
+                    class="absolute inset-0 w-full h-full transition duration-300 ease-out transform -translate-x-2 -translate-y-2 bg-red-300 group-hover:translate-x-0 group-hover:translate-y-0"></span>
+                <span class="absolute inset-0 w-full h-full border-4 border-black"></span>
+                <span class="relative">戻 る</span>
+            </a>
+        </div>
     </div>
 </x-app-layout>

@@ -40,7 +40,8 @@ class MixInfoController extends Controller
         } else {
             // 交配記録あり
             $mixInfos = $femalePig->mix_infos;
-            $mixInfo = $mixInfos->sortByDesc('mix_day')->first();
+            $mixInfo = $mixInfos->last();
+            // $mixInfo = $mixInfos->sortByDesc('mix_day')->first();
             
             // born_infosテーブルのmix_id確認
             if (BornInfo::where('mix_id', $mixInfo->id)->exists() ||

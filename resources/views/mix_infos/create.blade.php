@@ -71,6 +71,15 @@
             <input type="submit" value="登録"
                 class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
         </form>
+        <div>
+            <a href="{{ route('female_pigs.show', $femalePig) }}"
+                class="relative px-4 py-3 font-bold text-black group">
+                <span
+                    class="absolute inset-0 w-full h-full transition duration-300 ease-out transform -translate-x-2 -translate-y-2 bg-red-300 group-hover:translate-x-0 group-hover:translate-y-0"></span>
+                <span class="absolute inset-0 w-full h-full border-4 border-black"></span>
+                <span class="relative">戻 る</span>
+            </a>
+        </div>
     </div>
 
     <script>
@@ -125,15 +134,15 @@
             try {
 
                 if (femalePigAddDay >= firstAddDay &&
-                    firstAddDay >= secondAddDay) {
+                    femalePigAddDay >= secondAddDay) {
                     effectiveDate = femalePigAddDay.toJSON().substr(0, 10);
                 }
                 if (firstAddDay >= secondAddDay &&
-                    secondAddDay >= femalePigAddDay) {
+                    firstAddDay >= femalePigAddDay) {
                     effectiveDate = firstAddDay.toJSON().substr(0, 10);
                 }
                 if (secondAddDay >= femalePigAddDay &&
-                    femalePigAddDay >= firstAddDay) {
+                    secondAddDay >= firstAddDay) {
                     effectiveDate = secondAddDay.toJSON().substr(0, 10);
                 }
                 var message = '交配日は' + effectiveDate + '以降です';
@@ -143,6 +152,9 @@
                 // document.getElementById('box').textContent = '個体番号を選択してください';
 
             }
+            // console.log(femalePigAddDay.toJSON().substr(0, 10));
+            // console.log(firstAddDay.toJSON().substr(0, 10));
+            // console.log(secondAddDay.toJSON().substr(0, 10));
             document.getElementById('box').textContent = message;
 
         }
