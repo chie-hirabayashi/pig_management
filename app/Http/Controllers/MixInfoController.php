@@ -38,21 +38,25 @@ class MixInfoController extends Controller
                 ->with(compact('femalePig', 'malePigs'));
 
         } else {
+            // 交配記録あり
             $mixInfos = $femalePig->mix_infos;
-            $mixInfo = $mixInfos->sortByDesc('mix_day')->first();
+            $mixInfo = $mixInfos->last();
+            // $mixInfo = $mixInfos->sortByDesc('mix_day')->first();
             
             // born_infosテーブルのmix_id確認
             if (BornInfo::where('mix_id', $mixInfo->id)->exists() ||
                 // mix_infosテーブルのflag確認
                 $mixInfo->recurrence_flag === 1 ||
-                $mixInfo->abortion_flag ===1) {
+                $mixInfo->abortion_flag ===1 ) {
                     $malePigs = MalePig::all();
                     return view('mix_infos.create')
                         ->with(compact('femalePig', 'malePigs'));
             }
+            return back()->withErrors('未処理の交配記録があります。');
         }
+        
+        return back()->withErrors('予期せぬエラーが発生しました');
 
-        return back()->withErrors('未処理の交配記録があります。');
     }
 
     /**

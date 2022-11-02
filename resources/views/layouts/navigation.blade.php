@@ -11,6 +11,9 @@
                         {{-- <x-application-logo class="block h-10 w-auto fill-current text-gray-600" /> --}}
                         <x-application-logo class="" />
                     </a>
+                    <x-nav-link :href="route('female_pigs.index')">
+                        {{ __('femalePigs') }}
+                    </x-nav-link>
                 </div>
 
                 <!-- malePigs Links -->
@@ -129,6 +132,12 @@
                     <x-responsive-nav-link :href="route('login')">
                         {{ __('Log In') }}
                     </x-responsive-nav-link>
+                    <x-dropdown-link :href="route('female_pigs.create')">
+                        {{ __('母豚登録') }}
+                    </x-dropdown-link>
+                    <x-dropdown-link :href="route('male_pigs.create')">
+                        {{ __('父豚登録') }}
+                    </x-dropdown-link>
                 </div>
             @endauth
         </div>

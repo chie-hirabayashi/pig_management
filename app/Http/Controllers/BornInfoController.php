@@ -38,8 +38,9 @@ class BornInfoController extends Controller
                 }
         }
 
+        $femalePig = $mixInfo->female_pig;
         return view('born_infos.create')
-            ->with(compact('mixInfo'));
+            ->with(compact('mixInfo', 'femalePig'));
     }
 
     /**
@@ -50,19 +51,24 @@ class BornInfoController extends Controller
      */
     public function store(StoreBornInfoRequest $request, MixInfo $mixInfo)
     {
-        // born_infosテーブルのmix_id確認
-        if (BornInfo::where('mix_id', $mixInfo->id)->exists()) {
-            return back()->withErrors('既に出産登録済みです。');
-        } else {
-            // フラグ確認
-            if ($mixInfo->recurrence_flag === 1 ||
-                $mixInfo->abortion_flag === 1) {
-                    return back()->withErrors('出産登録できる交配記録がありません。');
-                }
-        }
+        // // born_infosテーブルのmix_id確認
+        // if (BornInfo::where('mix_id', $mixInfo->id)->exists()) {
+        //     return back()->withErrors('既に出産登録済みです。');
+        // } else {
+        //     // フラグ確認
+        //     if ($mixInfo->recurrence_flag === 1 ||
+        //         $mixInfo->abortion_flag === 1) {
+        //             return back()->withErrors('出産登録できる交配記録がありません。');
+        //         }
+        // }
         
         $bornInfo = new BornInfo($request->all());
         $femalePig = FemalePig::find($request->female_id);
+
+        if ($mixInfo->mix_day > $bornInfo->born_day) {
+            return back()->withErrors('出産日は交配日の後の日付を指定してください。');
+        }
+
         try {
             // $mixInfo->female_id = $id;
             $mixInfo->born_info()->save($bornInfo);
@@ -91,9 +97,10 @@ class BornInfoController extends Controller
      * @param  \App\Models\BornInfo  $bornInfo
      * @return \Illuminate\Http\Response
      */
-    public function edit(BornInfo $bornInfo)
+    public function edit(MixInfo $mixInfo, BornInfo $bornInfo)
     {
-        //
+        return view('born_infos.edit')
+            ->with(compact('mixInfo', 'bornInfo'));
     }
 
     /**
@@ -103,9 +110,24 @@ class BornInfoController extends Controller
      * @param  \App\Models\BornInfo  $bornInfo
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateBornInfoRequest $request, BornInfo $bornInfo)
+    public function update(UpdateBornInfoRequest $request, MixInfo $mixInfo, BornInfo $bornInfo)
     {
-        //
+        $mix_day = $mixInfo->mix_day;
+        $femalePig = $bornInfo->female_pig;
+        $bornInfo->fill($request->all());
+// dd($mix_day);
+        if ($mix_day > $request->born_day) {
+            return back()->withErrors('出産日が正しくありません。交配日より後の日付に変更してください。');
+        }
+
+        try {
+            $bornInfo->save();
+            return redirect()
+                ->route('female_pigs.show', $femalePig)
+                ->with('notice', '出産情報を編集しました');
+        } catch (\Throwable $th) {
+            return back()->withErrors($th->getMessage());
+        }
     }
 
     /**
@@ -114,8 +136,17 @@ class BornInfoController extends Controller
      * @param  \App\Models\BornInfo  $bornInfo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(BornInfo $bornInfo)
+    public function destroy(MixInfo $mixInfo, BornInfo $bornInfo)
     {
-        //
+        $femalePig = $bornInfo->female_pig;
+        // dd($femalePig);
+        try {
+            $bornInfo->delete();
+            return redirect()
+                ->route('female_pigs.show', $femalePig)
+                ->with('notice', '出産情報を削除しました');
+        } catch (\Throwable $th) {
+            return back()->withErrors($th->getMessage());
+        }
     }
 }

@@ -84,6 +84,14 @@ class MalePigController extends Controller
      */
     public function update(UpdateMalePigRequest $request, MalePig $malePig)
     {
+        // 一番古い交配日を取得、バリデーション
+        $mix_day = $malePig->first_mix_infos->first()->mix_day;
+        if ($mix_day < $request->add_day) {
+            return back()->withErrors('導入日が正しくありません。交配日より前の日付に変更してください。');
+        }
+
+        
+        
         // 変更前の個体番号を保持
         $individual_num = $malePig->individual_num;
         $malePig->fill($request->all());
