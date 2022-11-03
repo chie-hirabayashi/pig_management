@@ -19,6 +19,7 @@ class FemalePigController extends Controller
     public function index()
     {
         $femalePigs = FemalePig::all();
+        // $mixInfos = MixInfo::all();
         
         return view('female_pigs.index')
             ->with(compact('femalePigs'));
