@@ -1315,9 +1315,6 @@ select {
 .pt-8 {
   padding-top: 2rem;
 }
-.pr-px {
-  padding-right: 1px;
-}
 .text-left {
   text-align: left;
 }
@@ -1448,6 +1445,10 @@ select {
 .text-gray-900 {
   --tw-text-opacity: 1;
   color: rgb(17 24 39 / var(--tw-text-opacity));
+}
+.text-rose-600 {
+  --tw-text-opacity: 1;
+  color: rgb(225 29 72 / var(--tw-text-opacity));
 }
 .text-indigo-600 {
   --tw-text-opacity: 1;

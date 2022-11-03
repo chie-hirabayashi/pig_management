@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\BornInfoController;
+use App\Http\Controllers\ExtractController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FemalePigController;
 use App\Http\Controllers\MalePigController;
@@ -43,3 +43,5 @@ Route::patch('/mix_infos/{mix_info}/update', [MixInfoController::class, 'updateB
 Route::patch('/mix_infos/{mix_info}/delete', [MixInfoController::class, 'destroyBorn'])
     ->name('born_infos.destroy'); //deleteという名のpatch
 
+Route::get('/extracts', [ExtractController::class, 'index'])
+    ->name('extracts.index');

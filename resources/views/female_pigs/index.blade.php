@@ -21,19 +21,23 @@
                                 {{ $femalePig->individual_num }}
                             </a>
                         </div>
-
                         <div class="flex flex-col sm:flex-row items-center gap-2 md:gap-3">
                             <div>
-                                <div class="text-indigo-500 text-base md:text-base font-bold text-center sm:text-center">
+                                <p class="text-center text-gray-500 text-sm md:text-sm sm:text-left">
                                     {{ $femalePig->age }} 歳
-                                </div>
-                                <p class="text-gray-500 text-sm md:text-sm text-center sm:text-left">
-                                    保育中・待機中・観察中
                                 </p>
+                                <div class="text-indigo-500 text-base md:text-base font-bold text-center sm:text-center">
+                                    保育中・待機中・観察中
+                                </div>
                             </div>
                         </div>
                     </div>
                 @endforeach
+                                {{-- @foreach ($mixInfos as $mixInfo)
+                                <p class="text-rose-600 text-sm md:text-sm text-center sm:text-left">
+                                    {{ $mixInfo->recurrence_first_schedule }}11-11は再発予定日です(確認したら、非表示になる)
+                                </p>
+                                @endforeach --}}
                 <!-- quote - end -->
             </div>
         </div>
