@@ -30,9 +30,17 @@ class CreateMixInfosTable extends Migration
             $table->date('mix_day');
             $table->date('recurrence_first_schedule');
             $table->date('recurrence_second_schedule');
-            $table->date('recurrence_day')->nullable();
-            $table->boolean('recurrence_flag')->default(0);
-            $table->boolean('abortion_flag')->default(0);
+            $table->date('trouble_day')->nullable();
+            $table->foreignId('trouble_id')
+                ->default(1)
+                ->constrained('trouble_categorys')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+            // $table->boolean('recurrence_flag')->default();
+            // $table->boolean('recurrence_flag')->default(0);
+            // $table->boolean('abortion_flag')->default(0);
+            $table->date('born_day')->nullable();
+            $table->integer('born_num')->nullable();
             $table->timestamps();
         });
     }

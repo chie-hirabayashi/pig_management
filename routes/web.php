@@ -31,4 +31,15 @@ require __DIR__.'/auth.php';
 Route::resource('female_pigs', FemalePigController::class);
 Route::resource('male_pigs', MalePigController::class);
 Route::resource('female_pigs.mix_infos', MixInfoController::class);
-Route::resource('mix_infos.born_infos', BornInfoController::class);
+
+Route::get('/mix_infos/{mix_info}/create', [MixInfoController::class, 'createBorn'])
+    ->name('born_infos.create'); //createという名のedit
+Route::patch('/mix_infos/{mix_info}/store', [MixInfoController::class, 'storeBorn'])
+    ->name('born_infos.store'); //storeという名のpatch
+Route::get('/mix_infos/{mix_info}/edit', [MixInfoController::class, 'editBorn'])
+    ->name('born_infos.edit');
+Route::patch('/mix_infos/{mix_info}/update', [MixInfoController::class, 'updateBorn'])
+    ->name('born_infos.update');
+Route::patch('/mix_infos/{mix_info}/delete', [MixInfoController::class, 'destroyBorn'])
+    ->name('born_infos.destroy'); //deleteという名のpatch
+

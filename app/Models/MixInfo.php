@@ -19,9 +19,10 @@ class MixInfo extends Model
         'mix_day',
         'recurrence_first_schedule',
         'recurrence_second_schedule',
-        'recurrence_day',
-        'recurrence_flag',
-        'abortion_flag',
+        'trouble_day',
+        'trouble_id',
+        'born_day',
+        'born_num',
     ];
 
     // リレーション
@@ -56,12 +57,22 @@ class MixInfo extends Model
     }
 
     /**
-     * Get the born_info associated with the MixInfo
+     * Get the trouble_categosy that owns the MixInfo
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function born_info()
+    public function trouble_categosy()
     {
-        return $this->hasOne(BornInfo::class, 'mix_id', 'id');
+        return $this->belongsTo(TroubleCategory::class, 'trouble_id', 'id');
     }
+
+    // /**
+    //  * Get the born_info associated with the MixInfo
+    //  *
+    //  * @return \Illuminate\Database\Eloquent\Relations\HasOne
+    //  */
+    // public function born_info()
+    // {
+    //     return $this->hasOne(BornInfo::class, 'mix_id', 'id');
+    // }
 }

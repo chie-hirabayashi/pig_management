@@ -1,5 +1,5 @@
 <x-app-layout>
-    変更箇所は赤色にホバー
+    変更箇所は赤色にホバー、再発、流産は非表示javascripteで表示
     <x-slot name="header">
         <h2 class="">
             {{ __('mix_infos.edit') }}
@@ -14,7 +14,7 @@
         <form action="{{ route('female_pigs.mix_infos.update', [$femalePig, $mixInfo]) }}" method="POST"
             class="rounded pt-3 pb-8 mb-4">
             @csrf
-            @method('PUT')
+            @method('PATCH')
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm mb-2" for="mix_day">
                     メスの個体番号
@@ -68,7 +68,26 @@
                 </label>
                 <input type="date" name="mix_day"
                     class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                    required placeholder="交配日" value="{{ old('mix_day', $mixInfo->mix_day) }}">
+                    required value="{{ old('mix_day', $mixInfo->mix_day) }}">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm mb-2" for="mix_day">
+                    再発または流産の日付
+                </label>
+                <input type="date" name="trouble_day"
+                    class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                    placeholder="日付" value="{{ old('trouble_day', $mixInfo->trouble_day) }}">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm mb-2" for="mix_day">
+                    種類
+                </label>
+                @foreach ($troubleCategories as $troubleCategory)
+                    <input type="radio" name="trouble_id" value="{{ $troubleCategory->id }}"
+                        {{ old('trouble_id', $mixInfo->trouble_id) == $troubleCategory->id ? 'checked' : '' }}
+                        class="mr-2 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        required>{{ $troubleCategory->trouble_name }}
+                @endforeach
             </div>
             <input type="submit" value="修 正"
                 class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">

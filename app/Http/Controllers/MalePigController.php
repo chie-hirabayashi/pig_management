@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreMalePigRequest;
 use App\Http\Requests\UpdateMalePigRequest;
 use App\Models\MalePig;
+use App\Models\MixInfo;
 
 class MalePigController extends Controller
 {
@@ -85,12 +86,27 @@ class MalePigController extends Controller
     public function update(UpdateMalePigRequest $request, MalePig $malePig)
     {
         // 一番古い交配日を取得、バリデーション
-        $mix_day = $malePig->first_mix_infos->first()->mix_day;
-        if ($mix_day < $request->add_day) {
-            return back()->withErrors('導入日が正しくありません。交配日より前の日付に変更してください。');
-        }
-
+        $exist_firstId = MixInfo::where('male_first_id', $malePig->id)->exists();
+        $exist_secondId = MixInfo::where('male_second_id', $malePig->id)->exists();
         
+        if ($exist_firstId || $exist_secondId) {
+            $first_mix_day = $malePig->first_mix_infos->first()->mix_day;
+            $second_mix_day = $malePig->second_mix_infos->first()->mix_day;
+
+            switch ($first_mix_day > $second_mix_day) {
+                case true:
+                    $mix_day = $first_mix_day;
+                    break;
+                case false:
+                    $mix_day = $second_mix_day;
+                    break;
+                default:
+            }
+
+            if ($mix_day < $request->add_day) {
+                return back()->withErrors('導入日が正しくありません。交配日より前の日付に変更してください。');
+            }
+        }
         
         // 変更前の個体番号を保持
         $individual_num = $malePig->individual_num;

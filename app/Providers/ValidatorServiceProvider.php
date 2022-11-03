@@ -40,22 +40,5 @@ class ValidatorServiceProvider extends ServiceProvider
                 return $value === strval($value) && $value != '選択してください';
             }
         );
-
-        // MixInfoController.store.update:オス1,オス2の選択
-        Validator::extend(
-            'after_add_day',
-            function ($attribute, $value, $parameters, $validator) {
-                return false;
-            }
-        );
-
-        // BornInfo:出産日は交配日より後
-        Validator::extend(
-            'after_mix_day',
-            function ()
-            {
-                return false;
-            }
-        );
     }
 }

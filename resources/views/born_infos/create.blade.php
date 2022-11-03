@@ -11,17 +11,22 @@
 
         <x-error-validation :errors="$errors" />
 
-        <form action="{{ route('mix_infos.born_infos.store', $mixInfo) }}" method="POST" class="rounded pt-3 pb-8 mb-4">
+        <form action="{{ route('born_infos.store', $mixInfo) }}" method="POST" class="rounded pt-3 pb-8 mb-4">
             @csrf
+            @method('PATCH')
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm mb-2" for="individual_num">
                     個体番号
                 </label>
-                <input type="hidden" value="{{ $mixInfo->female_pig->id }}" name="female_id">
+                {{-- <input type="hidden" value="{{ $mixInfo->female_pig->id }}" name="female_id"> --}}
                 <input type="text" name="individual_num"
                     {{-- class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 py-2 px-3" --}}
                     class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     placeholder="" value="{{ $mixInfo->female_pig->individual_num }}" readonly>
+            </div>
+            <div class="mb-4">
+                <input type="hidden" name="mix_day" class="rounded-md border-gray-300"
+                    required value="{{ $mixInfo->mix_day }}">
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm mb-2" for="born_day">
