@@ -145,6 +145,7 @@ return [
         'add_day'        => '導入日',
         'mix_day'        => '交配日',
         'born_day'       => '出産日',
+        'trouble_day'    => '日付',
         'today'          => '今日',
     ],
 ];

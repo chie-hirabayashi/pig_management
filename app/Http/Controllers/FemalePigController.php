@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreFemalePigRequest;
 use App\Http\Requests\UpdateFemalePigRequest;
-use App\Models\BornInfo;
 use App\Models\FemalePig;
 use App\Models\MixInfo;
 use Carbon\Carbon;
@@ -71,88 +70,86 @@ class FemalePigController extends Controller
         // mixInfo準備
         if ($mixInfo) {
             // 再発取得
-            $recurrence_flags = DB::table('mix_infos')
+            $recurrences = DB::table('mix_infos')
                 ->where('female_id', $femalePig->id)
-                ->where('recurrence_flag', 1)
+                ->where('trouble_id', 2)
                 ->get();
-            $mixInfo['sum_recurrence'] = count($recurrence_flags);
+            $mixInfo['sum_recurrence'] = count($recurrences);
 
             // 流産取得
-            $abortion_flags = DB::table('mix_infos')
+            $abortions = DB::table('mix_infos')
                 ->where('female_id', $femalePig->id)
-                ->where('abortion_flag', 1)
+                ->where('trouble_id', 3)
                 ->get();
-            $mixInfo['sum_abortion'] = count($abortion_flags);
-
+            $mixInfo['sum_abortion'] = count($abortions);
+            
             // 過去1年間の再発取得
-            $last_year_recurrences = DB::table('mix_infos')
-                ->where('female_id', $femalePig->id)
-                ->where('mix_day', '>', $last_year)
-                ->where('recurrence_flag', 1)
-                ->get();
+            $last_year_recurrences = $recurrences->where('trouble_day', '>', $last_year);
             $mixInfo['lastYsum_recurrences'] = count($last_year_recurrences);
             
             // 過去1年間の流産取得
-            $last_year_abortions = DB::table('mix_infos')
-                ->where('female_id', $femalePig->id)
-                ->where('mix_day', '>', $last_year)
-                ->where('abortion_flag', 1)
-                ->get();
+            $last_year_abortions = $abortions->where('trouble_day', '>', $last_year);
             $mixInfo['lastYsum_abortions'] = count($last_year_abortions);
+        } else {
+            $born_infos = [];
+            $born_info = null;
+            return view('female_pigs.show')->with(compact('femalePig', 'mixInfos', 'mixInfo', 'born_infos', 'born_info'));
         }
 
-        // 過去1年間のbornInfo取得
-        $last_year_bornInfos = DB::table('born_infos')
-            ->where('female_id', $femalePig->id)
-            ->where('born_day', '>', $last_year)
-            ->get();
+        // 出産回数
+        $born_infos = MixInfo::where('female_id', $femalePig->id)
+            ->whereNotNull('born_day')->get();
+        $count_born_infos = count($born_infos);
 
+        // 過去１年間の出産回数
+        $last_year_bornInfos = $mixInfos->where('born_day', '>', $last_year);
+        $count_lastY_born_infos = count($last_year_bornInfos);
+        // dd($count_born_infos);
+        if ($count_born_infos !== 0) {
         // 出産あり
-        if (BornInfo::where('female_id', $femalePig->id)->exists()) {
             // 回転数算出
-            $bornInfos = $femalePig->born_infos;
-            $count = count($bornInfos);
-            for ($i=0; $i < $count-1 ; $i++) { 
-                $carbon_0 = Carbon::create($bornInfos[$i]->born_day);
-                $carbon_1 = Carbon::create($bornInfos[$i+1]->born_day);
-                $rotate_date = 365 / $carbon_0->diffInDays($carbon_1);
-                // bornInfoにrotateを追加
-                $bornInfos[$i+1]['rotate'] = round($rotate_date, 2);
+            for ($i=0; $i < $count_born_infos-1 ; $i++) { 
+                $carbon_1 = Carbon::create($born_infos[$i]->born_day);
+                $carbon_2 = Carbon::create($born_infos[$i+1]->born_day);
+                $rotate = 365 / $carbon_1->diffInDays($carbon_2);
+                // born_infosにrotateを追加
+                $born_infos[$i+1]['rotate'] = round($rotate, 2);
             }
 
-            if (count($bornInfos) == 1) {
-                $bornInfos[0]['rotate'] = 0;
+            if ($count_born_infos == 1) {
+                $born_infos[0]['rotate'] = 0;
             }
             
             // 過去1年間の回転数算出
-            $lastY_born_rotates = [];
-            $count = count($last_year_bornInfos);
-            for ($i=0; $i < $count-1 ; $i++) { 
-                $carbon_0 = Carbon::create($last_year_bornInfos[$i]->born_day);
-                $carbon_1 = Carbon::create($last_year_bornInfos[$i+1]->born_day);
-                $rotate_date = 365 / $carbon_0->diffInDays($carbon_1);
+            for ($i=0; $i < $count_lastY_born_infos-1 ; $i++) { 
+                $carbon_1 = Carbon::create($last_year_bornInfos[$i]->born_day);
+                $carbon_2 = Carbon::create($last_year_bornInfos[$i+1]->born_day);
+                $rotate = 365 / $carbon_1->diffInDays($carbon_2);
                 // 
-                $lastY_born_rotates[] = round($rotate_date, 2);
+                $lastY_born_rotates[] = round($rotate, 2);
             }
             // 回転数がない場合
             if (empty($lastY_born_rotates)) {
                 $lastY_born_rotates[] = 0;
             }
+            // dd($lastY_born_rotates);
 
             // 最新の出産情報取得
-            $bornInfo = $bornInfos[(count($bornInfos)-1)];
-            $bornInfo['av_born_num'] = round($bornInfos->avg('born_num'), 2);
-            $bornInfo['lastYav_born_num'] = round($last_year_bornInfos->avg('born_num'), 2);
-            $bornInfo['av_rotate'] = round($bornInfos->avg('rotate'), 2);
-            $bornInfo['lastYav_rotate'] = round(array_sum($lastY_born_rotates) / count($lastY_born_rotates), 2);
+            $born_info = $born_infos[($count_born_infos-1)];
+            $born_info['count_born'] = $count_born_infos;
+            $born_info['count_lastY_born'] = $count_lastY_born_infos;
+            $born_info['av_born_num'] = round($born_infos->avg('born_num'), 2);
+            $born_info['lastYav_born_num'] = round($last_year_bornInfos->avg('born_num'), 2);
+            $born_info['av_rotate'] = round($born_infos->avg('rotate'), 2);
+            $born_info['lastYav_rotate'] = round(array_sum($lastY_born_rotates) / count($lastY_born_rotates), 2);
 
-        // 出産なし
         } else {
-            $bornInfos = [];
-            $bornInfo = null;
+        // 出産なし
+            $born_infos = [];
+            $born_info = null;
         }
-        // dd($bornInfo);
-        return view('female_pigs.show')->with(compact('femalePig', 'mixInfos', 'bornInfos', 'mixInfo', 'bornInfo'));
+// dd($mixInfo);
+        return view('female_pigs.show')->with(compact('femalePig', 'mixInfos', 'mixInfo', 'born_infos', 'born_info'));
     }
 
     /**

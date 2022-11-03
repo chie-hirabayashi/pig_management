@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="">
-            {{ __('born_infos.create') }}
+            {{ __('born_infos.edit') }}
         </h2>
     </x-slot>
 
@@ -10,7 +10,7 @@
 
         <x-error-validation :errors="$errors" />
 
-        <form action="{{ route('mix_infos.born_infos.update', [$mixInfo, $bornInfo]) }}" method="POST" class="rounded pt-3 pb-8 mb-4">
+        <form action="{{ route('born_infos.update', $mixInfo) }}" method="POST" class="rounded pt-3 pb-8 mb-4">
             @csrf
             @method('PATCH')
             <div class="mb-4">
@@ -23,11 +23,15 @@
                     placeholder="" value="{{ $mixInfo->female_pig->individual_num }}" readonly>
             </div>
             <div class="mb-4">
+                <input type="hidden" name="mix_day" class="rounded-md border-gray-300"
+                    required value="{{ $mixInfo->mix_day }}">
+            </div>
+            <div class="mb-4">
                 <label class="block text-gray-700 text-sm mb-2" for="born_day">
                     出産日
                 </label>
                 <input type="date" name="born_day" class="rounded-md border-gray-300"
-                    required value="{{ old('born_day', $bornInfo->born_day) }}">
+                    required value="{{ old('born_day', $mixInfo->born_day) }}">
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm mb-2" for="individual_num">
@@ -35,10 +39,19 @@
                 </label>
                 <input type="number" name="born_num"
                     class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                    required placeholder="匹" value="{{ old('born_num', $bornInfo->born_num) }}" min="1" max="20">
+                    required placeholder="匹" value="{{ old('born_num', $mixInfo->born_num) }}" min="1" max="20">
             </div>
             <input type="submit" value="修 正"
                 class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
         </form>
+        <div>
+            <a href="{{ route('female_pigs.show', $femalePig) }}"
+                class="relative px-4 py-3 font-bold text-black group">
+                <span
+                    class="absolute inset-0 w-full h-full transition duration-300 ease-out transform -translate-x-2 -translate-y-2 bg-red-300 group-hover:translate-x-0 group-hover:translate-y-0"></span>
+                <span class="absolute inset-0 w-full h-full border-4 border-black"></span>
+                <span class="relative">戻 る</span>
+            </a>
+        </div>
     </div>
 </x-app-layout>
