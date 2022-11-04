@@ -10,9 +10,9 @@
     </div>
 
     <div class="container lg:w-1/2 md:w-4/5 w-11/12 mx-auto mt-8 px-0 bg-white rounded shadow-md">
-    {{-- <div class="container lg:w-1/2 md:w-4/5 w-11/12 mx-auto mt-8 px-8 bg-white rounded shadow-md"> --}}
-    {{-- <div class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-8 px-8 py-4 bg-stone-100 rounded shadow-md"> --}}
-    {{-- <div class=" rounded container lg:w-1/2 md:w-4/5 w-full mx-auto mt-8 px-0 bg-white shadow-md"> --}}
+        {{-- <div class="container lg:w-1/2 md:w-4/5 w-11/12 mx-auto mt-8 px-8 bg-white rounded shadow-md"> --}}
+        {{-- <div class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-8 px-8 py-4 bg-stone-100 rounded shadow-md"> --}}
+        {{-- <div class=" rounded container lg:w-1/2 md:w-4/5 w-full mx-auto mt-8 px-0 bg-white shadow-md"> --}}
         <table class="w-full">
             <thead class="table-header-group">
                 <tr class="table-row border">
@@ -27,7 +27,7 @@
                 @foreach ($malePigs as $malePig)
                     <tr>
                         <td class="table-cell text-center">
-                                {{-- <h2 class="font-bold font-sans break-normal text-gray-600 pt-6 pb-1 text-sm md:text-xl"> --}}
+                            {{-- <h2 class="font-bold font-sans break-normal text-gray-600 pt-6 pb-1 text-sm md:text-xl"> --}}
                             {{ $malePig->individual_num }}
                         </td>
                         <td class="table-cell text-center">
@@ -51,8 +51,7 @@
                         </td>
                         <td class="table-cell text-center">
                             <form action="{{ route('male_pigs.destroy', $malePig) }}" method="POST" id="delete"
-                                {{-- class="relative px-6 py-3 font-bold text-black group"> --}}
-                                class="relative py-2">
+                                {{-- class="relative px-6 py-3 font-bold text-black group"> --}} class="relative py-2">
                                 @csrf
                                 @method('DELETE')
                                 <input type="hidden" form="delete">
@@ -77,5 +76,18 @@
                 @endforeach
             </tbody>
         </table>
+    </div>
+    <div>
+        <form method="post" action="{{ route('male_pigs.export') }}">
+            @csrf
+            <input type="submit" value="エクスポート">
+        </form>
+    </div>
+    <div>
+        <form method="post" action="{{ route('male_pigs.import') }}" enctype="multipart/form-data">
+            @csrf
+            <input type="file" name="excel_file"><br>
+            <input type="submit" value="インポート">
+        </form>
     </div>
 </x-app-layout>

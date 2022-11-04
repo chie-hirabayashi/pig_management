@@ -46,8 +46,15 @@ Route::patch('/mix_infos/{mix_info}/delete', [MixInfoController::class, 'destroy
 Route::get('/extracts', [ExtractController::class, 'index'])
     ->name('extracts.index');
 
+// female_pigsのインポートとエクスポート
 Route::post('/female_pigs/export', [FemalePigController::class, 'export'])
     ->name('female_pigs.export');
 Route::post('/female_pigs/import', [FemalePigController::class, 'import'])
     ->name('female_pigs.import');
+
+// male_pigsのインポートとエクスポート
+Route::post('/male_pigs/export', [MalePigController::class, 'export'])
+    ->name('male_pigs.export');
+Route::post('/male_pigs/import', [MalePigController::class, 'import'])
+    ->name('male_pigs.import');
 
