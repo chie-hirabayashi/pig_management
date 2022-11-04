@@ -6,8 +6,12 @@ use App\Http\Requests\StoreFemalePigRequest;
 use App\Http\Requests\UpdateFemalePigRequest;
 use App\Models\FemalePig;
 use App\Models\MixInfo;
+use App\Exports\FemalePigExport;
+use App\Imports\FemalePigImport;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class FemalePigController extends Controller
 {
@@ -222,5 +226,19 @@ class FemalePigController extends Controller
         } catch (\Throwable $th) {
             return back()->withErrors($th->getMessage());
         }
+    }
+
+    public function export(){
+        return Excel::download(new FemalePigExport, 'femalePigs_data.xlsx');
+    }
+
+    public function import(Request $request){
+        $excel_file = $request->file('excel_file');
+        $excel_file->store('excels');
+        Excel::import(new FemalePigImport, $excel_file);
+        // return view('index');
+        return redirect()
+            ->route('female_pigs.index')
+            ->with('notice', 'インポートしました');
     }
 }

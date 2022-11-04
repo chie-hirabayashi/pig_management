@@ -45,3 +45,9 @@ Route::patch('/mix_infos/{mix_info}/delete', [MixInfoController::class, 'destroy
 
 Route::get('/extracts', [ExtractController::class, 'index'])
     ->name('extracts.index');
+
+Route::post('/female_pigs/export', [FemalePigController::class, 'export'])
+    ->name('female_pigs.export');
+Route::post('/female_pigs/import', [FemalePigController::class, 'import'])
+    ->name('female_pigs.import');
+

@@ -33,6 +33,19 @@
                         </div>
                     </div>
                 @endforeach
+                <div>
+                    <form method="post" action="{{ route('female_pigs.export') }}">
+                    @csrf
+                        <input type="submit" value="エクスポート">
+                    </form>
+                </div>
+                <div>
+                    <form method="post" action="{{ route('female_pigs.import') }}" enctype="multipart/form-data">
+                    @csrf
+                        <input type="file" name="excel_file" ><br>
+                        <input type="submit" value="インポート">
+                    </form>
+                </div>
                                 {{-- @foreach ($mixInfos as $mixInfo)
                                 <p class="text-rose-600 text-sm md:text-sm text-center sm:text-left">
                                     {{ $mixInfo->recurrence_first_schedule }}11-11は再発予定日です(確認したら、非表示になる)

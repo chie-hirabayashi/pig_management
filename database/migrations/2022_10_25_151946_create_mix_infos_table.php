@@ -36,9 +36,6 @@ class CreateMixInfosTable extends Migration
                 ->constrained('trouble_categorys')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
-            // $table->boolean('recurrence_flag')->default();
-            // $table->boolean('recurrence_flag')->default(0);
-            // $table->boolean('abortion_flag')->default(0);
             $table->date('born_day')->nullable();
             $table->integer('born_num')->nullable();
             $table->timestamps();
