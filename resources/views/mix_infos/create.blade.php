@@ -41,9 +41,10 @@
                     <label class="block text-gray-700 text-sm mb-2" for="">
                         オス2の個体番号
                     </label>
-                    <select name="male_second_id" id="select2" required
+                    <select name="male_second_id" id="select2"
                         class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <option hidden>選択してください</option>
+                        {{-- <option hidden>選択してください</option> --}}
+                        <option value="{{ null }}">選択してください</option>
                         @foreach ($malePigs as $malePig)
                             <option value="{{ $malePig->id }}">
                                 {{ $malePig->individual_num }}
@@ -129,6 +130,7 @@
                 if (malePig.id == selectId2.value) {
                     secondAddDay = new Date(malePig.add_day);
                 }
+                    secondAddDay = femalePigAddDay;
             });
             
             try {

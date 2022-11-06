@@ -798,6 +798,12 @@ select {
 .-mt-px {
   margin-top: -1px;
 }
+.mb-10 {
+  margin-bottom: 2.5rem;
+}
+.mt-auto {
+  margin-top: auto;
+}
 .block {
   display: block;
 }
@@ -919,6 +925,9 @@ select {
 }
 .max-w-xl {
   max-width: 36rem;
+}
+.max-w-screen-md {
+  max-width: 768px;
 }
 .flex-1 {
   flex: 1 1 0%;
@@ -1446,10 +1455,6 @@ select {
   --tw-text-opacity: 1;
   color: rgb(17 24 39 / var(--tw-text-opacity));
 }
-.text-rose-600 {
-  --tw-text-opacity: 1;
-  color: rgb(225 29 72 / var(--tw-text-opacity));
-}
 .text-indigo-600 {
   --tw-text-opacity: 1;
   color: rgb(79 70 229 / var(--tw-text-opacity));
@@ -1465,6 +1470,10 @@ select {
 .text-pink-600 {
   --tw-text-opacity: 1;
   color: rgb(219 39 119 / var(--tw-text-opacity));
+}
+.text-rose-600 {
+  --tw-text-opacity: 1;
+  color: rgb(225 29 72 / var(--tw-text-opacity));
 }
 .underline {
   text-decoration-line: underline;
@@ -1614,6 +1623,10 @@ select {
   --tw-text-opacity: 1;
   color: rgb(17 24 39 / var(--tw-text-opacity));
 }
+.hover\:text-indigo-600:hover {
+  --tw-text-opacity: 1;
+  color: rgb(79 70 229 / var(--tw-text-opacity));
+}
 .hover\:underline:hover {
   text-decoration-line: underline;
 }
@@ -1712,6 +1725,10 @@ select {
 .active\:text-gray-600:active {
   --tw-text-opacity: 1;
   color: rgb(75 85 99 / var(--tw-text-opacity));
+}
+.active\:text-indigo-700:active {
+  --tw-text-opacity: 1;
+  color: rgb(67 56 202 / var(--tw-text-opacity));
 }
 .disabled\:opacity-25:disabled {
   opacity: 0.25;
@@ -1917,6 +1934,14 @@ select {
     margin-bottom: 3rem;
   }
 
+  .md\:mb-16 {
+    margin-bottom: 4rem;
+  }
+
+  .md\:mb-6 {
+    margin-bottom: 1.5rem;
+  }
+
   .md\:h-14 {
     height: 3.5rem;
   }
@@ -1941,12 +1966,20 @@ select {
     gap: 0.75rem;
   }
 
+  .md\:gap-8 {
+    gap: 2rem;
+  }
+
   .md\:border-t-0 {
     border-top-width: 0px;
   }
 
   .md\:border-l {
     border-left-width: 1px;
+  }
+
+  .md\:p-6 {
+    padding: 1.5rem;
   }
 
   .md\:px-8 {
@@ -1967,6 +2000,11 @@ select {
   .md\:text-sm {
     font-size: 0.875rem;
     line-height: 1.25rem;
+  }
+
+  .md\:text-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
   }
 
   .md\:text-xl {
@@ -2016,6 +2054,12 @@ select {
   .lg\:text-3xl {
     font-size: 1.875rem;
     line-height: 2.25rem;
+  }
+}
+@media (min-width: 1280px) {
+
+  .xl\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 

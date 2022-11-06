@@ -11,6 +11,10 @@ use App\Models\MalePig;
 use App\Models\MixInfo;
 use App\Models\TroubleCategory;
 use Carbon\Carbon;
+use App\Exports\MixInfoExport;
+use App\Imports\MixInfoImport;
+use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MixInfoController extends Controller
 {
@@ -284,5 +288,19 @@ class MixInfoController extends Controller
         } catch (\Throwable $th) {
             return back()->withErrors($th->getMessage());
         }
+    }
+
+    public function export(){
+        return Excel::download(new MixInfoExport, 'mix_info.xlsx');
+    }
+
+    public function import(Request $request){
+        $excel_file = $request->file('excel_file');
+        $excel_file->store('excels');
+        Excel::import(new MixInfoImport, $excel_file);
+        // return view('index');
+        return redirect()
+            ->route('female_pigs.index')
+            ->with('notice', 'インポートしました');
     }
 }

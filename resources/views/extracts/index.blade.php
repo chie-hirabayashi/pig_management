@@ -75,12 +75,19 @@
                                         {{ $extract->born_num }}頭
                                     </td>
                                     <td class="py-3 px-6">
-                                        {{ $extract->first_male_pig->individual_num }}
+                                    {{-- 論理削除は呼び出せない --}}
+                                        {{-- {{ $extract->first_male_pig->individual_num }} --}}
+                                        {{ $extract->first_male }}
+                                        {{ $extract->first_delete_male }}
                                     </td>
                                     <td class="py-3 px-6">
-                                        {{ $extract->second_male_pig->individual_num }}
+                                    {{-- nllがあって表示できない --}}
+                                        {{ $extract->second_male }}
+                                        {{ $extract->second_delete_male }}
+                                        
                                     </td>
                                     <td class="py-3 px-6">
+                                    {{-- 別ルートを経由してリダイレクトしてみる --}}
                                         <a href="{{ route('female_pigs.show', $extract->female_pig) }}">ぼたん</a>
                                     </td>
                                 </tr>
@@ -90,21 +97,21 @@
                 </div>
                 <!-- border - end -->
 
-                <!-- edit&delete - start -->
+                {{-- <!-- edit&delete - start -->
                 <div class="flex flex-row text-center my-4">
-                    {{-- @can('update', $post) --}}
-                    {{-- <a href="{{ route('female_pigs.edit', $femalePig) }}" --}}
-                    {{-- class="bg-blue-400 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20 mr-2"> --}}
-                    {{-- 編 集 --}}
-                    {{-- </a> --}}
-                    {{-- @endcan --}}
-                    {{-- @can('delete', $post) --}}
-                    {{-- <form action="{{ route('female_pigs.destroy', $femalePig) }}" method="post"> --}}
-                    {{-- @csrf
+                    @can('update', $post)
+                    <a href="{{ route('female_pigs.edit', $femalePig) }}"
+                    class="bg-blue-400 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20 mr-2">
+                    編 集
+                    </a>
+                    @endcan
+                    @can('delete', $post)
+                    <form action="{{ route('female_pigs.destroy', $femalePig) }}" method="post">
+                    @csrf
                         @method('DELETE')
                         <input type="submit" value="廃 用" onclick="if(!confirm('廃用にしますか？')){return false};"
                             class="bg-pink-400 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20 mr-2">
-                    </form> --}}
+                    </form>
                 </div>
                 <!-- edit&delete - end -->
 
@@ -115,7 +122,7 @@
                             McCulling</div>
                         <p class="text-gray-500 text-sm md:text-sm text-center sm:text-left">CEO / Datadrift</p>
                     </div>
-                </div>
+                </div> --}}
                 <!-- quote - end -->
             </div>
         </div>

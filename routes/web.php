@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FemalePigController;
 use App\Http\Controllers\MalePigController;
 use App\Http\Controllers\MixInfoController;
+use App\Http\Controllers\ImportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +47,10 @@ Route::patch('/mix_infos/{mix_info}/delete', [MixInfoController::class, 'destroy
 Route::get('/extracts', [ExtractController::class, 'index'])
     ->name('extracts.index');
 
+// インポートフォーム
+Route::get('/imports/import', [ImportController::class, 'import'])
+    ->name('imports.import');
+
 // female_pigsのインポートとエクスポート
 Route::post('/female_pigs/export', [FemalePigController::class, 'export'])
     ->name('female_pigs.export');
@@ -57,4 +62,10 @@ Route::post('/male_pigs/export', [MalePigController::class, 'export'])
     ->name('male_pigs.export');
 Route::post('/male_pigs/import', [MalePigController::class, 'import'])
     ->name('male_pigs.import');
+
+// mix_infosのインポートとエクスポート
+Route::post('/mix_infos/export', [MixInfoController::class, 'export'])
+    ->name('mix_infos.export');
+Route::post('/Mix_infos/import', [MixInfoController::class, 'import'])
+    ->name('mix_infos.import');
 

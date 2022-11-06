@@ -50,7 +50,7 @@
                     <label class="block text-gray-700 text-sm mb-2" for="">
                         オス2の個体番号
                     </label>
-                    <select name="male_second_id" id="" required
+                    <select name="male_second_id" id=""
                         class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         <option value="{{ $mixInfo->male_second_id }}">{{ $mixInfo->second_male_pig->individual_num }}
                         </option>

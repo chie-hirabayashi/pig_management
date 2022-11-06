@@ -46,7 +46,7 @@
                                     直近
                                 </th>
                                 <th scope="col" class="py-3 px-6">
-                                    過去1年平均
+                                    前回
                                 </th>
                                 <th scope="col" class="py-3 px-6">
                                     平均
@@ -61,23 +61,33 @@
                                 </th>
                                 <td class="py-3 px-6">
                                     @if ($born_info)
-                                        {{ $born_info->rotate }}
+                                        @if ($born_info->rotate !== null)
+                                            {{ $born_info->rotate }}
+                                        @else
+                                            -
+                                        @endif
                                     @else
-                                        0
+                                        -
+                                    @endif
+                                </td>
+                                <td class="py-3 px-6">
+                                    {{-- @if ($born_info_last_time) --}}
+                                    @if ($born_info_last_time)
+                                        {{ $born_info_last_time->rotate }}
+                                        {{-- {{ $born_info_last_time->rotate }} --}}
+                                    @else
+                                        -
                                     @endif
                                 </td>
                                 <td class="py-3 px-6">
                                     @if ($born_info)
-                                        {{ $born_info->lastYav_rotate }}
+                                        @if ($born_info->av_rotate !== null)
+                                            {{ $born_info->av_rotate }}
+                                        @else
+                                            -
+                                        @endif
                                     @else
-                                        0
-                                    @endif
-                                </td>
-                                <td class="py-3 px-6">
-                                    @if ($born_info)
-                                        {{ $born_info->av_rotate }}
-                                    @else
-                                        0
+                                        -
                                     @endif
                                 </td>
                             </tr>
@@ -90,21 +100,21 @@
                                     @if ($born_info)
                                         {{ $born_info->born_num }} 匹
                                     @else
-                                        0
+                                        -
                                     @endif
                                 </td>
                                 <td class="py-3 px-6">
-                                    @if ($born_info)
-                                        {{ $born_info->lastYav_born_num }} 匹
+                                    @if ($born_info_last_time)
+                                        {{ $born_info_last_time->born_num }} 匹
                                     @else
-                                        0
+                                        -
                                     @endif
                                 </td>
                                 <td class="py-3 px-6">
                                     @if ($born_info)
                                         {{ $born_info->av_born_num }} 匹
                                     @else
-                                        0
+                                        -
                                     @endif
                                 </td>
                             </tr>
@@ -309,10 +319,16 @@
                             {{ $born_info->born_num }}
                         </td>
                         <td class="py-4 px-6">
-                            {{ $born_info->first_male_pig->individual_num }}
+                            {{ $born_info->first_male }}
+                            {{ $born_info->first_delete_male }}
                         </td>
                         <td class="py-4 px-6">
-                            {{ $born_info->second_male_pig->individual_num }}
+                            @if ($born_info->second_male == null && $born_info->second_delete_male == null)
+                                -
+                            @else
+                                {{ $born_info->second_male }}
+                                {{ $born_info->second_delete_male }}
+                            @endif
                         </td>
                         <td class="py-4 px-6">
                             {{ $born_info->rotate }}
@@ -389,10 +405,16 @@
                                 {{ $mixInfo->mix_day }}
                             </td>
                             <td class="py-4 px-6">
-                                {{ $mixInfo->first_male_pig->individual_num }}
+                                {{ $mixInfo->first_male }}
+                                {{ $mixInfo->first_delete_male }}
                             </td>
                             <td class="py-4 px-6">
-                                {{ $mixInfo->second_male_pig->individual_num }}
+                                @if ($mixInfo->second_male == null && $mixInfo->second_delete_male == null)
+                                    -
+                                @else
+                                    {{ $mixInfo->second_male }}
+                                    {{ $mixInfo->second_delete_male }}
+                                @endif
                             </td>
                             <td class="py-4 px-6">
                                 {{ $mixInfo->recurrence_first_schedule }}
