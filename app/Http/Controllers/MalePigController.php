@@ -6,6 +6,10 @@ use App\Http\Requests\StoreMalePigRequest;
 use App\Http\Requests\UpdateMalePigRequest;
 use App\Models\MalePig;
 use App\Models\MixInfo;
+use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\MalePigExport;
+use App\Imports\MalePigImport;
 
 class MalePigController extends Controller
 {
@@ -149,5 +153,19 @@ class MalePigController extends Controller
         } catch (\Throwable $th) {
             return back()->withErrors($th->getMessage());
         }
+    }
+
+    public function export(){
+        return Excel::download(new MalePigExport, 'malePigs_data.xlsx');
+    }
+
+    public function import(Request $request){
+        $excel_file = $request->file('excel_file');
+        $excel_file->store('excels');
+        Excel::import(new MalePigImport, $excel_file);
+        // return view('index');
+        return redirect()
+            ->route('male_pigs.index')
+            ->with('notice', 'インポートしました');
     }
 }

@@ -19,6 +19,7 @@ class MixInfo extends Model
         'mix_day',
         'recurrence_first_schedule',
         'recurrence_second_schedule',
+        'delivery_schedule',
         'trouble_day',
         'trouble_id',
         'born_day',

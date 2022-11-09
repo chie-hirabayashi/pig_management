@@ -136,7 +136,6 @@ return [
 
     // カスタムエラーメッセージ
     'select_male' => ':attributeを指定してください。',
-    'after_add_day' => 'after_add_dayです',
 
     'attributes'           => [
         'individual_num' => '個体番号',

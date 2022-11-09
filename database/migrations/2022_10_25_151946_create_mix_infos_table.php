@@ -24,21 +24,20 @@ class CreateMixInfosTable extends Migration
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
             $table->foreignId('male_second_id')
+                ->nullable()
                 ->constrained('male_pigs')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
             $table->date('mix_day');
             $table->date('recurrence_first_schedule');
             $table->date('recurrence_second_schedule');
+            $table->date('delivery_schedule');
             $table->date('trouble_day')->nullable();
             $table->foreignId('trouble_id')
                 ->default(1)
-                ->constrained('trouble_categorys')
+                ->constrained('trouble_categories')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
-            // $table->boolean('recurrence_flag')->default();
-            // $table->boolean('recurrence_flag')->default(0);
-            // $table->boolean('abortion_flag')->default(0);
             $table->date('born_day')->nullable();
             $table->integer('born_num')->nullable();
             $table->timestamps();

@@ -14,8 +14,14 @@ class MalePig extends Model
 
     // Mass Assignment対策
     protected $fillable = [
+        'id',
         'individual_num',
         'add_day',
+        'left_day',
+        'warn_flag',
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     // リレーション
