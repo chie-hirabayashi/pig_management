@@ -91,10 +91,16 @@
                                         {{ $extract->female_pig->individual_num }}
                                     </th>
                                     <td class="py-3 px-6">
-                                        {{ $extract->rotate }}回
+                                        <span class="text-red-500">
+                                            {{ $extract->rotate <= $conditions['first_rotate'] ? $extract->rotate . '回' : '' }}
+                                        </span>
+                                        {{ $extract->rotate <= $conditions['first_rotate'] ? '' : $extract->rotate . '回' }}
                                     </td>
                                     <td class="py-3 px-6">
-                                        {{ $extract->born_num }}頭
+                                        <span class="text-red-500">
+                                            {{ $extract->born_num <= $conditions['first_num'] ? $extract->born_num . '匹' : '' }}
+                                        </span>
+                                            {{ $extract->born_num <= $conditions['first_num'] ? '' : $extract->born_num . '匹'}}
                                     </td>
                                     <td class="py-3 px-6">
                                         {{-- 論理削除は呼び出せない --}}
@@ -109,7 +115,6 @@
 
                                     </td>
                                     <td class="py-3 px-6">
-                                        {{-- 別ルートを経由してリダイレクトしてみる --}}
                                         <a href="{{ route('female_pigs.show', $extract->female_pig) }}">ぼたん</a>
                                     </td>
                                 </tr>

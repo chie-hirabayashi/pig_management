@@ -174,7 +174,7 @@ class ExtractController extends Controller
                 // }
         
         self::softDeleteResolution($extracts);
-        dd($extracts);
+        // dd($extracts);
         return view('extracts.index')
             ->with(compact('extracts', 'conditions'));
     }
