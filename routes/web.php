@@ -73,9 +73,13 @@ Route::post('/mix_infos/export', [MixInfoController::class, 'export'])
 Route::post('/Mix_infos/import', [MixInfoController::class, 'import'])
     ->name('mix_infos.import');
 
-// FemalePigのフラグのルーティング
-Route::patch('/female_pigs/{female_pig}/update', [FemalePigController::class, 'updateFlag'])
+// FemalePigフラグのルーティング
+Route::patch('/female_pigs/{female_pig}/updateFlag', [FemalePigController::class, 'updateFlag'])
     ->name('female_pigs.updateFlag');
+
+// FemalePig再発確認のルーティング
+Route::patch('/female_pigs/{female_pig}/updateRecurrence', [FemalePigController::class, 'updateRecurrence'])
+    ->name('female_pigs.updateRecurrence');
 
 // cssテスト用
 Route::get('/test', [MixInfoController::class, 'test'])

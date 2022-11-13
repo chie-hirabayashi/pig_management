@@ -14,11 +14,13 @@ class MixInfo extends Model
     // Mass Assignment対策
     protected $fillable = [
         'female_id',
-        'male_first_id',
-        'male_second_id',
+        'first_male_id',
+        'second_male_id',
         'mix_day',
-        'recurrence_first_schedule',
-        'recurrence_second_schedule',
+        'first_recurrence_schedule',
+        'first_recurrence',
+        'second_recurrence_schedule',
+        'second_recurrence',
         'delivery_schedule',
         'trouble_day',
         'trouble_id',
@@ -44,7 +46,7 @@ class MixInfo extends Model
      */
     public function first_male_pig()
     {
-        return $this->belongsTo(MalePig::class, 'male_first_id', 'id');
+        return $this->belongsTo(MalePig::class, 'first_male_id', 'id');
     }
 
     /**
@@ -54,7 +56,7 @@ class MixInfo extends Model
      */
     public function second_male_pig()
     {
-        return $this->belongsTo(MalePig::class, 'male_second_id', 'id');
+        return $this->belongsTo(MalePig::class, 'second_male_id', 'id');
     }
 
     /**

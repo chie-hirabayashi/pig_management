@@ -21,9 +21,8 @@ class MalePigController extends Controller
     public function index()
     {
         $malePigs = MalePig::all();
-        
-        return view('male_pigs.index')
-            ->with(compact('malePigs'));
+
+        return view('male_pigs.index')->with(compact('malePigs'));
     }
 
     /**
@@ -52,8 +51,7 @@ class MalePigController extends Controller
                 ->route('male_pigs.index')
                 ->with('notice', '新しい父豚を登録しました');
         } catch (\Throwable $th) {
-            return back()
-                ->withErrors($th->getMessage());
+            return back()->withErrors($th->getMessage());
         }
     }
 
@@ -76,8 +74,7 @@ class MalePigController extends Controller
      */
     public function edit(MalePig $malePig)
     {
-        return view('male_pigs.edit')
-                ->with(compact('malePig'));
+        return view('male_pigs.edit')->with(compact('malePig'));
     }
 
     /**
@@ -90,9 +87,15 @@ class MalePigController extends Controller
     public function update(UpdateMalePigRequest $request, MalePig $malePig)
     {
         // 一番古い交配日を取得、バリデーション
-        $exist_firstId = MixInfo::where('male_first_id', $malePig->id)->exists();
-        $exist_secondId = MixInfo::where('male_second_id', $malePig->id)->exists();
-        
+        $exist_firstId = MixInfo::where(
+            'first_male_id',
+            $malePig->id
+        )->exists();
+        $exist_secondId = MixInfo::where(
+            'second_male_id',
+            $malePig->id
+        )->exists();
+
         if ($exist_firstId || $exist_secondId) {
             $first_mix_day = $malePig->first_mix_infos->first()->mix_day;
             $second_mix_day = $malePig->second_mix_infos->first()->mix_day;
@@ -108,18 +111,21 @@ class MalePigController extends Controller
             }
 
             if ($mix_day < $request->add_day) {
-                return back()->withErrors('導入日が正しくありません。交配日より前の日付に変更してください。');
+                return back()->withErrors(
+                    '導入日が正しくありません。交配日より前の日付に変更してください。'
+                );
             }
         }
-        
+
         // 変更前の個体番号を保持
         $individual_num = $malePig->individual_num;
         $malePig->fill($request->all());
-        
+
         // 個体番号を変更する場合は複合ユニークを確認
         if ($individual_num !== $request->individual_num) {
             $request->validate([
-                'individual_num' => 'required|string|max:20|unique:male_pigs,individual_num,NULL,exist,exist,1'
+                'individual_num' =>
+                    'required|string|max:20|unique:male_pigs,individual_num,NULL,exist,exist,1',
             ]);
         }
 
@@ -155,14 +161,16 @@ class MalePigController extends Controller
         }
     }
 
-    public function export(){
-        return Excel::download(new MalePigExport, 'malePigs_data.xlsx');
+    public function export()
+    {
+        return Excel::download(new MalePigExport(), 'malePigs_data.xlsx');
     }
 
-    public function import(Request $request){
+    public function import(Request $request)
+    {
         $excel_file = $request->file('excel_file');
         $excel_file->store('excels');
-        Excel::import(new MalePigImport, $excel_file);
+        Excel::import(new MalePigImport(), $excel_file);
         // return view('index');
         return redirect()
             ->route('male_pigs.index')
