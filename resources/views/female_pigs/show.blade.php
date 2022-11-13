@@ -54,6 +54,56 @@
                         </form>
                     </div>
                 </div>
+                <div>
+                    <h2>予定</h2>
+                    @if ( $mixInfo && empty($mixInfo->born_day))
+                        <div class="flex">
+                            <div class="mr-4">再発予定日1 : {{ $mixInfo->first_recurrence_schedule }}
+                            </div>
+                            <div>
+                                {{-- 再発予定3日前から表示 --}}
+                                {{-- @if (date('Y-m-d H:i:s', strtotime('+3 day')) > $mixInfo->first_recurrence_schedule && --}}
+                                @if (date('Y-m-d', strtotime('+3 day')) > $mixInfo->delivery_schedule &&
+                                    $mixInfo->first_recurrence == 0)
+                                    <form action="{{ route('female_pigs.updateRecurrence', $femalePig) }}"
+                                        method="POST">
+                                        @csrf
+                                        @method('PATCH')
+                                        <input type="hidden" name="first_recurrence" id=""
+                                            value="{{ 1 }}">
+                                        <button class="text-red-500" type="submit"
+                                            onclick="if(!confirm('再発の確認をしました')){return false};">
+                                            <i class="fa-solid fa-circle-check"></i>
+                                        </button>
+                                    </form>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="mr-4">再発予定日2 : {{ $mixInfo->second_recurrence_schedule }}
+                            </div>
+                            <div>
+                                {{-- 再発予定3日前から表示 --}}
+                                {{-- @if (date('Y-m-d H:i:s', strtotime('+3 day')) > $mixInfo->second_recurrence_schedule && --}}
+                                @if (date('Y-m-d', strtotime('+3 day')) > $mixInfo->delivery_schedule &&
+                                    $mixInfo->second_recurrence == 0)
+                                    <form action="{{ route('female_pigs.updateRecurrence', $femalePig) }}"
+                                        method="POST">
+                                        @csrf
+                                        @method('PATCH')
+                                        <input type="hidden" name="second_recurrence" id=""
+                                            value="{{ 1 }}">
+                                        <button class="text-red-500" type="submit"
+                                            onclick="if(!confirm('再発の確認をしました')){return false};">
+                                            <i class="fa-solid fa-circle-check"></i>
+                                        </button>
+                                    </form>
+                                @endif
+                            </div>
+                        </div>
+                        <p>出産予定日&ensp; : {{ $mixInfo->delivery_schedule }}</p>
+                    @endif
+                </div>
                 <!-- base - end -->
 
                 <!-- border - start -->
@@ -435,10 +485,10 @@
                                 @endif
                             </td>
                             <td class="py-4 px-6">
-                                {{ $mixInfo->recurrence_first_schedule }}
+                                {{ $mixInfo->first_recurrence_schedule }}
                             </td>
                             <td class="py-4 px-6">
-                                {{ $mixInfo->recurrence_second_schedule }}
+                                {{ $mixInfo->second_recurrence_schedule }}
                             </td>
                             <td class="py-4 px-6">
                                 {{ $mixInfo->delivery_schedule }}
@@ -470,7 +520,7 @@
     <div class="mt-4 mx-6 my-6 text-gray-700 text-right">
         <p>再発、流産の記録は編集から記録できます</p>
     </div>
-    <div class="text-right">抽出画面に戻るボタン
+    <div class="text-right">TODO:抽出画面に戻るボタンフラグ作業後に1回で戻る
         <a href="#" onclick="history.back(-1);return false;">back-1戻る</a>
         <a href="#" onclick="history.back();return false;">back戻る</a>
         <a href="javascript:history.back()">前に戻る</a>
@@ -480,7 +530,6 @@
         <input type="button" value="リファラ表示" onclick="alert( document.referrer );" />
         <input type="button" value="referrer戻るNG" onclick="location.href=document.referrer" />
         <button id="btn--back" class="rounded-md bg-gray-800 text-white px-4 py-2">戻る</button>
-
     </div>
 
     <script>

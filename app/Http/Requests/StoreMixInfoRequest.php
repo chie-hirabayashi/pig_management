@@ -24,10 +24,10 @@ class StoreMixInfoRequest extends FormRequest
     public function rules()
     {
         return [
-            'male_first_id'  => 'required|select_male',
-            // 'male_second_id' => 'required|select_male|different:male_first_id',
-            'male_second_id' => 'different:male_first_id',
-            'mix_day'        => 'required|date|before_or_equal:today',
+            'first_male_id' => 'required|select_male',
+            // 'second_male_id' => 'required|select_male|different:first_male_id',
+            'second_male_id' => 'different:first_male_id',
+            'mix_day' => 'required|date|before_or_equal:today',
         ];
     }
 }

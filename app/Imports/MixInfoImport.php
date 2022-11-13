@@ -7,12 +7,12 @@ use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\OnEachRow;
 use Maatwebsite\Excel\Row;
-use Maatwebsite\Excel\Concerns\WithHeadingRow; 
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Carbon\Carbon;
 
 class MixInfoImport implements OnEachRow, WithHeadingRow
-// class MixInfoImport implements ToModel, WithHeadingRow
 {
+    // class MixInfoImport implements ToModel, WithHeadingRow
     // /**
     // * @param array $row
     // *
@@ -26,11 +26,11 @@ class MixInfoImport implements OnEachRow, WithHeadingRow
     //     return new MixInfo([
     //         'id'             => $row['id'],
     //         'female_id'      => $row['female_id'],
-    //         'male_first_id'  => $row['male_first_id'],
-    //         'male_second_id' => $row['male_second_id'],
+    //         'first_male_id'  => $row['first_male_id'],
+    //         'second_male_id' => $row['second_male_id'],
     //         'mix_day'        => Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['mix_day'])),
-    //         'recurrence_first_schedule'  => Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['recurrence_first_schedule'])),
-    //         'recurrence_second_schedule' => Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['recurrence_second_schedule'])),
+    //         'first_recurrence_schedule'  => Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['first_recurrence_schedule'])),
+    //         'second_recurrence_schedule' => Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['second_recurrence_schedule'])),
     //         'delivery_schedule'          => Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['delivery_schedule'])),
     //         'trouble_day'                => Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['trouble_day'])),
     //         'trouble_id'                 => $row['trouble_id'],
@@ -44,31 +44,61 @@ class MixInfoImport implements OnEachRow, WithHeadingRow
         $row = $row->toArray();
 
         $mixInfo = MixInfo::firstOrCreate([
-            'id'             => $row['id'],
-            'female_id'      => $row['female_id'],
-            'male_first_id'  => $row['male_first_id'],
-            'male_second_id' => $row['male_second_id'],
-            'mix_day'        => Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['mix_day'])),
-            'recurrence_first_schedule'  => Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['recurrence_first_schedule'])),
-            'recurrence_second_schedule' => Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['recurrence_second_schedule'])),
-            'delivery_schedule'          => Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['delivery_schedule'])),
-            'trouble_day'                => Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['trouble_day'])),
-            'trouble_id'                 => $row['trouble_id'],
-            'born_day'                   => Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['born_day'])),
-            'born_num'                   => $row['born_num'],
+            'id' => $row['id'],
+            'female_id' => $row['female_id'],
+            'first_male_id' => $row['first_male_id'],
+            'second_male_id' => $row['second_male_id'],
+            'mix_day' => Carbon::instance(
+                \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject(
+                    $row['mix_day']
+                )
+            ),
+            'first_recurrence_schedule' => Carbon::instance(
+                \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject(
+                    $row['first_recurrence_schedule']
+                )
+            ),
+            'second_recurrence_schedule' => Carbon::instance(
+                \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject(
+                    $row['second_recurrence_schedule']
+                )
+            ),
+            'delivery_schedule' => Carbon::instance(
+                \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject(
+                    $row['delivery_schedule']
+                )
+            ),
+            'trouble_day' => Carbon::instance(
+                \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject(
+                    $row['trouble_day']
+                )
+            ),
+            'trouble_id' => $row['trouble_id'],
+            'born_day' => Carbon::instance(
+                \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject(
+                    $row['born_day']
+                )
+            ),
+            'born_num' => $row['born_num'],
         ]);
 
-        if($mixInfo->wasRecentlyCreated){
+        if ($mixInfo->wasRecentlyCreated) {
             // trouble_dayの修正
-            $trouble_day=Carbon::createFromFormat('Y-m-d H:i:s', $mixInfo->trouble_day)->format('Y-m-d');
-            if($trouble_day=='1970-01-01'){
-                $mixInfo->trouble_day=null;
+            $trouble_day = Carbon::createFromFormat(
+                'Y-m-d H:i:s',
+                $mixInfo->trouble_day
+            )->format('Y-m-d');
+            if ($trouble_day == '1970-01-01') {
+                $mixInfo->trouble_day = null;
                 $mixInfo->update();
             }
             // born_dayの修正
-            $born_day=Carbon::createFromFormat('Y-m-d H:i:s', $mixInfo->born_day)->format('Y-m-d');
-            if($born_day=='1970-01-01'){
-                $mixInfo->born_day=null;
+            $born_day = Carbon::createFromFormat(
+                'Y-m-d H:i:s',
+                $mixInfo->born_day
+            )->format('Y-m-d');
+            if ($born_day == '1970-01-01') {
+                $mixInfo->born_day = null;
                 $mixInfo->update();
             }
         }

@@ -33,27 +33,25 @@ class FemalePigController extends Controller
         // 観察中:交配~出産予定113日、21日感覚で再発確認
         // 待機中:それ以外(再発、流産含む)
         // statusを作成
+        // dd($femalePigs);
         foreach ($femalePigs as $femalePig) {
+            // $femalePig = $femalePigs[1];
+            
             $mixInfo = $femalePig->mix_infos->last();
-            // $today = Carbon::now();
-            $today = Carbon::create('2022-07-01');
+            // $today = Carbon::now(); //本設定
+            $today = Carbon::create('2022-08-01'); //仮設定
             // dd($today);
             if (!empty($mixInfo->mix_day)) {
                 $mix_day = Carbon::create($mixInfo->mix_day);
-            } else {
-                $mix_day = $today->addDays(150);
             }
 
             if (!empty($mixInfo->born_day)) {
                 $born_day = Carbon::create($mixInfo->born_day);
-            } else {
-                $born_day = $today->addDays(50);
             }
 
-            // dd($mixInfo);
             switch (true) {
                 // 交配から120日間(交配~出産予定114日+6日)は観察中
-                case !empty($mixInfo->born_day) &&
+                case !empty($mixInfo->mix_day) &&
                     $today->diffInDays($mix_day) < 120:
                     $femalePig->status = '観察中';
                     break;
@@ -65,8 +63,7 @@ class FemalePigController extends Controller
                     break;
 
                 // 再発、流産後は待機中
-                case !empty($mixInfo->trouble_id) &&
-                    $mixInfo->trouble_id !== 1:
+                case !empty($mixInfo->trouble_id) && $mixInfo->trouble_id !== 1:
                     $femalePig->status = '待機中';
                     break;
 
@@ -343,6 +340,21 @@ class FemalePigController extends Controller
         }
     }
 
+    public function updateRecurrence(Request $request, FemalePig $femalePig)
+    {
+        $mixInfo = $femalePig->mix_infos->last();
+        $mixInfo->fill($request->all());
+        // $mixInfo->first_recurrence = $request->first_recurrence;
+        // dd($mixInfo);
+        // dd($femalePig);
+        try {
+            $mixInfo->save();
+            return redirect(route('female_pigs.show', $femalePig));
+        } catch (\Throwable $th) {
+            return back()->withErrors($th->getMessage());
+        }
+    }
+
     public function export()
     {
         return Excel::download(new FemalePigExport(), 'femalePigs_data.xlsx');
@@ -380,7 +392,7 @@ class FemalePigController extends Controller
     {
         foreach ($mixInfos as $mixInfo) {
             // first_male_pigのsoftDelete対策
-            $judge_1 = MalePig::where('id', $mixInfo->male_first_id)
+            $judge_1 = MalePig::where('id', $mixInfo->first_male_id)
                 ->onlyTrashed()
                 ->get();
             if (!$judge_1->isEmpty()) {
@@ -393,8 +405,8 @@ class FemalePigController extends Controller
             }
 
             // second_male_pigのnullとsoftDelete対策
-            if ($mixInfo->male_second_id !== null) {
-                $judge_2 = MalePig::where('id', $mixInfo->male_second_id)
+            if ($mixInfo->second_male_id !== null) {
+                $judge_2 = MalePig::where('id', $mixInfo->second_male_id)
                     ->onlyTrashed()
                     ->get();
                 if (!$judge_2->isEmpty()) {

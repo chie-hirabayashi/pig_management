@@ -15,25 +15,31 @@ class CreateMixInfosTable extends Migration
     {
         Schema::create('mix_infos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('female_id')
+            $table
+                ->foreignId('female_id')
                 ->constrained('female_pigs')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
-            $table->foreignId('male_first_id')
+            $table
+                ->foreignId('first_male_id')
                 ->constrained('male_pigs')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
-            $table->foreignId('male_second_id')
+            $table
+                ->foreignId('second_male_id')
                 ->nullable()
                 ->constrained('male_pigs')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
             $table->date('mix_day');
-            $table->date('recurrence_first_schedule');
-            $table->date('recurrence_second_schedule');
+            $table->date('first_recurrence_schedule');
+            $table->boolean('first_recurrence')->default(0);
+            $table->date('second_recurrence_schedule');
+            $table->boolean('second_recurrence')->default(0);
             $table->date('delivery_schedule');
             $table->date('trouble_day')->nullable();
-            $table->foreignId('trouble_id')
+            $table
+                ->foreignId('trouble_id')
                 ->default(1)
                 ->constrained('trouble_categories')
                 ->cascadeOnUpdate()

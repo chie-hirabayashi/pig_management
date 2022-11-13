@@ -32,7 +32,7 @@ class MalePig extends Model
      */
     public function first_mix_infos()
     {
-        return $this->hasMany(MixInfo::class, 'male_first_id', 'id');
+        return $this->hasMany(MixInfo::class, 'first_male_id', 'id');
     }
 
     /**
@@ -42,7 +42,7 @@ class MalePig extends Model
      */
     public function second_mix_infos()
     {
-        return $this->hasMany(MixInfo::class, 'male_second_id', 'id');
+        return $this->hasMany(MixInfo::class, 'second_male_id', 'id');
     }
 
     // アクセサ
@@ -50,7 +50,7 @@ class MalePig extends Model
     {
         $add_day = Carbon::create($this->add_day);
         $now = Carbon::now();
-        
+
         return $now->addMonth(6)->diffInYears($add_day);
     }
 }

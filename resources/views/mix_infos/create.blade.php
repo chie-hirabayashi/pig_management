@@ -27,7 +27,7 @@
                     <label class="block text-gray-700 text-sm mb-2" for="">
                         オス1の個体番号
                     </label>
-                    <select name="male_first_id" id="select1" required
+                    <select name="first_male_id" id="select1" required
                         class="px-8 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         <option hidden>選択してください</option>
                         @foreach ($malePigs as $malePig)
@@ -41,7 +41,7 @@
                     <label class="block text-gray-700 text-sm mb-2" for="">
                         オス2の個体番号
                     </label>
-                    <select name="male_second_id" id="select2"
+                    <select name="second_male_id" id="select2"
                         class="px-6 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         <option value="{{ null }}">選択してください</option>
                         @foreach ($malePigs as $malePig)
@@ -97,15 +97,14 @@
             </div>
         </div>
 
-        <form action="{{ route('female_pigs.mix_infos.store', $femalePig) }}" method="POST"
-            class="rounded pt-3 mb-4">
+        <form action="{{ route('female_pigs.mix_infos.store', $femalePig) }}" method="POST" class="rounded pt-3 mb-4">
             @csrf
             <div class="block grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
                 <div class="flex">
                     <div class="mb-4 mr-4 flex-none">
                         <label class="text-gray-700 dark:text-gray-200" for="">
                             オス1の個体番号</label>
-                        <select name="male_first_id" id="select1" required
+                        <select name="first_male_id" id="select1" required
                             class="block px-8 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
                             <option hidden>選択してください</option>
                             @foreach ($malePigs as $malePig)
@@ -119,7 +118,7 @@
                     <div class="mb-4 mr-4 flex-none">
                         <label class="text-gray-700 dark:text-gray-200" for="">
                             オス2の個体番号</label>
-                        <select name="male_second_id" id="select2"
+                        <select name="second_male_id" id="select2"
                             class="block px-8 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
                             <option value="{{ null }}">選択してください</option>
                             @foreach ($malePigs as $malePig)

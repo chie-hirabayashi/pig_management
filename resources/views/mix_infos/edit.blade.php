@@ -34,9 +34,9 @@
                     <label class="block text-gray-700 text-sm mb-2" for="">
                         オス1の個体番号
                     </label>
-                    <select name="male_first_id" id="" required
+                    <select name="first_male_id" id="" required
                         class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <option value="{{ $mixInfo->male_first_id }}">
+                        <option value="{{ $mixInfo->first_male_id }}">
                             {{ $mixInfo->first_male }}
                             {{ $mixInfo->first_delete_male }}
                         </option>
@@ -51,9 +51,9 @@
                     <label class="block text-gray-700 text-sm mb-2" for="">
                         オス2の個体番号
                     </label>
-                    <select name="male_second_id" id=""
+                    <select name="second_male_id" id=""
                         class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <option value="{{ $mixInfo->male_second_id }}">
+                        <option value="{{ $mixInfo->second_male_id }}">
                             {{ $mixInfo->second_male }}
                             {{ $mixInfo->second_delete_male }}
                         </option>
