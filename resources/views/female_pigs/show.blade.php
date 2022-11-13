@@ -25,13 +25,33 @@
                 </div>
                 <div class="flex max-w-md text-gray-600 lg:text-lg text-center">
                     <div class="mx-2">
-                        “{{ $femalePig->add_day }}”
+                        {{ $femalePig->add_day }}
                     </div>
                     <div class="mx-2">
                         {{ $femalePig->age }}歳
                     </div>
                     <div class="mx-2">
-                        フラグ
+                        {{-- {{ $femalePig->warn_flag }} --}}
+                        @if ($femalePig->warn_flag == 0)
+                            <div class="text-gray-100">
+                                <i class="fa-solid fa-triangle-exclamation"></i>
+                            </div>
+                        @else
+                            <div class="text-red-500">
+                                <i class="fa-solid fa-triangle-exclamation"></i>
+                                {{-- <i class="fa-solid fa-circle-exclamation"></i> --}}
+                                {{-- <i class="fa-solid fa-piggy-bank"></i> --}}
+                            </div>
+                        @endif
+                    </div>
+                    <div>
+                        <form action="{{ route('female_pigs.updateFlag', $femalePig) }}" method="POST">
+                            @csrf
+                            @method('PATCH')
+                            <input type="hidden" name="warn_flag" id=""
+                                value="{{ $femalePig->warn_flag == 0 ? 1 : 0 }}">
+                            <input type="submit" value="フラグ">
+                        </form>
                     </div>
                 </div>
                 <!-- base - end -->
@@ -71,10 +91,8 @@
                                     @endif
                                 </td>
                                 <td class="py-3 px-6">
-                                    {{-- @if ($born_info_last_time) --}}
                                     @if ($born_info_last_time)
                                         {{ $born_info_last_time->rotate }}
-                                        {{-- {{ $born_info_last_time->rotate }} --}}
                                     @else
                                         -
                                     @endif
@@ -351,7 +369,7 @@
         <!-- born_table - end -->
     </div>
     <p class="text-blue-600">グラフ</p>
-
+    再発確認テーブルを追加boolean再発日が近づいたら確認項目表示、確認済み1になったら非表示
     <div class="overflow-x-auto relative shadow-md sm:rounded-lg mt-8">
         <!-- mix_table - start -->
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -388,10 +406,10 @@
                         再発予定日2
                     </th>
                     <th scope="col" class="py-3 px-6">
-                        再発日
+                        出産予定日
                     </th>
                     <th scope="col" class="py-3 px-6">
-                        フラグ
+                        経過
                     </th>
                     <th scope="col" class="py-3 px-6"></th>
                 </tr>
@@ -423,7 +441,7 @@
                                 {{ $mixInfo->recurrence_second_schedule }}
                             </td>
                             <td class="py-4 px-6">
-                                {{ $mixInfo->trouble_day }}
+                                {{ $mixInfo->delivery_schedule }}
                             </td>
                             <td class="py-4 px-6">
                                 {{ $mixInfo->trouble_id == 2 ? '再発' : ($mixInfo->trouble_id == 3 ? '流産' : '') }}
@@ -448,10 +466,50 @@
             </tbody>
         </table>
         <!-- mix_table - end -->
-        <div class="mt-4 mx-6 text-gray-700 text-right">
-            <p>再発、流産の記録は編集から記録できます</p>
-        </div>
     </div>
-    <p class="text-pink-600">グラフ</p>
+    <div class="mt-4 mx-6 my-6 text-gray-700 text-right">
+        <p>再発、流産の記録は編集から記録できます</p>
+    </div>
+    <div class="text-right">抽出画面に戻るボタン
+        <a href="#" onclick="history.back(-1);return false;">back-1戻る</a>
+        <a href="#" onclick="history.back();return false;">back戻る</a>
+        <a href="javascript:history.back()">前に戻る</a>
+        <a href="{{ route('extracts.index') }}">route戻るNG</a>
+        <button onclick="location.href='/extracts'">location戻るNG</button>
+        <input value="前に戻る" onclick="history.back();" type="button">
+        <input type="button" value="リファラ表示" onclick="alert( document.referrer );" />
+        <input type="button" value="referrer戻るNG" onclick="location.href=document.referrer" />
+        <button id="btn--back" class="rounded-md bg-gray-800 text-white px-4 py-2">戻る</button>
+
+    </div>
+
+    <script>
+        // var len = history.length;
+        // var ref = document.referrer;
+        // document.write("履歴の長さ: <em>" + len + "<\/em>\n");
+
+        // getItemメソッドでlocalStorageからデータを取得
+        let n = localStorage.getItem('count');
+        //データの値を判定
+        if (n === null) {
+            //データが何もない場合「1」を代入
+            n = 1;
+        } else {
+            //データがある場合「1」をプラス
+            n++;
+        }
+        //setItemメソッドでlocalStorageにデータを保存
+        localStorage.setItem('count', n);
+        //コンソールで値を表示
+        console.log(n);
+
+        localStorage.clear();
+
+        const back = document.getElementById('btn--back');
+        back.addEventListener('click', (e) => {
+            history.back();
+            return false;
+        });
+    </script>
     <!-- body - end -->
 </x-app-layout>

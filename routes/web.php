@@ -28,11 +28,12 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
-
+// 基本のルーティング
 Route::resource('female_pigs', FemalePigController::class);
 Route::resource('male_pigs', MalePigController::class);
 Route::resource('female_pigs.mix_infos', MixInfoController::class);
 
+// 出産情報に関するルーティング
 Route::get('/mix_infos/{mix_info}/create', [MixInfoController::class, 'createBorn'])
     ->name('born_infos.create'); //createという名のedit
 Route::patch('/mix_infos/{mix_info}/store', [MixInfoController::class, 'storeBorn'])
@@ -44,6 +45,7 @@ Route::patch('/mix_infos/{mix_info}/update', [MixInfoController::class, 'updateB
 Route::patch('/mix_infos/{mix_info}/delete', [MixInfoController::class, 'destroyBorn'])
     ->name('born_infos.destroy'); //deleteという名のpatch
 
+// 抽出のルーティング
 Route::post('/extracts', [ExtractController::class, 'index'])
     ->name('extracts.index');
 Route::get('/extracts/conditions', [ExtractController::class, 'conditions'])
@@ -70,6 +72,10 @@ Route::post('/mix_infos/export', [MixInfoController::class, 'export'])
     ->name('mix_infos.export');
 Route::post('/Mix_infos/import', [MixInfoController::class, 'import'])
     ->name('mix_infos.import');
+
+// FemalePigのフラグのルーティング
+Route::patch('/female_pigs/{female_pig}/update', [FemalePigController::class, 'updateFlag'])
+    ->name('female_pigs.updateFlag');
 
 // cssテスト用
 Route::get('/test', [MixInfoController::class, 'test'])

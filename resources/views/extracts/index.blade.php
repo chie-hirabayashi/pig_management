@@ -31,7 +31,7 @@
                         回転数:{{ $conditions['first_rotate'] }}以下
                     </div>
                     <div class="mx-2">
-                        {{ $conditions['operator'] == 1 ? 'かつ' : 'または' }}
+                        {{ $conditions['first_operator'] == 1 ? 'かつ' : 'または' }}
                     </div>
                     <div class="mx-2">
                         産子数:{{ $conditions['first_num'] }}以下
@@ -39,7 +39,7 @@
                 </div>
                 <div class="flex max-w-lg text-gray-600 lg:text-lg text-center">
                     <div class="mx-2">
-                        {{ $conditions['rotate_operator'] == 1 ? 'かつ' : 'または' }}
+                        {{ $conditions['operator'] == 1 ? 'かつ' : 'または' }}
                     </div>
                 </div>
                 <div class="flex max-w-lg text-gray-600 lg:text-lg text-center">
@@ -50,7 +50,7 @@
                         回転数:{{ $conditions['first_rotate'] }}以下
                     </div>
                     <div class="mx-2">
-                        {{ $conditions['operator'] == 1 ? 'かつ' : 'または' }}
+                        {{ $conditions['second_operator'] == 1 ? 'かつ' : 'または' }}
                     </div>
                     <div class="mx-2">
                         産子数:{{ $conditions['first_num'] }}以下
