@@ -12,11 +12,10 @@ class ExtractController extends Controller
 {
     public function index(Request $request)
     {
-        // dd($request->first_rotate);
         // 抽出に必要な要件
         // 過去２回の回転数
         // 過去２回の出産頭数
-        // 過去の再発、流産
+        // TODO:過去の再発、流産、年齢
 
         // 仮設定
         // $female_id = 5;
@@ -28,19 +27,19 @@ class ExtractController extends Controller
         $condition_second_rotate = $request->second_rotate;
         $condition_first_num = $request->first_born_num;
         $condition_second_num = $request->second_born_num;
-        $rotate_operator = $request->rotate_operator;
-        $born_num_operator = $request->born_num_operator;
+        $first_operator = $request->first_operator;
+        $second_operator = $request->second_operator;
         $operator = $request->operator;
         $extracts = [];
         $conditions['first_rotate'] = $condition_first_rotate ;
         $conditions['second_rotate'] = $condition_second_rotate ;
         $conditions['first_num'] = $condition_first_num ;
         $conditions['second_num'] = $condition_second_num ;
-        $conditions['rotate_operator'] = $rotate_operator ;
-        $conditions['born_num_operator'] = $born_num_operator ;
+        $conditions['first_operator'] = $first_operator ;
+        $conditions['second_operator'] = $second_operator ;
         $conditions['operator'] = $operator ;
-        // var_dump($rotate_operator);
-        // var_dump($born_num_operator);
+        // var_dump($first_operator);
+        // var_dump($second_operator);
         // dd($conditions);
         // 稼働中のfemalePig取得
         $femalePigs = FemalePig::where('deleted_at', null)->get();
@@ -90,7 +89,7 @@ class ExtractController extends Controller
             
             // 本設定による抽出
             switch (true) {
-                case ($rotate_operator == 1 && $operator ==1);
+                case ($first_operator == 1 && $operator ==1);
                     // かつ,かつ,かつ
                     if ($bornInfo_past2[0]->rotate <= $condition_first_rotate &&
                         $bornInfo_past2[0]->born_num <= $condition_first_num &&
@@ -101,7 +100,7 @@ class ExtractController extends Controller
                     }
                     break;
                 
-                case ($rotate_operator == 1 && $operator ==2);
+                case ($first_operator == 1 && $operator ==2);
                     // かつ,または,かつ
                     if ($bornInfo_past2[0]->rotate <= $condition_first_rotate &&
                         $bornInfo_past2[1]->rotate <= $condition_second_rotate) {
@@ -115,7 +114,7 @@ class ExtractController extends Controller
                     }
                     break;
 
-                case ($rotate_operator == 2 && $operator ==1);
+                case ($first_operator == 2 && $operator ==1);
                     // または,かつ,または
                     if (($bornInfo_past2[0]->rotate < $condition_first_rotate ||
                         $bornInfo_past2[0]->born_num < $condition_first_num) &&
@@ -126,7 +125,7 @@ class ExtractController extends Controller
                     }
                     break;
 
-                case ($rotate_operator == 2 && $operator ==2);
+                case ($first_operator == 2 && $operator ==2);
                     // または,または,または
                     if ($bornInfo_past2[0]->rotate < $condition_first_rotate ||
                         $bornInfo_past2[0]->born_num < $condition_first_num ) {
@@ -174,7 +173,7 @@ class ExtractController extends Controller
                 // }
         
         self::softDeleteResolution($extracts);
-        dd($extracts);
+        // dd($extracts);
         return view('extracts.index')
             ->with(compact('extracts', 'conditions'));
     }

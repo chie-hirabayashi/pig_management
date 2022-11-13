@@ -31,7 +31,7 @@
                         回転数:{{ $conditions['first_rotate'] }}以下
                     </div>
                     <div class="mx-2">
-                        {{ $conditions['operator'] == 1 ? 'かつ' : 'または' }}
+                        {{ $conditions['first_operator'] == 1 ? 'かつ' : 'または' }}
                     </div>
                     <div class="mx-2">
                         産子数:{{ $conditions['first_num'] }}以下
@@ -39,7 +39,7 @@
                 </div>
                 <div class="flex max-w-lg text-gray-600 lg:text-lg text-center">
                     <div class="mx-2">
-                        {{ $conditions['rotate_operator'] == 1 ? 'かつ' : 'または' }}
+                        {{ $conditions['operator'] == 1 ? 'かつ' : 'または' }}
                     </div>
                 </div>
                 <div class="flex max-w-lg text-gray-600 lg:text-lg text-center">
@@ -50,7 +50,7 @@
                         回転数:{{ $conditions['first_rotate'] }}以下
                     </div>
                     <div class="mx-2">
-                        {{ $conditions['operator'] == 1 ? 'かつ' : 'または' }}
+                        {{ $conditions['second_operator'] == 1 ? 'かつ' : 'または' }}
                     </div>
                     <div class="mx-2">
                         産子数:{{ $conditions['first_num'] }}以下
@@ -91,10 +91,16 @@
                                         {{ $extract->female_pig->individual_num }}
                                     </th>
                                     <td class="py-3 px-6">
-                                        {{ $extract->rotate }}回
+                                        <span class="text-red-500">
+                                            {{ $extract->rotate <= $conditions['first_rotate'] ? $extract->rotate . '回' : '' }}
+                                        </span>
+                                        {{ $extract->rotate <= $conditions['first_rotate'] ? '' : $extract->rotate . '回' }}
                                     </td>
                                     <td class="py-3 px-6">
-                                        {{ $extract->born_num }}頭
+                                        <span class="text-red-500">
+                                            {{ $extract->born_num <= $conditions['first_num'] ? $extract->born_num . '匹' : '' }}
+                                        </span>
+                                            {{ $extract->born_num <= $conditions['first_num'] ? '' : $extract->born_num . '匹'}}
                                     </td>
                                     <td class="py-3 px-6">
                                         {{-- 論理削除は呼び出せない --}}
@@ -109,7 +115,6 @@
 
                                     </td>
                                     <td class="py-3 px-6">
-                                        {{-- 別ルートを経由してリダイレクトしてみる --}}
                                         <a href="{{ route('female_pigs.show', $extract->female_pig) }}">ぼたん</a>
                                     </td>
                                 </tr>
