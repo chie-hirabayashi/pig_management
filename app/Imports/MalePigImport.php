@@ -3,24 +3,18 @@
 namespace App\Imports;
 
 use App\Models\MalePig;
-use Maatwebsite\Excel\Concerns\OnEachRow;
 use Maatwebsite\Excel\Row;
+use Maatwebsite\Excel\Concerns\OnEachRow;
 use Maatwebsite\Excel\Concerns\WithHeadingRow; 
 use Carbon\Carbon;
 
 class MalePigImport implements OnEachRow, WithHeadingRow
 {
-    /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
-    */
-    // public function model(array $row)
-    // {
-    //     return new MalePig([
-    //         //
-    //     ]);
-    // }
+    // /**
+    // * @param array $row
+    // *
+    // * @return \Illuminate\Database\Eloquent\Model|null
+    // */
 
     public function onRow(Row $row)
     {
@@ -32,8 +26,6 @@ class MalePigImport implements OnEachRow, WithHeadingRow
             'add_day'=>Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['add_day'])),
             'left_day'=>Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['left_day'])),
             'warn_flag'      => $row['warn_flag'],
-            // 'created_at'     => $row['created_at'],
-            // 'updated_at'     => $row['updated_at'],
             'deleted_at'=>Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['deleted_at'])),
         ]);
 

@@ -129,7 +129,7 @@
                         </select>
                     </div>
                 </div>
-
+{{-- TODO:有効日の確認に出産、再発、流産日を反映 --}}
                 <div id="sample" class="mb-4">
                     <div class="hidden" id="malePigs">{{ $malePigs }}</div>
                     <input type="button" id="check" value="有効日の確認"
@@ -200,12 +200,44 @@
                 }
             });
 
-            malePigs.forEach(malePig => {
-                if (malePig.id == selectId2.value) {
-                    secondAddDay = new Date(malePig.add_day);
-                }
-                secondAddDay = femalePigAddDay;
-            });
+            // console.log(selectId2.value=='');
+            switch (selectId2.value == '') {
+                case true:
+                    secondAddDay = femalePigAddDay;
+                    break;
+            
+                case false:
+                    malePigs.forEach(malePig => {
+                        if (malePig.id == selectId2.value) {
+                            secondAddDay = new Date(malePig.add_day);
+                        }
+                    });
+                    break;
+
+                default:
+                    break;
+            }
+
+            // if (selectId2.value!=='') {
+            //     malePigs.forEach(malePig => {
+            //         if (malePig.id == selectId2.value) {
+            //             secondAddDay = new Date(malePig.add_day);
+            //         }
+            //     });
+            // }
+            // if (selectId2.value == '') {
+                
+            //     secondAddDay = femalePigAddDay;
+            // }
+
+            // ここから非表示
+            // malePigs.forEach(malePig => {
+            //     if (malePig.id == selectId2.value) {
+            //         secondAddDay = new Date(malePig.add_day);
+            //     }
+            //     secondAddDay = femalePigAddDay;
+            // });
+            // ここまで非表示
 
             try {
 

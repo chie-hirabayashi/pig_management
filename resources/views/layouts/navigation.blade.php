@@ -76,8 +76,8 @@
                             <x-dropdown-link :href="route('login')">
                                 {{ __('Log In') }}
                             </x-dropdown-link>
-                            <x-dropdown-link :href="route('imports.import')">
-                                {{ __('インポート') }}
+                            <x-dropdown-link :href="route('imports_exports.form')">
+                                {{ __('インポート/エクスポート') }}
                             </x-dropdown-link>
                             <x-dropdown-link :href="route('female_pigs.create')">
                                 {{ __('母豚登録') }}

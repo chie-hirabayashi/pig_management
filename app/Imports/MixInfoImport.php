@@ -3,10 +3,8 @@
 namespace App\Imports;
 
 use App\Models\MixInfo;
-use Maatwebsite\Excel\Concerns\ToModel;
-use Maatwebsite\Excel\Concerns\Importable;
-use Maatwebsite\Excel\Concerns\OnEachRow;
 use Maatwebsite\Excel\Row;
+use Maatwebsite\Excel\Concerns\OnEachRow;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Carbon\Carbon;
 
@@ -18,26 +16,6 @@ class MixInfoImport implements OnEachRow, WithHeadingRow
     // *
     // * @return \Illuminate\Database\Eloquent\Model|null
     // */
-
-    // use Importable;
-
-    // public function model(array $row)
-    // {
-    //     return new MixInfo([
-    //         'id'             => $row['id'],
-    //         'female_id'      => $row['female_id'],
-    //         'first_male_id'  => $row['first_male_id'],
-    //         'second_male_id' => $row['second_male_id'],
-    //         'mix_day'        => Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['mix_day'])),
-    //         'first_recurrence_schedule'  => Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['first_recurrence_schedule'])),
-    //         'second_recurrence_schedule' => Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['second_recurrence_schedule'])),
-    //         'delivery_schedule'          => Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['delivery_schedule'])),
-    //         'trouble_day'                => Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['trouble_day'])),
-    //         'trouble_id'                 => $row['trouble_id'],
-    //         'born_day'                   => Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['born_day'])),
-    //         'born_num'                   => $row['born_num'],
-    //     ]);
-    // }
 
     public function onRow(Row $row)
     {
@@ -103,4 +81,24 @@ class MixInfoImport implements OnEachRow, WithHeadingRow
             }
         }
     }
+
+    // use Importable;
+
+    // public function model(array $row)
+    // {
+    //     return new MixInfo([
+    //         'id'             => $row['id'],
+    //         'female_id'      => $row['female_id'],
+    //         'first_male_id'  => $row['first_male_id'],
+    //         'second_male_id' => $row['second_male_id'],
+    //         'mix_day'        => Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['mix_day'])),
+    //         'first_recurrence_schedule'  => Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['first_recurrence_schedule'])),
+    //         'second_recurrence_schedule' => Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['second_recurrence_schedule'])),
+    //         'delivery_schedule'          => Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['delivery_schedule'])),
+    //         'trouble_day'                => Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['trouble_day'])),
+    //         'trouble_id'                 => $row['trouble_id'],
+    //         'born_day'                   => Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['born_day'])),
+    //         'born_num'                   => $row['born_num'],
+    //     ]);
+    // }
 }

@@ -53,10 +53,14 @@
                     </label>
                     <select name="second_male_id" id=""
                         class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <option value="{{ $mixInfo->second_male_id }}">
-                            {{ $mixInfo->second_male }}
-                            {{ $mixInfo->second_delete_male }}
-                        </option>
+                        @if ($mixInfo->second_male_id)
+                            <option value="{{ $mixInfo->second_male_id }}">
+                                {{ $mixInfo->second_male }}
+                                {{ $mixInfo->second_delete_male }}
+                            </option>
+                        @else
+                            <option value="{{ null }}">-</option>
+                        @endif
                         @foreach ($malePigs as $malePig)
                             <option value="{{ $malePig->id }}">
                                 {{ $malePig->individual_num }}
