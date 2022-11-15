@@ -76,9 +76,18 @@ class MixInfoController extends Controller
         }
 
         // 直前の出産or再発or流産の日付
-        $last_recode_day = $femalePig->mix_infos->last()->born_day;
-        if ($last_recode_day == null) {
-            $last_recode_day = $femalePig->mix_infos->last()->trouble_day;
+        if ($femalePig->mix_infos->last()) {
+            switch ($femalePig->mix_infos->last()->born_day == null) {
+                case true:
+                    $last_recode_day = $femalePig->mix_infos->last()->trouble_day;
+                    break;
+                
+                case false:
+                    $last_recode_day = $femalePig->mix_infos->last()->born_day;
+                    break;
+            }
+        } else {
+            $last_recode_day = $femalePig->add_day;
         }
 
         // error:交配日<導入日、交配日<前回の出産、再発、流産日
@@ -167,6 +176,26 @@ class MixInfoController extends Controller
         FemalePig $femalePig,
         MixInfo $mixInfo
     ) {
+        // femalePigを変更する場合
+        if ($femalePig->id !== intval($request->female_id)) {
+            $mixInfo = FemalePig::find($request->female_id)->mix_infos->last();
+
+            // 交配記録があり、最後の交配で出産、再発、流産していれば更新処理を継続
+            switch (true) {
+                case $mixInfo == null:
+                    return back()->withErrors('選択した母豚は、修正する交配記録がありません。');
+                    break;
+
+                case $mixInfo->born_day !== null ||
+                    $mixInfo->trouble_id !== 1:
+                    break;
+
+                default:
+                    return back()->withErrors('選択した母豚は、未処理の交配記録があります。');
+                    break;
+            }
+        }
+        
         // error:再発日、流産日<導入日
         if ($request->trouble_id !== '1') {
             $request->validate([
@@ -189,11 +218,22 @@ class MixInfoController extends Controller
 
         // 直前の出産or再発or流産の日付
         $end_recode = $femalePig->mix_infos()->latest()->get();
-        $end_recode_day = $end_recode[1]->born_day;
-        if ($end_recode_day == null) {
-            $end_recode_day = $end_recode[1]->trouble_day;
-        }
+        if (count($end_recode) < 2) {
+            // 直前の出産、再発、流産がない場合、母豚の導入日をセット
+            $end_recode_day = $firstMale_add_day;
+        } else {
+            // 直前の出産、再発、流産がある場合、出産日または再発、流産日をセット
+            switch ($end_recode[1]->born_day == null) {
+                case true:
+                    $end_recode_day = $end_recode[1]->trouble_day;
+                    break;
 
+                case false:
+                    $end_recode_day = $end_recode[1]->born_day;
+                    break;
+            }
+        }
+        
         // error:交配日<導入日、交配日<前回の出産、再発、流産日
         switch (true) {
             case $request->mix_day < $femalePig->add_day ||

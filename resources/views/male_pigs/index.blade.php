@@ -59,20 +59,25 @@
                         <!-- age & status - end -->
 
                         <!-- edit & delete - start -->
-                        <div class="flex flex-row text-center my-4">
+                        <div class="flex flex-row text-center my-4 mx-2">
+                        {{-- <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2"> --}}
                             {{-- @can('update', $post) --}}
+                            {{-- <div> --}}
                             <a href="{{ route('male_pigs.edit', $malePig) }}"
-                                class="bg-blue-400 hover:bg-blue-600 text-sm text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline w-20 mr-2">
+                                class="bg-blue-400 hover:bg-blue-600 text-sm text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline w-16 mr-2">
                                 編 集
                             </a>
+                            {{-- </div> --}}
                             {{-- @endcan --}}
                             {{-- @can('delete', $post) --}}
+                            {{-- <div> --}}
                             <form action="{{ route('male_pigs.destroy', $malePig) }}" method="post">
                                 @csrf
                                 @method('DELETE')
                                 <input type="submit" value="廃 用" onclick="if(!confirm('廃用にしますか？')){return false};"
-                                    class="bg-pink-400 hover:bg-pink-600 text-sm text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline w-20 mr-2">
+                                    class="bg-pink-400 hover:bg-pink-600 text-sm text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline w-16 mr-2">
                             </form>
+                            {{-- </div> --}}
                         </div>
                         <!-- edit & delete - end -->
 
