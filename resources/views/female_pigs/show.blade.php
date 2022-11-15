@@ -7,12 +7,10 @@
     </x-slot>
     <!-- header - end -->
 
-    <!-- validation - start -->
+    <!-- message -->
     <x-error-validation :errors="$errors" />
     <x-flash-msg :message="session('notice')" />
-    <!-- validation - end -->
 
-    <!-- body - start -->
     <div class="bg-white py-6 sm:py-8 lg:py-12">
         <!-- base_information - start -->
         <div class="max-w-screen-2xl px-4 md:px-8 mx-auto">
@@ -30,40 +28,39 @@
                     <div class="mx-2">
                         {{ $femalePig->age }}歳
                     </div>
-                    <div class="mx-2">
-                        {{-- {{ $femalePig->warn_flag }} --}}
-                        @if ($femalePig->warn_flag == 0)
-                            <div class="text-gray-100">
-                                <i class="fa-solid fa-triangle-exclamation"></i>
-                            </div>
-                        @else
-                            <div class="text-red-500">
-                                <i class="fa-solid fa-triangle-exclamation"></i>
-                                {{-- <i class="fa-solid fa-circle-exclamation"></i> --}}
-                                {{-- <i class="fa-solid fa-piggy-bank"></i> --}}
-                            </div>
-                        @endif
-                    </div>
                     <div>
                         <form action="{{ route('female_pigs.updateFlag', $femalePig) }}" method="POST">
                             @csrf
                             @method('PATCH')
                             <input type="hidden" name="warn_flag" id=""
                                 value="{{ $femalePig->warn_flag == 0 ? 1 : 0 }}">
-                            <input type="submit" value="フラグ">
+                            <button type="submit">
+                                @if ($femalePig->warn_flag == 0)
+                                    <div class="text-gray-100">
+                                        <i class="fa-solid fa-triangle-exclamation"></i>
+                                    </div>
+                                @else
+                                    <div class="text-red-500">
+                                        <i class="fa-solid fa-triangle-exclamation"></i>
+                                    </div>
+                                @endif
+                            </button>
                         </form>
                     </div>
                 </div>
-                <div>
-                    <h2>予定</h2>
-                    @if ( $mixInfo && empty($mixInfo->born_day))
+                <!-- base - end -->
+
+                <!-- schedule - start -->
+                <div class="text-gray-600">
+                    <h2 class="text-center">予 定</h2>
+                    @if ($mixInfo && empty($mixInfo->born_day))
                         <div class="flex">
-                            <div class="mr-4">再発予定日1 : {{ $mixInfo->first_recurrence_schedule }}
+                            <div class="mr-4">
+                                再発予定日1 : {{ $mixInfo->first_recurrence_schedule }}
                             </div>
                             <div>
                                 {{-- 再発予定3日前から表示 --}}
-                                {{-- @if (date('Y-m-d H:i:s', strtotime('+3 day')) > $mixInfo->first_recurrence_schedule && --}}
-                                @if (date('Y-m-d', strtotime('+3 day')) > $mixInfo->delivery_schedule &&
+                                @if (date('Y-m-d H:i:s', strtotime('+3 day')) > $mixInfo->first_recurrence_schedule &&
                                     $mixInfo->first_recurrence == 0)
                                     <form action="{{ route('female_pigs.updateRecurrence', $femalePig) }}"
                                         method="POST">
@@ -80,12 +77,12 @@
                             </div>
                         </div>
                         <div class="flex">
-                            <div class="mr-4">再発予定日2 : {{ $mixInfo->second_recurrence_schedule }}
+                            <div class="mr-4">
+                                再発予定日2 : {{ $mixInfo->second_recurrence_schedule }}
                             </div>
                             <div>
                                 {{-- 再発予定3日前から表示 --}}
-                                {{-- @if (date('Y-m-d H:i:s', strtotime('+3 day')) > $mixInfo->second_recurrence_schedule && --}}
-                                @if (date('Y-m-d', strtotime('+3 day')) > $mixInfo->delivery_schedule &&
+                                @if (date('Y-m-d H:i:s', strtotime('+3 day')) > $mixInfo->second_recurrence_schedule &&
                                     $mixInfo->second_recurrence == 0)
                                     <form action="{{ route('female_pigs.updateRecurrence', $femalePig) }}"
                                         method="POST">
@@ -101,10 +98,10 @@
                                 @endif
                             </div>
                         </div>
-                        <p>出産予定日&ensp; : {{ $mixInfo->delivery_schedule }}</p>
+                        <div>出産予定日&ensp; : {{ $mixInfo->delivery_schedule }}</div>
                     @endif
                 </div>
-                <!-- base - end -->
+                <!-- schedule - end -->
 
                 <!-- border - start -->
                 <div class="overflow-x-auto relative">
@@ -189,9 +186,7 @@
                         </tbody>
                         <thead class="text-xs text-gray-900 uppercase dark:text-gray-400">
                             <tr>
-                                <th scope="col" class="py-3 px-6">
-
-                                </th>
+                                <th scope="col" class="py-3 px-6"></th>
                                 <th scope="col" class="py-3 px-6">
                                     過去1年
                                 </th>
@@ -264,9 +259,7 @@
                         </tbody>
                         <thead class="text-xs text-gray-900 uppercase dark:text-gray-400">
                             <tr>
-                                <th scope="col" class="py-3 px-6">
-
-                                </th>
+                                <th scope="col" class="py-3 px-6"></th>
                                 <th scope="col" class="py-3 px-6">
                                     NO.1
                                 </th>
@@ -305,7 +298,7 @@
                 </div>
                 <!-- border - end -->
 
-                <!-- edit&delete - start -->
+                <!-- edit & delete - start -->
                 <div class="flex flex-row text-center my-4">
                     {{-- @can('update', $post) --}}
                     <a href="{{ route('female_pigs.edit', $femalePig) }}"
@@ -321,17 +314,7 @@
                             class="bg-pink-400 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20 mr-2">
                     </form>
                 </div>
-                <!-- edit&delete - end -->
-
-                <!-- quote - start -->
-                <div class="flex flex-col sm:flex-row items-center gap-2 md:gap-3">
-                    <div>
-                        <div class="text-indigo-500 text-sm md:text-base font-bold text-center sm:text-left">John
-                            McCulling</div>
-                        <p class="text-gray-500 text-sm md:text-sm text-center sm:text-left">CEO / Datadrift</p>
-                    </div>
-                </div>
-                <!-- quote - end -->
+                <!-- edit & delete - end -->
             </div>
         </div>
         <!-- base_information - end -->
@@ -419,7 +402,7 @@
         <!-- born_table - end -->
     </div>
     <p class="text-blue-600">グラフ</p>
-    再発確認テーブルを追加boolean再発日が近づいたら確認項目表示、確認済み1になったら非表示
+
     <div class="overflow-x-auto relative shadow-md sm:rounded-lg mt-8">
         <!-- mix_table - start -->
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -497,8 +480,6 @@
                                 {{ $mixInfo->trouble_id == 2 ? '再発' : ($mixInfo->trouble_id == 3 ? '流産' : '') }}
                             </td>
                             <td class="flex items-center py-4 px-6 space-x-3">
-                                {{-- <a href="{{ route('mix_infos.flag', $mixInfo) }}"
-                                    class="font-medium text-green-600 dark:text-blue-500 hover:underline">再発・流産</a> --}}
                                 <a href="{{ route('female_pigs.mix_infos.edit', [$femalePig, $mixInfo]) }}"
                                     class="font-medium text-blue-600 dark:text-blue-500 hover:underline">編 集</a>
                                 <form action="{{ route('female_pigs.mix_infos.destroy', [$femalePig, $mixInfo]) }}"
@@ -532,6 +513,7 @@
         <button id="btn--back" class="rounded-md bg-gray-800 text-white px-4 py-2">戻る</button>
     </div>
 
+    <!-- script - start -->
     <script>
         // var len = history.length;
         // var ref = document.referrer;
@@ -560,5 +542,5 @@
             return false;
         });
     </script>
-    <!-- body - end -->
+    <!-- script - end -->
 </x-app-layout>

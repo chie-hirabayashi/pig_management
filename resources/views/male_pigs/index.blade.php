@@ -1,93 +1,89 @@
 <x-app-layout>
+    <!-- header - start -->
     <x-slot name="header">
         <h2 class="">
             {{ __('male_pigs.index') }}
         </h2>
     </x-slot>
+    <!-- header - end -->
 
-    <div class="container max-w-7xl mx-auto px-4 md:px-12 pb-3 mt-3">
-        <x-flash-msg :message="session('notice')" />
-    </div>
+    <!-- message -->
+    <x-flash-msg :message="session('notice')" />
 
-    <div class="container lg:w-1/2 md:w-4/5 w-11/12 mx-auto mt-8 px-0 bg-white rounded shadow-md">
-        {{-- <div class="container lg:w-1/2 md:w-4/5 w-11/12 mx-auto mt-8 px-8 bg-white rounded shadow-md"> --}}
-        {{-- <div class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-8 px-8 py-4 bg-stone-100 rounded shadow-md"> --}}
-        {{-- <div class=" rounded container lg:w-1/2 md:w-4/5 w-full mx-auto mt-8 px-0 bg-white shadow-md"> --}}
-        <table class="w-full">
-            <thead class="table-header-group">
-                <tr class="table-row border">
-                    <th class="text-center">個体番号</th>
-                    <th class="text-left">年齢</th>
-                    <th class="">フラグ</th>
-                    <th class="">更新</th>
-                    <th class="">廃用</th>
-                </tr>
-            </thead>
-            <tbody>
+    <div class="bg-white py-6 sm:py-8 lg:py-12">
+        <div class="max-w-screen-xl px-4 md:px-8 mx-auto">
+            <!-- title -->
+            <h2 class="text-gray-800 text-2xl lg:text-3xl font-bold text-center mb-8 md:mb-12">
+                malePigs 一覧
+            </h2>
+
+            <div class="grid sm:grid-cols-5 lg:grid-cols-5 gap-y-10 sm:gap-y-12 lg:divide-x">
                 @foreach ($malePigs as $malePig)
-                    <tr>
-                        <td class="table-cell text-center">
-                            {{-- <h2 class="font-bold font-sans break-normal text-gray-600 pt-6 pb-1 text-sm md:text-xl"> --}}
-                            {{ $malePig->individual_num }}
-                        </td>
-                        <td class="table-cell text-center">
-                            {{ $malePig->age }}歳
-                        </td>
-                        <td class="table-cell text-center">
-                            フラグ
-                        </td>
-                        <td class="table-cell text-center">
-                            {{-- <div class="flex flex-row text-center my-4"> --}}
+                    <div class="flex flex-col items-center gap-2 md:gap-4 sm:px-4 lg:px-8">
+                        <!-- individual_num & flag - start -->
+                        <div class="flex text-gray-600 text-xl text-center">
+                            <div class="mx-2">
+                                <form action="{{ route('male_pigs.updateFlag', $malePig) }}" method="POST">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="hidden" name="warn_flag" id=""
+                                        value="{{ $malePig->warn_flag == 0 ? 1 : 0 }}">
+                                    <button type="submit">
+                                        @if ($malePig->warn_flag == 0)
+                                            <div class="text-gray-100">
+                                                <i class="fa-solid fa-triangle-exclamation"></i>
+                                            </div>
+                                        @else
+                                            <div class="text-red-500">
+                                                <i class="fa-solid fa-triangle-exclamation"></i>
+                                            </div>
+                                        @endif
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="">
+                                {{ $malePig->individual_num }}
+                            </div>
+                        </div>
+                        <!-- individual_num & flag - end -->
+
+                        <!-- age & status - start -->
+                        <div class="flex flex-col sm:flex-row items-center gap-2 md:gap-3">
+                            <div class="mx-2 text-gray-500">
+                                {{ $malePig->add_day }}
+                            </div>
+                            <div class="text-center text-gray-500 md:text-sm sm:text-left">
+                                {{ $malePig->age }} 歳
+                            </div>
+                        </div>
+                        <!-- age & status - end -->
+
+                        <!-- edit & delete - start -->
+                        <div class="flex flex-row text-center my-4 mx-2">
+                        {{-- <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2"> --}}
+                            {{-- @can('update', $post) --}}
+                            {{-- <div> --}}
                             <a href="{{ route('male_pigs.edit', $malePig) }}"
-                                class="relative px-4 py-3 font-bold text-black group">
-                                <span
-                                    class="absolute inset-0 w-full h-full transition duration-300 ease-out transform -translate-x-2 -translate-y-2 bg-red-300 group-hover:translate-x-0 group-hover:translate-y-0"></span>
-                                <span class="absolute inset-0 w-full h-full border-4 border-black"></span>
-                                <span class="relative">更　新</span>
+                                class="bg-blue-400 hover:bg-blue-600 text-sm text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline w-16 mr-2">
+                                編 集
                             </a>
-                            {{-- <a href="{{ route('male_pigs.edit', $malePig) }}"
-                                    class="bg-stone-400 hover:bg-blue-600 text-white font-bold py-2 px-3 rounded focus:outline-none focus:shadow-outline w-20 mr-2">更
-                                    新</a> --}}
-                        </td>
-                        <td class="table-cell text-center">
-                            <form action="{{ route('male_pigs.destroy', $malePig) }}" method="POST" id="delete"
-                                {{-- class="relative px-6 py-3 font-bold text-black group"> --}} class="relative py-2">
+                            {{-- </div> --}}
+                            {{-- @endcan --}}
+                            {{-- @can('delete', $post) --}}
+                            {{-- <div> --}}
+                            <form action="{{ route('male_pigs.destroy', $malePig) }}" method="post">
                                 @csrf
                                 @method('DELETE')
-                                <input type="hidden" form="delete">
-                                <button type="submit" onclick="if(!confirm('廃用にしますか？')){return false};"
-                                    class="px-5 py-2.5 relative rounded group font-medium text-white font-medium inline-block">
-                                    <span
-                                        class="absolute top-0 left-0 w-full h-full rounded opacity-50 filter blur-sm bg-gradient-to-br from-purple-600 to-blue-500"></span>
-                                    <span
-                                        class="h-full w-full inset-0 absolute mt-0.5 ml-0.5 bg-gradient-to-br filter group-active:opacity-0 rounded opacity-50 from-purple-600 to-blue-500"></span>
-                                    <span
-                                        class="absolute inset-0 w-full h-full transition-all duration-200 ease-out rounded shadow-xl bg-gradient-to-br filter group-active:opacity-0 group-hover:blur-sm from-purple-600 to-blue-500"></span>
-                                    <span
-                                        class="absolute inset-0 w-full h-full transition duration-200 ease-out rounded bg-gradient-to-br to-purple-600 from-blue-500"></span>
-                                    <span class="relative">廃 用</span>
-                                </button>
+                                <input type="submit" value="廃 用" onclick="if(!confirm('廃用にしますか？')){return false};"
+                                    class="bg-pink-400 hover:bg-pink-600 text-sm text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline w-16 mr-2">
                             </form>
-                            {{-- <form action="{{ route('male_pigs.destroy', $malePig) }}" method="POST"> --}}
-                            {{-- <input type="submit" value="廃 用" onclick="if(!confirm('廃用にしますか？')){return false};"
-                                    class="bg-stone-400 hover:bg-pink-600 text-white font-bold py-2 px-3 rounded focus:outline-none focus:shadow-outline w-20"> --}}
-                        </td>
-                    </tr>
+                            {{-- </div> --}}
+                        </div>
+                        <!-- edit & delete - end -->
+
+                    </div>
                 @endforeach
-            </tbody>
-        </table>
-    </div>
-    <div>
-        <form method="post" action="{{ route('male_pigs.export') }}">
-            @csrf
-            <input type="submit" value="エクスポート">
-        </form>
-    </div>
-    <div>
-        <form method="post" action="{{ route('male_pigs.import') }}" enctype="multipart/form-data">
-            @csrf
-            <input type="file" name="excel_file"><br>
-            <input type="submit" value="インポート">
-        </form>
+            </div>
+        </div>
     </div>
 </x-app-layout>

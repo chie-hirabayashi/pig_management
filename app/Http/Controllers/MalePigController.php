@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMalePigRequest;
 use App\Http\Requests\UpdateMalePigRequest;
+use App\Exports\MalePigExport;
+use App\Imports\MalePigImport;
 use App\Models\MalePig;
 use App\Models\MixInfo;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\MalePigExport;
-use App\Imports\MalePigImport;
 
 class MalePigController extends Controller
 {
@@ -86,7 +86,7 @@ class MalePigController extends Controller
      */
     public function update(UpdateMalePigRequest $request, MalePig $malePig)
     {
-        // 一番古い交配日を取得、バリデーション
+        // error:最初の交配日<導入日
         $exist_firstId = MixInfo::where(
             'first_male_id',
             $malePig->id
@@ -97,7 +97,7 @@ class MalePigController extends Controller
         )->exists();
 
         if ($exist_firstId || $exist_secondId) {
-            $first_mix_day = $malePig->first_mix_infos->first()->mix_day;
+            $first_mix_day  = $malePig->first_mix_infos->first()->mix_day;
             $second_mix_day = $malePig->second_mix_infos->first()->mix_day;
 
             switch ($first_mix_day > $second_mix_day) {
@@ -121,7 +121,7 @@ class MalePigController extends Controller
         $individual_num = $malePig->individual_num;
         $malePig->fill($request->all());
 
-        // 個体番号を変更する場合は複合ユニークを確認
+        // 個体番号を変更する場合:複合ユニークを確認
         if ($individual_num !== $request->individual_num) {
             $request->validate([
                 'individual_num' =>
@@ -148,7 +148,7 @@ class MalePigController extends Controller
      */
     public function destroy(MalePig $malePig)
     {
-        // フラッシュメッセージ作成
+        // 通知作成
         $flash_msg = $malePig->individual_num . 'を廃用にしました';
 
         try {
@@ -156,6 +156,18 @@ class MalePigController extends Controller
             return redirect()
                 ->route('male_pigs.index')
                 ->with('notice', $flash_msg);
+        } catch (\Throwable $th) {
+            return back()->withErrors($th->getMessage());
+        }
+    }
+
+    public function updateFlag(Request $request, MalePig $malePig)
+    {
+        $malePig->warn_flag = $request->warn_flag;
+        
+        try {
+            $malePig->save();
+            return redirect(route('male_pigs.index'));
         } catch (\Throwable $th) {
             return back()->withErrors($th->getMessage());
         }

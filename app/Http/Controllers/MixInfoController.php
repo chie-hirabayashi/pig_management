@@ -6,13 +6,13 @@ use App\Http\Requests\StoreMixInfoRequest;
 use App\Http\Requests\StoreBornInfoRequest;
 use App\Http\Requests\UpdateMixInfoRequest;
 use App\Http\Requests\UpdateBornInfoRequest;
+use App\Exports\MixInfoExport;
+use App\Imports\MixInfoImport;
 use App\Models\FemalePig;
 use App\Models\MalePig;
 use App\Models\MixInfo;
 use App\Models\TroubleCategory;
 use Carbon\Carbon;
-use App\Exports\MixInfoExport;
-use App\Imports\MixInfoImport;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -35,34 +35,25 @@ class MixInfoController extends Controller
      */
     public function create(FemalePig $femalePig)
     {
-        // 交配記録の確認
+        // 交配記録がない場合:すぐに登録画面に遷移
         if (!MixInfo::where('female_id', $femalePig->id)->exists()) {
-            // 交配記録なし
             $malePigs = MalePig::all();
             return view('mix_infos.create')->with(
                 compact('femalePig', 'malePigs')
             );
-        } else {
-            // 交配記録あり
-            $mixInfos = $femalePig->mix_infos;
-            $mixInfo = $mixInfos->last();
-            // $mixInfo = $mixInfos->sortByDesc('mix_day')->first();
-
-            // born_infosテーブルのmix_id確認
-            if (
-                $mixInfo->born_day !== null ||
-                // mix_infosテーブルのflag確認
-                $mixInfo->trouble_id !== 1
-            ) {
-                $malePigs = MalePig::all();
-                return view('mix_infos.create')->with(
-                    compact('femalePig', 'malePigs')
-                );
-            }
-            return back()->withErrors('未処理の交配記録があります。');
         }
 
-        return back()->withErrors('予期せぬエラーが発生しました');
+        // 交配記録がある場合:最後の交配で出産、再発、流産していれば登録画面に遷移
+        $mixInfos = $femalePig->mix_infos;
+        $mixInfo = $mixInfos->last();
+
+        if ($mixInfo->born_day !== null || $mixInfo->trouble_id !== 1) {
+            $malePigs = MalePig::all();
+            return view('mix_infos.create')->with(
+                compact('femalePig', 'malePigs')
+            );
+        }
+        return back()->withErrors('未処理の交配記録があります。');
     }
 
     /**
@@ -75,7 +66,6 @@ class MixInfoController extends Controller
     {
         // オス1の導入日
         $firstMale_add_day = MalePig::find($request->first_male_id)->add_day;
-        // dd($firstMale_add_day);
 
         // オス2の導入日
         if ($request->second_male_id) {
@@ -85,27 +75,48 @@ class MixInfoController extends Controller
             $secondMale_add_day = $firstMale_add_day;
         }
 
-        // 交配日の適正確認
-        if (
-            $request->mix_day < $femalePig->add_day ||
-            $request->mix_day < $firstMale_add_day ||
-            $request->mix_day < $secondMale_add_day
-        ) {
-            return back()->withErrors('交配日は導入日の後です。');
+        // 直前の出産or再発or流産の日付
+        if ($femalePig->mix_infos->last()) {
+            switch ($femalePig->mix_infos->last()->born_day == null) {
+                case true:
+                    $last_recode_day = $femalePig->mix_infos->last()->trouble_day;
+                    break;
+                
+                case false:
+                    $last_recode_day = $femalePig->mix_infos->last()->born_day;
+                    break;
+            }
+        } else {
+            $last_recode_day = $femalePig->add_day;
         }
 
-        // 交配日
-        $mix_day = Carbon::create($request->mix_day);
+        // error:交配日<導入日、交配日<前回の出産、再発、流産日
+        switch (true) {
+            case $request->mix_day < $femalePig->add_day ||
+                $request->mix_day < $firstMale_add_day ||
+                $request->mix_day < $secondMale_add_day:
+                return back()->withErrors('交配日は導入日の後です。');
+                break;
 
-        // 登録情報準備
+            case $request->mix_day < $last_recode_day:
+                return back()->withErrors(
+                    '交配日は前回の出産日、再発日、流産日の後です。'
+                );
+                break;
+        }
+
+        // 登録情報をセット
         $mixInfo = new MixInfo($request->all());
+        $mix_day = Carbon::create($request->mix_day);
         $mixInfo->first_recurrence_schedule = $mix_day
             ->addDay(21)
             ->toDateString();
         $mixInfo->second_recurrence_schedule = $mix_day
             ->addDay(42)
             ->toDateString();
-        $mixInfo->delivery_schedule = $mix_day->addDay(113)->toDateString();
+        $mixInfo->delivery_schedule = $mix_day
+            ->addDay(113)
+            ->toDateString();
 
         try {
             $femalePig->mix_infos()->save($mixInfo);
@@ -139,17 +150,16 @@ class MixInfoController extends Controller
         $femalePigs = FemalePig::all();
         $malePigs = MalePig::all();
         $troubleCategories = TroubleCategory::all();
-        // softDelete対策必要
-        // self::softDeleteResolution($born_infos);
+        
         self::softDeleteResolution($mixInfo);
-        // dd($femalePig);
+        
         return view('mix_infos.edit')->with(
             compact(
-                'femalePig',
-                'mixInfo',
                 'femalePigs',
+                'femalePig',
                 'malePigs',
-                'troubleCategories'
+                'troubleCategories',
+                'mixInfo',
             )
         );
     }
@@ -166,7 +176,27 @@ class MixInfoController extends Controller
         FemalePig $femalePig,
         MixInfo $mixInfo
     ) {
-        // 再発・流産登録は日付が必須
+        // femalePigを変更する場合
+        if ($femalePig->id !== intval($request->female_id)) {
+            $mixInfo = FemalePig::find($request->female_id)->mix_infos->last();
+
+            // 交配記録があり、最後の交配で出産、再発、流産していれば更新処理を継続
+            switch (true) {
+                case $mixInfo == null:
+                    return back()->withErrors('選択した母豚は、修正する交配記録がありません。');
+                    break;
+
+                case $mixInfo->born_day !== null ||
+                    $mixInfo->trouble_id !== 1:
+                    break;
+
+                default:
+                    return back()->withErrors('選択した母豚は、未処理の交配記録があります。');
+                    break;
+            }
+        }
+        
+        // error:再発日、流産日<導入日
         if ($request->trouble_id !== '1') {
             $request->validate([
                 'trouble_day' =>
@@ -174,24 +204,62 @@ class MixInfoController extends Controller
                 'trouble_id' => 'required|integer',
             ]);
         }
-        // 交配日の適正化
-        if (
-            $request->mix_day < $femalePig->add_day ||
-            $request->mix_day < $mixInfo->first_male_pig->add_day ||
-            $request->mix_day < $mixInfo->second_male_pig->add_day
-        ) {
-            return back()->withErrors('交配日は導入日の後です。');
+
+        // オス1の導入日
+        $firstMale_add_day = MalePig::find($request->first_male_id)->add_day;
+
+        // オス2の導入日
+        if ($request->second_male_id) {
+            $secondMale_add_day = MalePig::find($request->second_male_id)
+                ->add_day;
+        } else {
+            $secondMale_add_day = $firstMale_add_day;
         }
 
-        // 更新内容準備
-        // 交配日
+        // 直前の出産or再発or流産の日付
+        $end_recode = $femalePig->mix_infos()->latest()->get();
+        if (count($end_recode) < 2) {
+            // 直前の出産、再発、流産がない場合、母豚の導入日をセット
+            $end_recode_day = $firstMale_add_day;
+        } else {
+            // 直前の出産、再発、流産がある場合、出産日または再発、流産日をセット
+            switch ($end_recode[1]->born_day == null) {
+                case true:
+                    $end_recode_day = $end_recode[1]->trouble_day;
+                    break;
+
+                case false:
+                    $end_recode_day = $end_recode[1]->born_day;
+                    break;
+            }
+        }
+        
+        // error:交配日<導入日、交配日<前回の出産、再発、流産日
+        switch (true) {
+            case $request->mix_day < $femalePig->add_day ||
+                $request->mix_day < $firstMale_add_day ||
+                $request->mix_day < $secondMale_add_day:
+                return back()->withErrors('交配日は導入日の後です。');
+                break;
+
+            case $request->mix_day < $end_recode_day:
+                return back()->withErrors(
+                    '交配日は前回の出産日、再発日、流産日の後です。'
+                );
+                break;
+        }
+
+        // 登録情報をセット
         $mixInfo->fill($request->all());
         $mix_day = Carbon::create($request->mix_day);
         $mixInfo->first_recurrence_schedule = $mix_day
-            ->addDay(20)
+            ->addDay(21)
             ->toDateString();
         $mixInfo->second_recurrence_schedule = $mix_day
-            ->addDay(40)
+            ->addDay(42)
+            ->toDateString();
+        $mixInfo->delivery_schedule = $mix_day
+            ->addDay(113)
             ->toDateString();
 
         try {
@@ -230,7 +298,7 @@ class MixInfoController extends Controller
      */
     public function createBorn(MixInfo $mixInfo)
     {
-        // 出産登録できる交配記録の確認
+        // 最後の交配記録に出産、再発、流産の記録がある場合、出産登録不可
         if ($mixInfo->born_day !== null || $mixInfo->trouble_id !== 1) {
             return back()->withErrors('出産登録できる交配記録がありません。');
         }
@@ -305,9 +373,9 @@ class MixInfoController extends Controller
     public function destroyBorn(MixInfo $mixInfo)
     {
         $femalePig = $mixInfo->female_pig;
-        $mixInfo->born_day = null;
-        $mixInfo->born_num = null;
-        dd($mixInfo);
+        $mixInfo->born_day = null; //born_dayカラムを空に戻す
+        $mixInfo->born_num = null; //born_numカラムを空に戻す
+        
         try {
             $mixInfo->save();
             return redirect()
