@@ -403,6 +403,10 @@
     </div>
     <p class="text-blue-600">グラフ</p>
 
+    <div>
+        <canvas id="myChart"></canvas>
+    </div>
+
     <div class="overflow-x-auto relative shadow-md sm:rounded-lg mt-8">
         <!-- mix_table - start -->
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -515,19 +519,27 @@
 
     <!-- script - start -->
     <script>
-        // var len = history.length;
-        // var ref = document.referrer;
-        // document.write("履歴の長さ: <em>" + len + "<\/em>\n");
+        // const born_info = @json($born_info);
+        window.Laravel = {};
+        window.Laravel.bornInfos = @json($born_infos);
+        window.Laravel.one = 1;
+        window.Laravel.array = [1,2,3,4,5,6,7];
+        window.Laravel.bornNum = [];
 
+        window.Laravel.bornInfos.forEach(bornInfo => {
+            window.Laravel.bornNum = bornInfo.born_num;
+            console.log(bornInfo.born_num);
+        });
+
+        const Num = window.Laravel.bornInfos.filter(bornInfo => bornInfo.born_num);
+        console.log(Num);
+        // ここからボタン試作
         // getItemメソッドでlocalStorageからデータを取得
         let n = localStorage.getItem('count');
-        //データの値を判定
         if (n === null) {
-            //データが何もない場合「1」を代入
-            n = 1;
+            n = 1; //データが何もない場合「1」を代入
         } else {
-            //データがある場合「1」をプラス
-            n++;
+            n++; //データがある場合「1」をプラス
         }
         //setItemメソッドでlocalStorageにデータを保存
         localStorage.setItem('count', n);
@@ -542,5 +554,6 @@
             return false;
         });
     </script>
+    <script src="{{ mix('js/app.js') }}"></script>
     <!-- script - end -->
 </x-app-layout>
