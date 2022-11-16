@@ -401,9 +401,11 @@
         </table>
         <!-- born_table - end -->
     </div>
-    <p class="text-blue-600">グラフ</p>
 
-    <div>
+{{-- <section --}}
+    
+    {{-- <div class="bg-white py-6 sm:py-8 lg:py-12"> --}}
+    <div class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-10 px-8 py-4 bg-white rounded shadow-md dark:bg-gray-800">
         <canvas id="myChart"></canvas>
     </div>
 
@@ -522,17 +524,22 @@
         // const born_info = @json($born_info);
         window.Laravel = {};
         window.Laravel.bornInfos = @json($born_infos);
-        window.Laravel.one = 1;
-        window.Laravel.array = [1,2,3,4,5,6,7];
-        window.Laravel.bornNum = [];
 
-        window.Laravel.bornInfos.forEach(bornInfo => {
-            window.Laravel.bornNum = bornInfo.born_num;
-            console.log(bornInfo.born_num);
-        });
+        // window.Laravel.bornInfos.forEach(bornInfo => {
+        //     window.Laravel.bornNum = bornInfo.born_num;
+        //     console.log(bornInfo.born_num);
+        // });
 
         const Num = window.Laravel.bornInfos.filter(bornInfo => bornInfo.born_num);
         console.log(Num);
+
+        Data = [];
+        for (var i = 0; i < window.Laravel.bornInfos.length; i++) {
+            // Data[i] = { x: new Date(window.Laravel.bornInfos[i].born_day), y: window.Laravel.bornInfos[i].born_num };
+            Data[i] = { x: window.Laravel.bornInfos[i].born_day, y: window.Laravel.bornInfos[i].born_num };
+        }
+        
+        console.log(Data);
         // ここからボタン試作
         // getItemメソッドでlocalStorageからデータを取得
         let n = localStorage.getItem('count');

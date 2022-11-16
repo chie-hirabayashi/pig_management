@@ -5098,7 +5098,7 @@ __webpack_require__.r(__webpack_exports__);
 // sample
 var num = Laravel.array;
 var bornDay = Laravel.bornInfos.map(function (bornInfo) {
-  return bornInfo.born_day;
+  return new Date(bornInfo.born_day);
 });
 var bornNum = Laravel.bornInfos.map(function (bornInfo) {
   return bornInfo.born_num;
@@ -5106,47 +5106,87 @@ var bornNum = Laravel.bornInfos.map(function (bornInfo) {
 var rotate = Laravel.bornInfos.map(function (bornInfo) {
   return bornInfo.rotate;
 });
+var data1 = {
+  label: "s1",
+  borderColor: "blue",
+  data: [{
+    x: "2021-11-06 23:39:30",
+    y: 50
+  }, {
+    x: "2021-11-07 01:00:28",
+    y: 91
+  }, {
+    x: "2021-11-07 09:00:28",
+    y: 45
+  }]
+};
+
+// var Data = [];
+// for (var i = 0; i < window.Laravel.bornInfos.length; i++) {
+//     Data[i] = {
+//         x: new Date(window.Laravel.bornInfos[i].born_day),
+//         // x: window.Laravel.bornInfos[i].born_day,
+//         y: window.Laravel.bornInfos[i].born_num,
+//     };
+// }
+
 var ctx = document.getElementById("myChart").getContext("2d");
 var myChart = new chart_js_auto__WEBPACK_IMPORTED_MODULE_0__["default"](ctx, {
   type: "line",
   data: {
-    // labels: ["月", "火曜", "水曜", "木曜", "金曜", "土曜", "日曜"],
-    labels: bornDay.reverse(),
-    datasets: [{
-      label: "産子数",
-      // data: [12, 19, 3, 5, 2, 3, -10],
-      // data: [Laravel.one, 19, 3, 5, 2, 3, -10],
-      // data: Laravel.array,
-      // data: num,
-      data: bornNum.reverse(),
-      borderColor: "rgb(75, 192, 192)",
-      backgroundColor: "rgba(75, 192, 192, 0.5)"
-    }, {
-      label: "回転数",
-      // data: [8, 9, 13, 15, 1, 14, 1],
-      data: rotate.reverse(),
-      borderColor: "rgb(153, 102, 255)",
-      backgroundColor: "rgba(153, 102, 255, 0.5)",
-      yAxisID: 'y2'
-    }]
+    // labels: bornDay.reverse(),
+    datasets: [data1
+    // {
+    //     label: "産子数",
+    //     data: Data,
+    //     borderColor: "rgb(75, 192, 192)",
+    //     backgroundColor: "rgba(75, 192, 192, 0.5)",
+    //     xAxisID: 'x',
+    // },
+    // {
+    //     label: "産子数",
+    //     data: bornNum.reverse(),
+    //     borderColor: "rgb(75, 192, 192)",
+    //     backgroundColor: "rgba(75, 192, 192, 0.5)",
+    // },
+    // {
+    //     label: "回転数",
+    //     data: rotate.reverse(),
+    //     borderColor: "rgb(153, 102, 255)",
+    //     backgroundColor: "rgba(153, 102, 255, 0.5)",
+    //     yAxisID: 'y2',
+    // },
+    ]
   },
+
   options: {
     scales: {
-      y: {
-        min: 0,
-        max: 20,
-        ticks: {
-          color: "#f88"
+      x: [{
+        type: "time",
+        time: {
+          unit: "minute",
+          unitStepSize: 60,
+          round: false,
+          displayFormats: {
+            minute: "MM/DD HH:mm"
+          }
         }
-      },
-      y2: {
-        min: 1,
-        max: 3,
-        position: "right",
-        ticks: {
-          color: "#48f"
-        }
-      }
+      }]
+      // y: {
+      //     min: 0,
+      //     max: 20,
+      //     ticks: {
+      //         color: "#f88",
+      //     }
+      // },
+      // y2: {
+      //     min: 1,
+      //     max: 3,
+      //     position: "right",
+      //     ticks: {
+      //         color: "#48f",
+      //     },
+      // },
     }
   }
 });
