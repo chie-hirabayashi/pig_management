@@ -31,29 +31,29 @@
                         回転数:{{ $conditions['first_rotate'] }}以下
                     </div>
                     <div class="mx-2">
-                        {{ $conditions['first_operator'] == 1 ? 'かつ' : 'または' }}
+                        {{ $conditions['operator'] == 1 ? 'かつ' : 'または' }}
                     </div>
                     <div class="mx-2">
                         産子数:{{ $conditions['first_num'] }}以下
                     </div>
                 </div>
-                <div class="flex max-w-lg text-gray-600 lg:text-lg text-center">
+                {{-- <div class="flex max-w-lg text-gray-600 lg:text-lg text-center">
                     <div class="mx-2">
                         {{ $conditions['operator'] == 1 ? 'かつ' : 'または' }}
                     </div>
-                </div>
+                </div> --}}
                 <div class="flex max-w-lg text-gray-600 lg:text-lg text-center">
                     <div class="mx-2">
                         前回の出産・・・
                     </div>
                     <div class="mx-2">
-                        回転数:{{ $conditions['first_rotate'] }}以下
+                        回転数:{{ $conditions['second_rotate'] }}以下
                     </div>
                     <div class="mx-2">
-                        {{ $conditions['second_operator'] == 1 ? 'かつ' : 'または' }}
+                        {{ $conditions['operator'] == 1 ? 'かつ' : 'または' }}
                     </div>
                     <div class="mx-2">
-                        産子数:{{ $conditions['first_num'] }}以下
+                        産子数:{{ $conditions['second_num'] }}以下
                     </div>
                 </div>
                 <!-- base - end -->
@@ -77,6 +77,9 @@
                                 </th>
                                 <th scope="col" class="py-3 px-6">
                                     オス2
+                                </th>
+                                <th scope="col" class="py-3 px-6">
+                                    再発、流産
                                 </th>
                                 <th scope="col" class="py-3 px-6">
                                     詳細確認
@@ -112,7 +115,10 @@
                                         {{-- nllがあって表示できない --}}
                                         {{ $extract->second_male }}
                                         {{ $extract->second_delete_male }}
-
+                                    </td>
+                                    <td class="py-3 px-6">
+                                        {{ $extract->troubles }} 回
+                                        
                                     </td>
                                     <td class="py-3 px-6">
                                         <a href="{{ route('female_pigs.show', $extract->female_pig) }}">ぼたん</a>
