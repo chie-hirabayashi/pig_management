@@ -23,39 +23,131 @@
                         抽出条件
                     </div>
                 </div>
-                <div class="flex max-w-lg text-gray-600 lg:text-lg text-center">
-                    <div class="mx-2">
-                        直前の出産・・・
+                <div>抽出方法</div>
+                @if ($conditions['condition'] == 1)
+                    <div>{{ __('condition_1') }}</div>
+                    <div class="flex max-w-lg text-gray-600 lg:text-lg text-center">
+                        <div class="mx-2">
+                            直前の出産・・・
+                        </div>
+                        <div class="mx-2">
+                            回転数:{{ $conditions['first_rotate'] }}以下
+                        </div>
+                        <div class="mx-2 text-sm">
+                            または
+                        </div>
+                        <div class="mx-2">
+                            産子数:{{ $conditions['first_num'] }}以下
+                        </div>
                     </div>
-                    <div class="mx-2">
-                        回転数:{{ $conditions['first_rotate'] }}以下
+                    <div class="flex max-w-lg text-gray-600 lg:text-lg text-center">
+                        <div class="mx-2">
+                            前回の出産・・・
+                        </div>
+                        <div class="mx-2">
+                            回転数:{{ $conditions['second_rotate'] }}以下
+                        </div>
+                        <div class="mx-2 text-sm">
+                            または
+                        </div>
+                        <div class="mx-2">
+                            産子数:{{ $conditions['second_num'] }}以下
+                        </div>
                     </div>
-                    <div class="mx-2">
-                        {{ $conditions['operator'] == 1 ? 'かつ' : 'または' }}
+                @endif
+                @if ($conditions['condition'] == 2)
+                    <div>{{ __('condition_2') }}</div>
+                    <div class="flex max-w-lg text-gray-600 lg:text-lg text-center">
+                        <div class="mx-2">
+                            直前の出産・・・
+                        </div>
+                        <div class="mx-2">
+                            回転数:{{ $conditions['first_rotate'] }}以下
+                        </div>
+                        <div class="mx-2 text-sm">
+                            または
+                        </div>
+                        <div class="mx-2">
+                            産子数:{{ $conditions['first_num'] }}以下
+                        </div>
                     </div>
-                    <div class="mx-2">
-                        産子数:{{ $conditions['first_num'] }}以下
+                    <div class="flex max-w-lg text-gray-600 lg:text-lg text-center">
+                        <div class="mx-2">
+                            前回の出産・・・
+                        </div>
+                        <div class="mx-2">
+                            回転数:{{ $conditions['second_rotate'] }}以下
+                        </div>
+                        <div class="mx-2 text-sm">
+                            または
+                        </div>
+                        <div class="mx-2">
+                            産子数:{{ $conditions['second_num'] }}以下
+                        </div>
                     </div>
-                </div>
-                {{-- <div class="flex max-w-lg text-gray-600 lg:text-lg text-center">
-                    <div class="mx-2">
-                        {{ $conditions['operator'] == 1 ? 'かつ' : 'または' }}
+                    <div class="flex max-w-lg text-gray-600 lg:text-lg text-center">
+                        <div class="mx-2">
+                            母豚条件・・・
+                        </div>
+                        <div class="mx-2">
+                            年齢:{{ $conditions['female_age'] }}歳以上
+                        </div>
+                        <div class="mx-2 text-sm">
+                            {{ $conditions['option_operator'] == 1 ? 'かつ' : 'または' }}
+                        </div>
+                        <div class="mx-2 text-sm">
+                            再発、流産の回数:{{ $conditions['trouble_num'] }}以上
+                        </div>
                     </div>
-                </div> --}}
-                <div class="flex max-w-lg text-gray-600 lg:text-lg text-center">
-                    <div class="mx-2">
-                        前回の出産・・・
+                @endif
+                @if ($conditions['condition'] == 3)
+                    <div>{{ __('condition_3') }}</div>
+                    <div class="flex max-w-lg text-gray-600 lg:text-lg text-center">
+                        <div class="mx-2">
+                            直前の出産・・・
+                        </div>
+                        <div class="mx-2">
+                            回転数:{{ $conditions['first_rotate'] }}以下
+                        </div>
+                        <div class="mx-2">
+                            かつ
+                        </div>
+                        <div class="mx-2">
+                            産子数:{{ $conditions['first_num'] }}以下
+                        </div>
                     </div>
-                    <div class="mx-2">
-                        回転数:{{ $conditions['second_rotate'] }}以下
+                @endif
+                @if ($conditions['condition'] == 4)
+                    <div>{{ __('condition_4') }}</div>
+                    <div class="flex max-w-lg text-gray-600 lg:text-lg text-center">
+                        <div class="mx-2">
+                            直前の出産・・・
+                        </div>
+                        <div class="mx-2">
+                            回転数:{{ $conditions['first_rotate'] }}以下
+                        </div>
+                        <div class="mx-2">
+                            かつ
+                        </div>
+                        <div class="mx-2">
+                            産子数:{{ $conditions['first_num'] }}以下
+                        </div>
                     </div>
-                    <div class="mx-2">
-                        {{ $conditions['operator'] == 1 ? 'かつ' : 'または' }}
+                    <div class="flex max-w-lg text-gray-600 lg:text-lg text-center">
+                        <div class="mx-2">
+                            母豚条件・・・
+                        </div>
+                        <div class="mx-2">
+                            年齢:{{ $conditions['female_age'] }}歳以上
+                        </div>
+                        <div class="mx-2">
+                            {{ $conditions['option_operator'] == 1 ? 'かつ' : 'または' }}
+                        </div>
+                        <div class="mx-2 text-sm">
+                            再発、流産の回数:{{ $conditions['trouble_num'] }}以上
+                        </div>
                     </div>
-                    <div class="mx-2">
-                        産子数:{{ $conditions['second_num'] }}以下
-                    </div>
-                </div>
+                @endif
                 <!-- base - end -->
 
                 <!-- border - start -->
@@ -65,6 +157,9 @@
                             <tr>
                                 <th scope="col" class="py-3 px-6">
                                     メス個体番号
+                                </th>
+                                <th scope="col" class="py-3 px-6">
+                                    年齢
                                 </th>
                                 <th scope="col" class="py-3 px-6">
                                     回転数
@@ -94,6 +189,13 @@
                                         {{ $extract->female_pig->individual_num }}
                                     </th>
                                     <td class="py-3 px-6">
+                                        {{-- {{ $extract->female_pig->age }} --}}
+                                        <span class="text-red-500">
+                                            {{ $extract->female_pig->age >= $conditions['female_age'] ? $extract->female_pig->age . '歳' : '' }}
+                                        </span>
+                                        {{ $extract->female_pig->age >= $conditions['female_age'] ? '' : $extract->female_pig->age . '歳' }}
+                                    </td>
+                                    <td class="py-3 px-6">
                                         <span class="text-red-500">
                                             {{ $extract->rotate <= $conditions['first_rotate'] ? $extract->rotate . '回' : '' }}
                                         </span>
@@ -103,7 +205,7 @@
                                         <span class="text-red-500">
                                             {{ $extract->born_num <= $conditions['first_num'] ? $extract->born_num . '匹' : '' }}
                                         </span>
-                                            {{ $extract->born_num <= $conditions['first_num'] ? '' : $extract->born_num . '匹'}}
+                                        {{ $extract->born_num <= $conditions['first_num'] ? '' : $extract->born_num . '匹' }}
                                     </td>
                                     <td class="py-3 px-6">
                                         {{-- 論理削除は呼び出せない --}}
@@ -117,8 +219,12 @@
                                         {{ $extract->second_delete_male }}
                                     </td>
                                     <td class="py-3 px-6">
-                                        {{ $extract->troubles }} 回
-                                        
+                                        <span class="text-red-500">
+                                            {{ $extract->troubles >= $conditions['trouble_num'] ? $extract->troubles . '回' : '' }}
+                                        </span>
+                                        {{ $extract->troubles >= $conditions['trouble_num'] ? '' : $extract->troubles . '回' }}
+                                        {{-- {{ $extract->troubles }} 回 --}}
+
                                     </td>
                                     <td class="py-3 px-6">
                                         <a href="{{ route('female_pigs.show', $extract->female_pig) }}">ぼたん</a>
