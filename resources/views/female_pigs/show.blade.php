@@ -53,7 +53,7 @@
                 <!-- schedule - start -->
                 <div class="text-gray-600">
                     <h2 class="text-center">予 定</h2>
-                    @if ($mixInfo && empty($mixInfo->born_day))
+                    @if ($mixInfo && empty($mixInfo->born_day) && $mixInfo->trouble_id == 1)
                         <div class="flex">
                             <div class="mr-4">
                                 再発予定日1 : {{ $mixInfo->first_recurrence_schedule }}
@@ -401,7 +401,13 @@
         </table>
         <!-- born_table - end -->
     </div>
-    <p class="text-blue-600">グラフ</p>
+
+{{-- <section --}}
+    
+    {{-- <div class="bg-white py-6 sm:py-8 lg:py-12"> --}}
+    <div class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-10 px-8 py-4 bg-white rounded shadow-md dark:bg-gray-800">
+        <canvas id="myChart"></canvas>
+    </div>
 
     <div class="overflow-x-auto relative shadow-md sm:rounded-lg mt-8">
         <!-- mix_table - start -->
@@ -515,19 +521,32 @@
 
     <!-- script - start -->
     <script>
-        // var len = history.length;
-        // var ref = document.referrer;
-        // document.write("履歴の長さ: <em>" + len + "<\/em>\n");
+        // const born_info = @json($born_info);
+        window.Laravel = {};
+        window.Laravel.bornInfos = @json($born_infos);
 
+        // window.Laravel.bornInfos.forEach(bornInfo => {
+        //     window.Laravel.bornNum = bornInfo.born_num;
+        //     console.log(bornInfo.born_num);
+        // });
+
+        const Num = window.Laravel.bornInfos.filter(bornInfo => bornInfo.born_num);
+        console.log(Num);
+
+        Data = [];
+        for (var i = 0; i < window.Laravel.bornInfos.length; i++) {
+            // Data[i] = { x: new Date(window.Laravel.bornInfos[i].born_day), y: window.Laravel.bornInfos[i].born_num };
+            Data[i] = { x: window.Laravel.bornInfos[i].born_day, y: window.Laravel.bornInfos[i].born_num };
+        }
+        
+        console.log(Data);
+        // ここからボタン試作
         // getItemメソッドでlocalStorageからデータを取得
         let n = localStorage.getItem('count');
-        //データの値を判定
         if (n === null) {
-            //データが何もない場合「1」を代入
-            n = 1;
+            n = 1; //データが何もない場合「1」を代入
         } else {
-            //データがある場合「1」をプラス
-            n++;
+            n++; //データがある場合「1」をプラス
         }
         //setItemメソッドでlocalStorageにデータを保存
         localStorage.setItem('count', n);
@@ -542,5 +561,6 @@
             return false;
         });
     </script>
+    <script src="{{ mix('js/app.js') }}"></script>
     <!-- script - end -->
 </x-app-layout>
