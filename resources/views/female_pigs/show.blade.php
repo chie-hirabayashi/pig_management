@@ -53,7 +53,7 @@
                 <!-- schedule - start -->
                 <div class="text-gray-600">
                     <h2 class="text-center">予 定</h2>
-                    @if ($mixInfo && empty($mixInfo->born_day))
+                    @if ($mixInfo && empty($mixInfo->born_day) && $mixInfo->trouble_id == 1)
                         <div class="flex">
                             <div class="mr-4">
                                 再発予定日1 : {{ $mixInfo->first_recurrence_schedule }}

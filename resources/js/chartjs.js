@@ -50,14 +50,14 @@ const myChart = new Chart(ctx, {
         scales: {
             y: {
                 min: 0,
-                max: 20,
+                max: 30,
                 ticks: {
                     color: "rgb(75, 192, 192)",
                     // color: "#f88",
                 },
             },
             y2: {
-                min: 1,
+                min: 0,
                 max: 3,
                 position: "right",
                 ticks: {
