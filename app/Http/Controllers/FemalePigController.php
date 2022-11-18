@@ -33,7 +33,8 @@ class FemalePigController extends Controller
         foreach ($femalePigs as $femalePig) {
             $mixInfo = $femalePig->mix_infos->last();
             // $today = Carbon::now(); //本設定
-            $today = Carbon::create('2022-08-01'); //仮設定
+            $today = Carbon::create('2022-10-25'); //仮設定
+            // $today = Carbon::create('2022-8-1'); //仮設定
 
             if (!empty($mixInfo->mix_day)) {
                 $mix_day = Carbon::create($mixInfo->mix_day);
