@@ -13664,6 +13664,11 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var chart_js_auto__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! chart.js/auto */ "./node_modules/chart.js/auto/auto.mjs");
 
+
+// const bornDay = Laravel.bornInfos.map(
+//     (bornInfo) => new Date(bornInfo.born_day)
+// );
+
 var bornDay = Laravel.bornInfos.map(function (bornInfo) {
   return bornInfo.born_day;
 });
@@ -13673,12 +13678,32 @@ var bornNum = Laravel.bornInfos.map(function (bornInfo) {
 var rotate = Laravel.bornInfos.map(function (bornInfo) {
   return bornInfo.rotate;
 });
+
+// var Data = [];
+// for (var i = 0; i < window.Laravel.bornInfos.length; i++) {
+//     Data[i] = {
+//         x: new Date(window.Laravel.bornInfos[i].born_day),
+//         // x: window.Laravel.bornInfos[i].born_day,
+//         y: window.Laravel.bornInfos[i].born_num,
+//     };
+// }
+
 var ctx = document.getElementById("myChart").getContext("2d");
 var myChart = new chart_js_auto__WEBPACK_IMPORTED_MODULE_0__["default"](ctx, {
   type: "line",
   data: {
     labels: bornDay.reverse(),
-    datasets: [{
+    datasets: [
+    // data1,
+    // {
+    //     label: "産子数",
+    //     data: Data,
+    //     borderColor: "rgb(75, 192, 192)",
+    //     backgroundColor: "rgba(75, 192, 192, 0.5)",
+    //     xAxisID: 'x',
+    // },
+
+    {
       label: "産子数",
       data: bornNum.reverse(),
       borderColor: "rgb(75, 192, 192)",
