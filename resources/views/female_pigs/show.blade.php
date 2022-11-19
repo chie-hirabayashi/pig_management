@@ -521,45 +521,17 @@
 
     <!-- script - start -->
     <script>
-        // const born_info = @json($born_info);
         window.Laravel = {};
         window.Laravel.bornInfos = @json($born_infos);
-
-        // window.Laravel.bornInfos.forEach(bornInfo => {
-        //     window.Laravel.bornNum = bornInfo.born_num;
-        //     console.log(bornInfo.born_num);
-        // });
-
-        const Num = window.Laravel.bornInfos.filter(bornInfo => bornInfo.born_num);
-        console.log(Num);
+        window.Laravel.mixInfos = @json($mixInfos);
 
         Data = [];
-        for (var i = 0; i < window.Laravel.bornInfos.length; i++) {
-            // Data[i] = { x: new Date(window.Laravel.bornInfos[i].born_day), y: window.Laravel.bornInfos[i].born_num };
-            Data[i] = { x: window.Laravel.bornInfos[i].born_day, y: window.Laravel.bornInfos[i].born_num };
+        // for (var i = 0; i < window.Laravel.bornInfos.length; i++) {
+        for (var i = 0; i < window.Laravel.mixInfos.length; i++) {
+            Data[i] = { x: window.Laravel.mixInfos[i].trouble_day, y: window.Laravel.mixInfos[i].trouble_id };
         }
-        
         console.log(Data);
-        // ここからボタン試作
-        // getItemメソッドでlocalStorageからデータを取得
-        let n = localStorage.getItem('count');
-        if (n === null) {
-            n = 1; //データが何もない場合「1」を代入
-        } else {
-            n++; //データがある場合「1」をプラス
-        }
-        //setItemメソッドでlocalStorageにデータを保存
-        localStorage.setItem('count', n);
-        //コンソールで値を表示
-        console.log(n);
-
-        localStorage.clear();
-
-        const back = document.getElementById('btn--back');
-        back.addEventListener('click', (e) => {
-            history.back();
-            return false;
-        });
+        
     </script>
     <script src="{{ mix('js/chartjs.js') }}"></script>
     <!-- script - end -->

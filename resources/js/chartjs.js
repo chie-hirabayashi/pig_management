@@ -4,16 +4,32 @@ import Chart from "chart.js/auto";
 //     (bornInfo) => new Date(bornInfo.born_day)
 // );
 
-const bornDay = Laravel.bornInfos.map((bornInfo) => bornInfo.born_day);
-const bornNum = Laravel.bornInfos.map((bornInfo) => bornInfo.born_num);
-const rotate = Laravel.bornInfos.map((bornInfo) => bornInfo.rotate);
+// const bornDay = Laravel.bornInfos.map((bornInfo) => bornInfo.born_day);
+// const bornNum = Laravel.bornInfos.map((bornInfo) => bornInfo.born_num);
+// const rotate = Laravel.bornInfos.map((bornInfo) => bornInfo.rotate);
+// const troubleDay = Laravel.mixInfos.map((mixInfo) => mixinfo.trouble_id);
 
-// var Data = [];
-// for (var i = 0; i < window.Laravel.bornInfos.length; i++) {
-//     Data[i] = {
-//         x: new Date(window.Laravel.bornInfos[i].born_day),
-//         // x: window.Laravel.bornInfos[i].born_day,
-//         y: window.Laravel.bornInfos[i].born_num,
+var bornNum = [];
+for (var i = 0; i < window.Laravel.bornInfos.length; i++) {
+    bornNum[i] = {
+        // x: new Date(window.Laravel.bornInfos[i].born_day),
+        x: window.Laravel.bornInfos[i].born_day,
+        y: window.Laravel.bornInfos[i].born_num,
+    };
+}
+var rotate = [];
+for (var i = 0; i < window.Laravel.bornInfos.length; i++) {
+    rotate[i] = {
+        // x: new Date(window.Laravel.bornInfos[i].rotate),
+        x: window.Laravel.bornInfos[i].rotate,
+        y: window.Laravel.bornInfos[i].rotate,
+    };
+}
+// var trouble = [];
+// for (var i = 0; i < window.Laravel.mixInfos.length; i++) {
+//     trouble[i] = {
+//         x: window.Laravel.mixInfos[i].trouble_day,
+//         y: window.Laravel.mixInfos[i].trouble_id,
 //     };
 // }
 
@@ -21,18 +37,8 @@ const ctx = document.getElementById("myChart").getContext("2d");
 const myChart = new Chart(ctx, {
     type: "line",
     data: {
-        labels: bornDay.reverse(),
+        // labels: bornDay.reverse(),
         datasets: [
-
-            // data1,
-            // {
-            //     label: "産子数",
-            //     data: Data,
-            //     borderColor: "rgb(75, 192, 192)",
-            //     backgroundColor: "rgba(75, 192, 192, 0.5)",
-            //     xAxisID: 'x',
-            // },
-
             {
                 label: "産子数",
                 data: bornNum.reverse(),
@@ -47,10 +53,40 @@ const myChart = new Chart(ctx, {
                 backgroundColor: "rgba(153, 102, 255, 0.5)",
                 yAxisID: "y2",
             },
+            // {
+            //     label: "異常",
+            //     data: trouble.reverse(),
+            //     borderColor: "rgb(153, 102, 255)",
+            //     backgroundColor: "rgba(153, 102, 255, 0.5)",
+            //     yAxisID: "y3",
+            // },
+
+            // {
+            //     label: "産子数",
+            //     data: bornNum.reverse(),
+            //     borderColor: "rgb(75, 192, 192)",
+            //     backgroundColor: "rgba(75, 192, 192, 0.5)",
+            //     yAxisID: "y",
+            // },
+            // {
+            //     label: "回転数",
+            //     data: rotate.reverse(),
+            //     borderColor: "rgb(153, 102, 255)",
+            //     backgroundColor: "rgba(153, 102, 255, 0.5)",
+            //     yAxisID: "y2",
+            // },
         ],
     },
     options: {
         scales: {
+            // x: [
+            //     {
+            //         type: "time",
+            //         time: {
+            //             unit: "day",
+            //         },
+            //     },
+            // ],
             y: {
                 min: 0,
                 max: 30,
@@ -68,6 +104,15 @@ const myChart = new Chart(ctx, {
                     // color: "#48f",
                 },
             },
+            // y3: {
+            //     min: 1.5,
+            //     max: 3.5,
+            //     position: "right",
+            //     ticks: {
+            //         // color: "rgb(153, 102, 255)",
+            //         color: "#48f",
+            //     },
+            // },
         },
     },
 });
