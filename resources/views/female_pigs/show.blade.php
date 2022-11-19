@@ -561,6 +561,6 @@
             return false;
         });
     </script>
-    <script src="{{ mix('js/app.js') }}"></script>
+    <script src="{{ mix('js/chartjs.js') }}"></script>
     <!-- script - end -->
 </x-app-layout>

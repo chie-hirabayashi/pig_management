@@ -3,6 +3,7 @@ import Chart from "chart.js/auto";
 // const bornDay = Laravel.bornInfos.map(
 //     (bornInfo) => new Date(bornInfo.born_day)
 // );
+
 const bornDay = Laravel.bornInfos.map((bornInfo) => bornInfo.born_day);
 const bornNum = Laravel.bornInfos.map((bornInfo) => bornInfo.born_num);
 const rotate = Laravel.bornInfos.map((bornInfo) => bornInfo.rotate);
@@ -22,6 +23,7 @@ const myChart = new Chart(ctx, {
     data: {
         labels: bornDay.reverse(),
         datasets: [
+
             // data1,
             // {
             //     label: "産子数",
@@ -30,6 +32,7 @@ const myChart = new Chart(ctx, {
             //     backgroundColor: "rgba(75, 192, 192, 0.5)",
             //     xAxisID: 'x',
             // },
+
             {
                 label: "産子数",
                 data: bornNum.reverse(),
