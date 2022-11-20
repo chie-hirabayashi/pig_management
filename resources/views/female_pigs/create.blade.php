@@ -42,6 +42,10 @@
             <div class="flex justify-end mt-6">
                 <input type="submit" value="登 録"
                     class="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-indigo-500 rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-gray-600">
+                {{-- <button type="submit"
+                    class="ZenMaruGothic text-gray-700 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg px-8 py-2.5 text-center mr-2 mb-2">
+                    登 録
+                </button> --}}
             </div>
             <!-- button - end -->
         </form>

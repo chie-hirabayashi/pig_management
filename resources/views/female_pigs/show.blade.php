@@ -321,21 +321,23 @@
     </div>
 
 
-    <div class="overflow-x-auto relative shadow-md sm:rounded-lg my-8">
+    {{-- <div class="overflow-x-auto relative shadow-md sm:rounded-lg my-8"> --}}
+    <div class="overflow-x-auto relative shadow-md my-8">
         <!-- born_table - start -->
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr class="bg-stone-400 border-b dark:bg-gray-800 dark:border-gray-700 whitespace-nowrap">
-                    <th scope="col" class="text-xl text-white p-3 px-8">出産情報</th>
-                    <th scope="col" class="py-3 px-6"></th>
-                    <th scope="col" class="py-3 px-6"></th>
-                    <th scope="col" class="py-3 px-6"></th>
-                    <th scope="col" class="py-3 px-6"></th>
-                    <td class="items-center text-center py-4 px-6 space-x-3">
+                <tr
+                    class="bg-gray-100 border-b border-gray-400 dark:bg-gray-800 dark:border-gray-700 whitespace-nowrap">
+                    <th scope="col" class="ZenMaruGothic text-xl text-gray-600 py-2 px-8">出 産 情 報</th>
+                    <th scope="col" class=" px-6"></th>
+                    <th scope="col" class=" px-6"></th>
+                    <th scope="col" class=" px-6"></th>
+                    <th scope="col" class=" px-6"></th>
+                    <td class="items-center text-center py-2 px-6 space-x-3">
                         {{-- @can('update', $post) --}}
                         @if ($mixInfo)
                             <a href="{{ route('born_infos.create', $mixInfo) }}"
-                                class="text-base text-white dark:text-blue-500 hover:underline">新規登録</a>
+                                class="text-base text-gray-700 dark:text-blue-500 border-gray-600 hover:border-b-2">出産登録</a>
                         @endif
                         {{-- @endcan --}}
                     </td>
@@ -384,15 +386,16 @@
                         <td class="py-4 px-6">
                             {{ $born_info->rotate }}
                         </td>
-                        <td class="flex items-center py-4 px-6 space-x-3">
+                        {{-- <td class="flex flex-row items-center py-4 px-6 space-x-3"> --}}
+                        <td class="flex flex-row items-center py-4 px-6">
                             <a href="{{ route('born_infos.edit', $born_info) }}"
-                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">編 集</a>
+                                class="basis-1/2 font-medium text-blue-600 dark:text-blue-500 hover:underline">編 集</a>
                             <form action="{{ route('born_infos.destroy', $born_info) }}" method="post">
                                 @csrf
                                 @method('PATCH')
                                 <input type="submit" value="削 除"
                                     onclick="if(!confirm('出産情報を削除しますか？')){return false};"
-                                    class="font-medium text-red-600 dark:text-red-500 hover:underline">
+                                    class="basis-1/2 font-medium text-red-600 dark:text-red-500 hover:underline">
                             </form>
                         </td>
                     </tr>
@@ -402,19 +405,26 @@
         <!-- born_table - end -->
     </div>
 
-{{-- <section --}}
-    
+    {{-- <section --}}
+
     {{-- <div class="bg-white py-6 sm:py-8 lg:py-12"> --}}
-    <div class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-10 px-8 py-4 bg-white rounded shadow-md dark:bg-gray-800">
+    <div
+        class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-10 px-8 py-4 bg-white rounded shadow-md dark:bg-gray-800">
         <canvas id="myChart"></canvas>
     </div>
 
-    <div class="overflow-x-auto relative shadow-md sm:rounded-lg mt-8">
+    <div class="overflow-x-auto relative shadow-md my-8">
+        {{-- <div class="overflow-x-auto relative shadow-md sm:rounded-lg mt-8"> --}}
         <!-- mix_table - start -->
+        {{-- <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400"> --}}
+        {{-- <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"> --}}
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr class="bg-stone-400 border-b dark:bg-gray-800 dark:border-gray-700 whitespace-nowrap">
-                    <th scope="col" class="text-xl text-white p-3 px-8">交配記録</th>
+                <tr
+                    class="bg-gray-100 border-b border-gray-400 dark:bg-gray-800 dark:border-gray-700 whitespace-nowrap">
+                    {{-- <tr class="bg-stone-400 border-b dark:bg-gray-800 dark:border-gray-700 whitespace-nowrap"> --}}
+                    <th scope="col" class="ZenMaruGothic text-xl text-gray-600 py-2 px-8">交 配 記 録</th>
+                    {{-- <th scope="col" class="text-xl text-white p-3 px-8">交配記録</th> --}}
                     <th scope="col" class="py-3 px-6"></th>
                     <th scope="col" class="py-3 px-6"></th>
                     <th scope="col" class="py-3 px-6"></th>
@@ -423,12 +433,12 @@
                     <th scope="col" class="py-3 px-6"></th>
                     <td class="items-center text-center py-4 px-6 space-x-3">
                         {{-- @can('update', $post) --}}
-                        <a href="{{ route('female_pigs.mix_infos.create', $femalePig) }}"
-                            class="text-base text-white dark:text-blue-500 hover:underline whitespace-nowrap">新規登録</a>
+                        <a href="{{ route('female_pigs.mix_infos.create', $femalePig) }}" {{-- class="text-base text-white dark:text-blue-500 hover:underline whitespace-nowrap">新規登録</a> --}}
+                            class="text-base text-gray-700 dark:text-blue-500 border-gray-600 hover:border-b-2">交配登録</a>
                         {{-- @endcan --}}
                     </td>
                 </tr>
-                <tr class="whitespace-nowrap">
+                <tr class="border-b whitespace-nowrap">
                     <th scope="col" class="py-3 px-6">
                         交配日
                     </th>
@@ -485,16 +495,19 @@
                             <td class="py-4 px-6">
                                 {{ $mixInfo->trouble_id == 2 ? '再発' : ($mixInfo->trouble_id == 3 ? '流産' : '') }}
                             </td>
-                            <td class="flex items-center py-4 px-6 space-x-3">
+                            <td class="flex flex-row items-center py-4 px-6">
+                                {{-- <td class="flex items-center py-4 px-6 space-x-3"> --}}
                                 <a href="{{ route('female_pigs.mix_infos.edit', [$femalePig, $mixInfo]) }}"
-                                    class="font-medium text-blue-600 dark:text-blue-500 hover:underline">編 集</a>
+                                    {{-- class="font-medium text-blue-600 dark:text-blue-500 hover:underline">編 集</a> --}}
+                                    class="basis-1/2 font-medium text-blue-600 dark:text-blue-500 hover:underline">編
+                                    集</a>
                                 <form action="{{ route('female_pigs.mix_infos.destroy', [$femalePig, $mixInfo]) }}"
                                     method="post">
                                     @csrf
                                     @method('DELETE')
                                     <input type="submit" value="削 除"
                                         onclick="if(!confirm('交配記録を削除しますか？')){return false};"
-                                        class="font-medium text-red-600 dark:text-red-500 hover:underline">
+                                        class="basis-1/2 font-medium text-red-600 dark:text-red-500 hover:underline">
                                 </form>
                             </td>
                         </tr>
@@ -528,10 +541,12 @@
         Data = [];
         // for (var i = 0; i < window.Laravel.bornInfos.length; i++) {
         for (var i = 0; i < window.Laravel.mixInfos.length; i++) {
-            Data[i] = { x: window.Laravel.mixInfos[i].trouble_day, y: window.Laravel.mixInfos[i].trouble_id };
+            Data[i] = {
+                x: window.Laravel.mixInfos[i].trouble_day,
+                y: window.Laravel.mixInfos[i].trouble_id
+            };
         }
         console.log(Data);
-        
     </script>
     <script src="{{ mix('js/chartjs.js') }}"></script>
     <!-- script - end -->

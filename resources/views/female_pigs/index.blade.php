@@ -14,7 +14,7 @@
         <div class="max-w-screen-xl px-4 md:px-8 mx-auto">
             <!-- title -->
             <h2 class="text-gray-800 text-2xl lg:text-3xl font-bold text-center mb-8 md:mb-12">
-                femalePigs 一覧
+                femalePigs
             </h2>
 
             <div class="grid sm:grid-cols-5 lg:grid-cols-5 gap-y-10 sm:gap-y-12 lg:divide-x">
@@ -68,24 +68,6 @@
                         </div>
                         <!-- age & status - end -->
 
-                        <!-- alert - start -->
-                        @if ($femalePig->status == '観察中')
-                            @if (date('Y-m-d', strtotime('+3 day')) > $femalePig->mix_infos->last()->first_recurrence_schedule &&
-                                $femalePig->mix_infos->last()->first_recurrence == 0)
-                                <p class="text-red-600">再発確認</p>
-                            @endif
-                            @if (date('Y-m-d', strtotime('+3 day')) > $femalePig->mix_infos->last()->second_recurrence_schedule &&
-                                $femalePig->mix_infos->last()->second_recurrence == 0)
-                                <p class="text-red-600">再発確認</p>
-                            @endif
-
-                            {{-- 仮設定 --}}
-                            {{-- @if (date('2022-08-07', strtotime('7 day')) > $femalePig->mix_infos->last()->delivery_schedule && $femalePig->mix_infos->last()->first_recurrence == 0)
-                                <p class="text-red-600">再発確認</p>
-                            @endif --}}
-                        @endif
-                        <!-- alert - end -->
-
                         <!-- schedule - start -->
                         <div class="text-sm text-gray-500">
                             @if ($femalePig->status == '観察中')
@@ -97,6 +79,19 @@
                             @endif
                         </div>
                         <!-- schedule - end -->
+
+                        <!-- alert - start -->
+                        @if ($femalePig->status == '観察中')
+                            @if (date('Y-m-d', strtotime('+3 day')) > $femalePig->mix_infos->last()->first_recurrence_schedule &&
+                                $femalePig->mix_infos->last()->first_recurrence == 0)
+                                <p class="text-sm text-red-600">再発確認！</p>
+                            @endif
+                            @if (date('Y-m-d', strtotime('+3 day')) > $femalePig->mix_infos->last()->second_recurrence_schedule &&
+                                $femalePig->mix_infos->last()->second_recurrence == 0)
+                                <p class="text-sm text-red-600">再発確認！</p>
+                            @endif
+                        @endif
+                        <!-- alert - end -->
                     </div>
                 @endforeach
             </div>

@@ -14,8 +14,11 @@
         <div class="max-w-screen-xl px-4 md:px-8 mx-auto">
             <!-- title -->
             <h2 class="text-gray-800 text-2xl lg:text-3xl font-bold text-center mb-8 md:mb-12">
-                malePigs 一覧
+                malePigs
             </h2>
+            <h2 class="text-2xl Comfortaa">漢字</h2>
+            <h2 class="text-2xl MplusRound">漢字</h2>
+            <h2 class="text-2xl ZenMaruGothic">漢字</h2>
 
             <div class="grid sm:grid-cols-5 lg:grid-cols-5 gap-y-10 sm:gap-y-12 lg:divide-x">
                 @foreach ($malePigs as $malePig)
