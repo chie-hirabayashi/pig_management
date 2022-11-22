@@ -1,4 +1,5 @@
 <x-app-layout>
+    TODO:インポートコントローラにリクエスト追加
     <!-- header - start -->
     <x-slot name="header">
         <h2 class="">
@@ -13,52 +14,6 @@
     <!-- validation - end -->
 
     <!-- body - start -->
-    
-
-    <div class="bg-white py-6 sm:py-8 lg:py-12">
-        <!-- base_information - start -->
-        <div class="max-w-screen-2xl px-4 md:px-8 mx-auto">
-            <div class="flex flex-col items-center gap-4 md:gap-6">
-                <!-- base - start -->
-                <div class="text-3xl text-gray-500 active:text-gray-600 transition duration-100">
-                    <div class="w-auto h-6 sm:h-8" width="173" height="39" viewBox="0 0 173 39"
-                        fill="currentColor">
-                        インポートフォーム
-                    </div>
-                </div>
-
-                <!-- edit&delete - start -->
-                <div class="flex flex-row text-center my-4">
-                    {{-- @can('update', $post) --}}
-                    {{-- <a href="{{ route('female_pigs.edit', $femalePig) }}" --}}
-                    {{-- class="bg-blue-400 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20 mr-2"> --}}
-                    {{-- 編 集 --}}
-                    {{-- </a> --}}
-                    {{-- @endcan --}}
-                    {{-- @can('delete', $post) --}}
-                    {{-- <form action="{{ route('female_pigs.destroy', $femalePig) }}" method="post"> --}}
-                    {{-- @csrf
-                        @method('DELETE')
-                        <input type="submit" value="廃 用" onclick="if(!confirm('廃用にしますか？')){return false};"
-                            class="bg-pink-400 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20 mr-2">
-                    </form> --}}
-                </div>
-                <!-- edit&delete - end -->
-
-                <!-- quote - start -->
-                <div class="flex flex-col sm:flex-row items-center gap-2 md:gap-3">
-                    <div>
-                        <div class="text-indigo-500 text-sm md:text-base font-bold text-center sm:text-left">John
-                            McCulling</div>
-                        <p class="text-gray-500 text-sm md:text-sm text-center sm:text-left">CEO / Datadrift</p>
-                    </div>
-                </div>
-                <!-- quote - end -->
-            </div>
-        </div>
-        <!-- base_information - end -->
-    </div>
-
     <div class="bg-white py-6 sm:py-8 lg:py-12">
         <div class="max-w-screen-2xl px-4 md:px-8 mx-auto">
             <!-- text - start -->
@@ -71,110 +26,137 @@
                     but is random or otherwise generated.</p>
             </div>
             <!-- text - end -->
-                <div>
-                </div>
-                <div>
-                </div>
 
-            <div class="grid sm:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-8">
+            <div class="grid sm:grid-cols-2 xl:grid-cols-2 gap-4 md:gap-8">
                 <!-- femalePig_data - start -->
                 <div class="flex flex-col border rounded-lg p-4 md:p-6">
-                    <h3 class="text-lg md:text-xl font-semibold mb-2">
-                        FemalePig_data
+                    <h3 class="text-lg md:text-xl MplusRound mb-2">
+                        母豚データのインポート
                     </h3>
-                    <p class="text-gray-500 mb-4">母豚データのインポート、エクスポートはこちらから</p>
+                    <p class="text-sm text-gray-500 mb-4">エクセルファイルを選択して取込をクリックするとインポートが開始されます</p>
                     <form method="post" action="{{ route('female_pigs.import') }}" enctype="multipart/form-data">
                         @csrf
-                        <input type="file" name="excel_file"><br>
-                        <input type="submit" value="インポート"
-                            class="text-indigo-500 hover:text-indigo-600 active:text-indigo-700 font-bold transition duration-100 mt-auto">
+                        <input type="file" name="excel_file">
+                        <!-- button - start -->
+                        <div class="flex justify-end mt-6">
+                            <button type="submit"
+                                class="px-6 py-2 leading-5 text-white transition-colors duration-300 transform bg-indigo-500 rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-gray-600">
+                                <i class="fa-solid fa-file-import"></i>
+                                &ensp;取 込
+                            </button>
+                        </div>
+                        <!-- button - end -->
                     </form>
-                    <p class="text-sm text-gray-500 mb-4">エクセルファイルを選択してインポートをクリックするとインポートが開始されます</p>
+                </div>
+                <!-- femalePig_data - end -->
+                
+                <!-- femalePig_data - start -->
+                <div class="flex flex-col border rounded-lg p-4 md:p-6">
+                    <h3 class="text-lg md:text-xl MplusRound mb-2">
+                        母豚データのエクスポート
+                    </h3>
+                    <p class="text-sm text-gray-500 mb-4">エクセルファイルが出力されます</p>
                     <form method="post" action="{{ route('female_pigs.export') }}">
                         @csrf
-                        <input type="submit" value="エクスポート"
-                            class="text-indigo-500 hover:text-indigo-600 active:text-indigo-700 font-bold transition duration-100 mt-auto">
-                    <p class="text-sm text-gray-500 mb-4">エクスポートをクリックするとエクセルファイルが出力されます</p>
+                        <!-- button - start -->
+                        <div class="flex justify-end mt-6">
+                            <button type="submit"
+                                class="px-6 py-2 leading-5 text-white transition-colors duration-300 transform bg-indigo-500 rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-gray-600">
+                                出 力&ensp;
+                                <i class="fa-solid fa-file-export"></i>
+                            </button>
+                        </div>
+                        <!-- button - end -->
                     </form>
                 </div>
                 <!-- femalePig_data - end -->
 
-                <!-- femalePig_data - start -->
+                <!-- malePig_data - start -->
                 <div class="flex flex-col border rounded-lg p-4 md:p-6">
-                    <h3 class="text-lg md:text-xl font-semibold mb-2">
-                        MalePig_data
+                    <h3 class="text-lg md:text-xl MplusRound mb-2">
+                        父豚データのインストール
                     </h3>
-                    <p class="text-gray-500 mb-4">父豚データのインポート、エクスポートはこちらから</p>
+                    <p class="text-sm text-gray-500 mb-4">エクセルファイルを選択して取込をクリックするとインポートが開始されます</p>
                     <form method="post" action="{{ route('male_pigs.import') }}" enctype="multipart/form-data">
                         @csrf
                         <input type="file" name="excel_file"><br>
-                        <input type="submit" value="インポート"
-                            class="text-indigo-500 hover:text-indigo-600 active:text-indigo-700 font-bold transition duration-100 mt-auto">
-                    </form>
-                    <p class="text-sm text-gray-500 mb-4">エクセルファイルを選択してインポートをクリックするとインポートが開始されます</p>
-                    <form method="post" action="{{ route('male_pigs.export') }}">
-                        @csrf
-                        <input type="submit" value="エクスポート"
-                            class="text-indigo-500 hover:text-indigo-600 active:text-indigo-700 font-bold transition duration-100 mt-auto">
-                    <p class="text-sm text-gray-500 mb-4">エクスポートをクリックするとエクセルファイルが出力されます</p>
+                        <!-- button - start -->
+                        <div class="flex justify-end mt-6">
+                            <button type="submit"
+                                class="px-6 py-2 leading-5 text-white transition-colors duration-300 transform bg-indigo-500 rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-gray-600">
+                                <i class="fa-solid fa-file-import"></i>
+                                &ensp;取 込
+                            </button>
+                        </div>
+                        <!-- button - end -->
                     </form>
                 </div>
-                <!-- femalePig_data - end -->
+                <!-- malePig_data - end -->
+
+                <!-- malePig_data - start -->
+                <div class="flex flex-col border rounded-lg p-4 md:p-6">
+                    <h3 class="text-lg md:text-xl MplusRound mb-2">
+                        父豚データのエクスポート
+                    </h3>
+                    <p class="text-sm text-gray-500 mb-4">エクセルファイルが出力されます</p>
+                    <form method="post" action="{{ route('male_pigs.export') }}">
+                        @csrf
+                        <!-- button - start -->
+                        <div class="flex justify-end mt-6">
+                            <button type="submit"
+                                class="px-6 py-2 leading-5 text-white transition-colors duration-300 transform bg-indigo-500 rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-gray-600">
+                                出 力&ensp;
+                                <i class="fa-solid fa-file-export"></i>
+                            </button>
+                        </div>
+                        <!-- button - end -->
+                    </form>
+                </div>
+                <!-- malePig_data - end -->
 
                 <!-- mix_info - start -->
                 <div class="flex flex-col border rounded-lg p-4 md:p-6">
-                    <h3 class="text-lg md:text-xl font-semibold mb-2">
-                        交配・出産記録簿
+                    <h3 class="text-lg md:text-xl MplusRound mb-2">
+                        交配・出産記録簿のインポート
                     </h3>
-                    <p class="text-gray-500 mb-4">交配・出産記録簿のインポート、エクスポートはこちらから</p>
+                    <p class="text-sm text-gray-500 mb-4">エクセルファイルを選択して取込をクリックするとインポートが開始されます</p>
                     <form method="post" action="{{ route('mix_infos.import') }}" enctype="multipart/form-data">
                         @csrf
                         <input type="file" name="excel_file"><br>
-                        <input type="submit" value="インポート"
-                            class="text-indigo-500 hover:text-indigo-600 active:text-indigo-700 font-bold transition duration-100 mt-auto">
+                        <!-- button - start -->
+                        <div class="flex justify-end mt-6">
+                            <button type="submit"
+                                class="px-6 py-2 leading-5 text-white transition-colors duration-300 transform bg-indigo-500 rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-gray-600">
+                                <i class="fa-solid fa-file-import"></i>
+                                &ensp;取 込
+                            </button>
+                        </div>
+                        <!-- button - end -->
                     </form>
-                    <p class="text-sm text-gray-500 mb-4">エクセルファイルを選択してインポートをクリックするとインポートが開始されます</p>
+                </div>
+                <!-- feature - end -->
+
+                <!-- mix_info - start -->
+                <div class="flex flex-col border rounded-lg p-4 md:p-6">
+                    <h3 class="text-lg md:text-xl MplusRound mb-2">
+                        交配・出産記録簿のエクスポート
+                    </h3>
+                    <p class="text-sm text-gray-500 mb-4">エクセルファイルが出力されます</p>
                     <form method="post" action="{{ route('mix_infos.export') }}">
                         @csrf
-                        <input type="submit" value="エクスポート"
-                            class="text-indigo-500 hover:text-indigo-600 active:text-indigo-700 font-bold transition duration-100 mt-auto">
-                    <p class="text-sm text-gray-500 mb-4">エクスポートをクリックするとエクセルファイルが出力されます</p>
+                        <!-- button - start -->
+                        <div class="flex justify-end mt-6">
+                            <button type="submit"
+                                class="px-6 py-2 leading-5 text-white transition-colors duration-300 transform bg-indigo-500 rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-gray-600">
+                                出 力&ensp;
+                                <i class="fa-solid fa-file-export"></i>
+                            </button>
+                        </div>
+                        <!-- button - end -->
                     </form>
-                    
-                </div>
-                <!-- feature - end -->
-
-                <!-- feature - start -->
-                <div class="flex flex-col border rounded-lg p-4 md:p-6">
-                    <h3 class="text-lg md:text-xl font-semibold mb-2">Speed</h3>
-                    <p class="text-gray-500 mb-4">Filler text is dummy text which has no meaning however looks very
-                        similar to real text.</p>
-                    <a href="#"
-                        class="text-indigo-500 hover:text-indigo-600 active:text-indigo-700 font-bold transition duration-100 mt-auto">More</a>
-                </div>
-                <!-- feature - end -->
-
-                <!-- feature - start -->
-                <div class="flex flex-col border rounded-lg p-4 md:p-6">
-                    <h3 class="text-lg md:text-xl font-semibold mb-2">Support</h3>
-                    <p class="text-gray-500 mb-4">Filler text is dummy text which has no meaning however looks very
-                        similar to real text.</p>
-                    <a href="#"
-                        class="text-indigo-500 hover:text-indigo-600 active:text-indigo-700 font-bold transition duration-100 mt-auto">More</a>
-                </div>
-                <!-- feature - end -->
-
-                <!-- feature - start -->
-                <div class="flex flex-col border rounded-lg p-4 md:p-6">
-                    <h3 class="text-lg md:text-xl font-semibold mb-2">Dark Mode</h3>
-                    <p class="text-gray-500 mb-4">Filler text is dummy text which has no meaning however looks very
-                        similar to real text.</p>
-                    <a href="#"
-                        class="text-indigo-500 hover:text-indigo-600 active:text-indigo-700 font-bold transition duration-100 mt-auto">More</a>
                 </div>
                 <!-- feature - end -->
             </div>
         </div>
     </div>
-
 </x-app-layout>

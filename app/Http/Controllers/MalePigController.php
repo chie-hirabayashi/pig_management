@@ -20,7 +20,93 @@ class MalePigController extends Controller
      */
     public function index()
     {
-        $malePigs = MalePig::all();
+        $malePigs = MalePig::with('first_mix_infos')
+            ->with('second_mix_infos')
+            ->get();
+
+        foreach ($malePigs as $malePig) {
+            // 交配率算出
+            $first_mixs = $malePig->first_mix_infos;
+            $second_mixs = $malePig->second_mix_infos;
+            $first_noTroubles = $malePig->first_mix_infos->where(
+                'trouble_id',
+                1
+            );
+            $second_noTroubles = $malePig->second_mix_infos->where(
+                'trouble_id',
+                1
+            );
+            $mix_probability =
+                (count($first_noTroubles) + count($second_noTroubles)) /
+                (count($first_mixs) + count($second_mixs));
+
+            // 交配率セット
+            $malePig->mix_probability = round($mix_probability * 100, 0);
+            // dd($first_mixs);
+
+            // 交配相手をカウント
+            $first_females = $first_mixs->groupBy('female_id');
+            $second_females = $second_mixs->groupBy('female_id');
+            $first_noTrouble_females = $first_noTroubles->groupBy('female_id');
+            $second_noTrouble_females = $second_noTroubles->groupBy(
+                'female_id'
+            );
+            // dd($first_females[93]);
+            // dd($first_noTrouble_females);
+
+            // 1回目の交配と2回目の交配を統合(経過異常含む)
+            foreach ($first_females as $key1 => $val1) {
+                foreach ($second_females as $key2 => $val2) {
+                    if ($key1 == $key2) {
+                        for ($i = 0; $i < count($val2); $i++) {
+                            $first_females[$key1][] = $val2[$i];
+                        }
+                    }
+                }
+            }
+
+            // 1回目の交配と2回目の交配を統合(経過が順調なものだけ)
+            foreach ($first_noTrouble_females as $key1 => $val1) {
+                foreach ($second_noTrouble_females as $key2 => $val2) {
+                    if ($key1 == $key2) {
+                        for ($i = 0; $i < count($val2); $i++) {
+                            $first_noTrouble_females[$key1][] = $val2[$i];
+                        }
+                    }
+                }
+            }
+            // dd($first_noTrouble_females);
+            // $mix_females_all = $first_females;
+            // dd($mix_females_all);
+
+            // objectからarrayに整理(female_id => 交配回数)
+            $mix_females_all = [];
+            foreach ($first_females as $key => $val) {
+                $mix_females_all[$key] = count($val);
+            }
+
+            // objectからarrayに整理(female_id => 交配回数)
+            $mix_females_noTrouble = [];
+            foreach ($first_noTrouble_females as $key => $val) {
+                $mix_females_noTrouble[$key] = count($val);
+            }
+
+            foreach ($mix_females_all as $key1 => $val1) {
+                foreach ($mix_females_noTrouble as $key2 => $val2) {
+                    if ($key1 == $key2) {
+                        // $mix_females_all[$key1] = [$val1, $val2, round($val2 / $val1 * 100)];
+                        $new[] = [
+                            'female_id' => $key1,
+                            'mix_all' => $val1,
+                            'mix_noTrouble' => $val2,
+                            'mix_probability' => round($val2 / $val1 * 100)
+                            ];
+                    }
+                }
+            }
+            dd($new);
+
+        }
 
         return view('male_pigs.index')->with(compact('malePigs'));
     }
@@ -97,7 +183,7 @@ class MalePigController extends Controller
         )->exists();
 
         if ($exist_firstId || $exist_secondId) {
-            $first_mix_day  = $malePig->first_mix_infos->first()->mix_day;
+            $first_mix_day = $malePig->first_mix_infos->first()->mix_day;
             $second_mix_day = $malePig->second_mix_infos->first()->mix_day;
 
             switch ($first_mix_day > $second_mix_day) {
@@ -164,7 +250,7 @@ class MalePigController extends Controller
     public function updateFlag(Request $request, MalePig $malePig)
     {
         $malePig->warn_flag = $request->warn_flag;
-        
+
         try {
             $malePig->save();
             return redirect(route('male_pigs.index'));

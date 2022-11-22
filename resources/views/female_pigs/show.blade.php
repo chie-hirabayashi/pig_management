@@ -16,8 +16,11 @@
         <div class="max-w-screen-2xl px-4 md:px-8 mx-auto">
             <div class="flex flex-col items-center gap-4 md:gap-6">
                 <!-- base - start -->
-                <div class="text-3xl text-gray-500 active:text-gray-600 transition duration-100">
-                    <div class="w-auto h-6 sm:h-8" width="173" height="39" viewBox="0 0 173 39" fill="currentColor">
+                <div class="flex justify-center items-center">
+                    <div class="text-xl text-rose-400">
+                        <i class="fa-solid fa-venus"></i>&ensp;
+                    </div>
+                    <div class="text-3xl text-gray-500">
                         {{ $femalePig->individual_num }}
                     </div>
                 </div>
@@ -106,7 +109,7 @@
                 <!-- border - start -->
                 <div class="overflow-x-auto relative">
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead class="border-t text-xs text-gray-900 uppercase dark:text-gray-400">
+                        <thead class="text-center border-t text-xs text-gray-900 uppercase dark:text-gray-400">
                             <tr>
                                 <th scope="col" class="py-3 px-6"></th>
                                 <th scope="col" class="py-3 px-6">
@@ -126,10 +129,10 @@
                                     class="py-3 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     回転数
                                 </th>
-                                <td class="py-3 px-6">
+                                <td class="text-center py-3 px-6">
                                     @if ($born_info)
                                         @if ($born_info->rotate !== null)
-                                            {{ $born_info->rotate }}
+                                            {{ $born_info->rotate }} 回
                                         @else
                                             -
                                         @endif
@@ -137,17 +140,17 @@
                                         -
                                     @endif
                                 </td>
-                                <td class="py-3 px-6">
+                                <td class="text-center py-3 px-6">
                                     @if ($born_info_last_time)
-                                        {{ $born_info_last_time->rotate }}
+                                        {{ $born_info_last_time->rotate }} 回
                                     @else
                                         -
                                     @endif
                                 </td>
-                                <td class="py-3 px-6">
+                                <td class="text-center py-3 px-6">
                                     @if ($born_info)
                                         @if ($born_info->av_rotate !== null)
-                                            {{ $born_info->av_rotate }}
+                                            {{ $born_info->av_rotate }} 回
                                         @else
                                             -
                                         @endif
@@ -161,21 +164,21 @@
                                     class="py-3 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     産子数
                                 </th>
-                                <td class="py-3 px-6">
+                                <td class="text-center py-3 px-6">
                                     @if ($born_info)
                                         {{ $born_info->born_num }} 匹
                                     @else
                                         -
                                     @endif
                                 </td>
-                                <td class="py-3 px-6">
+                                <td class="text-center py-3 px-6">
                                     @if ($born_info_last_time)
                                         {{ $born_info_last_time->born_num }} 匹
                                     @else
                                         -
                                     @endif
                                 </td>
-                                <td class="py-3 px-6">
+                                <td class="text-center py-3 px-6">
                                     @if ($born_info)
                                         {{ $born_info->av_born_num }} 匹
                                     @else
@@ -184,7 +187,7 @@
                                 </td>
                             </tr>
                         </tbody>
-                        <thead class="text-xs text-gray-900 uppercase dark:text-gray-400">
+                        <thead class="text-center text-xs text-gray-900 uppercase dark:text-gray-400">
                             <tr>
                                 <th scope="col" class="py-3 px-6"></th>
                                 <th scope="col" class="py-3 px-6">
@@ -201,14 +204,14 @@
                                     class="py-3 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     出産回数
                                 </th>
-                                <td class="py-3 px-6">
+                                <td class="text-center py-3 px-6">
                                     @if ($born_info)
                                         {{ $born_info->count_lastY_born }} 回
                                     @else
                                         0 回
                                     @endif
                                 </td>
-                                <td class="py-3 px-6">
+                                <td class="text-center py-3 px-6">
                                     @if ($born_info)
                                         {{ $born_info->count_born }} 回
                                     @else
@@ -221,14 +224,14 @@
                                     class="py-3 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     再発回数
                                 </th>
-                                <td class="py-3 px-6">
+                                <td class="text-center py-3 px-6">
                                     @if ($mixInfo)
                                         {{ $mixInfo->lastYsum_recurrences }} 回
                                     @else
                                         0 回
                                     @endif
                                 </td>
-                                <td class="py-3 px-6">
+                                <td class="text-center py-3 px-6">
                                     @if ($mixInfo)
                                         {{ $mixInfo->sum_recurrence }} 回
                                     @else
@@ -241,14 +244,14 @@
                                     class="py-3 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     流産回数
                                 </th>
-                                <td class="py-3 px-6">
+                                <td class="text-center py-3 px-6">
                                     @if ($mixInfo)
                                         {{ $mixInfo->lastYsum_abortions }} 回
                                     @else
                                         0 回
                                     @endif
                                 </td>
-                                <td class="py-3 px-6">
+                                <td class="text-center py-3 px-6">
                                     @if ($mixInfo)
                                         {{ $mixInfo->sum_abortion }} 回
                                     @else
@@ -257,14 +260,18 @@
                                 </td>
                             </tr>
                         </tbody>
-                        <thead class="text-xs text-gray-900 uppercase dark:text-gray-400">
+                        <thead class="text-center text-xs text-gray-900 uppercase dark:text-gray-400">
                             <tr>
-                                <th scope="col" class="py-3 px-6"></th>
+                                <th scope="col" class="py-3 px-6">
+                                    組み合わせ
+                                </th>
                                 <th scope="col" class="py-3 px-6">
                                     NO.1
+                                    <i class="fa-solid fa-mars"></i>
                                 </th>
                                 <th scope="col" class="py-3 px-6">
                                     NO.2
+                                    <i class="fa-solid fa-mars"></i>
                                 </th>
                             </tr>
                         </thead>
@@ -272,25 +279,29 @@
                             <tr class="bg-white dark:bg-gray-800">
                                 <th scope="row"
                                     class="py-3 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    良い組み合わせ
+                                    Good
                                 </th>
                                 <td class="py-3 px-6">
                                     100-0
+                                    (100%)
                                 </td>
                                 <td class="py-3 px-6">
                                     102-0
+                                    (75%)
                                 </td>
                             </tr>
                             <tr class="bg-white dark:bg-gray-800">
                                 <th scope="row"
                                     class="py-3 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    悪い組み合わせ
+                                    Bad
                                 </th>
                                 <td class="py-3 px-6">
                                     100-0
+                                    (50%)
                                 </td>
                                 <td class="py-3 px-6">
                                     102-0
+                                    (75%)
                                 </td>
                             </tr>
                         </tbody>
@@ -350,10 +361,10 @@
                         出産子数
                     </th>
                     <th scope="col" class="py-3 px-6">
-                        オス1
+                        <i class="fa-solid fa-mars"></i>1_NO.
                     </th>
                     <th scope="col" class="py-3 px-6">
-                        オス2
+                        <i class="fa-solid fa-mars"></i>2_NO.
                     </th>
                     <th scope="col" class="py-3 px-6">
                         回転数
@@ -369,7 +380,7 @@
                             {{ $born_info->born_day }}
                         </td>
                         <td class="py-4 px-6">
-                            {{ $born_info->born_num }}
+                            {{ $born_info->born_num }} 匹
                         </td>
                         <td class="py-4 px-6">
                             {{ $born_info->first_male }}
@@ -384,7 +395,7 @@
                             @endif
                         </td>
                         <td class="py-4 px-6">
-                            {{ $born_info->rotate }}
+                            {{ $born_info->rotate }} 回
                         </td>
                         {{-- <td class="flex flex-row items-center py-4 px-6 space-x-3"> --}}
                         <td class="flex flex-row items-center py-4 px-6">
@@ -405,11 +416,8 @@
         <!-- born_table - end -->
     </div>
 
-    {{-- <section --}}
-
-    {{-- <div class="bg-white py-6 sm:py-8 lg:py-12"> --}}
     <div
-        class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-10 px-8 py-4 bg-white rounded shadow-md dark:bg-gray-800">
+        class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-10 px-8 py-4 dark:bg-gray-800">
         <canvas id="myChart"></canvas>
     </div>
 
@@ -443,10 +451,10 @@
                         交配日
                     </th>
                     <th scope="col" class="py-3 px-6">
-                        オス1
+                        <i class="fa-solid fa-mars"></i>1_NO.
                     </th>
                     <th scope="col" class="py-3 px-6">
-                        オス2
+                        <i class="fa-solid fa-mars"></i>2_NO.
                     </th>
                     <th scope="col" class="py-3 px-6">
                         再発予定日1
@@ -458,7 +466,7 @@
                         出産予定日
                     </th>
                     <th scope="col" class="py-3 px-6">
-                        経過
+                        経 過
                     </th>
                     <th scope="col" class="py-3 px-6"></th>
                 </tr>
