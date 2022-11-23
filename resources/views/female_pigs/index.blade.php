@@ -24,7 +24,6 @@
             <div class="grid sm:grid-cols-3 xl:grid-cols-5 gap-2 md:gap-4">
                 @foreach ($femalePigs as $femalePig)
                     <div class="flex flex-col border rounded-lg p-4 md:p-6">
-                    {{-- <div class="flex flex-col border rounded-lg p-4 md:p-6 bg-gradient-to-br from-rose-100 via-white to-white"> --}}
                         <div class="flex flex-col items-center gap-2 md:gap-4">
                             <!-- individual_num & flag - start -->
                             <div class="flex text-gray-600 text-xl text-center">

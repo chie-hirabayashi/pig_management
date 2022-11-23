@@ -6,6 +6,7 @@ use App\Http\Requests\StoreMalePigRequest;
 use App\Http\Requests\UpdateMalePigRequest;
 use App\Exports\MalePigExport;
 use App\Imports\MalePigImport;
+use App\Models\FemalePig;
 use App\Models\MalePig;
 use App\Models\MixInfo;
 use Illuminate\Http\Request;
@@ -23,11 +24,12 @@ class MalePigController extends Controller
         $malePigs = MalePig::with('first_mix_infos')
             ->with('second_mix_infos')
             ->get();
-
+        
         foreach ($malePigs as $malePig) {
-            // 交配率算出
+            // 全交配情報取得
             $first_mixs = $malePig->first_mix_infos;
             $second_mixs = $malePig->second_mix_infos;
+            // 異常のない交配情報取得
             $first_noTroubles = $malePig->first_mix_infos->where(
                 'trouble_id',
                 1
@@ -36,77 +38,148 @@ class MalePigController extends Controller
                 'trouble_id',
                 1
             );
+            // 交配成功率算出
             $mix_probability =
                 (count($first_noTroubles) + count($second_noTroubles)) /
                 (count($first_mixs) + count($second_mixs));
 
-            // 交配率セット
+            // 交配成功率をセット
             $malePig->mix_probability = round($mix_probability * 100, 0);
-            // dd($first_mixs);
 
-            // 交配相手をカウント
+            // 交配相手ごとにデータを整理
             $first_females = $first_mixs->groupBy('female_id');
             $second_females = $second_mixs->groupBy('female_id');
             $first_noTrouble_females = $first_noTroubles->groupBy('female_id');
             $second_noTrouble_females = $second_noTroubles->groupBy(
                 'female_id'
             );
-            // dd($first_females[93]);
-            // dd($first_noTrouble_females);
 
-            // 1回目の交配と2回目の交配を統合(経過異常含む)
-            foreach ($first_females as $key1 => $val1) {
-                foreach ($second_females as $key2 => $val2) {
-                    if ($key1 == $key2) {
-                        for ($i = 0; $i < count($val2); $i++) {
-                            $first_females[$key1][] = $val2[$i];
-                        }
-                    }
-                }
-            }
+        // 交配相手ごとにデータを整理
+        $first_females = $first_mixs->groupBy('female_id');
+        $second_females = $second_mixs->groupBy('female_id');
+        $first_noTrouble_females = $first_noTroubles->groupBy('female_id');
+        $second_noTrouble_females = $second_noTroubles->groupBy('female_id');
 
-            // 1回目の交配と2回目の交配を統合(経過が順調なものだけ)
-            foreach ($first_noTrouble_females as $key1 => $val1) {
-                foreach ($second_noTrouble_females as $key2 => $val2) {
-                    if ($key1 == $key2) {
-                        for ($i = 0; $i < count($val2); $i++) {
-                            $first_noTrouble_females[$key1][] = $val2[$i];
-                        }
-                    }
-                }
-            }
-            // dd($first_noTrouble_females);
-            // $mix_females_all = $first_females;
-            // dd($mix_females_all);
-
-            // objectからarrayに整理(female_id => 交配回数)
-            $mix_females_all = [];
-            foreach ($first_females as $key => $val) {
-                $mix_females_all[$key] = count($val);
-            }
-
-            // objectからarrayに整理(female_id => 交配回数)
-            $mix_females_noTrouble = [];
-            foreach ($first_noTrouble_females as $key => $val) {
-                $mix_females_noTrouble[$key] = count($val);
-            }
-
-            foreach ($mix_females_all as $key1 => $val1) {
-                foreach ($mix_females_noTrouble as $key2 => $val2) {
-                    if ($key1 == $key2) {
-                        // $mix_females_all[$key1] = [$val1, $val2, round($val2 / $val1 * 100)];
-                        $new[] = [
-                            'female_id' => $key1,
-                            'mix_all' => $val1,
-                            'mix_noTrouble' => $val2,
-                            'mix_probability' => round($val2 / $val1 * 100)
-                            ];
-                    }
-                }
-            }
-            dd($new);
-
+        // 1回目と2回目の交配回数をまとめる(経過異常含む)
+        $first_mixes = [];
+        foreach ($first_females as $key => $val) {
+            $first_mixes[$key] = count($val);
         }
+        $second_mixes = [];
+        foreach ($second_females as $key => $val) {
+            $second_mixes[$key] = count($val);
+        }
+        foreach ($first_mixes as $key1 => $val1) {
+            foreach ($second_mixes as $key2 => $val2) {
+                if ($key1 == $key2) {
+                    $first_mixes[$key1] = $val1 + $val2;
+                }
+            }
+        }
+        
+        $all_mixes = $first_mixes + $second_mixes;
+        // dd($all_mixes);
+        $malePig->all_mixes = array_sum($all_mixes);
+        // dd($malePig);
+
+            // // 1回目と2回目の交配を統合(経過異常含む)
+            // foreach ($first_females as $key1 => $val1) {
+            //     foreach ($second_females as $key2 => $val2) {
+            //         if ($key1 == $key2) {
+            //             for ($i = 0; $i < count($val2); $i++) {
+            //                 $first_females[$key1][] = $val2[$i];
+            //             }
+            //         }
+            //     }
+            // }
+            // // keyの重複がないものが抜け落ちるバグ
+            // // dd($first_females);
+
+            // // 1回目の交配と2回目の交配を統合(経過が順調なものだけ)
+            // foreach ($first_noTrouble_females as $key1 => $val1) {
+            //     foreach ($second_noTrouble_females as $key2 => $val2) {
+            //         if ($key1 == $key2) {
+            //             for ($i = 0; $i < count($val2); $i++) {
+            //                 $first_noTrouble_females[$key1][] = $val2[$i];
+            //             }
+            //         }
+            //     }
+            // }
+            // // dd($first_noTrouble_females);
+            // // $mix_females_all = $first_females;
+            // // dd($mix_females_all);
+
+            // // objectからarrayに整理(female_id => 交配回数)
+            // $mix_females_all = [];
+            // foreach ($first_females as $key => $val) {
+            //     $mix_females_all[$key] = count($val);
+            // }
+            // // dd($mix_females_all);
+
+            // // objectからarrayに整理(female_id => 交配回数)
+            // $mix_females_noTrouble = [];
+            // foreach ($first_noTrouble_females as $key => $val) {
+            //     $mix_females_noTrouble[$key] = count($val);
+            // }
+
+            // foreach ($mix_females_all as $key1 => $val1) {
+            //     // female_pigのsoftDelete対策
+            //     $judge = FemalePig::where('id', $key1)
+            //         ->onlyTrashed()
+            //         ->get();
+            //     if (!$judge->isEmpty()) {
+            //         $exist_female = null;
+            //         $delete_female = $judge[0]->individual_num;
+            //     } else {
+            //         $exist_female = FemalePig::find($key1)->individual_num;
+            //         $delete_female = null;
+            //     }
+
+            //     foreach ($mix_females_noTrouble as $key2 => $val2) {
+            //         if ($key1 == $key2) {
+            //             $individual_mix_indfos[] = [
+            //                 'female' => $exist_female,
+            //                 'delete_female' => $delete_female,
+            //                 'mix_all' => $val1,
+            //                 'mix_noTrouble' => $val2,
+            //                 'mix_probability' => round(($val2 / $val1) * 100),
+            //             ];
+            //         }
+            //     }
+            // }
+            // // dd($individual_mix_indfos);
+            // $key_1 = array_keys($mix_females_all);
+            // $key_2 = array_keys($mix_females_noTrouble);
+
+            // // dd($key_2);
+            // foreach ($key_1 as $key) {
+            //     if (!in_array($key, $key_2)) {
+            //         // female_pigのsoftDelete対策
+            //         $judge = FemalePig::where('id', $key)
+            //             ->onlyTrashed()
+            //             ->get();
+            //         if (!$judge->isEmpty()) {
+            //             $exist_female = null;
+            //             $delete_female = $judge[0]->individual_num;
+            //         } else {
+            //             $exist_female = FemalePig::find($key)->individual_num;
+            //             $delete_female = null;
+            //         }
+
+            //         $individual_mix_indfos[] = [
+            //             'female' => $exist_female,
+            //             'delete_female' => $delete_female,
+            //             'mix_all' => $mix_females_all[$key],
+            //             'mix_noTrouble' => 0,
+            //             'mix_probability' => 0,
+            //         ];
+            //     }
+            // }
+
+            // // セット
+            // $malePig->individual_mix_infos = $individual_mix_indfos;
+        }
+        // dd($malePig);
 
         return view('male_pigs.index')->with(compact('malePigs'));
     }
@@ -149,7 +222,131 @@ class MalePigController extends Controller
      */
     public function show(MalePig $malePig)
     {
-        //
+        // 全交配情報取得
+        $first_mixs = $malePig->first_mix_infos;
+        $second_mixs = $malePig->second_mix_infos;
+        // 異常のない交配情報取得
+        $first_noTroubles = $first_mixs->where('trouble_id', 1);
+        $second_noTroubles = $second_mixs->where('trouble_id', 1);
+
+        // 交配成功率算出
+        $mix_probability =
+            (count($first_noTroubles) + count($second_noTroubles)) /
+            (count($first_mixs) + count($second_mixs));
+        
+        // 交配成功率をセット
+        $malePig->mix_probability = round($mix_probability * 100, 0);
+
+        // 交配相手ごとにデータを整理
+        $first_females = $first_mixs->groupBy('female_id');
+        $second_females = $second_mixs->groupBy('female_id');
+        $first_noTrouble_females = $first_noTroubles->groupBy('female_id');
+        $second_noTrouble_females = $second_noTroubles->groupBy('female_id');
+
+        // 1回目と2回目の交配回数をまとめる(経過異常含む)
+        $first_mixes = [];
+        foreach ($first_females as $key => $val) {
+            $first_mixes[$key] = count($val);
+        }
+        $second_mixes = [];
+        foreach ($second_females as $key => $val) {
+            $second_mixes[$key] = count($val);
+        }
+        foreach ($first_mixes as $key1 => $val1) {
+            foreach ($second_mixes as $key2 => $val2) {
+                if ($key1 == $key2) {
+                    $first_mixes[$key1] = $val1 + $val2;
+                }
+            }
+        }
+        
+        $all_mixes = $first_mixes + $second_mixes;
+        // dd($mix_females_all);
+
+        // 1回目と2回目の交配回数をまとめる(経過順調のみ)
+        $first_mixes = [];
+        foreach ($first_noTrouble_females as $key => $val) {
+            $first_mixes[$key] = count($val);
+        }
+        $second_mixes = [];
+        foreach ($second_noTrouble_females as $key => $val) {
+            $second_mixes[$key] = count($val);
+        }
+        foreach ($first_mixes as $key1 => $val1) {
+            foreach ($second_mixes as $key2 => $val2) {
+                if ($key1 == $key2) {
+                    $first_mixes[$key1] = $val1 + $val2;
+                }
+            }
+        }
+        $noTrouble_mixes = $first_mixes + $second_mixes;
+        // dd($array3);
+        // ここまで
+
+        // dd($mix_females_all); //ここまで
+
+        foreach ($all_mixes as $key1 => $val1) {
+            // female_pigのsoftDelete対策
+            $judge = FemalePig::where('id', $key1)
+                ->onlyTrashed()
+                ->get();
+            // dd($judge);
+            if ($judge->isnotEmpty()) {
+                $exist_female = null;
+                $delete_female = $judge[0]->individual_num;
+            } else {
+                $exist_female = FemalePig::find($key1)->individual_num;
+                $delete_female = null;
+            }
+
+            foreach ($noTrouble_mixes as $key2 => $val2) {
+                if ($key1 == $key2) {
+                    $individual_mix_indfos[] = [
+                        'female' => $exist_female,
+                        'delete_female' => $delete_female,
+                        'mix_all' => $val1,
+                        'mix_noTrouble' => $val2,
+                        'mix_probability' => round(($val2 / $val1) * 100),
+                    ];
+                }
+            }
+        }
+        // dd($individual_mix_indfos); //ここまで
+
+        $key_1 = array_keys($all_mixes);
+        $key_2 = array_keys($noTrouble_mixes);
+
+        // dd($key_2);
+        foreach ($key_1 as $key) {
+            if (!in_array($key, $key_2)) {
+                // female_pigのsoftDelete対策
+                $judge = FemalePig::where('id', $key)
+                    ->onlyTrashed()
+                    ->get();
+                if ($judge->isnotEmpty()) {
+                    $exist_female = null;
+                    $delete_female = $judge[0]->individual_num;
+                } else {
+                    $exist_female = FemalePig::find($key)->individual_num;
+                    $delete_female = null;
+                }
+
+                $individual_mix_indfos[] = [
+                    'female' => $exist_female,
+                    'delete_female' => $delete_female,
+                    'mix_all' => $all_mixes[$key],
+                    'mix_noTrouble' => 0,
+                    'mix_probability' => 0,
+                ];
+            }
+        }
+
+        // セット
+        $malePig->individual_mix_infos = $individual_mix_indfos;
+
+        // dd($malePig);
+
+        return view('male_pigs.show')->with(compact('malePig'));
     }
 
     /**
@@ -253,7 +450,7 @@ class MalePigController extends Controller
 
         try {
             $malePig->save();
-            return redirect(route('male_pigs.index'));
+            return redirect(route('male_pigs.show', $malePig));
         } catch (\Throwable $th) {
             return back()->withErrors($th->getMessage());
         }

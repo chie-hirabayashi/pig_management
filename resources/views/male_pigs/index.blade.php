@@ -1,5 +1,4 @@
 <x-app-layout>
-    TODO:交配率
     <!-- header - start -->
     <x-slot name="header">
         <h2 class="">
@@ -20,9 +19,6 @@
                 </span>
                 一覧
             </h2>
-            <h2 class="text-2xl Comfortaa">漢字</h2>
-            <h2 class="text-2xl MplusRound">漢字</h2>
-            <h2 class="text-2xl ZenMaruGothic">漢字</h2>
 
             <!-- femalePig_data - start -->
             <div class="grid sm:grid-cols-3 xl:grid-cols-5 gap-2 md:gap-4">
@@ -32,42 +28,51 @@
                             <!-- individual_num & flag - start -->
                             <div class="flex text-gray-600 text-xl text-center">
                                 <div class="mx-2">
-                                    <form action="{{ route('male_pigs.updateFlag', $malePig) }}" method="POST">
-                                        @csrf
-                                        @method('PATCH')
-                                        <input type="hidden" name="warn_flag" id=""
-                                            value="{{ $malePig->warn_flag == 0 ? 1 : 0 }}">
-                                        <button type="submit">
-                                            @if ($malePig->warn_flag == 0)
-                                                <div class="text-gray-100">
-                                                    <i class="fa-solid fa-triangle-exclamation"></i>
-                                                </div>
-                                            @else
-                                                <div class="text-red-500">
-                                                    <i class="fa-solid fa-triangle-exclamation"></i>
-                                                </div>
-                                            @endif
-                                        </button>
-                                    </form>
+                                    @if ($malePig->warn_flag == 1)
+                                        <div class="text-red-500">
+                                            <i class="fa-solid fa-triangle-exclamation"></i>
+                                        </div>
+                                    @endif
                                 </div>
-                                <div class="">
+                                <a href="{{ route('male_pigs.show', $malePig) }}" class="text-gray-700">
                                     {{ $malePig->individual_num }}
-                                </div>
+                                </a>
                             </div>
                             <!-- individual_num & flag - end -->
 
                             <!-- age & status - start -->
-                            <div class="flex flex-col sm:flex-row items-center gap-2 md:gap-3">
-                                <div class="mx-2 text-gray-500">
-                                    {{ $malePig->add_day }}
+                            <div>
+                                <div class="text-gray-500 text-center text-sm font-semibold">
+                                    導入日
                                 </div>
-                                <div class="text-center text-gray-500 md:text-sm sm:text-left">
-                                    {{ $malePig->age }} 歳
+                                <div class="flex flex-col sm:flex-row items-center gap-2 md:gap-3">
+                                    <div class="mx-2 text-gray-500">
+                                        {{ $malePig->add_day }}
+                                    </div>
+                                    <div class="text-center text-gray-500 sm:text-left">
+                                        :&ensp;{{ $malePig->age }} 歳
+                                    </div>
                                 </div>
                             </div>
                             <div>
-                                {{ $malePig->mix_probability }} %
+                                {{-- <div class="text-center text-gray-500 md:text-sm sm:text-left"> --}}
+                                <div class="text-gray-500 text-center text-sm font-semibold">
+                                    交配実績
+                                </div>
+                                <div class="text-gray-500 text-left">
+                                    {{-- <div class="text-gray-500"> --}}
+                                    回&emsp;数&ensp;:&ensp;{{ $malePig->all_mixes }} 回
+                                </div>
+                                <div class="text-gray-500">
+                                    成功率&ensp;:&ensp;{{ $malePig->mix_probability }} %
+                                </div>
                             </div>
+                            {{-- <div>
+                                @foreach ($malePig->individual_mix_infos as $info)
+                                    {{ $info['female'] }}
+                                    {{ $info['delete_female'] }}
+                                @endforeach
+                            </div> --}}
                             <!-- age & status - end -->
 
                             <!-- edit & delete - start -->
@@ -86,7 +91,6 @@
                                         onclick="if(!confirm('廃用にしますか？')){return false};"
                                         class="bg-pink-400 hover:bg-pink-600 text-sm text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline w-16 mr-2">
                                 </form>
-                                {{-- </div> --}}
                             </div>
                             <!-- edit & delete - end -->
                         </div>

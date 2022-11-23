@@ -384,14 +384,18 @@
                         </td>
                         <td class="py-4 px-6">
                             {{ $born_info->first_male }}
-                            {{ $born_info->first_delete_male }}
+                            <p class="line-through">
+                                {{ $born_info->first_delete_male }}
+                            </p>
                         </td>
                         <td class="py-4 px-6">
                             @if ($born_info->second_male == null && $born_info->second_delete_male == null)
                                 -
                             @else
                                 {{ $born_info->second_male }}
-                                {{ $born_info->second_delete_male }}
+                                <p class="line-through">
+                                    {{ $born_info->second_delete_male }}
+                                </p>
                             @endif
                         </td>
                         <td class="py-4 px-6">
@@ -416,8 +420,7 @@
         <!-- born_table - end -->
     </div>
 
-    <div
-        class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-10 px-8 py-4 dark:bg-gray-800">
+    <div class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-10 px-8 py-4 dark:bg-gray-800">
         <canvas id="myChart"></canvas>
     </div>
 
@@ -481,14 +484,18 @@
                             </td>
                             <td class="py-4 px-6">
                                 {{ $mixInfo->first_male }}
-                                {{ $mixInfo->first_delete_male }}
+                                <p class="line-through">
+                                    {{ $mixInfo->first_delete_male }}
+                                </p>
                             </td>
                             <td class="py-4 px-6">
                                 @if ($mixInfo->second_male == null && $mixInfo->second_delete_male == null)
                                     -
                                 @else
                                     {{ $mixInfo->second_male }}
-                                    {{ $mixInfo->second_delete_male }}
+                                    <p class="line-through">
+                                        {{ $mixInfo->second_delete_male }}
+                                    </p>
                                 @endif
                             </td>
                             <td class="py-4 px-6">
