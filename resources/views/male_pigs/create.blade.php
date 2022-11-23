@@ -8,9 +8,9 @@
     <!-- header - end -->
 
     <section
-        class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-10 px-8 py-4 bg-white rounded shadow-md dark:bg-gray-800">
+        class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-10 px-8 py-4 bg-gray-100 rounded shadow-md dark:bg-gray-800">
         <!-- title -->
-        <h2 class="text-lg font-semibold text-gray-700 capitalize dark:text-white">父豚登録 --MalePig settings--</h2>
+        <h2 class="text-lg MplusRound text-gray-700 capitalize dark:text-white">父豚登録 --MalePig settings--</h2>
 
         <!-- message -->
         <x-error-validation :errors="$errors" />
@@ -46,7 +46,8 @@
         </form>
         <!-- form - end -->
         <a href="{{ route('male_pigs.index') }}"
-            class="py-1.5 px-4 transition-colors bg-transparent active:bg-gray-200 font-medium text-blue-600 rounded-lg hover:bg-gray-100 disabled:opacity-50">
+            class="py-1.5 px-4 transition-colors bg-transparent active:bg-gray-200 font-medium text-blue-600 rounded-lg hover:bg-gradient-to-bl from-red-200 via-red-300 to-yellow-200 disabled:opacity-50">
+            {{-- class="py-1.5 px-4 transition-colors bg-transparent active:bg-gray-200 font-medium text-blue-600 rounded-lg hover:bg-white disabled:opacity-50"> --}}
             戻る
         </a>
     </section>

@@ -16,10 +16,10 @@
             <div class="grid max-w-lg grid-cols-1 gap-6 sm:grid-cols-1">
 
                 <select name="condition" id="box" onchange="change();">
-                    <option value="3">{{ __('condition_3') }}</option>
-                    <option value="4">{{ __('condition_4') }}</option>
                     <option value="1">{{ __('condition_1') }}</option>
                     <option value="2">{{ __('condition_2') }}</option>
+                    <option value="3">{{ __('condition_3') }}</option>
+                    <option value="4">{{ __('condition_4') }}</option>
                 </select>
 
                 {{-- <div class="max-w-lg ml-4">
@@ -271,28 +271,28 @@
         function change() {
             boxValue = box.value;
             if (boxValue == "1") {
-                firstCondition.style.display = "none";
-                secondCondition.style.display = "";
+                firstCondition.style.display = "";
+                secondCondition.style.display = "none";
                 optionCondition.style.display = "none";
-                secondOperator.style.display = "";
+                secondOperator.style.display = "none";
             }
             if (boxValue == "2") {
+                firstCondition.style.display = "";
+                secondCondition.style.display = "none";
+                optionCondition.style.display = "";
+                secondOperator.style.display = "none";
+            }
+            if (boxValue == "3") {
+                firstCondition.style.display = "none";
+                secondCondition.style.display = "";
+                optionCondition.style.display = "none";
+                secondOperator.style.display = "";
+            }
+            if (boxValue == "4") {
                 firstCondition.style.display = "none";
                 secondCondition.style.display = "";
                 optionCondition.style.display = "";
                 secondOperator.style.display = "";
-            }
-            if (boxValue == "3") {
-                firstCondition.style.display = "";
-                secondCondition.style.display = "none";
-                optionCondition.style.display = "none";
-                secondOperator.style.display = "none";
-            }
-            if (boxValue == "4") {
-                firstCondition.style.display = "";
-                secondCondition.style.display = "none";
-                optionCondition.style.display = "";
-                secondOperator.style.display = "none";
             }
         }
 

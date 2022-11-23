@@ -231,6 +231,8 @@ class FemalePigController extends Controller
         }
 
         // softDelete対策
+        // self::maleSoftDeleteResolution($born_infos);
+        // self::maleSoftDeleteResolution($mixInfos);
         self::softDeleteResolution($born_infos);
         self::softDeleteResolution($mixInfos);
         // dd($born_info_last_time);
@@ -383,7 +385,7 @@ class FemalePigController extends Controller
             $judge_1 = MalePig::where('id', $mixInfo->first_male_id)
                 ->onlyTrashed()
                 ->get();
-            if (!$judge_1->isEmpty()) {
+            if ($judge_1->isnotEmpty()) {
                 $deletePig_1 = $judge_1[0]->individual_num;
                 $mixInfo->first_delete_male = $deletePig_1;
                 $mixInfo->first_male = null;
@@ -397,7 +399,7 @@ class FemalePigController extends Controller
                 $judge_2 = MalePig::where('id', $mixInfo->second_male_id)
                     ->onlyTrashed()
                     ->get();
-                if (!$judge_2->isEmpty()) {
+                if ($judge_2->isnotEmpty()) {
                     $deletePig_2 = $judge_2[0]->individual_num;
                     $mixInfo->second_delete_male = $deletePig_2;
                     $mixInfo->second_male = null;

@@ -1,37 +1,49 @@
-{{-- <nav x-data="{ open: false }" class="bg-gradient-to-b from-stone-400 to-stone-200 border-b border-stone-100 shadow"> --}}
-<nav x-data="{ open: false }" class="bg-stone-200 shadow border-b border-gray-300">
+<nav x-data="{ open: false }" class="bg-white shadow border-b border-gray-300">
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {{-- <div class="flex justify-between h-16"> --}}
-        <div class="flex justify-between h-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-6">
+        <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('female_pigs.index') }}">
-                        {{-- <x-application-logo class="block h-10 w-auto fill-current text-gray-600" /> --}}
                         <x-application-logo class="" />
                     </a>
+                </div>
+
+                <div class="hidden items-center sm:flex">
+                    <span class="mx-5 text-gray-500">
+                        /
+                    </span>
                     <x-nav-link :href="route('female_pigs.index')">
                         {{ __('femalePigs') }}
                     </x-nav-link>
                 </div>
 
                 <!-- malePigs Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <div class="hidden items-center sm:flex">
+                    <span class="mx-5 text-gray-500">
+                        /
+                    </span>
                     <x-nav-link :href="route('male_pigs.index')">
                         {{ __('malePigs') }}
                     </x-nav-link>
                 </div>
 
                 <!-- extracts Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <div class="hidden items-center sm:flex">
+                    <span class="mx-5 text-gray-500">
+                        /
+                    </span>
                     <x-nav-link :href="route('extracts.conditions')">
                         {{ __('抽出') }}
                     </x-nav-link>
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <div class="hidden items-center sm:flex">
+                    <span class="mx-5 text-gray-500 ">
+                        /
+                    </span>
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('取扱説明書') }}
                     </x-nav-link>
