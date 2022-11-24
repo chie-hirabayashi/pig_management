@@ -6,11 +6,14 @@
         </h2>
     </x-slot>
     <!-- header - end -->
-
+    TODO:複数のバグを確認 <br>
+    1:オスの重複に対するバリデーションをなしにするか <br>
+    2:再発、流産の日付のrequireは他のバリデーションで使用するので必須だが、初期データが空の場合がある <br>
+    3:廃用したオスのIDは取得できない=エラーで修正できない。バリデーションを設定するか、最初からedit画面に遷移させない。 <br>
     <section
-        class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-10 px-8 py-4 bg-white rounded shadow-md dark:bg-gray-800">
+        class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-10 px-8 py-4 bg-white border rounded shadow-md dark:bg-gray-800">
         <!-- title -->
-        <h2 class="text-lg font-semibold text-gray-700 capitalize dark:text-white">交配記録の登録 --MixInfo settings--</h2>
+        <h2 class="text-2xl MplusRound text-gray-700 capitalize dark:text-white">交配記録の修正</h2>
 
         <!-- message -->
         <x-error-validation :errors="$errors" />
@@ -28,7 +31,12 @@
                 <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-3">
                     <!-- female - start -->
                     <div class="mb-4">
-                        <label class="text-gray-700 dark:text-gray-200" for="individual_num">メスの個体番号</label>
+                        <label class="text-gray-700 dark:text-gray-200" for="individual_num">
+                            <span class="text-rose-400">
+                                <i class="fa-solid fa-venus"></i>
+                            </span>
+                            &ensp;:&ensp;NO.
+                        </label>
                         <select name="female_id" id="" required {{-- class="block px-8 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"> --}}
                             class="block py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
                             <option value="{{ $femalePig->id }}">{{ $femalePig->individual_num }}</option>
@@ -44,7 +52,10 @@
                     <!-- male - start -->
                     <div class="mb-4">
                         <label class="text-gray-700 dark:text-gray-200" for="">
-                            オス1の個体番号
+                            <span class="text-indigo-400">
+                                <i class="fa-solid fa-mars"></i>
+                            </span>
+                            &ensp;:&ensp;1_NO.
                         </label>
                         <select name="first_male_id" id="select1" required
                             class="block px-8 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
@@ -62,7 +73,10 @@
 
                     <div class="mb-4">
                         <label class="text-gray-700 dark:text-gray-200" for="">
-                            オス2の個体番号
+                            <span class="text-indigo-400">
+                                <i class="fa-solid fa-mars"></i>
+                            </span>
+                            &ensp;:&ensp;2_NO.
                         </label>
                         <select name="second_male_id" id="select2"
                             class="block px-8 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">

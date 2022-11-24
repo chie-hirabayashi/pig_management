@@ -151,8 +151,8 @@ class MixInfoController extends Controller
         $malePigs = MalePig::all();
         $troubleCategories = TroubleCategory::all();
         
-        // self::maleSoftDeleteResolution($mixInfo);
-        self::softDeleteResolution($mixInfo);
+        self::maleSoftDeleteResolution($mixInfo);
+        // self::softDeleteResolution($mixInfo);
         
         return view('mix_infos.edit')->with(
             compact(

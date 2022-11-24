@@ -6,37 +6,22 @@
     </x-slot>
 
     <section
-        class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-10 px-8 py-4 bg-white rounded shadow-md dark:bg-gray-800">
-        <h2 class="text-lg font-semibold text-gray-700 capitalize dark:text-white">抽出条件の設定</h2>
+        class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-10 px-8 py-4 bg-white border rounded shadow-md dark:bg-gray-800">
+        <h2 class="text-2xl MplusRound text-gray-700 capitalize dark:text-white">母豚の抽出条件</h2>
 
         <x-error-validation :errors="$errors" />
 
         <form action="{{ route('extracts.index') }}" method="POST" class="rounded pt-3 mb-4">
             @csrf
+            <div class="text-gray-700 mb-2 dark:text-gray-200" for="">抽出方法</div>
             <div class="grid max-w-lg grid-cols-1 gap-6 sm:grid-cols-1">
-
-                <select name="condition" id="box" onchange="change();">
+                <select name="condition" id="box" onchange="change();"
+                    class="px-3 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
                     <option value="1">{{ __('condition_1') }}</option>
                     <option value="2">{{ __('condition_2') }}</option>
                     <option value="3">{{ __('condition_3') }}</option>
                     <option value="4">{{ __('condition_4') }}</option>
                 </select>
-
-                {{-- <div class="max-w-lg ml-4">
-                    <div class="text-gray-700">
-                        <label class="block text-gray-700 text-sm mb-2" for="condition"></label>
-                        <input type="radio" name="condition" id="condition" value="{{ 3 }}"
-                            {{ old('condition') }}
-                            class="mr-2 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                            required onclick="changeFirstCondition()">
-                        <span class="text-sm">直前の出産情報で抽出</span>
-                        <input type="radio" name="condition" id="condition" value="{{ 1 }}"
-                            {{ old('condition') }}
-                            class="mr-2 ml-4 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                            required onclick="changeSecondCondition()">
-                        <span class="text-sm">過去2回の出産情報で抽出</span>
-                    </div>
-                </div> --}}
 
                 <!-- first_condition - start -->
                 <div class="grid grid-cols-3 mb-1">
@@ -118,23 +103,23 @@
                     <div class="mt-4">
                         <label class="text-gray-700 dark:text-gray-200" for="">母豚の年齢</label>
                         <div class="flex mt-2">
-                            <input id="female_age" type="number" name="female_age"
-                                value="{{ 4, old('female_age') }}" min="1" max="10"
+                            <input id="female_age" type="number" name="female_age" value="{{ 4, old('female_age') }}"
+                                min="1" max="10"
                                 class="px-3 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
                             <p class="mt-5 ml-2 text-sm text-gray-700">以上</p>
                         </div>
                     </div>
                     <div class="mt-16 ml-4 text-gray-700">
                         <div class="flex">
-                            <input type="radio" name="option_operator" id="option_operator" value="{{ 1 }}"
-                                {{ old('option_operator') }}
+                            <input type="radio" name="option_operator" id="option_operator"
+                                value="{{ 1 }}" {{ old('option_operator') }}
                                 class="block rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                 required checked>
                             <p class="text-sm">かつ</p>
                         </div>
                         <div class="flex">
-                            <input type="radio" name="option_operator" id="option_operator" value="{{ 2 }}"
-                                {{ old('option_operator') }}
+                            <input type="radio" name="option_operator" id="option_operator"
+                                value="{{ 2 }}" {{ old('option_operator') }}
                                 class="block rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                 required>
                             <p class="text-sm">または</p>

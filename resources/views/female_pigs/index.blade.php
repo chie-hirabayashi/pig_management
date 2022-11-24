@@ -13,7 +13,7 @@
     <div class="bg-white py-6 sm:py-8 lg:py-12">
         <div class="max-w-screen-xl px-2 md:px-4 mx-auto">
             <!-- title -->
-            <h2 class="ZenMaruGothic text-gray-700 text-2xl lg:text-3xl font-bold text-center mb-8 md:mb-12">
+            <h2 class="MplusRound text-gray-700 text-2xl lg:text-3xl text-center mb-8 md:mb-12">
                 <span class="text-rose-400">
                     <i class="fa-solid fa-venus"></i>
                 </span>
@@ -35,6 +35,7 @@
                                     @endif
                                 </div>
                                 <a href="{{ route('female_pigs.show', $femalePig) }}" class="text-gray-700">
+                                    <span class="text-lg">No.</span>
                                     {{ $femalePig->individual_num }}
                                 </a>
                             </div>
