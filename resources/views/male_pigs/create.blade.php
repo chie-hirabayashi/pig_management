@@ -51,8 +51,7 @@
         </form>
         <!-- form - end -->
         <a href="{{ route('male_pigs.index') }}"
-            {{-- class="py-1.5 px-4 transition-colors bg-transparent active:bg-gray-200 font-medium text-blue-600 rounded-lg hover:bg-gradient-to-bl from-red-200 via-red-300 to-yellow-200 disabled:opacity-50"> --}}
-            class="py-1.5 px-4 transition-colors bg-transparent active:bg-gray-200 font-medium text-blue-600 rounded-lg hover:bg-white disabled:opacity-50">
+            class="py-1.5 px-4 transition-colors bg-transparent active:bg-gray-200 font-medium text-blue-600 rounded-lg hover:bg-gray-100 disabled:opacity-50">
             戻る
         </a>
     </section>

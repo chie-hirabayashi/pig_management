@@ -6,7 +6,7 @@
         </h2>
     </x-slot>
     <!-- header - end -->
-
+TODO:相性機能
     <!-- message -->
     <x-error-validation :errors="$errors" />
     <x-flash-msg :message="session('notice')" />
@@ -535,7 +535,10 @@
     <div class="text-right">TODO:抽出画面に戻るボタンフラグ作業後に1回で戻る
         <a href="#" onclick="history.back(-1);return false;">back-1戻る</a>
         <a href="#" onclick="history.back();return false;">back戻る</a>
-        <a href="javascript:history.back()">前に戻る</a>
+        <a href="javascript:history.back()"
+            class="py-1.5 px-4 transition-colors bg-transparent active:bg-gray-200 font-medium text-blue-600 rounded-lg hover:bg-gray-100 disabled:opacity-50">
+            前に戻る
+        </a>
         <a href="{{ route('extracts.index') }}">route戻るNG</a>
         <button onclick="location.href='/extracts'">location戻るNG</button>
         <input value="前に戻る" onclick="history.back();" type="button">

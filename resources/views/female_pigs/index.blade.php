@@ -26,7 +26,7 @@
                     <div class="flex flex-col border rounded-lg p-4 md:p-6">
                         <div class="flex flex-col items-center gap-2 md:gap-4">
                             <!-- individual_num & flag - start -->
-                            <div class="flex text-gray-600 text-xl text-center">
+                            <div class="flex text-center">
                                 <div class="mx-2">
                                     @if ($femalePig->warn_flag == 1)
                                         <div class="text-red-500">
@@ -34,9 +34,12 @@
                                         </div>
                                     @endif
                                 </div>
-                                <a href="{{ route('female_pigs.show', $femalePig) }}" class="text-gray-700">
-                                    <span class="text-lg">No.</span>
+                                <a href="{{ route('female_pigs.show', $femalePig) }}"
+                                    class="text-gray-700 text-base after:content-['_↗'] transition-colors bg-transparent hover:underline">
+                                    No.
+                                    <span class="text-xl">
                                     {{ $femalePig->individual_num }}
+                                    </span>
                                 </a>
                             </div>
                             <!-- individual_num & flag - end -->
@@ -47,9 +50,6 @@
                                     {{ $femalePig->age }} 歳
                                 </div>
                                 @if ($femalePig->status == '観察中')
-                                    {{-- <div class="text-gray-500 line-through decoration-8 decoration-sky-500/30 text-base md:text-base font-bold text-center sm:text-center"> --}}
-                                    {{-- <div class="text-gray-500 underline decoration-6 text-base md:text-base font-bold text-center sm:text-center"> --}}
-                                    {{-- <div class="text-gray-500 underline decoration-4 decoration-sky-500/30 text-base md:text-base font-bold text-center sm:text-center"> --}}
                                     <div
                                         class="text-gray-500 underline decoration-8 decoration-sky-500/30 text-base md:text-base font-bold text-center sm:text-center">
                                         {{ $femalePig->status }}

@@ -60,8 +60,8 @@
                         <select name="first_male_id" id="select1" required
                             class="block px-8 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
                             <option value="{{ $mixInfo->first_male_id }}">
-                                {{ $mixInfo->first_male }}
-                                {{ $mixInfo->first_delete_male }}
+                                {{ $mixInfo->first_male_pig->individual_num }}
+                                {{-- {{ $mixInfo->first_delete_male }} --}}
                             </option>
                             @foreach ($malePigs as $malePig)
                                 <option value="{{ $malePig->id }}">
@@ -82,12 +82,13 @@
                             class="block px-8 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
                             @if ($mixInfo->second_male_id)
                                 <option value="{{ $mixInfo->second_male_id }}">
-                                    {{ $mixInfo->second_male }}
-                                    {{ $mixInfo->second_delete_male }}
+                                    {{ $mixInfo->second_male_pig->individual_num }}
+                                    {{-- {{ $mixInfo->second_delete_male }} --}}
                                 </option>
                             @else
                                 <option value="{{ null }}">-</option>
                             @endif
+                            <option value="{{ null }}">-</option>
                             @foreach ($malePigs as $malePig)
                                 <option value="{{ $malePig->id }}">
                                     {{ $malePig->individual_num }}

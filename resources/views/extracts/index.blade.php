@@ -270,7 +270,6 @@
                     <th scope="col" class="py-3">
                         再発、流産
                     </th>
-                    <th scope="col" class="py-3"></th>
                 </tr>
             </thead>
 
@@ -279,7 +278,10 @@
                     <tr
                         class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 whitespace-nowrap">
                         <td class="py-4 px-6">
+                            <a href="{{ route('female_pigs.show', $extract->female_pig) }}"
+                                class="text-blue-600 after:content-['_↗'] dark:text-blue-500 transition-colors bg-transparent hover:underline">
                             {{ $extract->female_pig->individual_num }}
+                            </a>
                         </td>
                         <td class="py-4 px-6">
                             <span class="text-red-500">
@@ -301,20 +303,21 @@
                         </td>
                         <td class="py-4 px-6">
                             {{ $extract->first_male }}
-                            {{ $extract->first_delete_male }}
+                            <p class="line-through">
+                                {{ $extract->first_delete_male }}
+                            </p>
                         </td>
                         <td class="py-4 px-6">
                             {{ $extract->second_male }}
-                            {{ $extract->second_delete_male }}
+                            <p class="line-through">
+                                {{ $extract->second_delete_male }}
+                            </p>
                         </td>
                         <td class="py-4 px-6">
                             <span class="text-red-500">
                                 {{ $extract->troubles >= $conditions['trouble_num'] ? $extract->troubles . '回' : '' }}
                             </span>
                             {{ $extract->troubles >= $conditions['trouble_num'] ? '' : $extract->troubles . '回' }}
-                        </td>
-                        <td class="py-4 px-6">
-                            <a href="{{ route('female_pigs.show', $extract->female_pig) }}">詳細確認</a>
                         </td>
                     </tr>
                 @endforeach
