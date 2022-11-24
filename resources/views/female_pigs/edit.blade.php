@@ -8,9 +8,9 @@
     <!-- header - end -->
 
     <section
-        class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-10 px-8 py-4 bg-white rounded shadow-md dark:bg-gray-800">
+        class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-10 px-8 py-4 bg-white border rounded shadow-md dark:bg-gray-800">
         <!-- title -->
-        <h2 class="text-lg font-semibold text-gray-700 capitalize dark:text-white">母豚の登録内容編集 --FemalePig editings--</h2>
+        <h2 class="text-2xl MplusRound text-gray-700 capitalize dark:text-white">母豚の登録内容修正</h2>
 
         <!-- message -->
         <x-error-validation :errors="$errors" />

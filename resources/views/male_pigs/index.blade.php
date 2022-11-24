@@ -13,7 +13,7 @@
     <div class="bg-white py-6 sm:py-8 lg:py-12">
         <div class="max-w-screen-xl px-4 md:px-8 mx-auto">
             <!-- title -->
-            <h2 class="ZenMaruGothic text-gray-700 text-2xl lg:text-3xl font-bold text-center mb-8 md:mb-12">
+            <h2 class="MplusRound text-gray-700 text-2xl lg:text-3xl text-center mb-8 md:mb-12">
                 <span class="text-indigo-400">
                     <i class="fa-solid fa-mars"></i>
                 </span>
@@ -26,7 +26,7 @@
                     <div class="flex flex-col border rounded-lg p-4 md:p-6">
                         <div class="flex flex-col items-center gap-2 md:gap-4">
                             <!-- individual_num & flag - start -->
-                            <div class="flex text-gray-600 text-xl text-center">
+                            <div class="flex text-center">
                                 <div class="mx-2">
                                     @if ($malePig->warn_flag == 1)
                                         <div class="text-red-500">
@@ -34,8 +34,12 @@
                                         </div>
                                     @endif
                                 </div>
-                                <a href="{{ route('male_pigs.show', $malePig) }}" class="text-gray-700">
-                                    {{ $malePig->individual_num }}
+                                <a href="{{ route('male_pigs.show', $malePig) }}"
+                                    class="text-gray-700 text-base after:content-['_↗'] transition-colors bg-transparent hover:underline">
+                                    No.
+                                    <span class="text-xl">
+                                        {{ $malePig->individual_num }}
+                                    </span>
                                 </a>
                             </div>
                             <!-- individual_num & flag - end -->
@@ -67,13 +71,6 @@
                                     成功率&ensp;:&ensp;{{ $malePig->mix_probability }} %
                                 </div>
                             </div>
-                            {{-- <div>
-                                @foreach ($malePig->individual_mix_infos as $info)
-                                    {{ $info['female'] }}
-                                    {{ $info['delete_female'] }}
-                                @endforeach
-                            </div> --}}
-                            <!-- age & status - end -->
 
                             <!-- edit & delete - start -->
                             <div class="flex flex-row text-center my-4 mx-2">

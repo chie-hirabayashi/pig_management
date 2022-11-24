@@ -6,7 +6,7 @@
         </h2>
     </x-slot>
     <!-- header - end -->
-
+TODO:相性機能
     <!-- message -->
     <x-error-validation :errors="$errors" />
     <x-flash-msg :message="session('notice')" />
@@ -16,7 +16,7 @@
         <div class="max-w-screen-2xl px-4 md:px-8 mx-auto">
             <div class="flex flex-col items-center gap-4 md:gap-6">
                 <!-- base - start -->
-                <div class="flex justify-center items-center">
+                <div class="flex items-center">
                     <div class="text-xl text-rose-400">
                         <i class="fa-solid fa-venus"></i>&ensp;
                     </div>
@@ -334,25 +334,23 @@
 
     {{-- <div class="overflow-x-auto relative shadow-md sm:rounded-lg my-8"> --}}
     <div class="overflow-x-auto relative shadow-md my-8">
+        <div
+            class="flex h-10 bg-gray-100 border-b border-gray-400 dark:bg-gray-800 dark:border-gray-700 whitespace-nowrap">
+            <div class="MplusRound text-xl font-medium text-gray-600 py-2 px-8">出 産 情 報</div>
+            <div class="px-4 leading-10">
+                {{-- @can('update', $post) --}}
+                @if ($mixInfo)
+                    <a href="{{ route('born_infos.create', $mixInfo) }}"
+                        class="text-blue-600 after:content-['_↗'] text-base dark:text-blue-500 py-1 px-3 transition-colors bg-transparent rounded-lg hover:bg-white">
+                        新規登録
+                    </a>
+                @endif
+                {{-- @endcan --}}
+            </div>
+        </div>
         <!-- born_table - start -->
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr
-                    class="bg-gray-100 border-b border-gray-400 dark:bg-gray-800 dark:border-gray-700 whitespace-nowrap">
-                    <th scope="col" class="ZenMaruGothic text-xl text-gray-600 py-2 px-8">出 産 情 報</th>
-                    <th scope="col" class=" px-6"></th>
-                    <th scope="col" class=" px-6"></th>
-                    <th scope="col" class=" px-6"></th>
-                    <th scope="col" class=" px-6"></th>
-                    <td class="items-center text-center py-2 px-6 space-x-3">
-                        {{-- @can('update', $post) --}}
-                        @if ($mixInfo)
-                            <a href="{{ route('born_infos.create', $mixInfo) }}"
-                                class="text-base text-gray-700 dark:text-blue-500 border-gray-600 hover:border-b-2">出産登録</a>
-                        @endif
-                        {{-- @endcan --}}
-                    </td>
-                </tr>
                 <tr class="border-b whitespace-nowrap">
                     <th scope="col" class="py-3 px-6">
                         出産日
@@ -425,30 +423,26 @@
     </div>
 
     <div class="overflow-x-auto relative shadow-md my-8">
+        <div
+            class="flex h-10 bg-gray-100 border-b border-gray-400 dark:bg-gray-800 dark:border-gray-700 whitespace-nowrap">
+            <div class="MplusRound text-xl font-medium text-gray-600 py-2 px-8">交 配 記 録</div>
+            <div class="px-4 leading-10">
+                {{-- @can('update', $post) --}}
+                @if ($mixInfo)
+                    <a href="{{ route('female_pigs.mix_infos.create', $femalePig) }}"
+                        class="text-blue-600 after:content-['_↗'] text-base dark:text-blue-500 py-1 px-3 transition-colors bg-transparent rounded-lg hover:bg-white">
+                        新規登録
+                    </a>
+                @endif
+                {{-- @endcan --}}
+            </div>
+        </div>
         {{-- <div class="overflow-x-auto relative shadow-md sm:rounded-lg mt-8"> --}}
         <!-- mix_table - start -->
         {{-- <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400"> --}}
         {{-- <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"> --}}
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr
-                    class="bg-gray-100 border-b border-gray-400 dark:bg-gray-800 dark:border-gray-700 whitespace-nowrap">
-                    {{-- <tr class="bg-stone-400 border-b dark:bg-gray-800 dark:border-gray-700 whitespace-nowrap"> --}}
-                    <th scope="col" class="ZenMaruGothic text-xl text-gray-600 py-2 px-8">交 配 記 録</th>
-                    {{-- <th scope="col" class="text-xl text-white p-3 px-8">交配記録</th> --}}
-                    <th scope="col" class="py-3 px-6"></th>
-                    <th scope="col" class="py-3 px-6"></th>
-                    <th scope="col" class="py-3 px-6"></th>
-                    <th scope="col" class="py-3 px-6"></th>
-                    <th scope="col" class="py-3 px-6"></th>
-                    <th scope="col" class="py-3 px-6"></th>
-                    <td class="items-center text-center py-4 px-6 space-x-3">
-                        {{-- @can('update', $post) --}}
-                        <a href="{{ route('female_pigs.mix_infos.create', $femalePig) }}" {{-- class="text-base text-white dark:text-blue-500 hover:underline whitespace-nowrap">新規登録</a> --}}
-                            class="text-base text-gray-700 dark:text-blue-500 border-gray-600 hover:border-b-2">交配登録</a>
-                        {{-- @endcan --}}
-                    </td>
-                </tr>
                 <tr class="border-b whitespace-nowrap">
                     <th scope="col" class="py-3 px-6">
                         交配日
@@ -511,19 +505,22 @@
                                 {{ $mixInfo->trouble_id == 2 ? '再発' : ($mixInfo->trouble_id == 3 ? '流産' : '') }}
                             </td>
                             <td class="flex flex-row items-center py-4 px-6">
-                                {{-- <td class="flex items-center py-4 px-6 space-x-3"> --}}
-                                <a href="{{ route('female_pigs.mix_infos.edit', [$femalePig, $mixInfo]) }}"
-                                    {{-- class="font-medium text-blue-600 dark:text-blue-500 hover:underline">編 集</a> --}}
-                                    class="basis-1/2 font-medium text-blue-600 dark:text-blue-500 hover:underline">編
-                                    集</a>
-                                <form action="{{ route('female_pigs.mix_infos.destroy', [$femalePig, $mixInfo]) }}"
-                                    method="post">
-                                    @csrf
-                                    @method('DELETE')
-                                    <input type="submit" value="削 除"
-                                        onclick="if(!confirm('交配記録を削除しますか？')){return false};"
-                                        class="basis-1/2 font-medium text-red-600 dark:text-red-500 hover:underline">
-                                </form>
+                                @if ($mixInfo->first_delete_male == null && $mixInfo->second_delete_male == null)
+                                    <a href="{{ route('female_pigs.mix_infos.edit', [$femalePig, $mixInfo]) }}"
+                                        {{-- class="font-medium text-blue-600 dark:text-blue-500 hover:underline">編 集</a> --}}
+                                        class="basis-1/2 font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                        編 集
+                                    </a>
+                                    <form
+                                        action="{{ route('female_pigs.mix_infos.destroy', [$femalePig, $mixInfo]) }}"
+                                        method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <input type="submit" value="削 除"
+                                            onclick="if(!confirm('交配記録を削除しますか？')){return false};"
+                                            class="basis-1/2 font-medium text-red-600 dark:text-red-500 hover:underline">
+                                    </form>
+                                @endif
                             </td>
                         </tr>
                     @endforeach
@@ -532,13 +529,16 @@
         </table>
         <!-- mix_table - end -->
     </div>
-    <div class="mt-4 mx-6 my-6 text-gray-700 text-right">
-        <p>再発、流産の記録は編集から記録できます</p>
+    <div class="mt-2 mx-6 my-6 text-gray-700 text-right">
+        <p>再発、流産は編集から記録できます。交配オスが廃用になった交配記録は修正、削除できません。</p>
     </div>
     <div class="text-right">TODO:抽出画面に戻るボタンフラグ作業後に1回で戻る
         <a href="#" onclick="history.back(-1);return false;">back-1戻る</a>
         <a href="#" onclick="history.back();return false;">back戻る</a>
-        <a href="javascript:history.back()">前に戻る</a>
+        <a href="javascript:history.back()"
+            class="py-1.5 px-4 transition-colors bg-transparent active:bg-gray-200 font-medium text-blue-600 rounded-lg hover:bg-gray-100 disabled:opacity-50">
+            前に戻る
+        </a>
         <a href="{{ route('extracts.index') }}">route戻るNG</a>
         <button onclick="location.href='/extracts'">location戻るNG</button>
         <input value="前に戻る" onclick="history.back();" type="button">

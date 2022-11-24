@@ -189,7 +189,7 @@ class FemalePigController extends Controller
             ->latest()
             ->get();
 
-        $count_born_infos       = count($born_infos);
+        $count_born_infos = count($born_infos);
         $count_lastY_born_infos = count($last_year_bornInfos);
 
         switch (true) {
@@ -199,20 +199,21 @@ class FemalePigController extends Controller
                 $born_info = null;
                 $born_info_last_time = null;
                 break;
-            
+
             case $count_born_infos == 1:
                 // 1回の出産情報を登録(回転数なし)
-                $born_infos[0]['rotate']  = null; // 回転数なし
-                $born_info                = $born_infos->first();
-                $born_info_last_time      = null;
-                $born_info['count_born']  = $count_born_infos; //出産回数
+                $born_infos[0]['rotate'] = null; // 回転数なし
+                $born_info = $born_infos->first();
+                $born_info_last_time = null;
+                $born_info['count_born'] = $count_born_infos; //出産回数
                 $born_info['count_lastY_born'] = $count_lastY_born_infos; //過去1年間の出産回数
                 $born_info['av_born_num'] = round(
-                                                $born_infos->avg('born_num'),2
-                                            ); //平均産子数
-                $born_info['av_rotate']   = null; //平均回転数
+                    $born_infos->avg('born_num'),
+                    2
+                ); //平均産子数
+                $born_info['av_rotate'] = null; //平均回転数
                 break;
-            
+
             default:
                 // 回転数を登録
                 $rotates = self::getRotate($born_infos); //回転数算出
@@ -221,21 +222,22 @@ class FemalePigController extends Controller
                 }
 
                 // 2回以上の出産情報を登録(回転数あり)
-                $born_info                     = $born_infos->first();
-                $born_info_last_time           = $born_infos[1];
-                $born_info['count_born']       = $count_born_infos; //出産回数
+                $born_info = $born_infos->first();
+                $born_info_last_time = $born_infos[1];
+                $born_info['count_born'] = $count_born_infos; //出産回数
                 $born_info['count_lastY_born'] = $count_lastY_born_infos; //過去1年間の出産回数
-                $born_info['av_born_num']      = round($born_infos->avg('born_num'), 2); //平均産子数
-                $born_info['av_rotate']        = round($born_infos->avg('rotate'), 2); //平均回転数
+                $born_info['av_born_num'] = round(
+                    $born_infos->avg('born_num'),
+                    2
+                ); //平均産子数
+                $born_info['av_rotate'] = round($born_infos->avg('rotate'), 2); //平均回転数
                 break;
         }
-
+        
         // softDelete対策
-        // self::maleSoftDeleteResolution($born_infos);
-        // self::maleSoftDeleteResolution($mixInfos);
-        self::softDeleteResolution($born_infos);
-        self::softDeleteResolution($mixInfos);
-        // dd($born_info_last_time);
+        self::maleSoftDeleteResolution($born_infos);
+        self::maleSoftDeleteResolution($mixInfos);
+
         return view('female_pigs.show')->with(
             compact(
                 'femalePig',
@@ -266,8 +268,10 @@ class FemalePigController extends Controller
      * @param  \App\Models\FemalePig  $femalePig
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateFemalePigRequest $request, FemalePig $femalePig)
-    {
+    public function update(
+        UpdateFemalePigRequest $request,
+        FemalePig $femalePig
+    ) {
         // error:最初の交配日<導入日
         $mix_day = $femalePig->mix_infos->first()->mix_day;
         if ($mix_day < $request->add_day) {
@@ -323,7 +327,7 @@ class FemalePigController extends Controller
     public function updateFlag(Request $request, FemalePig $femalePig)
     {
         $femalePig->warn_flag = $request->warn_flag;
-        
+
         try {
             $femalePig->save();
             return redirect(route('female_pigs.show', $femalePig));
@@ -336,7 +340,7 @@ class FemalePigController extends Controller
     {
         $mixInfo = $femalePig->mix_infos->last();
         $mixInfo->fill($request->all());
-        
+
         try {
             $mixInfo->save();
             return redirect(route('female_pigs.show', $femalePig));

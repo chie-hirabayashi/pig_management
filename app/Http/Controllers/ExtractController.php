@@ -100,13 +100,11 @@ class ExtractController extends Controller
                     $bornInfo_2past[1]['troubles'] = $count_troubles;
             }
 
-
             // 抽出条件に従い抽出
             // 直前のみで抽出
             if ($condition == 1) {
                 if (
-                    $bornInfo_2past[0]->rotate <=
-                        $condition_first_rotate &&
+                    $bornInfo_2past[0]->rotate <= $condition_first_rotate &&
                     $bornInfo_2past[0]->born_num <= $condition_first_num
                 ) {
                     $extracts[] = $bornInfo_2past[0];
@@ -169,12 +167,18 @@ class ExtractController extends Controller
                     case $option_operator == 1:
                         if (
                             $femalePig->age >= $condition_female_age &&
-                            $bornInfo_2past[0]->troubles >= $condition_trouble_num &&
-                            $bornInfo_2past[1]->troubles >= $condition_trouble_num &&
-                            ($bornInfo_2past[0]->rotate <= $condition_first_rotate ||
-                                $bornInfo_2past[0]->born_num <= $condition_first_num) &&
-                            ($bornInfo_2past[1]->rotate <= $condition_second_rotate ||
-                                $bornInfo_2past[1]->born_num <= $condition_second_num)
+                            $bornInfo_2past[0]->troubles >=
+                                $condition_trouble_num &&
+                            $bornInfo_2past[1]->troubles >=
+                                $condition_trouble_num &&
+                            ($bornInfo_2past[0]->rotate <=
+                                $condition_first_rotate ||
+                                $bornInfo_2past[0]->born_num <=
+                                    $condition_first_num) &&
+                            ($bornInfo_2past[1]->rotate <=
+                                $condition_second_rotate ||
+                                $bornInfo_2past[1]->born_num <=
+                                    $condition_second_num)
                         ) {
                             $extracts[] = $bornInfo_2past[0];
                             $extracts[] = $bornInfo_2past[1];
@@ -184,13 +188,19 @@ class ExtractController extends Controller
                     // または
                     case $option_operator == 2:
                         if (
-                            ($bornInfo_2past[0]->rotate <= $condition_first_rotate ||
-                                $bornInfo_2past[0]->born_num <= $condition_first_num) &&
-                            ($bornInfo_2past[1]->rotate <= $condition_second_rotate ||
-                                $bornInfo_2past[1]->born_num <= $condition_second_num) &&
+                            ($bornInfo_2past[0]->rotate <=
+                                $condition_first_rotate ||
+                                $bornInfo_2past[0]->born_num <=
+                                    $condition_first_num) &&
+                            ($bornInfo_2past[1]->rotate <=
+                                $condition_second_rotate ||
+                                $bornInfo_2past[1]->born_num <=
+                                    $condition_second_num) &&
                             ($femalePig->age >= $condition_female_age ||
-                            $bornInfo_2past[0]->troubles >= $condition_trouble_num ||
-                            $bornInfo_2past[1]->troubles >= $condition_trouble_num)
+                                $bornInfo_2past[0]->troubles >=
+                                    $condition_trouble_num ||
+                                $bornInfo_2past[1]->troubles >=
+                                    $condition_trouble_num)
                         ) {
                             $extracts[] = $bornInfo_2past[0];
                             $extracts[] = $bornInfo_2past[1];
@@ -198,11 +208,11 @@ class ExtractController extends Controller
                         break;
                 }
             }
-
         }
         // dd($extracts);
 
-        self::softDeleteResolution($extracts);
+        self::maleSoftDeleteResolution($extracts);
+        // self::softDeleteResolution($extracts);
 
         return view('extracts.index')->with(compact('extracts', 'conditions'));
     }
@@ -229,41 +239,41 @@ class ExtractController extends Controller
 
     // first_male_pigとsecond_male_pigの
     // softDeleteとnull対策function
-    public function softDeleteResolution($mixInfos)
-    {
-        foreach ($mixInfos as $mixInfo) {
-            // first_male_pigのsoftDelete対策
-            $judge_1 = MalePig::where('id', $mixInfo->first_male_id)
-                ->onlyTrashed()
-                ->get();
-            if (!$judge_1->isEmpty()) {
-                $deletePig_1 = $judge_1[0]->individual_num;
-                $mixInfo->first_delete_male = $deletePig_1;
-                $mixInfo->first_male = null;
-            } else {
-                $mixInfo->first_delete_male = null;
-                $mixInfo->first_male = $mixInfo->first_male_pig->individual_num;
-            }
+    // public function softDeleteResolution($mixInfos)
+    // {
+    //     foreach ($mixInfos as $mixInfo) {
+    //         // first_male_pigのsoftDelete対策
+    //         $judge_1 = MalePig::where('id', $mixInfo->first_male_id)
+    //             ->onlyTrashed()
+    //             ->get();
+    //         if (!$judge_1->isEmpty()) {
+    //             $deletePig_1 = $judge_1[0]->individual_num;
+    //             $mixInfo->first_delete_male = $deletePig_1;
+    //             $mixInfo->first_male = null;
+    //         } else {
+    //             $mixInfo->first_delete_male = null;
+    //             $mixInfo->first_male = $mixInfo->first_male_pig->individual_num;
+    //         }
 
-            // second_male_pigのnullとsoftDelete対策
-            if ($mixInfo->second_male_id !== null) {
-                $judge_2 = MalePig::where('id', $mixInfo->second_male_id)
-                    ->onlyTrashed()
-                    ->get();
-                if (!$judge_2->isEmpty()) {
-                    $deletePig_2 = $judge_2[0]->individual_num;
-                    $mixInfo->second_delete_male = $deletePig_2;
-                    $mixInfo->second_male = null;
-                } else {
-                    $mixInfo->second_delete_male = null;
-                    $mixInfo->second_male =
-                        $mixInfo->second_male_pig->individual_num;
-                }
-            } else {
-                $mixInfo->second_delete_male = null;
-                $mixInfo->second_male = null;
-            }
-        }
-        return $mixInfos;
-    }
+    //         // second_male_pigのnullとsoftDelete対策
+    //         if ($mixInfo->second_male_id !== null) {
+    //             $judge_2 = MalePig::where('id', $mixInfo->second_male_id)
+    //                 ->onlyTrashed()
+    //                 ->get();
+    //             if (!$judge_2->isEmpty()) {
+    //                 $deletePig_2 = $judge_2[0]->individual_num;
+    //                 $mixInfo->second_delete_male = $deletePig_2;
+    //                 $mixInfo->second_male = null;
+    //             } else {
+    //                 $mixInfo->second_delete_male = null;
+    //                 $mixInfo->second_male =
+    //                     $mixInfo->second_male_pig->individual_num;
+    //             }
+    //         } else {
+    //             $mixInfo->second_delete_male = null;
+    //             $mixInfo->second_male = null;
+    //         }
+    //     }
+    //     return $mixInfos;
+    // }
 }
