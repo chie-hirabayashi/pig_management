@@ -35,7 +35,7 @@
                                     @endif
                                 </div>
                                 <a href="{{ route('male_pigs.show', $malePig) }}"
-                                    class="text-gray-700 text-base after:content-['_↗'] transition-colors bg-transparent hover:underline">
+                                    class="text-gray-700 text-base after:content-['_↗'] transition-colors bg-transparent hover:underline hover:text-blue-500">
                                     No.
                                     <span class="text-xl">
                                         {{ $malePig->individual_num }}
@@ -75,19 +75,37 @@
                             <!-- edit & delete - start -->
                             <div class="flex flex-row text-center my-4 mx-2">
                                 {{-- @can('update', $post) --}}
-                                <a href="{{ route('male_pigs.edit', $malePig) }}"
+                                {{-- <a href="{{ route('male_pigs.edit', $malePig) }}"
                                     class="bg-blue-400 hover:bg-blue-600 text-sm text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline w-16 mr-2">
                                     編 集
-                                </a>
+                                </a> --}}
                                 {{-- @endcan --}}
                                 {{-- @can('delete', $post) --}}
-                                <form action="{{ route('male_pigs.destroy', $malePig) }}" method="post">
+                                {{-- <form action="{{ route('male_pigs.destroy', $malePig) }}" method="post">
                                     @csrf
                                     @method('DELETE')
                                     <input type="submit" value="廃 用"
                                         onclick="if(!confirm('廃用にしますか？')){return false};"
                                         class="bg-pink-400 hover:bg-pink-600 text-sm text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline w-16 mr-2">
-                                </form>
+                                </form> --}}
+
+                                <div class="inline-flex rounded-md shadow-sm" role="group">
+                                    {{-- <button type="button" --}}
+                                    <a href="{{ route('male_pigs.edit', $malePig) }}"
+                                            class="py-1 px-3 text-sm font-medium text-gray-900 bg-white rounded-l-lg border border-gray-200 hover:bg-blue-200 hover:text-blue-800 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+                                        編 集
+                                    </a>
+                                    {{-- </button> --}}
+                                    <form action="{{ route('male_pigs.destroy', $malePig) }}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" onclick="if(!confirm('廃用にしますか？')){return false};"
+                                            class="py-1 px-3 text-sm font-medium text-gray-900 bg-white rounded-r-md border border-gray-200 hover:bg-red-200 hover:text-red-800 focus:z-10 focus:ring-2 focus:ring-red-700 focus:text-red-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white">
+                                            廃 用
+                                        </button>
+                                    </form>
+                                </div>
+
                             </div>
                             <!-- edit & delete - end -->
                         </div>

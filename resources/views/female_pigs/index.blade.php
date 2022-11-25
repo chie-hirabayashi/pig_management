@@ -8,7 +8,7 @@
     <!-- header - end -->
 
     <nav x-data="{ isOpen: false }" class="relative bg-white shadow dark:bg-gray-800">
-    {{-- <nav x-data="{ isOpen: false }" class="relative"> --}}
+        {{-- <nav x-data="{ isOpen: false }" class="relative"> --}}
         <div class="container px-6 py-2 mx-auto md:flex">
             <div class="">
 
@@ -117,7 +117,7 @@
                                     @endif
                                 </div>
                                 <a href="{{ route('female_pigs.show', $femalePig) }}"
-                                    class="text-gray-700 text-base after:content-['_↗'] transition-colors bg-transparent hover:underline">
+                                    class="text-gray-700 text-base after:content-['_↗'] transition-colors bg-transparent hover:underline hover:text-blue-500">
                                     No.
                                     <span class="text-xl">
                                         {{ $femalePig->individual_num }}
@@ -132,26 +132,40 @@
                                     {{ $femalePig->age }} 歳
                                 </div>
                                 @if ($femalePig->status == '観察中')
-                                    <div
+                                    {{-- <div
                                         class="text-gray-500 underline decoration-8 decoration-sky-500/30 text-base md:text-base font-bold text-center sm:text-center">
                                         {{ $femalePig->status }}
+                                    </div> --}}
+                                    <div
+                                        class="text-base MplusRound italic text-center before:block before:absolute before:-inset-1 before:-skew-y-3 before:bg-sky-500/50 relative inline-block">
+                                        <span class="relative text-white">{{ $femalePig->status }}</span>
                                     </div>
                                 @endif
                                 @if ($femalePig->status == '待機中')
-                                    <div
+                                    {{-- <div
                                         class="text-gray-500 underline decoration-8 decoration-lime-500/30 text-base md:text-base font-bold text-center sm:text-center">
-                                        {{-- <div class="text-gray-500 underline decoration-lime-400 decoration-double text-base md:text-base font-bold text-center sm:text-center"> --}}
                                         {{ $femalePig->status }}
+                                    </div> --}}
+                                    <div
+                                        class="text-base MplusRound italic text-center before:block before:absolute before:-inset-1 before:-skew-y-3 before:bg-lime-500/50 relative inline-block">
+                                        <span class="relative text-white">{{ $femalePig->status }}</span>
                                     </div>
                                 @endif
                                 @if ($femalePig->status == '保育中')
-                                    <div
+                                    {{-- <div
                                         class="text-gray-500 underline decoration-8 decoration-pink-500/30 text-base md:text-base font-bold text-center sm:text-center">
-                                        {{-- <div class="text-gray-500 underline decoration-pink-400 decoration-double text-base md:text-base font-bold text-center sm:text-center"> --}}
                                         {{ $femalePig->status }}
+                                    </div> --}}
+                                    <div
+                                        class="text-base MplusRound italic text-center before:block before:absolute before:-inset-1 before:-skew-y-3 before:bg-pink-500/50 relative inline-block">
+                                        <span class="relative text-white">{{ $femalePig->status }}</span>
                                     </div>
                                 @endif
                             </div>
+                            {{-- <div
+                                class="text-base MplusRound italic text-center before:block before:absolute before:-inset-1 before:-skew-y-3 before:bg-pink-500/50 relative inline-block">
+                                <span class="relative text-white">保育中</span>
+                            </div> --}}
                             <!-- age & status - end -->
 
                             <!-- schedule - start -->
@@ -170,11 +184,31 @@
                             @if ($femalePig->status == '観察中')
                                 @if (date('Y-m-d', strtotime('+3 day')) > $femalePig->mix_infos->last()->first_recurrence_schedule &&
                                     $femalePig->mix_infos->last()->first_recurrence == 0)
-                                    <p class="text-sm text-red-600">再発確認！</p>
+                                    {{-- <p class="text-sm text-red-600">再発確認！</p> --}}
+                                    <span
+                                        class="bg-red-100 text-red-800 text-sm font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-800">
+                                        <svg aria-hidden="true" class="mr-1 w-3 h-3" fill="currentColor"
+                                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>
+                                        再発確認時期
+                                    </span>
                                 @endif
                                 @if (date('Y-m-d', strtotime('+3 day')) > $femalePig->mix_infos->last()->second_recurrence_schedule &&
                                     $femalePig->mix_infos->last()->second_recurrence == 0)
-                                    <p class="text-sm text-red-600">再発確認！</p>
+                                    {{-- <p class="text-sm text-red-600">再発確認！</p> --}}
+                                    <span
+                                        class="bg-red-100 text-red-800 text-sm font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-800">
+                                        <svg aria-hidden="true" class="mr-1 w-3 h-3" fill="currentColor"
+                                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>
+                                        再発確認時期
+                                    </span>
                                 @endif
                             @endif
                             <!-- alert - end -->
