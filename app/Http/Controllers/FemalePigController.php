@@ -21,10 +21,11 @@ class FemalePigController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $searchItems = FemalePig::all()->sortBy('individual_num');
         $femalePigs = FemalePig::with('mix_infos')->get();
-
+        // dd($searchItems);
         // Explanation:状態statusの区分
         // 観察中:交配から120日間(交配~出産予定114日+6日)
         // 保育中:出産から24日間(離乳21~25日)
@@ -68,11 +69,29 @@ class FemalePigController extends Controller
                     break;
             }
         }
-
+        // dd($femalePigs);
         // status順に並び替え
         $femalePigs = $femalePigs->sortByDesc('status');
 
-        return view('female_pigs.index')->with(compact('femalePigs'));
+        // 検索機能
+        $search = $request->search;
+        $search_flag = $request->search_flag;
+        $search_age = $request->search_age;
+        if ($search !== null) {
+            $femalePigs = $femalePigs->where('id', $search);
+        }
+        if ($search_flag) {
+            $femalePigs = $femalePigs->where('warn_flag', $search_flag);
+        }
+        if ($search_age) {
+            $femalePigs = $femalePigs->filter(function ($femalePig) use ($search_age) {
+                return $femalePig->age == $search_age;
+            });
+        }
+
+        return view('female_pigs.index')->with(
+            compact('femalePigs', 'searchItems')
+        );
     }
 
     /**
@@ -233,7 +252,7 @@ class FemalePigController extends Controller
                 $born_info['av_rotate'] = round($born_infos->avg('rotate'), 2); //平均回転数
                 break;
         }
-        
+
         // softDelete対策
         self::maleSoftDeleteResolution($born_infos);
         self::maleSoftDeleteResolution($mixInfos);

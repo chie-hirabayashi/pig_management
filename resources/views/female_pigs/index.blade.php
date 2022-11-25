@@ -7,9 +7,91 @@
     </x-slot>
     <!-- header - end -->
 
+    <nav x-data="{ isOpen: false }" class="relative bg-white shadow dark:bg-gray-800">
+    {{-- <nav x-data="{ isOpen: false }" class="relative"> --}}
+        <div class="container px-6 py-2 mx-auto md:flex">
+            <div class="">
+
+                <!-- Mobile menu button -->
+                <div class="flex h-8 mr-4 lg:hidden">
+                    <button x-cloak @click="isOpen = !isOpen" type="button"
+                        class="leading-8 text-gray-500 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-400 focus:outline-none focus:text-gray-600 dark:focus:text-gray-400"
+                        aria-label="toggle menu">
+                        <svg x-show="!isOpen" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 8h16M4 16h16" />
+                        </svg>
+
+                        <svg x-show="isOpen" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
+            <div x-cloak :class="[isOpen ? 'translate-x-0 opacity-100 ' : 'opacity-0 -translate-x-full']"
+                class="absolute inset-x-0 z-20 w-full px-4 py-3 transition-all duration-300 ease-in-out bg-white dark:bg-gray-800 md:mt-0 md:p-0 md:top-0 md:relative md:opacity-100 md:translate-x-0 md:flex md:items-center md:justify-between">
+
+                <div class="relative mt-4 md:mt-0">
+                    <div class="flex">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none">
+                                <path
+                                    d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round"></path>
+                            </svg>
+                        </span>
+                        <form action="{{ route('female_pigs.index') }}" method="GET">
+                            <select name="search" id=""
+                                class="py-1 pl-10 pr-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 focus:ring-blue-300">
+                                <option value=""></option>
+                                @foreach ($searchItems as $searchItem)
+                                    <option value="{{ $searchItem->id }}">
+                                        {{ $searchItem->individual_num }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            {{-- <input type="search" placeholder="個体番号を入力" name="search" value="{{ old('search') }}"> --}}
+                            <input type="submit" value="検索">
+                        </form>
+                    </div>
+                </div>
+
+                <div class="relative mt-4 md:mt-0">
+                    <div class="flex">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none">
+                                <path
+                                    d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round"></path>
+                            </svg>
+                        </span>
+                    </div>
+                    <form action="{{ route('female_pigs.index') }}" method="GET">
+                        {{-- <label for="search_age">年齢検索</label> --}}
+                        <input type="number" name="search_age" min=1 max=10 value="{{ 'search_age' }}"
+                            class="w-25 py-1 pl-10 pr-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 focus:ring-blue-300">
+                        <input type="submit" value="年齢検索">
+                    </form>
+                </div>
+
+                <div class="relative mt-4 md:mt-0">
+                    <form action="{{ route('female_pigs.index') }}" method="GET">
+                        <input type="hidden" name="search_flag" value="1">
+                        <input type="submit" value="要注意個体">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </nav>
+
     <!-- message -->
     <x-flash-msg :message="session('notice')" />
-    TODO:検索機能
+
     <div class="bg-white py-6 sm:py-8 lg:py-12">
         <div class="max-w-screen-xl px-2 md:px-4 mx-auto">
             <!-- title -->
@@ -38,7 +120,7 @@
                                     class="text-gray-700 text-base after:content-['_↗'] transition-colors bg-transparent hover:underline">
                                     No.
                                     <span class="text-xl">
-                                    {{ $femalePig->individual_num }}
+                                        {{ $femalePig->individual_num }}
                                     </span>
                                 </a>
                             </div>
