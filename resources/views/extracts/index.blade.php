@@ -6,7 +6,9 @@
         </h2>
     </x-slot>
     <!-- header - end -->
-
+予測回転数の定義:最後の出産から現在までの日数/365日<br>
+次回出産時の回転数は予測回転数以下である
+TODO:1回も出産していないものは抽出できないバグ
     <!-- body - start -->
     <div class="bg-white py-6 sm:py-8 lg:py-12">
         <!-- base_information - start -->
@@ -270,6 +272,9 @@
                     <th scope="col" class="py-3">
                         再発、流産
                     </th>
+                    <th scope="col" class="py-3">
+                        予測回転数
+                    </th>
                 </tr>
             </thead>
 
@@ -318,6 +323,12 @@
                                 {{ $extract->troubles >= $conditions['trouble_num'] ? $extract->troubles . '回' : '' }}
                             </span>
                             {{ $extract->troubles >= $conditions['trouble_num'] ? '' : $extract->troubles . '回' }}
+                        </td>
+                        <td class="py-4 px-6">
+                            <span class="text-red-500">
+                                {{ $extract->rotate_prediction <= 1.5 ? $extract->rotate_prediction . '回' : '' }}
+                            </span>
+                            {{ $extract->rotate_prediction <= 1.5 ? '' : $extract->rotate_prediction . '回' }}
                         </td>
                     </tr>
                 @endforeach
