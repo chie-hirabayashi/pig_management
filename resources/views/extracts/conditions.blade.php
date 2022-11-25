@@ -4,7 +4,7 @@
             {{ __('extracts.conditions') }}
         </h2>
     </x-slot>
-
+TODO:予測値で抽出。導入当初から不調な個体を抽出するため
     <section
         class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-10 px-8 py-4 bg-white border rounded shadow-md dark:bg-gray-800">
         <h2 class="text-2xl MplusRound text-gray-700 capitalize dark:text-white">母豚の抽出条件</h2>
