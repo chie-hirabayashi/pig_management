@@ -6,8 +6,10 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
-use App\Models\MalePig;
 use App\Models\FemalePig;
+use App\Models\MalePig;
+use App\Models\MixInfo;
+use Carbon\Carbon;
 
 class Controller extends BaseController
 {
@@ -65,5 +67,34 @@ class Controller extends BaseController
             $delete_female = null;
         }
         return array($exist_female, $delete_female);
+    }
+
+    // 回転数算出function
+    public function getRotate($bornInfos)
+    {
+        $array = [];
+        $count = count($bornInfos);
+        for ($i = 0; $i < $count - 1; $i++) {
+            $carbon_1 = Carbon::create($bornInfos[$i]->born_day);
+            $carbon_2 = Carbon::create($bornInfos[$i + 1]->born_day);
+            $rotate = 365 / $carbon_1->diffInDays($carbon_2);
+            // born_infosにrotateを追加
+            $array[$i] = round($rotate, 2);
+        }
+        return $array;
+    }
+
+    // 予測回転数算出
+    public function getPredictionRotate($femalePig)
+    {
+            $bornInfo_last = MixInfo::where('female_id', $femalePig->id)
+                ->whereNotNull('born_day')
+                ->get()
+                ->last();
+            $carbon_now = Carbon::now();
+            $carbon_last = Carbon::create($bornInfo_last->born_day);
+            $rotate_prediction = 365 / $carbon_now->diffInDays($carbon_last);
+            
+            return round($rotate_prediction, 2);
     }
 }

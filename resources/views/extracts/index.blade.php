@@ -6,9 +6,8 @@
         </h2>
     </x-slot>
     <!-- header - end -->
-予測回転数の定義:最後の出産から現在までの日数/365日<br>
-次回出産時の回転数は予測回転数以下である
-TODO:1回も出産していないものは抽出できないバグ
+    予測回転数の定義:最後の出産から現在までの日数/365日<br>
+    次回出産時の回転数は予測回転数以下である
     <!-- body - start -->
     <div class="bg-white py-6 sm:py-8 lg:py-12">
         <!-- base_information - start -->
@@ -236,6 +235,18 @@ TODO:1回も出産していないものは抽出できないバグ
                             </div>
                         </div>
                     @endif
+                    <div class="flex h-8 max-w-lg text-gray-600">
+                        <div class="mx-2 font-semibold leading-8">
+                            その他条件&ensp;:
+                        </div>
+                        <div class="mx-1 text-sm leading-8">
+                            予測回転数:
+                            <span class="text-red-500 text-lg">
+                                1.8回
+                            </span>
+                            以下
+                        </div>
+                    </div>
                 </div>
 
                 <!-- base - end -->
@@ -285,7 +296,7 @@ TODO:1回も出産していないものは抽出できないバグ
                         <td class="py-4 px-6">
                             <a href="{{ route('female_pigs.show', $extract->female_pig) }}"
                                 class="text-blue-600 after:content-['_↗'] dark:text-blue-500 transition-colors bg-transparent hover:underline">
-                            {{ $extract->female_pig->individual_num }}
+                                {{ $extract->female_pig->individual_num }}
                             </a>
                         </td>
                         <td class="py-4 px-6">
@@ -296,7 +307,7 @@ TODO:1回も出産していないものは抽出できないバグ
                         </td>
                         <td class="py-4 px-6">
                             <span class="text-red-500">
-                                {{ $extract->rotate <= $conditions['first_rotate'] ? $extract->rotate . '回' : '' }}
+                                {{ $extract->rotate && $extract->rotate <= $conditions['first_rotate'] ? $extract->rotate . '回' : '' }}
                             </span>
                             {{ $extract->rotate <= $conditions['first_rotate'] ? '' : $extract->rotate . '回' }}
                         </td>
@@ -326,9 +337,9 @@ TODO:1回も出産していないものは抽出できないバグ
                         </td>
                         <td class="py-4 px-6">
                             <span class="text-red-500">
-                                {{ $extract->rotate_prediction <= 1.5 ? $extract->rotate_prediction . '回' : '' }}
+                                {{ $extract->rotate_prediction && $extract->rotate_prediction <= 1.8 ? $extract->rotate_prediction . '回' : '' }}
                             </span>
-                            {{ $extract->rotate_prediction <= 1.5 ? '' : $extract->rotate_prediction . '回' }}
+                            {{ $extract->rotate_prediction <= 1.8 ? '' : $extract->rotate_prediction . '回' }}
                         </td>
                     </tr>
                 @endforeach
