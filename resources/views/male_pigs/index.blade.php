@@ -26,16 +26,16 @@
                     <div class="flex flex-col border rounded-lg p-4 md:p-6">
                         <div class="flex flex-col items-center gap-2 md:gap-4">
                             <!-- individual_num & flag - start -->
-                            <div class="flex text-center">
+                            <div class="flex h-10 text-center">
                                 <div class="mx-2">
                                     @if ($malePig->warn_flag == 1)
-                                        <div class="text-red-500">
+                                        <div class="text-red-500 leading-10">
                                             <i class="fa-solid fa-triangle-exclamation"></i>
                                         </div>
                                     @endif
                                 </div>
                                 <a href="{{ route('male_pigs.show', $malePig) }}"
-                                    class="text-gray-700 text-base after:content-['_↗'] transition-colors bg-transparent hover:underline hover:text-blue-500">
+                                    class="text-gray-700 text-base leading-10 after:content-['_↗'] transition-colors bg-transparent hover:underline hover:text-blue-500">
                                     No.
                                     <span class="text-xl">
                                         {{ $malePig->individual_num }}

@@ -4,7 +4,7 @@
             {{ __('extracts.conditions') }}
         </h2>
     </x-slot>
-TODO:予測値で抽出。導入当初から不調な個体を抽出するため
+    TODO:予測値で抽出。導入当初から不調な個体を抽出するため
     <section
         class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-10 px-8 py-4 bg-white border rounded shadow-md dark:bg-gray-800">
         <h2 class="text-2xl MplusRound text-gray-700 capitalize dark:text-white">母豚の抽出条件</h2>
@@ -13,7 +13,10 @@ TODO:予測値で抽出。導入当初から不調な個体を抽出するため
 
         <form action="{{ route('extracts.index') }}" method="POST" class="rounded pt-3 mb-4">
             @csrf
-            <div class="text-gray-700 mb-2 dark:text-gray-200" for="">抽出方法</div>
+            <div class="text-gray-700 mb-2 dark:text-gray-200" for="">
+                <i class="fa-solid fa-pen-to-square"></i>
+                抽出方法
+            </div>
             <div class="grid max-w-lg grid-cols-1 gap-6 sm:grid-cols-1">
                 <select name="condition" id="box" onchange="change();"
                     class="px-3 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
@@ -26,7 +29,10 @@ TODO:予測値で抽出。導入当初から不調な個体を抽出するため
                 <!-- first_condition - start -->
                 <div class="grid grid-cols-3 mb-1">
                     <div class="mt-4">
-                        <label class="text-gray-700 dark:text-gray-200" for="">直近の回転数</label>
+                        <label class="text-gray-700 dark:text-gray-200" for="">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                            直近の回転数
+                        </label>
                         <div class="flex mt-2">
                             <input id="first_rotate" type="number" name="first_rotate"
                                 value="{{ 1.8, old('first_rotate') }}" step="0.1" min="1.0" max="2.5"
@@ -45,7 +51,10 @@ TODO:予測値で抽出。導入当初から不調な個体を抽出するため
                     </div>
                     <!-- second_operator - end -->
                     <div class="mt-4">
-                        <label class="text-gray-700 dark:text-gray-200" for="">直近の産子数</label>
+                        <label class="text-gray-700 dark:text-gray-200" for="">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                            直近の産子数
+                        </label>
                         <div class="flex mt-2">
                             <input id="first_born_num" type="number" name="first_born_num"
                                 value="{{ 8, old('first_born_num') }}" min="1" max="10"
@@ -59,7 +68,10 @@ TODO:予測値で抽出。導入当初から不調な個体を抽出するため
                 <!-- second_condition - start -->
                 <div id="second_condition" style="display: none" class="grid grid-cols-3 mb-1">
                     <div class="mt-4">
-                        <label class="text-gray-700 dark:text-gray-200" for="">前回の回転数</label>
+                        <label class="text-gray-700 dark:text-gray-200" for="">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                            前回の回転数
+                        </label>
                         <div class="flex mt-2">
                             <input id="second_rotate" type="number" name="second_rotate"
                                 value="{{ 1.8, old('second_rotate') }}" step="0.1" min="1.0" max="2.5"
@@ -71,7 +83,10 @@ TODO:予測値で抽出。導入当初から不調な個体を抽出するため
                         <p class="text-sm">または</p>
                     </div>
                     <div class="mt-4">
-                        <label class="text-gray-700 dark:text-gray-200" for="">前回の産子数</label>
+                        <label class="text-gray-700 dark:text-gray-200" for="">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                            前回の産子数
+                        </label>
                         <div class="flex mt-2">
                             <input id="second_born_num" type="number" name="second_born_num"
                                 value="{{ 8, old('second_born_num') }}" min="1" max="10"
@@ -85,7 +100,10 @@ TODO:予測値で抽出。導入当初から不調な個体を抽出するため
                 <!-- option_condition - start -->
                 <div id="option_condition" style="display: none" class="grid grid-cols-3 mb-1">
                     <div class="mt-4">
-                        <label class="text-gray-700 dark:text-gray-200" for="">母豚の年齢</label>
+                        <label class="text-gray-700 dark:text-gray-200" for="">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                            母豚の年齢
+                        </label>
                         <div class="flex mt-2">
                             <input id="female_age" type="number" name="female_age" value="{{ 4, old('female_age') }}"
                                 min="1" max="10"
@@ -110,7 +128,10 @@ TODO:予測値で抽出。導入当初から不調な個体を抽出するため
                         </div>
                     </div>
                     <div class="mt-4">
-                        <label class="text-gray-700 dark:text-gray-200" for="">再発および流産の回数</label>
+                        <label class="text-gray-700 dark:text-gray-200" for="">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                            再発・流産の回数
+                        </label>
                         <div class="flex mt-2">
                             <input id="trouble_num" type="number" name="trouble_num"
                                 value="{{ 1, old('trouble_num') }}" min="1" max="10"
@@ -118,6 +139,12 @@ TODO:予測値で抽出。導入当初から不調な個体を抽出するため
                             <p class="mt-5 ml-2 text-sm text-gray-700">回以上</p>
                         </div>
                     </div>
+                </div>
+                <div>
+                    <p class="text-gray-700 dark:text-gray-200">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        予測回転数1.8以下
+                    </p>
                 </div>
                 <!-- option_condition - end -->
             </div>

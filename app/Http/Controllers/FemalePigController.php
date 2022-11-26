@@ -32,6 +32,8 @@ class FemalePigController extends Controller
         // 待機中:再発、流産後(+上記以外)
 
         foreach ($femalePigs as $femalePig) {
+            // $femalePig = FemalePig::where('individual_num', '24-1')->get();
+            // $femalePig = $femalePig[0];
             $mixInfo = $femalePig->mix_infos->last();
             // $today = Carbon::now(); //本設定
             $today = Carbon::create('2022-10-25'); //仮設定
@@ -68,26 +70,44 @@ class FemalePigController extends Controller
                     $femalePig->status = '待機中';
                     break;
             }
+
+            $bornInfo_last = MixInfo::where('female_id', $femalePig->id)
+                ->whereNotNull('born_day')
+                ->get()
+                ->last();
+            // bornInfoがある場合、予測回転数算出
+            if ($bornInfo_last) {
+                $femalePig->rotate_prediction = self::getPredictionRotate($femalePig);
+            }
         }
-        // dd($femalePigs);
+        
         // status順に並び替え
         $femalePigs = $femalePigs->sortByDesc('status');
 
         // 検索機能
         $search = $request->search;
-        $search_flag = $request->search_flag;
         $search_age = $request->search_age;
+        $search_flag = $request->search_flag;
+        $search_rotate = $request->search_rotate;
         if ($search !== null) {
             $femalePigs = $femalePigs->where('id', $search);
+        }
+        if ($search_age) {
+            $femalePigs = $femalePigs->filter(function ($femalePig) use (
+                $search_age
+            ) {
+                return $femalePig->age == $search_age;
+            });
         }
         if ($search_flag) {
             $femalePigs = $femalePigs->where('warn_flag', $search_flag);
         }
-        if ($search_age) {
-            $femalePigs = $femalePigs->filter(function ($femalePig) use ($search_age) {
-                return $femalePig->age == $search_age;
-            });
+        if ($search_rotate) {
+            $femalePigs = $femalePigs
+                ->where('rotate_prediction', '!==', null)
+                ->where('rotate_prediction', '<=', 1.8);
         }
+        // dd($femalePigs);
 
         return view('female_pigs.index')->with(
             compact('femalePigs', 'searchItems')
@@ -384,58 +404,58 @@ class FemalePigController extends Controller
             ->with('notice', 'インポートしました');
     }
 
-    // 回転数算出function
-    public function getRotate($bornInfos)
-    {
-        $array = [];
-        $count = count($bornInfos);
-        for ($i = 0; $i < $count - 1; $i++) {
-            $carbon_1 = Carbon::create($bornInfos[$i]->born_day);
-            $carbon_2 = Carbon::create($bornInfos[$i + 1]->born_day);
-            $rotate = 365 / $carbon_1->diffInDays($carbon_2);
-            // born_infosにrotateを追加
-            $array[$i] = round($rotate, 2);
-        }
-        return $array;
-    }
+    // // 回転数算出function
+    // public function getRotate($bornInfos)
+    // {
+    //     $array = [];
+    //     $count = count($bornInfos);
+    //     for ($i = 0; $i < $count - 1; $i++) {
+    //         $carbon_1 = Carbon::create($bornInfos[$i]->born_day);
+    //         $carbon_2 = Carbon::create($bornInfos[$i + 1]->born_day);
+    //         $rotate = 365 / $carbon_1->diffInDays($carbon_2);
+    //         // born_infosにrotateを追加
+    //         $array[$i] = round($rotate, 2);
+    //     }
+    //     return $array;
+    // }
 
     // first_male_pigとsecond_male_pigの
     // softDeleteとnull対策function
-    public function softDeleteResolution($mixInfos)
-    {
-        foreach ($mixInfos as $mixInfo) {
-            // first_male_pigのsoftDelete対策
-            $judge_1 = MalePig::where('id', $mixInfo->first_male_id)
-                ->onlyTrashed()
-                ->get();
-            if ($judge_1->isnotEmpty()) {
-                $deletePig_1 = $judge_1[0]->individual_num;
-                $mixInfo->first_delete_male = $deletePig_1;
-                $mixInfo->first_male = null;
-            } else {
-                $mixInfo->first_delete_male = null;
-                $mixInfo->first_male = $mixInfo->first_male_pig->individual_num;
-            }
+    // public function softDeleteResolution($mixInfos)
+    // {
+    //     foreach ($mixInfos as $mixInfo) {
+    //         // first_male_pigのsoftDelete対策
+    //         $judge_1 = MalePig::where('id', $mixInfo->first_male_id)
+    //             ->onlyTrashed()
+    //             ->get();
+    //         if ($judge_1->isnotEmpty()) {
+    //             $deletePig_1 = $judge_1[0]->individual_num;
+    //             $mixInfo->first_delete_male = $deletePig_1;
+    //             $mixInfo->first_male = null;
+    //         } else {
+    //             $mixInfo->first_delete_male = null;
+    //             $mixInfo->first_male = $mixInfo->first_male_pig->individual_num;
+    //         }
 
-            // second_male_pigのnullとsoftDelete対策
-            if ($mixInfo->second_male_id !== null) {
-                $judge_2 = MalePig::where('id', $mixInfo->second_male_id)
-                    ->onlyTrashed()
-                    ->get();
-                if ($judge_2->isnotEmpty()) {
-                    $deletePig_2 = $judge_2[0]->individual_num;
-                    $mixInfo->second_delete_male = $deletePig_2;
-                    $mixInfo->second_male = null;
-                } else {
-                    $mixInfo->second_delete_male = null;
-                    $mixInfo->second_male =
-                        $mixInfo->second_male_pig->individual_num;
-                }
-            } else {
-                $mixInfo->second_delete_male = null;
-                $mixInfo->second_male = null;
-            }
-        }
-        return $mixInfos;
-    }
+    //         // second_male_pigのnullとsoftDelete対策
+    //         if ($mixInfo->second_male_id !== null) {
+    //             $judge_2 = MalePig::where('id', $mixInfo->second_male_id)
+    //                 ->onlyTrashed()
+    //                 ->get();
+    //             if ($judge_2->isnotEmpty()) {
+    //                 $deletePig_2 = $judge_2[0]->individual_num;
+    //                 $mixInfo->second_delete_male = $deletePig_2;
+    //                 $mixInfo->second_male = null;
+    //             } else {
+    //                 $mixInfo->second_delete_male = null;
+    //                 $mixInfo->second_male =
+    //                     $mixInfo->second_male_pig->individual_num;
+    //             }
+    //         } else {
+    //             $mixInfo->second_delete_male = null;
+    //             $mixInfo->second_male = null;
+    //         }
+    //     }
+    //     return $mixInfos;
+    // }
 }
