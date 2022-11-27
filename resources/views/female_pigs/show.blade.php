@@ -282,12 +282,12 @@ TODO:相性機能
                                     Good
                                 </th>
                                 <td class="py-3 px-6">
-                                    100-0
-                                    (100%)
+                                    {{ $good_oders[0]['male'] }}
+                                    ({{ $good_oders[0]['mix_probability'] }}%)
                                 </td>
                                 <td class="py-3 px-6">
-                                    102-0
-                                    (75%)
+                                    {{ $good_oders[1]['male'] }}
+                                    ({{ $good_oders[1]['mix_probability'] }}%)
                                 </td>
                             </tr>
                             <tr class="bg-white dark:bg-gray-800">
@@ -296,12 +296,12 @@ TODO:相性機能
                                     Bad
                                 </th>
                                 <td class="py-3 px-6">
-                                    100-0
-                                    (50%)
+                                    {{ $bad_oders[0]['male'] }}
+                                    ({{ $bad_oders[0]['mix_probability'] }}%)
                                 </td>
                                 <td class="py-3 px-6">
-                                    102-0
-                                    (75%)
+                                    {{ $bad_oders[1]['male'] }}
+                                    ({{ $bad_oders[1]['mix_probability'] }}%)
                                 </td>
                             </tr>
                         </tbody>
@@ -333,6 +333,49 @@ TODO:相性機能
 
 
     {{-- <div class="overflow-x-auto relative shadow-md sm:rounded-lg my-8"> --}}
+    <!-- ranking - start -->
+    <div class="overflow-x-auto relative shadow-md my-8">
+        <div
+            class="flex h-10 bg-gray-100 border-b border-gray-400 dark:bg-gray-800 dark:border-gray-700 whitespace-nowrap">
+            <div class="MplusRound text-xl font-medium text-gray-600 py-2 px-8">交 配 実 績</div>
+        </div>
+        <!-- table - start -->
+        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr class="border-b whitespace-nowrap">
+                    <th scope="col" class="py-3 px-6">
+                        <i class="fa-solid fa-mars"></i>NO.
+                    </th>
+                    <th scope="col" class="py-3 px-6">
+                        交配回数
+                    </th>
+                    <th scope="col" class="py-3">
+                        交配成功率
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($good_oders as $oder)
+                    <tr
+                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 whitespace-nowrap">
+                        <td class="py-4 px-6">
+                            {{ $oder['male'] }}
+                        </td>
+                        <td class="py-4 px-6">
+                            {{ $oder['mix_all'] }}
+                        </td>
+                        <td class="py-4 px-6">
+                            {{ $oder['mix_probability'] }}
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+        <!-- born_table - end -->
+    </div>
+    <!-- ranking_information - end -->
+
+    <!-- born_information - start -->
     <div class="overflow-x-auto relative shadow-md my-8">
         <div
             class="flex h-10 bg-gray-100 border-b border-gray-400 dark:bg-gray-800 dark:border-gray-700 whitespace-nowrap">
@@ -417,6 +460,7 @@ TODO:相性機能
         </table>
         <!-- born_table - end -->
     </div>
+    <!-- born_information - end -->
 
     <div class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-10 px-8 py-4 dark:bg-gray-800">
         <canvas id="myChart"></canvas>

@@ -77,10 +77,12 @@ class FemalePigController extends Controller
                 ->last();
             // bornInfoがある場合、予測回転数算出
             if ($bornInfo_last) {
-                $femalePig->rotate_prediction = self::getPredictionRotate($femalePig);
+                $femalePig->rotate_prediction = self::getPredictionRotate(
+                    $femalePig
+                );
             }
         }
-        
+
         // status順に並び替え
         $femalePigs = $femalePigs->sortByDesc('status');
 
@@ -201,6 +203,7 @@ class FemalePigController extends Controller
             $born_infos = [];
             $born_info = null;
             $born_info_last_time = null;
+
             return view('female_pigs.show')->with(
                 compact(
                     'femalePig',
@@ -212,6 +215,102 @@ class FemalePigController extends Controller
                 )
             );
         }
+
+        // 交配相手ごとにデータ整理
+        $first_mixes = $femalePig->mix_infos->groupBy('first_male_id');
+        $second_mixes = $femalePig->mix_infos->groupBy('second_male_id');
+        $first_noTorouble_mixes = $femalePig->mix_infos
+            ->where('trouble_id', 1)
+            ->groupBy('first_male_id');
+        $second_noTorouble_mixes = $femalePig->mix_infos
+            ->where('trouble_id', 1)
+            ->groupBy('second_male_id');
+        $all_mixes = self::mergeTowMixes($first_mixes, $second_mixes);
+        $noTrouble_mixes = self::mergeTowMixes(
+            $first_noTorouble_mixes,
+            $second_noTorouble_mixes
+        );
+        unset($all_mixes['']);
+        unset($noTrouble_mixes['']);
+        // dd($noTrouble_mixes);
+
+        foreach ($all_mixes as $key1 => $val1) {
+            // male_pigのsoftDelete対策
+            $array = self::onemaleSoftDeleteResolution($key1);
+            $exist_male = $array[0];
+            $delete_male = $array[1];
+
+            foreach ($noTrouble_mixes as $key2 => $val2) {
+                if ($key1 == $key2) {
+                    $maleGroupe_mix_infos[] = [
+                        'male' => $exist_male,
+                        'delete_male' => $delete_male,
+                        'mix_all' => $val1,
+                        'mix_noTrouble' => $val2,
+                        'mix_probability' => round(($val2 / $val1) * 100),
+                    ];
+                }
+            }
+        }
+        $all_ids = array_keys($all_mixes);
+        $noTrouble_ids = array_keys($noTrouble_mixes);
+
+        foreach ($all_ids as $id) {
+            if (!in_array($id, $noTrouble_ids)) {
+                // male_pigのsoftDelete対策
+                $array = self::onemaleSoftDeleteResolution($id);
+                $exist_male = $array[0];
+                $delete_male = $array[1];
+
+                $maleGroupe_mix_infos[] = [
+                    'male' => $exist_male,
+                    'delete_male' => $delete_male,
+                    'mix_all' => $all_mixes[$id],
+                    'mix_noTrouble' => 0,
+                    'mix_probability' => 0,
+                ];
+            }
+        }
+
+        // deleteMaleはランキングから除く
+        $count = count($maleGroupe_mix_infos);
+        for ($i = 0; $i < $count; $i++) {
+            if ($maleGroupe_mix_infos[$i]['male'] == null) {
+                unset($maleGroupe_mix_infos[$i]);
+            }
+        }
+        // dd($maleGroupe_mix_infos);
+        // 並び替え要素を準備
+        $mix_probabilitys = array_column(
+            $maleGroupe_mix_infos,
+            'mix_probability'
+        );
+        $mix_all = array_column($maleGroupe_mix_infos, 'mix_all');
+
+        // bad順に並び替え
+        array_multisort(
+            $mix_probabilitys,
+            SORT_ASC,
+            $mix_all,
+            SORT_DESC,
+            $maleGroupe_mix_infos
+        );
+        // bad順にセット
+        $bad_oders = $maleGroupe_mix_infos;
+
+        // good順に並び替え
+        array_multisort(
+            $mix_probabilitys,
+            SORT_DESC,
+            $mix_all,
+            SORT_DESC,
+            $maleGroupe_mix_infos
+        );
+        $good_oders = $maleGroupe_mix_infos;
+        // dd($good_oders);
+
+        // $output = array_slice($maleGroupe_mix_infos, 0, 2);
+        // dd($output);
 
         // 以下出産情報の整理
         // 全ての出産情報
@@ -276,6 +375,7 @@ class FemalePigController extends Controller
         // softDelete対策
         self::maleSoftDeleteResolution($born_infos);
         self::maleSoftDeleteResolution($mixInfos);
+        // dd($femalePig);
 
         return view('female_pigs.show')->with(
             compact(
@@ -284,7 +384,9 @@ class FemalePigController extends Controller
                 'mixInfo',
                 'born_infos',
                 'born_info',
-                'born_info_last_time'
+                'born_info_last_time',
+                'good_oders',
+                'bad_oders'
             )
         );
     }
@@ -458,4 +560,40 @@ class FemalePigController extends Controller
     //     }
     //     return $mixInfos;
     // }
+
+    public function mergeTowMixes($first_datas, $second_datas)
+    {
+        $first_lists = [];
+        foreach ($first_datas as $key => $val) {
+            $first_lists[$key] = count($val);
+        }
+        $second_lists = [];
+        foreach ($second_datas as $key => $val) {
+            $second_lists[$key] = count($val);
+        }
+        foreach ($first_lists as $key1 => $val1) {
+            foreach ($second_lists as $key2 => $val2) {
+                if ($key1 == $key2) {
+                    $first_lists[$key1] = $val1 + $val2;
+                }
+            }
+        }
+        return $first_lists + $second_lists;
+    }
+
+    // female_pigのsoftDelete対策
+    public function onemaleSoftDeleteResolution($id)
+    {
+        $judge = MalePig::where('id', $id)
+            ->onlyTrashed()
+            ->get();
+        if ($judge->isnotEmpty()) {
+            $exist_male = null;
+            $delete_male = $judge[0]->individual_num;
+        } else {
+            $exist_male = MalePig::find($id)->individual_num;
+            $delete_male = null;
+        }
+        return [$exist_male, $delete_male];
+    }
 }
