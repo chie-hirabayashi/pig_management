@@ -1311,6 +1311,10 @@ select {
   padding-top: 0px;
   padding-bottom: 0px;
 }
+.px-12 {
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
 .py-12 {
   padding-top: 3rem;
   padding-bottom: 3rem;

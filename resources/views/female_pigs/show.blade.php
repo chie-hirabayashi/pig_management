@@ -6,7 +6,7 @@
         </h2>
     </x-slot>
     <!-- header - end -->
-TODO:相性機能
+
     <!-- message -->
     <x-error-validation :errors="$errors" />
     <x-flash-msg :message="session('notice')" />
@@ -109,7 +109,7 @@ TODO:相性機能
                 <!-- border - start -->
                 <div class="overflow-x-auto relative">
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead class="text-center border-t text-xs text-gray-900 uppercase dark:text-gray-400">
+                        <thead class="text-center text-xs text-gray-900 uppercase dark:text-gray-400">
                             <tr>
                                 <th scope="col" class="py-3 px-6"></th>
                                 <th scope="col" class="py-3 px-6">
@@ -187,6 +187,10 @@ TODO:相性機能
                                 </td>
                             </tr>
                         </tbody>
+                    </table>
+                </div>
+                <div class="overflow-x-auto relative">
+                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-center text-xs text-gray-900 uppercase dark:text-gray-400">
                             <tr>
                                 <th scope="col" class="py-3 px-6"></th>
@@ -195,6 +199,9 @@ TODO:相性機能
                                 </th>
                                 <th scope="col" class="py-3 px-6">
                                     合計
+                                </th>
+                                <th scope="col" class="py-3 px-12">
+                                    &emsp;
                                 </th>
                             </tr>
                         </thead>
@@ -218,6 +225,8 @@ TODO:相性機能
                                         0 回
                                     @endif
                                 </td>
+                                <td class="text-center py-3 px-6">
+                                </td>
                             </tr>
                             <tr class="bg-white dark:bg-gray-800">
                                 <th scope="row"
@@ -237,6 +246,8 @@ TODO:相性機能
                                     @else
                                         0 回
                                     @endif
+                                </td>
+                                <td class="text-center py-3 px-6">
                                 </td>
                             </tr>
                             <tr class="bg-white dark:bg-gray-800">
@@ -258,52 +269,48 @@ TODO:相性機能
                                         0 回
                                     @endif
                                 </td>
+                                <td class="text-center py-3 px-6">
+                                </td>
                             </tr>
                         </tbody>
+                    </table>
+                </div>
+                <div class="overflow-x-auto relative">
+                    <table class="table w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-center text-xs text-gray-900 uppercase dark:text-gray-400">
                             <tr>
                                 <th scope="col" class="py-3 px-6">
-                                    組み合わせ
+                                    交配実績
                                 </th>
                                 <th scope="col" class="py-3 px-6">
-                                    NO.1
                                     <i class="fa-solid fa-mars"></i>
+                                    NO.
                                 </th>
                                 <th scope="col" class="py-3 px-6">
-                                    NO.2
-                                    <i class="fa-solid fa-mars"></i>
+                                    交配回数
+                                </th>
+                                <th scope="col" class="py-3 px-6">
+                                    交配成功率
                                 </th>
                             </tr>
                         </thead>
                         <tbody class="border-t border-b">
+                            @foreach ($good_oders as $oder)
                             <tr class="bg-white dark:bg-gray-800">
                                 <th scope="row"
                                     class="py-3 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    Good
                                 </th>
                                 <td class="py-3 px-6">
-                                    {{ $good_oders[0]['male'] }}
-                                    ({{ $good_oders[0]['mix_probability'] }}%)
+                                    {{ $oder['male'] }}
                                 </td>
                                 <td class="py-3 px-6">
-                                    {{ $good_oders[1]['male'] }}
-                                    ({{ $good_oders[1]['mix_probability'] }}%)
+                                    {{ $oder['mix_all'] }} 回
+                                </td>
+                                <td class="py-3 px-6">
+                                    ({{ $oder['mix_probability'] }} %)
                                 </td>
                             </tr>
-                            <tr class="bg-white dark:bg-gray-800">
-                                <th scope="row"
-                                    class="py-3 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    Bad
-                                </th>
-                                <td class="py-3 px-6">
-                                    {{ $bad_oders[0]['male'] }}
-                                    ({{ $bad_oders[0]['mix_probability'] }}%)
-                                </td>
-                                <td class="py-3 px-6">
-                                    {{ $bad_oders[1]['male'] }}
-                                    ({{ $bad_oders[1]['mix_probability'] }}%)
-                                </td>
-                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -332,50 +339,8 @@ TODO:相性機能
     </div>
 
 
-    {{-- <div class="overflow-x-auto relative shadow-md sm:rounded-lg my-8"> --}}
-    <!-- ranking - start -->
-    <div class="overflow-x-auto relative shadow-md my-8">
-        <div
-            class="flex h-10 bg-gray-100 border-b border-gray-400 dark:bg-gray-800 dark:border-gray-700 whitespace-nowrap">
-            <div class="MplusRound text-xl font-medium text-gray-600 py-2 px-8">交 配 実 績</div>
-        </div>
-        <!-- table - start -->
-        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr class="border-b whitespace-nowrap">
-                    <th scope="col" class="py-3 px-6">
-                        <i class="fa-solid fa-mars"></i>NO.
-                    </th>
-                    <th scope="col" class="py-3 px-6">
-                        交配回数
-                    </th>
-                    <th scope="col" class="py-3">
-                        交配成功率
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($good_oders as $oder)
-                    <tr
-                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 whitespace-nowrap">
-                        <td class="py-4 px-6">
-                            {{ $oder['male'] }}
-                        </td>
-                        <td class="py-4 px-6">
-                            {{ $oder['mix_all'] }}
-                        </td>
-                        <td class="py-4 px-6">
-                            {{ $oder['mix_probability'] }}
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-        <!-- born_table - end -->
-    </div>
-    <!-- ranking_information - end -->
-
     <!-- born_information - start -->
+    {{-- <div class="overflow-x-auto relative shadow-md sm:rounded-lg my-8"> --}}
     <div class="overflow-x-auto relative shadow-md my-8">
         <div
             class="flex h-10 bg-gray-100 border-b border-gray-400 dark:bg-gray-800 dark:border-gray-700 whitespace-nowrap">
@@ -574,7 +539,7 @@ TODO:相性機能
         <!-- mix_table - end -->
     </div>
     <div class="mt-2 mx-6 my-6 text-gray-700 text-right">
-        <p>再発、流産は編集から記録できます。交配オスが廃用になった交配記録は修正、削除できません。</p>
+        <p>再発、流産は編集から記録できます。</p>
     </div>
     <div class="text-right">TODO:抽出画面に戻るボタンフラグ作業後に1回で戻る
         <a href="#" onclick="history.back(-1);return false;">back-1戻る</a>

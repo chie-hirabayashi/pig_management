@@ -18,8 +18,21 @@
         .MplusRound {
             font-family: 'M PLUS Rounded 1c', sans-serif;
         }
+
         .ZenMaruGothic {
             font-family: 'Zen Maru Gothic', sans-serif;
+        }
+
+        .table {
+            counter-reset: rowCount;
+        }
+
+        .table>tbody>tr {
+            counter-increment: rowCount;
+        }
+
+        .table>tbody>tr>th:first-child::before {
+            content: "第"counter(rowCount)"位";
         }
     </style>
     <!-- Styles -->
@@ -31,7 +44,7 @@
 
 <body class="font-sans antialiased">
     <div class="min-h-screen bg-white">
-    {{-- <div class="min-h-screen bg-gray-100"> --}}
+        {{-- <div class="min-h-screen bg-gray-100"> --}}
         {{-- <div class="max-h-96 bg-stone-300"> --}}
         {{-- <div class="min-h-full bg-stone-300"> --}}
         {{-- <div class="min-h-max bg-stone-300"> --}}
