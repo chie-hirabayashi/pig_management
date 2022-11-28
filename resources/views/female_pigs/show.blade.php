@@ -6,7 +6,7 @@
         </h2>
     </x-slot>
     <!-- header - end -->
-TODO:相性機能
+
     <!-- message -->
     <x-error-validation :errors="$errors" />
     <x-flash-msg :message="session('notice')" />
@@ -17,7 +17,7 @@ TODO:相性機能
             <div class="flex flex-col items-center gap-4 md:gap-6">
                 <!-- base - start -->
                 <div class="flex items-center">
-                    <div class="text-xl text-rose-400">
+                    <div class="text-xl text-rose-800">
                         <i class="fa-solid fa-venus"></i>&ensp;
                     </div>
                     <div class="text-3xl text-gray-500">
@@ -43,7 +43,7 @@ TODO:相性機能
                                         <i class="fa-solid fa-triangle-exclamation"></i>
                                     </div>
                                 @else
-                                    <div class="text-red-500">
+                                    <div class="text-red-600">
                                         <i class="fa-solid fa-triangle-exclamation"></i>
                                     </div>
                                 @endif
@@ -109,7 +109,7 @@ TODO:相性機能
                 <!-- border - start -->
                 <div class="overflow-x-auto relative">
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead class="text-center border-t text-xs text-gray-900 uppercase dark:text-gray-400">
+                        <thead class="text-center text-xs text-gray-900 uppercase dark:text-gray-400">
                             <tr>
                                 <th scope="col" class="py-3 px-6"></th>
                                 <th scope="col" class="py-3 px-6">
@@ -187,6 +187,10 @@ TODO:相性機能
                                 </td>
                             </tr>
                         </tbody>
+                    </table>
+                </div>
+                <div class="overflow-x-auto relative">
+                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-center text-xs text-gray-900 uppercase dark:text-gray-400">
                             <tr>
                                 <th scope="col" class="py-3 px-6"></th>
@@ -195,6 +199,9 @@ TODO:相性機能
                                 </th>
                                 <th scope="col" class="py-3 px-6">
                                     合計
+                                </th>
+                                <th scope="col" class="py-3 px-12">
+                                    &emsp;
                                 </th>
                             </tr>
                         </thead>
@@ -218,6 +225,8 @@ TODO:相性機能
                                         0 回
                                     @endif
                                 </td>
+                                <td class="text-center py-3 px-6">
+                                </td>
                             </tr>
                             <tr class="bg-white dark:bg-gray-800">
                                 <th scope="row"
@@ -237,6 +246,8 @@ TODO:相性機能
                                     @else
                                         0 回
                                     @endif
+                                </td>
+                                <td class="text-center py-3 px-6">
                                 </td>
                             </tr>
                             <tr class="bg-white dark:bg-gray-800">
@@ -258,52 +269,48 @@ TODO:相性機能
                                         0 回
                                     @endif
                                 </td>
+                                <td class="text-center py-3 px-6">
+                                </td>
                             </tr>
                         </tbody>
+                    </table>
+                </div>
+                <div class="overflow-x-auto relative">
+                    <table class="table w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-center text-xs text-gray-900 uppercase dark:text-gray-400">
                             <tr>
                                 <th scope="col" class="py-3 px-6">
-                                    組み合わせ
+                                    交配実績
                                 </th>
                                 <th scope="col" class="py-3 px-6">
-                                    NO.1
                                     <i class="fa-solid fa-mars"></i>
+                                    NO.
                                 </th>
                                 <th scope="col" class="py-3 px-6">
-                                    NO.2
-                                    <i class="fa-solid fa-mars"></i>
+                                    交配回数
+                                </th>
+                                <th scope="col" class="py-3 px-6">
+                                    交配成功率
                                 </th>
                             </tr>
                         </thead>
                         <tbody class="border-t border-b">
-                            <tr class="bg-white dark:bg-gray-800">
-                                <th scope="row"
-                                    class="py-3 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    Good
-                                </th>
-                                <td class="py-3 px-6">
-                                    100-0
-                                    (100%)
-                                </td>
-                                <td class="py-3 px-6">
-                                    102-0
-                                    (75%)
-                                </td>
-                            </tr>
-                            <tr class="bg-white dark:bg-gray-800">
-                                <th scope="row"
-                                    class="py-3 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    Bad
-                                </th>
-                                <td class="py-3 px-6">
-                                    100-0
-                                    (50%)
-                                </td>
-                                <td class="py-3 px-6">
-                                    102-0
-                                    (75%)
-                                </td>
-                            </tr>
+                            @foreach ($good_oders as $oder)
+                                <tr class="bg-white dark:bg-gray-800">
+                                    <th scope="row"
+                                        class="py-3 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    </th>
+                                    <td class="py-3 px-6">
+                                        {{ $oder['male'] }}
+                                    </td>
+                                    <td class="py-3 px-6">
+                                        {{ $oder['mix_all'] }} 回
+                                    </td>
+                                    <td class="py-3 px-6">
+                                        ({{ $oder['mix_probability'] }} %)
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -312,8 +319,9 @@ TODO:相性機能
                 <!-- edit & delete - start -->
                 <div class="flex flex-row text-center my-4">
                     {{-- @can('update', $post) --}}
-                    <a href="{{ route('female_pigs.edit', $femalePig) }}"
-                        class="bg-blue-400 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20 mr-2">
+                    <a href="{{ route('female_pigs.edit', $femalePig) }}" {{-- class="bg-blue-400 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20 mr-2"> --}}
+                        {{-- class="bg-cyan-800 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20 mr-2"> --}}
+                        class="mr-2 py-1.5 px-4 transition-colors bg-gray-50 border active:bg-cyan-800 font-medium border-gray-200 hover:text-white text-cyan-600 hover:border-cyan-700 rounded-lg hover:bg-cyan-700 disabled:opacity-50">
                         編 集
                     </a>
                     {{-- @endcan --}}
@@ -322,7 +330,9 @@ TODO:相性機能
                         @csrf
                         @method('DELETE')
                         <input type="submit" value="廃 用" onclick="if(!confirm('廃用にしますか？')){return false};"
-                            class="bg-pink-400 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20 mr-2">
+                            {{-- class="bg-pink-400 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20 mr-2"> --}}
+                            {{-- class="bg-red-700 hover:bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20 mr-2"> --}}
+                        class="py-1.5 px-4 transition-colors bg-gray-50 border active:bg-red-800 font-medium border-gray-200 hover:text-white text-red-600 hover:border-red-700 rounded-lg hover:bg-red-700 disabled:opacity-50">
                     </form>
                 </div>
                 <!-- edit & delete - end -->
@@ -332,6 +342,7 @@ TODO:相性機能
     </div>
 
 
+    <!-- born_information - start -->
     {{-- <div class="overflow-x-auto relative shadow-md sm:rounded-lg my-8"> --}}
     <div class="overflow-x-auto relative shadow-md my-8">
         <div
@@ -341,7 +352,7 @@ TODO:相性機能
                 {{-- @can('update', $post) --}}
                 @if ($mixInfo)
                     <a href="{{ route('born_infos.create', $mixInfo) }}"
-                        class="text-blue-600 after:content-['_↗'] text-base dark:text-blue-500 py-1 px-3 transition-colors bg-transparent rounded-lg hover:bg-white">
+                        class="text-sky-700 after:content-['_↗'] text-base dark:text-sky-500 py-1 px-3 transition-colors bg-transparent rounded-lg hover:underline hover:font-bold">
                         新規登録
                     </a>
                 @endif
@@ -401,14 +412,15 @@ TODO:相性機能
                         </td>
                         {{-- <td class="flex flex-row items-center py-4 px-6 space-x-3"> --}}
                         <td class="flex flex-row items-center py-4 px-6">
-                            <a href="{{ route('born_infos.edit', $born_info) }}"
-                                class="basis-1/2 font-medium text-blue-600 dark:text-blue-500 hover:underline">編 集</a>
+                            <a href="{{ route('born_infos.edit', $born_info) }}" {{-- class="basis-1/2 font-medium text-blue-600 dark:text-blue-500 hover:underline">編 集</a> --}}
+                                class="basis-1/2 font-medium text-cyan-800 dark:text-cyan-600 hover:underline hover:font-bold">編
+                                集</a>
                             <form action="{{ route('born_infos.destroy', $born_info) }}" method="post">
                                 @csrf
                                 @method('PATCH')
                                 <input type="submit" value="削 除"
                                     onclick="if(!confirm('出産情報を削除しますか？')){return false};"
-                                    class="basis-1/2 font-medium text-red-600 dark:text-red-500 hover:underline">
+                                    class="basis-1/2 font-medium text-red-600 dark:text-red-500 hover:underline hover:font-bold">
                             </form>
                         </td>
                     </tr>
@@ -417,6 +429,7 @@ TODO:相性機能
         </table>
         <!-- born_table - end -->
     </div>
+    <!-- born_information - end -->
 
     <div class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-10 px-8 py-4 dark:bg-gray-800">
         <canvas id="myChart"></canvas>
@@ -430,7 +443,7 @@ TODO:相性機能
                 {{-- @can('update', $post) --}}
                 @if ($mixInfo)
                     <a href="{{ route('female_pigs.mix_infos.create', $femalePig) }}"
-                        class="text-blue-600 after:content-['_↗'] text-base dark:text-blue-500 py-1 px-3 transition-colors bg-transparent rounded-lg hover:bg-white">
+                        class="text-sky-700 after:content-['_↗'] text-base dark:text-sky-500 py-1 px-3 transition-colors bg-transparent rounded-lg hover:underline hover:font-bold">
                         新規登録
                     </a>
                 @endif
@@ -507,8 +520,8 @@ TODO:相性機能
                             <td class="flex flex-row items-center py-4 px-6">
                                 @if ($mixInfo->first_delete_male == null && $mixInfo->second_delete_male == null)
                                     <a href="{{ route('female_pigs.mix_infos.edit', [$femalePig, $mixInfo]) }}"
-                                        {{-- class="font-medium text-blue-600 dark:text-blue-500 hover:underline">編 集</a> --}}
-                                        class="basis-1/2 font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                        {{-- class="font-medium text-blue-600 dark:text-blue-500 hover:underline">編 集</a> --}} {{-- class="basis-1/2 font-medium text-blue-600 dark:text-blue-500 hover:underline"> --}}
+                                        class="basis-1/2 font-medium text-cyan-800 dark:text-cyan-600 hover:underline hover:font-bold">
                                         編 集
                                     </a>
                                     <form
@@ -518,7 +531,8 @@ TODO:相性機能
                                         @method('DELETE')
                                         <input type="submit" value="削 除"
                                             onclick="if(!confirm('交配記録を削除しますか？')){return false};"
-                                            class="basis-1/2 font-medium text-red-600 dark:text-red-500 hover:underline">
+                                            {{-- class="basis-1/2 font-medium text-red-600 dark:text-red-500 hover:underline"> --}}
+                                            class="basis-1/2 font-medium text-red-600 dark:text-red-500 hover:underline hover:font-bold">
                                     </form>
                                 @endif
                             </td>
@@ -530,7 +544,7 @@ TODO:相性機能
         <!-- mix_table - end -->
     </div>
     <div class="mt-2 mx-6 my-6 text-gray-700 text-right">
-        <p>再発、流産は編集から記録できます。交配オスが廃用になった交配記録は修正、削除できません。</p>
+        <p>再発、流産は編集から記録できます。</p>
     </div>
     <div class="text-right">TODO:抽出画面に戻るボタンフラグ作業後に1回で戻る
         <a href="#" onclick="history.back(-1);return false;">back-1戻る</a>

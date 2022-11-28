@@ -13700,20 +13700,27 @@ for (var i = 0; i < window.Laravel.bornInfos.length; i++) {
 
 var ctx = document.getElementById("myChart").getContext("2d");
 var myChart = new chart_js_auto__WEBPACK_IMPORTED_MODULE_0__["default"](ctx, {
+  plugins: [{
+    beforeDraw: drawBackground
+  }],
   type: "line",
   data: {
     // labels: bornDay.reverse(),
     datasets: [{
       label: "産子数",
       data: bornNum.reverse(),
-      borderColor: "rgb(75, 192, 192)",
-      backgroundColor: "rgba(75, 192, 192, 0.5)",
+      borderColor: "dimgray",
+      backgroundColor: "dimgray",
+      // borderColor: "rgb(75, 192, 192)",
+      // backgroundColor: "rgba(75, 192, 192, 0.5)",
       yAxisID: "y"
     }, {
       label: "回転数",
       data: rotate.reverse(),
-      borderColor: "rgb(153, 102, 255)",
-      backgroundColor: "rgba(153, 102, 255, 0.5)",
+      borderColor: "crimson",
+      backgroundColor: "crimson",
+      // borderColor: "rgb(153, 102, 255)",
+      // backgroundColor: "rgba(153, 102, 255, 0.5)",
       yAxisID: "y2"
     }
     // {
@@ -13752,20 +13759,22 @@ var myChart = new chart_js_auto__WEBPACK_IMPORTED_MODULE_0__["default"](ctx, {
       //     },
       // ],
       y: {
-        min: 0,
-        max: 30,
+        min: -10,
+        max: 25,
         ticks: {
-          color: "rgb(75, 192, 192)"
+          color: "dimgray"
+          // color: "rgb(75, 192, 192)",
           // color: "#f88",
         }
       },
 
       y2: {
         min: 0,
-        max: 3,
+        max: 3.5,
         position: "right",
         ticks: {
-          color: "rgb(153, 102, 255)"
+          color: "crimson"
+          // color: "rgb(153, 102, 255)",
           // color: "#48f",
         }
       }
@@ -13781,6 +13790,21 @@ var myChart = new chart_js_auto__WEBPACK_IMPORTED_MODULE_0__["default"](ctx, {
     }
   }
 });
+
+function drawBackground(target) {
+  var xscale = target.scales.x;
+  var yscale = target.scales.y;
+  var left = xscale.left;
+  var top = yscale.getPixelForValue(8);
+  var width = xscale.width;
+  var height = yscale.getPixelForValue(-10) - top;
+
+  // 着色範囲
+  ctx.fillStyle = "gainsboro";
+  // ctx.fillStyle = "whitesmoke";
+  // ctx.fillStyle = "rgba(0, 100, 255, 0.2)";
+  ctx.fillRect(left, top, width, height);
+}
 })();
 
 /******/ })()

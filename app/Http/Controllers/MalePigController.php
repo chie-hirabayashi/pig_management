@@ -6,7 +6,6 @@ use App\Http\Requests\StoreMalePigRequest;
 use App\Http\Requests\UpdateMalePigRequest;
 use App\Exports\MalePigExport;
 use App\Imports\MalePigImport;
-use App\Models\FemalePig;
 use App\Models\MalePig;
 use App\Models\MixInfo;
 use Illuminate\Http\Request;
@@ -160,7 +159,7 @@ class MalePigController extends Controller
 
             foreach ($noTrouble_mixes as $key2 => $val2) {
                 if ($key1 == $key2) {
-                    $individual_mix_indfos[] = [
+                    $individual_mix_infos[] = [
                         'female' => $exist_female,
                         'delete_female' => $delete_female,
                         'mix_all' => $val1,
@@ -171,20 +170,20 @@ class MalePigController extends Controller
             }
         }
 
-        $key_1 = array_keys($all_mixes);
-        $key_2 = array_keys($noTrouble_mixes);
+        $all_ids = array_keys($all_mixes);
+        $noTrouble_ids = array_keys($noTrouble_mixes);
 
-        foreach ($key_1 as $key) {
-            if (!in_array($key, $key_2)) {
+        foreach ($all_ids as $id) {
+            if (!in_array($id, $noTrouble_ids)) {
                 // female_pigのsoftDelete対策
-                $array = self::femaleSoftDeleteResolution($key);
+                $array = self::femaleSoftDeleteResolution($id);
                 $exist_female = $array[0];
                 $delete_female = $array[1];
 
-                $individual_mix_indfos[] = [
+                $individual_mix_infos[] = [
                     'female' => $exist_female,
                     'delete_female' => $delete_female,
-                    'mix_all' => $all_mixes[$key],
+                    'mix_all' => $all_mixes[$id],
                     'mix_noTrouble' => 0,
                     'mix_probability' => 0,
                 ];
@@ -192,7 +191,7 @@ class MalePigController extends Controller
         }
 
         // セット
-        $malePig->individual_mix_infos = $individual_mix_indfos;
+        $malePig->individual_mix_infos = $individual_mix_infos;
 
         return view('male_pigs.show')->with(compact('malePig'));
     }

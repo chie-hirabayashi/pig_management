@@ -22,7 +22,7 @@
                 <!-- individual_num - start -->
                 <div class="mb-4">
                     <label class="text-sm text-gray-700 dark:text-gray-200" for="individual_num">
-                    <span class="text-indigo-400">
+                    <span class="text-sky-800">
                             <i class="fa-solid fa-mars"></i>
                         </span>
                         &ensp;:&ensp;NO.
@@ -45,13 +45,14 @@
             <!-- button - start -->
             <div class="flex justify-end mt-6">
                 <input type="submit" value="登 録"
-                    class="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-indigo-500 rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-gray-600">
+                    class="mr-2 py-1.5 px-4 transition-colors bg-gray-50 border active:bg-cyan-500 font-medium border-gray-200 hover:text-white text-cyan-600 hover:border-cyan-600 rounded-lg hover:bg-cyan-500 disabled:opacity-50">
             </div>
             <!-- button - end -->
         </form>
         <!-- form - end -->
         <a href="{{ route('male_pigs.index') }}"
             class="py-1.5 px-4 transition-colors bg-transparent active:bg-gray-200 font-medium text-blue-600 rounded-lg hover:bg-gray-100 disabled:opacity-50">
+            <i class="fa-solid fa-arrow-left"></i>
             戻る
         </a>
     </section>

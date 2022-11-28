@@ -17,7 +17,7 @@ TODO:母豚リンク
             <div class="flex flex-col items-center gap-4 md:gap-6">
                 <!-- base - start -->
                 <div class="flex justify-center items-center">
-                    <div class="text-xl text-indigo-400">
+                    <div class="text-xl text-sky-800">
                         <i class="fa-solid fa-mars"></i>&ensp;
                     </div>
                     <div class="text-3xl text-gray-500">
@@ -43,7 +43,7 @@ TODO:母豚リンク
                                         <i class="fa-solid fa-triangle-exclamation"></i>
                                     </div>
                                 @else
-                                    <div class="text-red-500">
+                                    <div class="text-red-600">
                                         <i class="fa-solid fa-triangle-exclamation"></i>
                                     </div>
                                 @endif
@@ -104,6 +104,7 @@ TODO:母豚リンク
 
                 <a href="{{ route('male_pigs.index') }}"
                     class="py-1.5 px-4 transition-colors bg-transparent active:bg-gray-200 font-medium text-blue-600 rounded-lg hover:bg-gray-100 disabled:opacity-50">
+            <i class="fa-solid fa-arrow-left"></i>
                     戻る
                 </a>
             </div>
