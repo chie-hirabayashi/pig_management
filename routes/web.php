@@ -6,6 +6,7 @@ use App\Http\Controllers\FemalePigController;
 use App\Http\Controllers\MalePigController;
 use App\Http\Controllers\MixInfoController;
 use App\Http\Controllers\ImportExportController;
+use App\Http\Controllers\BornInfoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +35,7 @@ require __DIR__ . '/auth.php';
 Route::resource('female_pigs', FemalePigController::class);
 Route::resource('male_pigs', MalePigController::class);
 Route::resource('female_pigs.mix_infos', MixInfoController::class);
+// Route::resource('female_pigs.born_infos', BornInfoController::class);
 
 // 出産情報に関するルーティング
 Route::get('/mix_infos/{mix_info}/create', [
@@ -95,6 +97,11 @@ Route::post('/mix_infos/export', [MixInfoController::class, 'export'])->name(
 );
 Route::post('/Mix_infos/import', [MixInfoController::class, 'import'])->name(
     'mix_infos.import'
+);
+
+// born_infosのインポート
+Route::post('/born_infos/import', [BornInfoController::class, 'import'])->name(
+    'born_infos.import'
 );
 
 // FemalePigフラグのルーティング
