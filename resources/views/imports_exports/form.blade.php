@@ -14,149 +14,188 @@
     <!-- validation - end -->
 
     <!-- body - start -->
-    <div class="bg-white py-6 sm:py-8 lg:py-12">
-        <div class="max-w-screen-2xl px-4 md:px-8 mx-auto">
-            <!-- text - start -->
-            <div class="mb-10 md:mb-16">
-                <h2 class="text-gray-800 text-2xl lg:text-3xl font-bold text-center mb-4 md:mb-6">Our competitive
-                    advantage</h2>
+    <section class="bg-white dark:bg-gray-900">
+        <div class="container max-w-4xl px-6 py-10 mx-auto">
+            <h1 class="text-4xl MplusRound text-center text-gray-800 dark:text-white">
+                データの入出力
+            </h1>
 
-                <p class="max-w-screen-md text-gray-500 md:text-lg text-center mx-auto">This is a section of some simple
-                    filler text, also known as placeholder text. It shares some characteristics of a real written text
-                    but is random or otherwise generated.</p>
+            <div class="mt-12 space-y-8">
+                <!-- import - start -->
+                <div class="border-2 border-gray-100 rounded-lg dark:border-gray-700">
+                    <button class="flex items-center justify-between w-full p-8">
+                        <h1 class="font-semibold text-lg text-gray-700 dark:text-white">
+                            インポート
+                        </h1>
+                    </button>
+
+                    <hr class="border-gray-200 dark:border-gray-700">
+
+                    <p class="p-8 text-sm text-gray-500 dark:text-gray-300">
+                        エクセルファイルを選択して取込をクリック<br>
+                        交配出産記録は母豚データと父豚データの取込後にインポートできます
+                    </p>
+
+                    <!-- femalePig_import - start -->
+                    <div class="items-center justify-between w-full pt-8 px-8 pb-2">
+                        <h1 class="MplusRound font-semibold text-gray-700 dark:text-whit">
+                            母豚データのインポート
+                        </h1>
+                    </div>
+
+                    <div class="pb-8 px-8 text-sm text-gray-500 dark:text-gray-300">
+                        <form method="post" action="{{ route('female_pigs.import') }}" enctype="multipart/form-data">
+                            @csrf
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="mt-2">
+                                    <input type="file" name="excel_file">
+                                </div>
+                                <div class="flex justify-end">
+                                    <button type="submit"
+                                        class="mr-2 py-1.5 px-4 transition-colors bg-gray-50 border active:bg-slate-700 font-medium border-gray-200 hover:text-white text-slate-700 hover:border-slate-700 rounded-lg hover:bg-slate-700 disabled:opacity-50">
+                                        <i class="fa-solid fa-file-import"></i>
+                                        &ensp;取 込
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- femalePig_import - end -->
+
+                    <!-- malePig_import - start -->
+                    <div class="items-center justify-between w-full pt-8 px-8 pb-2">
+                        <h1 class="MplusRound font-semibold text-gray-700 dark:text-whit">
+                            父豚データのインポート
+                        </h1>
+                    </div>
+
+                    <div class="pb-8 px-8 text-sm text-gray-500 dark:text-gray-300">
+                        <form method="post" action="{{ route('male_pigs.import') }}" enctype="multipart/form-data">
+                            @csrf
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="mt-2">
+                                    <input type="file" name="excel_file">
+                                </div>
+                                <div class="flex justify-end">
+                                    <button type="submit"
+                                        class="mr-2 py-1.5 px-4 transition-colors bg-gray-50 border active:bg-slate-700 font-medium border-gray-200 hover:text-white text-slate-700 hover:border-slate-700 rounded-lg hover:bg-slate-700 disabled:opacity-50">
+                                        <i class="fa-solid fa-file-import"></i>
+                                        &ensp;取 込
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- malePig_import - end -->
+
+                    <!-- mixInfo_import - start -->
+                    <div class="items-center justify-between w-full pt-8 px-8 pb-2">
+                        <h1 class="MplusRound font-semibold text-gray-700 dark:text-whit">
+                            交配出産記録のインポート
+                        </h1>
+                    </div>
+
+                    <div class="pb-8 px-8 text-sm text-gray-500 dark:text-gray-300">
+                        <form method="post" action="{{ route('mix_infos.import') }}" enctype="multipart/form-data">
+                            @csrf
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="mt-2">
+                                    <input type="file" name="excel_file">
+                                </div>
+                                <div class="flex justify-end">
+                                    <button type="submit"
+                                        class="mr-2 py-1.5 px-4 transition-colors bg-gray-50 border active:bg-slate-700 font-medium border-gray-200 hover:text-white text-slate-700 hover:border-slate-700 rounded-lg hover:bg-slate-700 disabled:opacity-50">
+                                        <i class="fa-solid fa-file-import"></i>
+                                        &ensp;取 込
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- mixInfo_import - end -->
+                </div>
+                <!-- import - start -->
+
+                <!-- export - start -->
+                <div class="border-2 border-gray-100 rounded-lg dark:border-gray-700">
+                    <button class="flex items-center justify-between w-full p-8">
+                        <h1 class="font-semibold text-lg text-gray-700 dark:text-white">
+                            エクスポート
+                        </h1>
+                    </button>
+
+                    <hr class="border-gray-200 dark:border-gray-700">
+
+                    <p class="p-8 text-sm text-gray-500 dark:text-gray-300">
+                        出力をクリック<br>
+                        エクセルファイルが出力されます
+                    </p>
+
+                    <!-- femalePig_export - start -->
+                    <div class="pb-8 px-8 text-gray-500 dark:text-gray-300">
+                        <div class="grid grid-cols-2 gap-4">
+                            <h1 class="MplusRound font-semibold text-gray-700 dark:text-whit">
+                                母豚データのエクスポート
+                            </h1>
+
+                            <form method="post" action="{{ route('female_pigs.export') }}">
+                                @csrf
+                                <div class="flex justify-end text-sm">
+                                    <button type="submit"
+                                        class="mr-2 py-1.5 px-4 transition-colors bg-gray-50 border active:bg-slate-700 font-medium border-gray-200 hover:text-white text-slate-700 hover:border-slate-700 rounded-lg hover:bg-slate-700 disabled:opacity-50">
+                                        <i class="fa-solid fa-file-export"></i>
+                                        &ensp;出 力
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- femalePig_export - end -->
+
+                    <!-- malePig_export - start -->
+                    <div class="pb-8 px-8 text-gray-500 dark:text-gray-300">
+                        <div class="grid grid-cols-2 gap-4">
+                            <h1 class="MplusRound font-semibold text-gray-700 dark:text-whit">
+                                父豚データのエクスポート
+                            </h1>
+
+                            <form method="post" action="{{ route('male_pigs.export') }}">
+                                @csrf
+                                <div class="flex justify-end text-sm">
+                                    <button type="submit"
+                                        class="mr-2 py-1.5 px-4 transition-colors bg-gray-50 border active:bg-slate-700 font-medium border-gray-200 hover:text-white text-slate-700 hover:border-slate-700 rounded-lg hover:bg-slate-700 disabled:opacity-50">
+                                        <i class="fa-solid fa-file-export"></i>
+                                        &ensp;出 力
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- malePig_export - end -->
+
+                    <!-- mixInfo_export - start -->
+                    <div class="pb-8 px-8 text-gray-500 dark:text-gray-300">
+                        <div class="grid grid-cols-2 gap-4">
+                            <h1 class="MplusRound font-semibold text-gray-700 dark:text-whit">
+                                交配出産記録のエクスポート
+                            </h1>
+
+                            <form method="post" action="{{ route('male_pigs.export') }}">
+                                @csrf
+                                <div class="flex justify-end text-sm">
+                                    <button type="submit"
+                                        class="mr-2 py-1.5 px-4 transition-colors bg-gray-50 border active:bg-slate-700 font-medium border-gray-200 hover:text-white text-slate-700 hover:border-slate-700 rounded-lg hover:bg-slate-700 disabled:opacity-50">
+                                        <i class="fa-solid fa-file-export"></i>
+                                        &ensp;出 力
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- mixInfo_export - end -->
+                </div>
             </div>
-            <!-- text - end -->
-
-            <div class="grid sm:grid-cols-2 xl:grid-cols-2 gap-4 md:gap-8">
-                <!-- femalePig_data - start -->
-                <div class="flex flex-col border rounded-lg p-4 md:p-6">
-                    <h3 class="text-lg md:text-xl MplusRound mb-2">
-                        母豚データのインポート
-                    </h3>
-                    <p class="text-sm text-gray-500 mb-4">エクセルファイルを選択して取込をクリックするとインポートが開始されます</p>
-                    <form method="post" action="{{ route('female_pigs.import') }}" enctype="multipart/form-data">
-                        @csrf
-                        <input type="file" name="excel_file">
-                        <!-- button - start -->
-                        <div class="flex justify-end mt-6">
-                            <button type="submit"
-                                class="px-6 py-2 leading-5 text-white transition-colors duration-300 transform bg-indigo-500 rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-gray-600">
-                                <i class="fa-solid fa-file-import"></i>
-                                &ensp;取 込
-                            </button>
-                        </div>
-                        <!-- button - end -->
-                    </form>
-                </div>
-                <!-- femalePig_data - end -->
-                
-                <!-- femalePig_data - start -->
-                <div class="flex flex-col border rounded-lg p-4 md:p-6">
-                    <h3 class="text-lg md:text-xl MplusRound mb-2">
-                        母豚データのエクスポート
-                    </h3>
-                    <p class="text-sm text-gray-500 mb-4">エクセルファイルが出力されます</p>
-                    <form method="post" action="{{ route('female_pigs.export') }}">
-                        @csrf
-                        <!-- button - start -->
-                        <div class="flex justify-end mt-6">
-                            <button type="submit"
-                                class="px-6 py-2 leading-5 text-white transition-colors duration-300 transform bg-indigo-500 rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-gray-600">
-                                出 力&ensp;
-                                <i class="fa-solid fa-file-export"></i>
-                            </button>
-                        </div>
-                        <!-- button - end -->
-                    </form>
-                </div>
-                <!-- femalePig_data - end -->
-
-                <!-- malePig_data - start -->
-                <div class="flex flex-col border rounded-lg p-4 md:p-6">
-                    <h3 class="text-lg md:text-xl MplusRound mb-2">
-                        父豚データのインストール
-                    </h3>
-                    <p class="text-sm text-gray-500 mb-4">エクセルファイルを選択して取込をクリックするとインポートが開始されます</p>
-                    <form method="post" action="{{ route('male_pigs.import') }}" enctype="multipart/form-data">
-                        @csrf
-                        <input type="file" name="excel_file"><br>
-                        <!-- button - start -->
-                        <div class="flex justify-end mt-6">
-                            <button type="submit"
-                                class="px-6 py-2 leading-5 text-white transition-colors duration-300 transform bg-indigo-500 rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-gray-600">
-                                <i class="fa-solid fa-file-import"></i>
-                                &ensp;取 込
-                            </button>
-                        </div>
-                        <!-- button - end -->
-                    </form>
-                </div>
-                <!-- malePig_data - end -->
-
-                <!-- malePig_data - start -->
-                <div class="flex flex-col border rounded-lg p-4 md:p-6">
-                    <h3 class="text-lg md:text-xl MplusRound mb-2">
-                        父豚データのエクスポート
-                    </h3>
-                    <p class="text-sm text-gray-500 mb-4">エクセルファイルが出力されます</p>
-                    <form method="post" action="{{ route('male_pigs.export') }}">
-                        @csrf
-                        <!-- button - start -->
-                        <div class="flex justify-end mt-6">
-                            <button type="submit"
-                                class="px-6 py-2 leading-5 text-white transition-colors duration-300 transform bg-indigo-500 rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-gray-600">
-                                出 力&ensp;
-                                <i class="fa-solid fa-file-export"></i>
-                            </button>
-                        </div>
-                        <!-- button - end -->
-                    </form>
-                </div>
-                <!-- malePig_data - end -->
-
-                <!-- mix_info - start -->
-                <div class="flex flex-col border rounded-lg p-4 md:p-6">
-                    <h3 class="text-lg md:text-xl MplusRound mb-2">
-                        交配・出産記録簿のインポート
-                    </h3>
-                    <p class="text-sm text-gray-500 mb-4">エクセルファイルを選択して取込をクリックするとインポートが開始されます</p>
-                    <form method="post" action="{{ route('mix_infos.import') }}" enctype="multipart/form-data">
-                        @csrf
-                        <input type="file" name="excel_file"><br>
-                        <!-- button - start -->
-                        <div class="flex justify-end mt-6">
-                            <button type="submit"
-                                class="px-6 py-2 leading-5 text-white transition-colors duration-300 transform bg-indigo-500 rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-gray-600">
-                                <i class="fa-solid fa-file-import"></i>
-                                &ensp;取 込
-                            </button>
-                        </div>
-                        <!-- button - end -->
-                    </form>
-                </div>
-                <!-- feature - end -->
-
-                <!-- mix_info - start -->
-                <div class="flex flex-col border rounded-lg p-4 md:p-6">
-                    <h3 class="text-lg md:text-xl MplusRound mb-2">
-                        交配・出産記録簿のエクスポート
-                    </h3>
-                    <p class="text-sm text-gray-500 mb-4">エクセルファイルが出力されます</p>
-                    <form method="post" action="{{ route('mix_infos.export') }}">
-                        @csrf
-                        <!-- button - start -->
-                        <div class="flex justify-end mt-6">
-                            <button type="submit"
-                                class="px-6 py-2 leading-5 text-white transition-colors duration-300 transform bg-indigo-500 rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-gray-600">
-                                出 力&ensp;
-                                <i class="fa-solid fa-file-export"></i>
-                            </button>
-                        </div>
-                        <!-- button - end -->
-                    </form>
-                </div>
-                <!-- feature - end -->
-            </div>
+            <!-- import - start -->
         </div>
-    </div>
+    </section>
 </x-app-layout>

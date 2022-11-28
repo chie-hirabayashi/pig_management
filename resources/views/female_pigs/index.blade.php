@@ -55,7 +55,11 @@
                                 @endforeach
                             </select>
                             {{-- <input type="search" placeholder="個体番号を入力" name="search" value="{{ old('search') }}"> --}}
-                            <input type="submit" value="検索">
+                            <button type="submit"
+                                class="text-sky-700 text-sm dark:text-sky-500 py-1 transition-colors bg-transparent rounded-lg hover:underline hover:font-semibold">
+                                <i class="fa-solid fa-hand-point-left"></i>
+                                個体検索
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -75,14 +79,19 @@
                         {{-- <label for="search_age">年齢検索</label> --}}
                         <input type="number" name="search_age" min=1 max=10 value="{{ 'search_age' }}"
                             class="w-25 py-1 pl-10 pr-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 focus:ring-blue-300">
-                        <input type="submit" value="年齢検索">
+                        <button type="submit"
+                            class="text-sky-700 text-sm dark:text-sky-500 py-1 transition-colors bg-transparent rounded-lg hover:underline hover:font-semibold">
+                            <i class="fa-solid fa-hand-point-left"></i>
+                            年齢検索
+                        </button>
                     </form>
                 </div>
 
                 <div class="relative mt-4 md:mt-0">
                     <form action="{{ route('female_pigs.index') }}" method="GET">
                         <input type="hidden" name="search_flag" value="1">
-                        <input type="submit" value="要注意個体">
+                        <input type="submit" value="要注意個体"
+                        class="mr-2 py-1.5 px-4 text-sm transition-colors bg-gray-50 border active:bg-sky-700 font-medium border-gray-200 hover:text-white text-sky-700 hover:border-sky-800 rounded-lg hover:bg-sky-700 disabled:opacity-50">
                     </form>
                 </div>
 
@@ -224,8 +233,7 @@
                                 @if (date('Y-m-d', strtotime('+3 day')) > $femalePig->mix_infos->last()->first_recurrence_schedule &&
                                     $femalePig->mix_infos->last()->first_recurrence == 0)
                                     {{-- <p class="text-sm text-red-600">再発確認！</p> --}}
-                                    <span
-                                        {{-- class="bg-red-100 text-red-800 text-sm font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-800"> --}}
+                                    <span {{-- class="bg-red-100 text-red-800 text-sm font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-800"> --}}
                                         class="text-red-700 text-sm font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-800">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                             fill="currentColor" class="bi bi-calendar-check-fill"
