@@ -351,6 +351,7 @@
     <div class="items-center text-center my-4">
         <a href="{{ route('extracts.conditions') }}"
             class="py-1.5 px-4 transition-colors bg-transparent active:bg-gray-200 font-medium text-blue-600 rounded-lg hover:bg-gray-100 disabled:opacity-50">
+            <i class="fa-solid fa-arrow-left"></i>
             戻る
         </a>
     </div>

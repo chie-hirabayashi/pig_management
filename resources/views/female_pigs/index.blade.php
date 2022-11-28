@@ -105,7 +105,8 @@
         <div class="max-w-screen-xl px-2 md:px-4 mx-auto">
             <!-- title -->
             <h2 class="MplusRound text-gray-700 text-2xl lg:text-3xl text-center mb-8 md:mb-12">
-                <span class="text-rose-400">
+                {{-- <span class="text-rose-400"> --}}
+                <span class="text-rose-800">
                     <i class="fa-solid fa-venus"></i>
                 </span>
                 一覧
@@ -126,7 +127,7 @@
                                     @endif
                                 </div>
                                 <a href="{{ route('female_pigs.show', $femalePig) }}"
-                                    class="text-gray-700 text-base leading-10 after:content-['_↗'] transition-colors bg-transparent hover:underline hover:text-blue-500">
+                                    class="text-gray-700 text-base leading-10 after:content-['_↗'] transition-colors bg-transparent hover:underline hover:text-sky-700">
                                     No.
                                     <span class="text-xl">
                                         {{ $femalePig->individual_num }}
@@ -204,17 +205,16 @@
                                     </div>
                                 </span>
                             @endif
-
                             <!-- prediction rotate - end -->
 
                             <!-- schedule - start -->
                             <div class="text-sm text-gray-500">
                                 @if ($femalePig->status == '観察中')
-                                    <p>再発予定1 :{{ $femalePig->mix_infos->last()->first_recurrence_schedule }}
+                                    <p>再発予定１: {{ $femalePig->mix_infos->last()->first_recurrence_schedule }}
                                     </p>
-                                    <p>再発予定2 : {{ $femalePig->mix_infos->last()->second_recurrence_schedule }}
+                                    <p>再発予定２: {{ $femalePig->mix_infos->last()->second_recurrence_schedule }}
                                     </p>
-                                    <p>出産予定 : {{ $femalePig->mix_infos->last()->delivery_schedule }}</p>
+                                    <p>出産予定&emsp;: {{ $femalePig->mix_infos->last()->delivery_schedule }}</p>
                                 @endif
                             </div>
                             <!-- schedule - end -->
@@ -225,7 +225,8 @@
                                     $femalePig->mix_infos->last()->first_recurrence == 0)
                                     {{-- <p class="text-sm text-red-600">再発確認！</p> --}}
                                     <span
-                                        class="bg-red-100 text-red-800 text-sm font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-800">
+                                        {{-- class="bg-red-100 text-red-800 text-sm font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-800"> --}}
+                                        class="text-red-700 text-sm font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-800">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                             fill="currentColor" class="bi bi-calendar-check-fill"
                                             viewBox="0 0 16 16">
@@ -241,7 +242,7 @@
                                     $femalePig->mix_infos->last()->second_recurrence == 0)
                                     {{-- <p class="text-sm text-red-600">再発確認！</p> --}}
                                     <span
-                                        class="bg-red-100 text-red-800 text-sm font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-800">
+                                        class="text-red-700 text-sm font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-800">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                             fill="currentColor" class="bi bi-calendar-check-fill"
                                             viewBox="0 0 16 16">

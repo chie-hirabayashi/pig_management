@@ -4,7 +4,7 @@
             {{ __('extracts.conditions') }}
         </h2>
     </x-slot>
-    TODO:予測値で抽出。導入当初から不調な個体を抽出するため
+    
     <section
         class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-10 px-8 py-4 bg-white border rounded shadow-md dark:bg-gray-800">
         <h2 class="text-2xl MplusRound text-gray-700 capitalize dark:text-white">母豚の抽出条件</h2>
@@ -151,12 +151,13 @@
 
             <div class="flex justify-end mt-4">
                 <input type="submit" value="抽 出"
-                    class="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-indigo-500 rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-gray-600">
+                    class="mr-2 py-1.5 px-4 transition-colors bg-gray-50 border active:bg-slate-700 font-medium border-gray-200 hover:text-white text-slate-700 hover:border-slate-700 rounded-lg hover:bg-slate-700 disabled:opacity-50">
             </div>
 
         </form>
         <a href="{{ route('female_pigs.index') }}"
             class="py-1.5 px-4 transition-colors bg-transparent active:bg-gray-200 font-medium text-blue-600 rounded-lg hover:bg-gray-100 disabled:opacity-50">
+            <i class="fa-solid fa-arrow-left"></i>
             戻る
         </a>
     </section>

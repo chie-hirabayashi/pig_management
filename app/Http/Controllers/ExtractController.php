@@ -234,7 +234,28 @@ class ExtractController extends Controller
         }
         // dd($extracts);
 
-        self::maleSoftDeleteResolution($extracts);
+        foreach ($extracts as $info) {
+            // first_male_pigのsoftDelete対策
+            $array = self::maleSoftDeleteResolution($info->first_male_id);
+            $exist_male = $array[0];
+            $delete_male = $array[1];
+            $info->first_male = $exist_male;
+            $info->first_delete_male = $delete_male;
+
+            // second_male_pigのnullとsoftDelete対策
+            if ($info->second_male_id !== null) {
+                $array = self::maleSoftDeleteResolution($info->second_male_id);
+                $exist_male = $array[0];
+                $delete_male = $array[1];
+                $info->second_male = $exist_male;
+                $info->second_delete_male = $delete_male;
+            } else {
+                $info->second_male = null;
+                $info->second_delete_male = null;
+            }
+        }
+        
+        // self::OldmaleSoftDeleteResolution($extracts);
         // self::softDeleteResolution($extracts);
 
         return view('extracts.index')->with(compact('extracts', 'conditions'));

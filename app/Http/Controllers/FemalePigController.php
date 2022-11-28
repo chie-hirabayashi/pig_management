@@ -236,7 +236,7 @@ class FemalePigController extends Controller
 
         foreach ($all_mixes as $key1 => $val1) {
             // male_pigのsoftDelete対策
-            $array = self::onemaleSoftDeleteResolution($key1);
+            $array = self::maleSoftDeleteResolution($key1);
             $exist_male = $array[0];
             $delete_male = $array[1];
 
@@ -258,7 +258,7 @@ class FemalePigController extends Controller
         foreach ($all_ids as $id) {
             if (!in_array($id, $noTrouble_ids)) {
                 // male_pigのsoftDelete対策
-                $array = self::onemaleSoftDeleteResolution($id);
+                $array = self::maleSoftDeleteResolution($id);
                 $exist_male = $array[0];
                 $delete_male = $array[1];
 
@@ -371,11 +371,53 @@ class FemalePigController extends Controller
                 $born_info['av_rotate'] = round($born_infos->avg('rotate'), 2); //平均回転数
                 break;
         }
+// dd($mixInfos);
+        foreach ($mixInfos as $info) {
+            // first_male_pigのsoftDelete対策
+            $array = self::maleSoftDeleteResolution($info->first_male_id);
+            $exist_male = $array[0];
+            $delete_male = $array[1];
+            // dd($array);
+            $info->first_male = $exist_male;
+            $info->first_delete_male = $delete_male;
+
+            // second_male_pigのnullとsoftDelete対策
+            if ($info->second_male_id !== null) {
+                $array = self::maleSoftDeleteResolution($info->second_male_id);
+                $exist_male = $array[0];
+                $delete_male = $array[1];
+                $info->second_male = $exist_male;
+                $info->second_delete_male = $delete_male;
+            } else {
+                $info->second_male = null;
+                $info->second_delete_male = null;
+            }
+        }
+// dd($mixInfos);
+        foreach ($born_infos as $info) {
+            // first_male_pigのsoftDelete対策
+            $array = self::maleSoftDeleteResolution($info->first_male_id);
+            $exist_male = $array[0];
+            $delete_male = $array[1];
+            $info->first_male = $exist_male;
+            $info->first_delete_male = $delete_male;
+
+            // second_male_pigのnullとsoftDelete対策
+            if ($info->second_male_id !== null) {
+                $array = self::maleSoftDeleteResolution($info->second_male_id);
+                $exist_male = $array[0];
+                $delete_male = $array[1];
+                $info->second_male = $exist_male;
+                $info->second_delete_male = $delete_male;
+            } else {
+                $info->second_male = null;
+                $info->second_delete_male = null;
+            }
+        }
 
         // softDelete対策
-        self::maleSoftDeleteResolution($born_infos);
-        self::maleSoftDeleteResolution($mixInfos);
-        // dd($femalePig);
+        // self::OldmaleSoftDeleteResolution($born_infos);
+        // self::OldmaleSoftDeleteResolution($mixInfos);
 
         return view('female_pigs.show')->with(
             compact(
@@ -582,18 +624,34 @@ class FemalePigController extends Controller
     }
 
     // female_pigのsoftDelete対策
-    public function onemaleSoftDeleteResolution($id)
-    {
-        $judge = MalePig::where('id', $id)
-            ->onlyTrashed()
-            ->get();
-        if ($judge->isnotEmpty()) {
-            $exist_male = null;
-            $delete_male = $judge[0]->individual_num;
-        } else {
-            $exist_male = MalePig::find($id)->individual_num;
-            $delete_male = null;
-        }
-        return [$exist_male, $delete_male];
-    }
+    // リファクタリング
+    // public function onemaleSoftDeleteResolution($id)
+    // {
+    //     $judge = MalePig::where('id', $id)
+    //         ->onlyTrashed()
+    //         ->get();
+    //     if ($judge->isnotEmpty()) {
+    //         $exist_male = null;
+    //         $delete_male = $judge[0]->individual_num;
+    //     } else {
+    //         $exist_male = MalePig::find($id)->individual_num;
+    //         $delete_male = null;
+    //     }
+    //     return [$exist_male, $delete_male];
+    // }
+
+    // public function testmaleSoftDeleteResolution($id)
+    // {
+    //     $judge = MalePig::where('id', $id)
+    //         ->onlyTrashed()
+    //         ->get();
+    //     if ($judge->isnotEmpty()) {
+    //         $exist_male = null;
+    //         $delete_male = $judge[0]->individual_num;
+    //     } else {
+    //         $exist_male = MalePig::find($id)->individual_num;
+    //         $delete_male = null;
+    //     }
+    //     return [$exist_male, $delete_male];
+    // }
 }
