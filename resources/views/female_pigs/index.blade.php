@@ -91,14 +91,15 @@
                     <form action="{{ route('female_pigs.index') }}" method="GET">
                         <input type="hidden" name="search_flag" value="1">
                         <input type="submit" value="要注意個体"
-                        class="mr-2 py-1.5 px-4 text-sm transition-colors bg-gray-50 border active:bg-sky-700 font-medium border-gray-200 hover:text-white text-sky-700 hover:border-sky-800 rounded-lg hover:bg-sky-700 disabled:opacity-50">
+                            class="mr-2 py-1.5 px-4 text-sm transition-colors bg-gray-50 border active:bg-sky-700 font-medium border-gray-200 hover:text-white text-sky-700 hover:border-sky-800 rounded-lg hover:bg-sky-700 disabled:opacity-50">
                     </form>
                 </div>
 
                 <div class="relative mt-4 md:mt-0">
                     <form action="{{ route('female_pigs.index') }}" method="GET">
                         <input type="hidden" name="search_rotate" value="1">
-                        <input type="submit" value="回転数低下個体">
+                        <input type="submit" value="回転数低下個体"
+                            class="mr-2 py-1.5 px-4 text-sm transition-colors bg-gray-50 border active:bg-sky-700 font-medium border-gray-200 hover:text-white text-sky-700 hover:border-sky-800 rounded-lg hover:bg-sky-700 disabled:opacity-50">
                     </form>
                 </div>
             </div>
