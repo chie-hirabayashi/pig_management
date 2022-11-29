@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\BornInfo;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\BornInfoImport;
+use App\Models\FemalePig;
+use App\Models\MixInfo;
+use App\Http\Requests\StoreBornInfoRequest;
+use App\Http\Requests\UpdateBornInfoRequest;
 
 class BornInfoController extends Controller
 {
@@ -24,9 +28,12 @@ class BornInfoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(MixInfo $mixInfo)
     {
-        //
+        // dd($mixInfo);
+        $femalePig = FemalePig::find($mixInfo->female_id);
+        // dd($femalePig);
+        return view('born_infos.born_create')->with(compact('mixInfo', 'femalePig'));
     }
 
     /**
@@ -35,9 +42,24 @@ class BornInfoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreBornInfoRequest $request, MixInfo $mixInfo)
     {
-        //
+        $bornInfo = new BornInfo();
+        $bornInfo->mix_id = $mixInfo->id;
+        $bornInfo->fill($request->all());
+        // dd($bornInfo);
+        $femalePig = $mixInfo->female_pig;
+
+        try {
+            $bornInfo->save();
+            return redirect()
+                ->route('female_pigs.show', $femalePig)
+                ->with('notice', '出産情報を登録しました');
+        } catch (\Throwable $th) {
+            return back()
+                ->withInput()
+                ->withErrors($th->getMessage());
+        }
     }
 
     /**
@@ -57,9 +79,11 @@ class BornInfoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(MixInfo $mixInfo, BornInfo $bornInfo)
     {
-        //
+        $femalePig = $mixInfo->female_pig;
+        // dd($femalePig);
+        return view('born_infos.born_edit')->with(compact('mixInfo', 'bornInfo', 'femalePig'));
     }
 
     /**
@@ -69,9 +93,19 @@ class BornInfoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateBornInfoRequest $request, MixInfo $mixInfo, BornInfo $bornInfo)
     {
-        //
+        $femalePig = $mixInfo->female_pig;
+        $bornInfo->fill($request->all());
+// dd($bornInfo);
+        try {
+            $bornInfo->save();
+            return redirect()
+                ->route('female_pigs.show', $femalePig)
+                ->with('notice', '出産情報を更新しました。');
+        } catch (\Throwable $th) {
+            return back()->withErrors($th->getMessage());
+        }
     }
 
     /**
@@ -80,9 +114,18 @@ class BornInfoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(MixInfo $mixInfo, BornInfo $bornInfo)
     {
-        //
+        $femalePig = $mixInfo->female_pig;
+        // dd($bornInfo);
+        try {
+            $bornInfo->delete();
+            return redirect()
+                ->route('female_pigs.show', $femalePig)
+                ->with('notice', '出産情報を削除しました');
+        } catch (\Throwable $th) {
+            return back()->withErrors($th->getMessage());
+        }
     }
 
     public function import(Request $request)

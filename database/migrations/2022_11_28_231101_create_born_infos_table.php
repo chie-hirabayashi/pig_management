@@ -17,6 +17,7 @@ class CreateBornInfosTable extends Migration
             $table->id();
             $table
                 ->foreignId('mix_id')
+                ->unique()
                 ->constrained('mix_infos')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();

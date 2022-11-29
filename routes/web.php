@@ -35,7 +35,7 @@ require __DIR__ . '/auth.php';
 Route::resource('female_pigs', FemalePigController::class);
 Route::resource('male_pigs', MalePigController::class);
 Route::resource('female_pigs.mix_infos', MixInfoController::class);
-// Route::resource('female_pigs.born_infos', BornInfoController::class);
+Route::resource('mix_infos.born_infos', BornInfoController::class);
 
 // 出産情報に関するルーティング
 Route::get('/mix_infos/{mix_info}/create', [
