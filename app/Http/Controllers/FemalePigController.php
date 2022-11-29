@@ -8,12 +8,10 @@ use App\Models\FemalePig;
 use App\Models\MixInfo;
 use App\Exports\FemalePigExport;
 use App\Imports\FemalePigImport;
-use App\Models\BornInfo;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection as SupportCollection;
 use Maatwebsite\Excel\Facades\Excel;
 
 class FemalePigController extends Controller
@@ -34,8 +32,6 @@ class FemalePigController extends Controller
         // 待機中:再発、流産後(+上記以外)
 
         foreach ($femalePigs as $femalePig) {
-            // $femalePig = FemalePig::where('individual_num', '24-1')->get();
-            // $femalePig = $femalePig[0];
             $mixInfo = $femalePig->mix_infos->last();
             // $today = Carbon::now(); //本設定
             $today = Carbon::create('2022-10-25'); //仮設定
@@ -162,11 +158,9 @@ class FemalePigController extends Controller
             ->get()
             ->load('female_pig');
 
+        $mixInfo = $mixInfos->first();
         // 出産情報の入れ物作成
         $bornInfos = new Collection();
-// dd(!empty($bornInfos->first()));
-// dd(is_null($bornInfos));
-        $mixInfo = $mixInfos->first();
 
         // 現在から1年前の日付を定義
         $last_year = Carbon::now()
@@ -207,20 +201,14 @@ class FemalePigController extends Controller
         } else {
             // 交配記録が1件もない場合、空の出産データを渡す
             $mix_ranking = [];
-            $born_infos = [];
-            $born_info = null;
-            $born_info_last_time = null;
 
             return view('female_pigs.show')->with(
                 compact(
                     'femalePig',
                     'mixInfos',
                     'mixInfo',
-                    'born_infos',
-                    'born_info',
-                    'born_info_last_time',
-                    'mix_ranking',
                     'bornInfos',
+                    'mix_ranking',
                 )
             );
         }
@@ -308,14 +296,8 @@ class FemalePigController extends Controller
             $maleGroupe_mix_infos
         );
         $mix_ranking = $maleGroupe_mix_infos;
-        // dd($mix_ranking);
-        
-
-        // $output = array_slice($maleGroupe_mix_infos, 0, 2);
-        // dd($output);
 
 
-// ここから新しいBornInfo作成
         // 出産情報の入れ物作成
         $bornInfos = new Collection();
         // $bornInfos = new SupportCollection();
@@ -339,28 +321,13 @@ class FemalePigController extends Controller
         $count_lastYearBorn = count($lastYear_bornInfos);
 
         switch (true) {
-            // case $count_allBorn == 0:
-            //     dd($bornInfos);
-            //     // 空の出産情報を登録
-            //     $born_infos = [];
-            //     $born_info = null;
-            //     $born_info_last_time = null;
-            //     break;
-
             case $count_allBorn == 1:
                 // 1回の出産情報を登録(回転数なし)
                 $bornInfos->first()->rotate = null; //回転数なし
-                // $bornInfos->first()->rotate_rastTime = null; //前回の回転数なし
-                // $bornInfos->first()->average_rotate = null; //平均回転数
                 $bornInfos->first()->count_allBorn = $count_allBorn; //全出産回数
                 $bornInfos->first()->count_lastYearBorn = $count_lastYearBorn; //過去1年間の出産回数
-                // $bornInfos->first()->average_bornNum = round(
-                //     $bornInfos->avg('born_num'),
-                //     2
-                // ); //平均産子数
                 break;
 
-            // default:
             case $count_allBorn > 1:
                 // 回転数を登録
                 $rotates = self::getRotate($bornInfos); //回転数算出
@@ -369,24 +336,8 @@ class FemalePigController extends Controller
                 }
 
                 // 2回以上の出産情報を登録(回転数あり)
-                // $bornInfos->first()->rotate = null; //回転数なし
-                // $bornInfos->first()->rotate_rastTime = null; //前回の回転数なし
-                // $bornInfos->first()->average_rotate = round($bornInfos->avg('rotate'), 2); //平均回転数
                 $bornInfos->first()->count_allBorn = $count_allBorn; //全出産回数
                 $bornInfos->first()->count_lastYearBorn = $count_lastYearBorn; //過去1年間の出産回数
-                // $bornInfos->first()->average_bornNum = round(
-                //     $bornInfos->avg('born_num'),
-                //     2
-                // ); //平均産子数
-                // $born_info = $bornInfos->first();
-                // $born_info_last_time = $born_infos[1];
-                // $born_info['count_born'] = $count_allBorn; //出産回数
-                // $born_info['count_lastY_born'] = $count_lastYearBorn; //過去1年間の出産回数
-                // $born_info['av_born_num'] = round(
-                //     $bornInfos->avg('born_num'),
-                //     2
-                // ); //平均産子数
-                // $born_info['av_rotate'] = round($bornInfos->avg('rotate'), 2); //平均回転数
                 break;
         }
 
@@ -475,11 +426,7 @@ class FemalePigController extends Controller
 // dd($mixInfos);
         // borninfosのsoftDelete対策
         foreach ($bornInfos as $info) {
-            // first_male_pigのsoftDelete対策
-            // dd($info->mix_info()->get());
             $mix_info = $info->mix_info()->get();
-            // dd($mix_info);
-            // dd($mix_info->first()->first_male_id);
             $array = self::maleSoftDeleteResolution($mix_info->first()->first_male_id);
             $exist_male = $array[0];
             $delete_male = $array[1];
@@ -521,18 +468,11 @@ class FemalePigController extends Controller
             }
         }
 
-        // softDelete対策
-        // self::OldmaleSoftDeleteResolution($born_infos);
-        // self::OldmaleSoftDeleteResolution($mixInfos);
-// dd($bornInfos);
         return view('female_pigs.show')->with(
             compact(
                 'femalePig',
                 'mixInfos',
                 'mixInfo',
-                'born_infos',
-                'born_info',
-                'born_info_last_time',
                 'mix_ranking',
                 'bornInfos'
             )

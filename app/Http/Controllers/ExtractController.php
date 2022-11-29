@@ -22,12 +22,6 @@ class ExtractController extends Controller
         // condition=3__過去2回で抽出(回転数かつ産子数:該当が少なすぎて抽出できない)
         // condition=4__過去2回、オプションあり抽出
 
-        // 仮条件
-        // $female_id = 5;
-        // $condition_rotate = 1.8;
-        // $condition_num = 8;
-        // $condition_recurrence = 1;
-
         // 本条件
         $condition = $request->condition; // 抽出方法
         $condition_first_rotate = $request->first_rotate; // 直前の回転数の条件
@@ -58,79 +52,11 @@ class ExtractController extends Controller
             $count_troubles = count($troubleInfos);
 
             // 稼働中の全出産を取得
-            $bornInfo_all = MixInfo::where('female_id', $femalePig->id)
-                ->orderBy('id', 'desc')
-                ->whereNotNull('born_day')
-                ->get();
-            $count_bornInfo_all = count($bornInfo_all); // 出産件数カウント
-            
-            // New
             $mixInfos = $femalePig->mix_infos()->orderBy('id', 'desc')->get();
             $bornInfos = self::getBornInfos($mixInfos);
-            // dd($bornInfos);
             $count_allBorn = count($bornInfos);
             
             // 全出産件数ごとに回転数を算出
-            switch (true) {
-                case $count_bornInfo_all >= 3:
-                    $bornInfo_3past = $bornInfo_all->take(3); //過去3回の出産情報
-                    $rotates = self::getRotate($bornInfo_3past); //回転数算出
-                    for ($i = 0; $i < 2; $i++) {
-                        $bornInfo_3past[$i]['rotate'] = $rotates[$i];
-                        $bornInfo_3past[$i]['troubles'] = $count_troubles;
-                    }
-                    $bornInfo_2past = $bornInfo_3past->take(2);
-
-                    // 予測回転数
-                    $bornInfo_2past[0]['rotate_prediction'] = self::getPredictionRotate($femalePig);
-                    break;
-
-                case $count_bornInfo_all == 2:
-                    $bornInfo_2past = $bornInfo_all; //過去2回の出産情報
-                    $rotates = self::getRotate($bornInfo_2past); //回転数算出
-                    $rotates[1] = 99;
-                    for ($i = 0; $i < 2; $i++) {
-                        $bornInfo_2past[$i]['rotate'] = $rotates[$i];
-                        $bornInfo_2past[$i]['troubles'] = $count_troubles;
-                    }
-
-                    // 予測回転数
-                    $bornInfo_2past[0]['rotate_prediction'] = self::getPredictionRotate($femalePig);
-                    // dd($bornInfo_2past);
-                    break;
-
-                case $count_bornInfo_all == 1:
-                    $bornInfo_past = $bornInfo_all[0]; //過去1回の出産情報
-                    $newBornInfo = new mixInfo();
-                    $newBornInfo->female_id = $femalePig->id;
-                    $newBornInfo->born_num = 99; // 抽出できない値をセット
-                    $newBornInfo->rotate = 99; // 抽出できない値をセット
-                    $newBornInfo->troubles = $count_troubles;
-                    $bornInfo_2past[0] = $bornInfo_past;
-                    $bornInfo_2past[1] = $newBornInfo;
-                    // $bornInfo_2past[0]['troubles'] = $count_troubles;
-                    // $bornInfo_2past[1]['troubles'] = $count_troubles;
-                    // 予測回転数
-                    $bornInfo_2past[0]['rotate_prediction'] = self::getPredictionRotate($femalePig);
-                    // dd($bornInfo_2past);
-                    break;
-                
-                case $count_bornInfo_all == 0:
-                    $newBornInfo = new mixInfo();
-                    $newBornInfo->female_id = $femalePig->id;
-                    $newBornInfo->born_num = 99; // 抽出できない値をセット
-                    $newBornInfo->rotate = 99; // 抽出できない値をセット
-                    $newBornInfo->troubles = $count_troubles;
-                    $bornInfo_2past[0] = $newBornInfo;
-                    $bornInfo_2past[1] = $newBornInfo;
-                    // $bornInfo_2past[0]['troubles'] = $count_troubles;
-                    // $bornInfo_2past[1]['troubles'] = $count_troubles;
-                    $bornInfo_2past[0]['rotate_prediction'] = 99;
-                    break;
-            }
-            // dd($bornInfo_2past);
-// dd($count_allBorn);
-            // New全出産件数ごとに回転数を算出
             switch (true) {
                 case $count_allBorn >= 3:
                     $bornInfo_3past = $bornInfos->take(3); //過去3回の出産情報
@@ -138,11 +64,10 @@ class ExtractController extends Controller
                     for ($i = 0; $i < 2; $i++) {
                         $bornInfo_3past[$i]['rotate'] = $rotates[$i];
                         $bornInfo_3past[$i]['troubles'] = $count_troubles;
-                        $bornInfo_3past[$i]['female_num'] = $femalePig->individual_num;
                     }
                     $bornInfo_2past = $bornInfo_3past->take(2);
                     // 予測回転数
-                    $bornInfo_2past[0]['rotate_prediction'] = self::getNewPredictionRotate($femalePig);
+                    $bornInfo_2past[0]['rotate_prediction'] = self::getPredictionRotate($femalePig);
                     break;
 
                 case $count_allBorn == 2:
@@ -152,19 +77,14 @@ class ExtractController extends Controller
                     for ($i = 0; $i < 2; $i++) {
                         $bornInfo_2past[$i]['rotate'] = $rotates[$i];
                         $bornInfo_2past[$i]['troubles'] = $count_troubles;
-                        $bornInfo_2past[$i]['female_num'] = $femalePig->individual_num;
                     }
 
                     // 予測回転数
-                    $bornInfo_2past[0]['rotate_prediction'] = self::getNewPredictionRotate($femalePig);
-                    // dd($bornInfo_2past);
+                    $bornInfo_2past[0]['rotate_prediction'] = self::getPredictionRotate($femalePig);
                     break;
 
                 case $count_allBorn == 1:
-                // dd($femalePig->mix_infos);
-                    // $bornInfo_past = $bornInfo_all[0]; //過去1回の出産情報
                     $bornInfo_first = $bornInfos[0]; //過去1回の出産情報
-                    $bornInfo_first->female_num = $femalePig->individual_num;
                     $bornInfo_second = new BornInfo();
                     $bornInfo_second->mix_id = $bornInfos->first()->mix_id;
                     $bornInfo_second->born_num = 99; // 抽出できない値をセット
@@ -173,32 +93,16 @@ class ExtractController extends Controller
                     $bornInfo_second->female_num = $femalePig->individual_num;
                     $bornInfo_2past[0] = $bornInfo_first;
                     $bornInfo_2past[1] = $bornInfo_second;
-                    // 
-                    // $mixInfos = $femalePig->mix_infos->where('trouble_id', '==', 1)->last();
-                    // $bornInfo_last = $mixInfos->born_info;
-                    // if (empty($bornInfo_last->born_day)) {
-                    //     $mixInfos = $femalePig->mix_infos->where('trouble_id', '==', 1);
-                    //     dd($mixInfos);
-                    //     // dd($bornInfos);
-                    //     // 妊娠中はカウントされない
-                    //     $bornInfo_2past[0]['rotate_prediction'] = self::getNewPredictionRotate($femalePig);
-                    // }
-                    $bornInfo_2past[0]['rotate_prediction'] = self::getNewPredictionRotate($femalePig);
-                    // $bornInfo_2past[0]['rotate_prediction'] = 'testestest';
-                    // dd($bornInfo_2past);
+                    $bornInfo_2past[0]['rotate_prediction'] = self::getPredictionRotate($femalePig);
                     break;
                 
                 case $count_allBorn == 0:
                     $bornInfo_pretend = new bornInfo();
-                    $bornInfo_pretend->female_num = $femalePig->individual_num;
-                    // $bornInfo_pretend->female_id = $femalePig->id;
                     $bornInfo_pretend->born_num = 99; // 抽出できない値をセット
                     $bornInfo_pretend->rotate = 99; // 抽出できない値をセット
                     $bornInfo_pretend->troubles = $count_troubles;
                     $bornInfo_2past[0] = $bornInfo_pretend;
                     $bornInfo_2past[1] = $bornInfo_pretend;
-                    // $bornInfo_2past[0]['troubles'] = $count_troubles;
-                    // $bornInfo_2past[1]['troubles'] = $count_troubles;
                     $bornInfo_2past[0]['rotate_prediction'] = 99;
                     break;
             }
@@ -216,9 +120,7 @@ class ExtractController extends Controller
             }
 // dd($extracts);
             // 直前のみ、オプションありで抽出
-            // operator_conditionはかつだけでOK
             if ($condition == 2) {
-                // dd($option_operator);
                 switch (true) {
                     // かつ
                     case $option_operator == 1:
@@ -300,11 +202,9 @@ class ExtractController extends Controller
                 }
             }
         }
-    // ここからfemalePigのindividual_numを追加
 
         foreach ($extracts as $info) {
             // first_male_pigのsoftDelete対策
-            // dd($info);
             $array = self::maleSoftDeleteResolution($info->mix_info->first_male_id);
             $exist_male = $array[0];
             $delete_male = $array[1];
@@ -323,9 +223,6 @@ class ExtractController extends Controller
                 $info->second_delete_male = null;
             }
         }
-        
-        // self::OldmaleSoftDeleteResolution($extracts);
-        // self::softDeleteResolution($extracts);
 
     // dd($extracts);
         return view('extracts.index')->with(compact('extracts', 'conditions'));
@@ -336,32 +233,4 @@ class ExtractController extends Controller
         return view('extracts.conditions');
     }
 
-    // // 回転数算出
-    // public function getRotate($bornInfos)
-    // {
-    //     $array = [];
-    //     $count = count($bornInfos);
-    //     for ($i = 0; $i < $count - 1; $i++) {
-    //         $carbon_1 = Carbon::create($bornInfos[$i]->born_day);
-    //         $carbon_2 = Carbon::create($bornInfos[$i + 1]->born_day);
-    //         $rotate = 365 / $carbon_1->diffInDays($carbon_2);
-    //         // born_infosにrotateを追加
-    //         $array[$i] = round($rotate, 2);
-    //     }
-    //     return $array;
-    // }
-
-    // // 予測回転数算出
-    // public function getPredictionRotate($femalePig)
-    // {
-    //         $bornInfo_last = MixInfo::where('female_id', $femalePig->id)
-    //             ->whereNotNull('born_day')
-    //             ->get()
-    //             ->last();
-    //         $carbon_now = Carbon::now();
-    //         $carbon_last = Carbon::create($bornInfo_last->born_day);
-    //         $rotate_prediction = 365 / $carbon_now->diffInDays($carbon_last);
-            
-    //         return round($rotate_prediction, 2);
-    // }
 }

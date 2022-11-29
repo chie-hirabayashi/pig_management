@@ -30,9 +30,7 @@ class BornInfoController extends Controller
      */
     public function create(MixInfo $mixInfo)
     {
-        // dd($mixInfo);
         $femalePig = FemalePig::find($mixInfo->female_id);
-        // dd($femalePig);
         return view('born_infos.born_create')->with(compact('mixInfo', 'femalePig'));
     }
 
@@ -47,7 +45,6 @@ class BornInfoController extends Controller
         $bornInfo = new BornInfo();
         $bornInfo->mix_id = $mixInfo->id;
         $bornInfo->fill($request->all());
-        // dd($bornInfo);
         $femalePig = $mixInfo->female_pig;
 
         try {
@@ -82,7 +79,6 @@ class BornInfoController extends Controller
     public function edit(MixInfo $mixInfo, BornInfo $bornInfo)
     {
         $femalePig = $mixInfo->female_pig;
-        // dd($femalePig);
         return view('born_infos.born_edit')->with(compact('mixInfo', 'bornInfo', 'femalePig'));
     }
 
@@ -117,7 +113,7 @@ class BornInfoController extends Controller
     public function destroy(MixInfo $mixInfo, BornInfo $bornInfo)
     {
         $femalePig = $mixInfo->female_pig;
-        // dd($bornInfo);
+        
         try {
             $bornInfo->delete();
             return redirect()
@@ -133,7 +129,7 @@ class BornInfoController extends Controller
         $excel_file = $request->file('excel_file');
         $excel_file->store('excels');
         Excel::import(new BornInfoImport(), $excel_file);
-        // return view('index');
+        
         return redirect()
             ->route('female_pigs.index')
             ->with('notice', 'インポートしました');

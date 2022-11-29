@@ -296,7 +296,7 @@
                         <td class="py-4 px-6">
                             <a href="{{ route('female_pigs.show', $extract->mix_info->female_pig) }}"
                                 class="text-blue-600 after:content-['_↗'] dark:text-blue-500 transition-colors bg-transparent hover:underline">
-                                {{ $extract->female_num }}
+                                {{ $extract->mix_info->female_pig->individual_num }}
                             </a>
                         </td>
                         <td class="py-4 px-6">

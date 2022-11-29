@@ -403,42 +403,42 @@ class MixInfoController extends Controller
             ->with('notice', 'インポートしました');
     }
 
-    // first_male_pigとsecond_male_pigの
-    // softDeleteとnull対策function
-    private function softDeleteResolution($mixInfo)
-    {
-        // first_male_pigのsoftDelete対策
-        $judge_1 = MalePig::where('id', $mixInfo->first_male_id)
-            ->onlyTrashed()
-            ->get();
-        if (!$judge_1->isEmpty()) {
-            $deletePig_1 = $judge_1[0]->individual_num;
-            $mixInfo->first_delete_male = $deletePig_1;
-            $mixInfo->first_male = null;
-        } else {
-            $mixInfo->first_delete_male = null;
-            $mixInfo->first_male = $mixInfo->first_male_pig->individual_num;
-        }
-        // second_male_pigのnullとsoftDelete対策
-        if ($mixInfo->second_male_id !== null) {
-            $judge_2 = MalePig::where('id', $mixInfo->second_male_id)
-                ->onlyTrashed()
-                ->get();
-            if (!$judge_2->isEmpty()) {
-                $deletePig_2 = $judge_2[0]->individual_num;
-                $mixInfo->second_delete_male = $deletePig_2;
-                $mixInfo->second_male = null;
-            } else {
-                $mixInfo->second_delete_male = null;
-                $mixInfo->second_male =
-                    $mixInfo->second_male_pig->individual_num;
-            }
-        } else {
-            $mixInfo->second_delete_male = null;
-            $mixInfo->second_male = null;
-        }
-        return $mixInfo;
-    }
+    // // first_male_pigとsecond_male_pigの
+    // // softDeleteとnull対策function
+    // private function softDeleteResolution($mixInfo)
+    // {
+    //     // first_male_pigのsoftDelete対策
+    //     $judge_1 = MalePig::where('id', $mixInfo->first_male_id)
+    //         ->onlyTrashed()
+    //         ->get();
+    //     if (!$judge_1->isEmpty()) {
+    //         $deletePig_1 = $judge_1[0]->individual_num;
+    //         $mixInfo->first_delete_male = $deletePig_1;
+    //         $mixInfo->first_male = null;
+    //     } else {
+    //         $mixInfo->first_delete_male = null;
+    //         $mixInfo->first_male = $mixInfo->first_male_pig->individual_num;
+    //     }
+    //     // second_male_pigのnullとsoftDelete対策
+    //     if ($mixInfo->second_male_id !== null) {
+    //         $judge_2 = MalePig::where('id', $mixInfo->second_male_id)
+    //             ->onlyTrashed()
+    //             ->get();
+    //         if (!$judge_2->isEmpty()) {
+    //             $deletePig_2 = $judge_2[0]->individual_num;
+    //             $mixInfo->second_delete_male = $deletePig_2;
+    //             $mixInfo->second_male = null;
+    //         } else {
+    //             $mixInfo->second_delete_male = null;
+    //             $mixInfo->second_male =
+    //                 $mixInfo->second_male_pig->individual_num;
+    //         }
+    //     } else {
+    //         $mixInfo->second_delete_male = null;
+    //         $mixInfo->second_male = null;
+    //     }
+    //     return $mixInfo;
+    // }
 
     // cssテスト用
     public function test()
