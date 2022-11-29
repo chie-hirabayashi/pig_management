@@ -10,6 +10,7 @@ use App\Models\FemalePig;
 use App\Models\MalePig;
 use App\Models\MixInfo;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 
 class Controller extends BaseController
 {
@@ -107,10 +108,44 @@ class Controller extends BaseController
                 ->whereNotNull('born_day')
                 ->get()
                 ->last();
+            
             $carbon_now = Carbon::now();
             $carbon_last = Carbon::create($bornInfo_last->born_day);
             $rotate_prediction = 365 / $carbon_now->diffInDays($carbon_last);
             
             return round($rotate_prediction, 2);
+    }
+
+    // 予測回転数算出
+    public function getNewPredictionRotate($femalePig)
+    {
+            $mixInfos = $femalePig->mix_infos;
+            // dd($mixInfos);
+            $bornInfo_last = self::getBornInfos($mixInfos)->last();
+            // $mixInfo = $femalePig->mix_infos->where('trouble_id', '==', 1)->last();
+            // これだと妊娠中の$mixInfoを拾ってしまう
+            // $bornInfo_last = $mixInfo->born_info;
+
+            $carbon_now = Carbon::now();
+            $carbon_last = Carbon::create($bornInfo_last->born_day);
+            // dd($carbon_last);
+            $rotate_prediction = 365 / $carbon_now->diffInDays($carbon_last);
+            
+            return round($rotate_prediction, 2);
+    }
+
+    public function getBornInfos($mixInfos)
+    {
+        // 出産情報の入れ物作成
+        $bornInfos = new Collection();
+
+        // 全出産情報取得
+        foreach ($mixInfos as $mixInfo) {
+            $bornInfo = $mixInfo->born_info()->get()->load('mix_info');
+            if (!empty($bornInfo[0])) {
+                $bornInfos->add($bornInfo[0]);
+            }
+        }
+        return $bornInfos;
     }
 }

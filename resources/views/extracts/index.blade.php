@@ -294,16 +294,16 @@
                     <tr
                         class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 whitespace-nowrap">
                         <td class="py-4 px-6">
-                            <a href="{{ route('female_pigs.show', $extract->female_pig) }}"
+                            <a href="{{ route('female_pigs.show', $extract->mix_info->female_pig) }}"
                                 class="text-blue-600 after:content-['_↗'] dark:text-blue-500 transition-colors bg-transparent hover:underline">
-                                {{ $extract->female_pig->individual_num }}
+                                {{ $extract->female_num }}
                             </a>
                         </td>
                         <td class="py-4 px-6">
                             <span class="text-red-500">
-                                {{ $extract->female_pig->age >= $conditions['female_age'] ? $extract->female_pig->age . '歳' : '' }}
+                                {{ $extract->mix_info->female_pig->age >= $conditions['female_age'] ? $extract->mix_info->female_pig->age . '歳' : '' }}
                             </span>
-                            {{ $extract->female_pig->age >= $conditions['female_age'] ? '' : $extract->female_pig->age . '歳' }}
+                            {{ $extract->mix_info->female_pig->age >= $conditions['female_age'] ? '' : $extract->mix_info->female_pig->age . '歳' }}
                         </td>
                         <td class="py-4 px-6">
                             <span class="text-red-500">
