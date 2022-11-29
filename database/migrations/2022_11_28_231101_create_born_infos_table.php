@@ -21,6 +21,22 @@ class CreateBornInfosTable extends Migration
                 ->constrained('mix_infos')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
+            $table
+                ->foreignId('female_id')
+                ->constrained('female_pigs')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+            $table
+                ->foreignId('first_male_id')
+                ->constrained('male_pigs')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+            $table
+                ->foreignId('second_male_id')
+                ->nullable()
+                ->constrained('male_pigs')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
             $table->date('born_day');
             $table->integer('born_num');
             $table->timestamps();

@@ -24,42 +24,45 @@ class FemalePigController extends Controller
     public function index(Request $request)
     {
         $searchItems = FemalePig::all()->sortBy('individual_num');
-        $femalePigs = FemalePig::with('mix_infos')->get();
-        // dd($searchItems);
+        $femalePigs = FemalePig::with('mix_infos')->with('born_infos')->get();
+        // $femalePigs = FemalePig::all(); これだとN+1
+        // dd($femalePigs);
         // Explanation:状態statusの区分
         // 観察中:交配から120日間(交配~出産予定114日+6日)
         // 保育中:出産から24日間(離乳21~25日)
         // 待機中:再発、流産後(+上記以外)
 
         foreach ($femalePigs as $femalePig) {
-            $mixInfo = $femalePig->mix_infos->last();
+            $mixInfo_last = $femalePig->mix_infos->last();
+            $bornInfo_last = $femalePig->born_infos->last();
             // $today = Carbon::now(); //本設定
             $today = Carbon::create('2022-10-25'); //仮設定
             // $today = Carbon::create('2022-8-1'); //仮設定
 
-            if (!empty($mixInfo->mix_day)) {
-                $mix_day = Carbon::create($mixInfo->mix_day);
+            // if (!empty($mixInfo_last->mix_day)) {
+            if (!empty($mixInfo_last)) {
+                $mix_day = Carbon::create($mixInfo_last->mix_day);
             }
 
-            if (!empty($mixInfo->born_day)) {
-                $born_day = Carbon::create($mixInfo->born_day);
+            if (!empty($bornInfo_last)) {
+                $born_day = Carbon::create($bornInfo_last->born_day);
             }
 
             switch (true) {
                 // 観察中:交配から120日間(交配~出産予定114日+6日)
-                case !empty($mixInfo->mix_day) &&
+                case !empty($mixInfo_last) &&
                     $today->diffInDays($mix_day) <= 120:
                     $femalePig->status = '観察中';
                     break;
 
                 // 保育中:出産から24日間(離乳21~25日)
-                case !empty($mixInfo->born_day) &&
+                case !empty($bornInfo_last) &&
                     $today->diffInDays($born_day) < 24:
                     $femalePig->status = '保育中';
                     break;
 
                 // 待機中:再発、流産後
-                case !empty($mixInfo->trouble_id) && $mixInfo->trouble_id !== 1:
+                case !empty($mixInfo_last) && $mixInfo_last->trouble_id !== 1:
                     $femalePig->status = '待機中';
                     break;
 
@@ -68,16 +71,17 @@ class FemalePigController extends Controller
                     $femalePig->status = '待機中';
                     break;
             }
-
-            $bornInfo_last = MixInfo::where('female_id', $femalePig->id)
-                ->whereNotNull('born_day')
-                ->get()
-                ->last();
+// dd($femalePigs);
+            // $bornInfo_last = MixInfo::where('female_id', $femalePig->id)
+            //     ->whereNotNull('born_day')
+            //     ->get()
+            //     ->last();
             // bornInfoがある場合、予測回転数算出
             if ($bornInfo_last) {
-                $femalePig->rotate_prediction = self::getPredictionRotate(
-                    $femalePig
-                );
+                $femalePig->rotate_prediction = self::getnPredictionRotateFromBornInfo($bornInfo_last);
+                // $femalePig->rotate_prediction = self::getPredictionRotate(
+                //     $femalePig
+                // );
             }
         }
 

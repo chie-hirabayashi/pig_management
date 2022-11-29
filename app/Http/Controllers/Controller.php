@@ -94,6 +94,16 @@ class Controller extends BaseController
             return round($rotate_prediction, 2);
     }
 
+    // 予測回転数算出
+    public function getnPredictionRotateFromBornInfo($bornInfo)
+    {
+            $carbon_now = Carbon::now();
+            $carbon_last = Carbon::create($bornInfo->born_day);
+            $rotate_prediction = 365 / $carbon_now->diffInDays($carbon_last);
+            
+            return round($rotate_prediction, 2);
+    }
+
     public function getBornInfos($mixInfos)
     {
         // 出産情報の入れ物作成
