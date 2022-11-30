@@ -304,6 +304,7 @@
                         <td class="py-4 px-6">
                             <span class="text-red-500">
                                 {{-- {{ $extract->mix_info->female_pig->age >= $conditions['female_age'] ? $extract->mix_info->female_pig->age . '歳' : '' }} --}}
+                    <!-- これ -->
                                 {{ $extract->female_pig->age >= $conditions['female_age'] ? $extract->female_pig->age . '歳' : '' }}
                             </span>
                             {{-- {{ $extract->mix_info->female_pig->age >= $conditions['female_age'] ? '' : $extract->mix_info->female_pig->age . '歳' }} --}}

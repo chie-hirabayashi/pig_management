@@ -20,7 +20,7 @@ class BornInfoController extends Controller
      */
     public function index()
     {
-        // return view('');
+        // 
     }
 
     /**
@@ -31,7 +31,7 @@ class BornInfoController extends Controller
     public function create(MixInfo $mixInfo)
     {
         $femalePig = FemalePig::find($mixInfo->female_id);
-        return view('born_infos.born_create')->with(compact('mixInfo', 'femalePig'));
+        return view('born_infos.create')->with(compact('mixInfo', 'femalePig'));
     }
 
     /**
@@ -79,7 +79,7 @@ class BornInfoController extends Controller
     public function edit(MixInfo $mixInfo, BornInfo $bornInfo)
     {
         $femalePig = $mixInfo->female_pig;
-        return view('born_infos.born_edit')->with(compact('mixInfo', 'bornInfo', 'femalePig'));
+        return view('born_infos.edit')->with(compact('mixInfo', 'bornInfo', 'femalePig'));
     }
 
     /**
