@@ -10,8 +10,6 @@ use App\Exports\FemalePigExport;
 use App\Imports\FemalePigImport;
 use App\Models\BornInfo;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -74,19 +72,11 @@ class FemalePigController extends Controller
                     $femalePig->status = '待機中';
                     break;
             }
-            // dd($femalePigs);
-            // $bornInfo_last = MixInfo::where('female_id', $femalePig->id)
-            //     ->whereNotNull('born_day')
-            //     ->get()
-            //     ->last();
             // bornInfoがある場合、予測回転数算出
             if ($bornInfo_last) {
                 $femalePig->rotate_prediction = self::getnPredictionRotateFromBornInfo(
                     $bornInfo_last
                 );
-                // $femalePig->rotate_prediction = self::getPredictionRotate(
-                //     $femalePig
-                // );
             }
         }
 
@@ -185,6 +175,7 @@ class FemalePigController extends Controller
                 ->mix_infos()
                 ->where('trouble_id', 2)
                 ->count();
+            // dd($count_recurrences);
             $mixInfos->last()->count_recurrences = $count_recurrences;
             
             // 流産総数を登録
