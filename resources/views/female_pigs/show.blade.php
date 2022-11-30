@@ -56,52 +56,59 @@
                 <!-- schedule - start -->
                 <div class="text-gray-600">
                     <h2 class="text-center">予 定</h2>
-                    @if ($mixInfo && empty($mixInfo->born_day) && $mixInfo->trouble_id == 1)
-                        <div class="flex">
-                            <div class="mr-4">
-                                再発予定日1 : {{ $mixInfo->first_recurrence_schedule }}
+                    {{-- @if ($mixInfo && empty($mixInfo->born_day) && $mixInfo->trouble_id == 1) --}}
+                    @if ($mixInfos->isNotEmpty())
+                        @if ($bornInfos->isEmpty() || $mixInfos->last()->id !== $bornInfos->last()->mix_id)
+                            <div class="flex">
+                                <div class="mr-4">
+                                    {{-- 再発予定日1 : {{ $mixInfo->first_recurrence_schedule }} --}}
+                                    再発予定日1 : {{ $mixInfos->last()->first_recurrence_schedule }}
+                                </div>
+                                <div>
+                                    {{-- 再発予定3日前から表示 --}}
+                                    {{-- @if (date('Y-m-d H:i:s', strtotime('+3 day')) > $mixInfo->first_recurrence_schedule && $mixInfo->first_recurrence == 0) --}}
+                                    @if (date('Y-m-d H:i:s', strtotime('+3 day')) > $mixInfos->last()->first_recurrence_schedule &&
+                                        $mixInfos->last()->first_recurrence == 0)
+                                        <form action="{{ route('female_pigs.updateRecurrence', $femalePig) }}"
+                                            method="POST">
+                                            @csrf
+                                            @method('PATCH')
+                                            <input type="hidden" name="first_recurrence" id=""
+                                                value="{{ 1 }}">
+                                            <button class="text-red-500" type="submit"
+                                                onclick="if(!confirm('再発の確認をしました')){return false};">
+                                                <i class="fa-solid fa-circle-check"></i>
+                                            </button>
+                                        </form>
+                                    @endif
+                                </div>
                             </div>
-                            <div>
-                                {{-- 再発予定3日前から表示 --}}
-                                @if (date('Y-m-d H:i:s', strtotime('+3 day')) > $mixInfo->first_recurrence_schedule &&
-                                    $mixInfo->first_recurrence == 0)
-                                    <form action="{{ route('female_pigs.updateRecurrence', $femalePig) }}"
-                                        method="POST">
-                                        @csrf
-                                        @method('PATCH')
-                                        <input type="hidden" name="first_recurrence" id=""
-                                            value="{{ 1 }}">
-                                        <button class="text-red-500" type="submit"
-                                            onclick="if(!confirm('再発の確認をしました')){return false};">
-                                            <i class="fa-solid fa-circle-check"></i>
-                                        </button>
-                                    </form>
-                                @endif
+                            <div class="flex">
+                                <div class="mr-4">
+                                    {{-- 再発予定日2 : {{ $mixInfo->second_recurrence_schedule }} --}}
+                                    再発予定日2 : {{ $mixInfos->last()->second_recurrence_schedule }}
+                                </div>
+                                <div>
+                                    {{-- 再発予定3日前から表示 --}}
+                                    {{-- @if (date('Y-m-d H:i:s', strtotime('+3 day')) > $mixInfo->second_recurrence_schedule && $mixInfo->second_recurrence == 0) --}}
+                                    @if (date('Y-m-d H:i:s', strtotime('+3 day')) > $mixInfos->last()->second_recurrence_schedule &&
+                                        $mixInfos->last()->second_recurrence == 0)
+                                        <form action="{{ route('female_pigs.updateRecurrence', $femalePig) }}"
+                                            method="POST">
+                                            @csrf
+                                            @method('PATCH')
+                                            <input type="hidden" name="second_recurrence" id=""
+                                                value="{{ 1 }}">
+                                            <button class="text-red-500" type="submit"
+                                                onclick="if(!confirm('再発の確認をしました')){return false};">
+                                                <i class="fa-solid fa-circle-check"></i>
+                                            </button>
+                                        </form>
+                                    @endif
+                                </div>
                             </div>
-                        </div>
-                        <div class="flex">
-                            <div class="mr-4">
-                                再発予定日2 : {{ $mixInfo->second_recurrence_schedule }}
-                            </div>
-                            <div>
-                                {{-- 再発予定3日前から表示 --}}
-                                @if (date('Y-m-d H:i:s', strtotime('+3 day')) > $mixInfo->second_recurrence_schedule &&
-                                    $mixInfo->second_recurrence == 0)
-                                    <form action="{{ route('female_pigs.updateRecurrence', $femalePig) }}"
-                                        method="POST">
-                                        @csrf
-                                        @method('PATCH')
-                                        <input type="hidden" name="second_recurrence" id=""
-                                            value="{{ 1 }}">
-                                        <button class="text-red-500" type="submit"
-                                            onclick="if(!confirm('再発の確認をしました')){return false};">
-                                            <i class="fa-solid fa-circle-check"></i>
-                                        </button>
-                                    </form>
-                                @endif
-                            </div>
-                        </div>
-                        <div>出産予定日&ensp; : {{ $mixInfo->delivery_schedule }}</div>
+                            <div>出産予定日&ensp; : {{ $mixInfos->last()->delivery_schedule }}</div>
+                        @endif
                     @endif
                 </div>
                 <!-- schedule - end -->
@@ -227,15 +234,15 @@
                                     再発回数
                                 </th>
                                 <td class="text-center py-3 px-6">
-                                    @if ($mixInfo)
-                                        {{ $mixInfo->lastYsum_recurrences }} 回
+                                    @if ($mixInfos->isNotEmpty())
+                                        {{ $mixInfos->last()->count_lastYear_recurrences }} 回
                                     @else
                                         0 回
                                     @endif
                                 </td>
                                 <td class="text-center py-3 px-6">
-                                    @if ($mixInfo)
-                                        {{ $mixInfo->sum_recurrence }} 回
+                                    @if ($mixInfos->isNotEmpty())
+                                        {{ $mixInfos->last()->count_recurrences }} 回
                                     @else
                                         0 回
                                     @endif
@@ -249,15 +256,15 @@
                                     流産回数
                                 </th>
                                 <td class="text-center py-3 px-6">
-                                    @if ($mixInfo)
-                                        {{ $mixInfo->lastYsum_abortions }} 回
+                                    @if ($mixInfos->isNotEmpty())
+                                        {{ $mixInfos->last()->count_lastYear_abortions }} 回
                                     @else
                                         0 回
                                     @endif
                                 </td>
                                 <td class="text-center py-3 px-6">
-                                    @if ($mixInfo)
-                                        {{ $mixInfo->sum_abortion }} 回
+                                    @if ($mixInfos->isNotEmpty())
+                                        {{ $mixInfos->last()->count_abortions }} 回
                                     @else
                                         0 回
                                     @endif
@@ -312,8 +319,7 @@
                 <!-- edit & delete - start -->
                 <div class="flex flex-row text-center my-4">
                     {{-- @can('update', $post) --}}
-                    <a href="{{ route('female_pigs.edit', $femalePig) }}" {{-- class="bg-blue-400 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20 mr-2"> --}}
-                        {{-- class="bg-cyan-800 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20 mr-2"> --}}
+                    <a href="{{ route('female_pigs.edit', $femalePig) }}"
                         class="mr-2 py-1.5 px-4 transition-colors bg-gray-50 border active:bg-cyan-800 font-medium border-gray-200 hover:text-white text-cyan-600 hover:border-cyan-700 rounded-lg hover:bg-cyan-700 disabled:opacity-50">
                         編 集
                     </a>
@@ -342,15 +348,14 @@
             <div class="MplusRound text-xl font-medium text-gray-600 py-2 px-8">出 産 情 報</div>
             <div class="px-4 leading-10">
                 {{-- @can('update', $post) --}}
-                @if ($mixInfo)
-                    <a href="{{ route('born_infos.create', $mixInfo) }}"
-                        class="text-sky-700 after:content-['_↗'] text-base dark:text-sky-500 py-1 px-3 transition-colors bg-transparent rounded-lg hover:underline hover:font-bold">
-                        新規登録
-                    </a>
-                    <a href="{{ route('mix_infos.born_infos.create', $mixInfos->first()) }}"
-                        class="text-sky-700 after:content-['_↗'] text-base dark:text-sky-500 py-1 px-3 transition-colors bg-transparent rounded-lg hover:underline hover:font-bold">
-                        New新規登録
-                    </a>
+                {{-- @if ($mixInfos) --}}
+                @if ($mixInfos->isNotEmpty())
+                    @if ($bornInfos->isEmpty() || $mixInfos->last()->id !== $bornInfos->last()->mix_id)
+                        <a href="{{ route('mix_infos.born_infos.create', $mixInfos->first()) }}"
+                            class="text-sky-700 after:content-['_↗'] text-base dark:text-sky-500 py-1 px-3 transition-colors bg-transparent rounded-lg hover:underline hover:font-bold">
+                            New新規登録
+                        </a>
+                    @endif
                 @endif
                 {{-- @endcan --}}
             </div>
@@ -408,11 +413,13 @@
                         </td>
                         {{-- <td class="flex flex-row items-center py-4 px-6 space-x-3"> --}}
                         <td class="flex flex-row items-center py-4 px-6">
-                            <a href="{{ route('mix_infos.born_infos.edit', [$bornInfo->mix_info, $bornInfo]) }}" 
+                            <a href="{{ route('mix_infos.born_infos.edit', [$bornInfo->mix_info, $bornInfo]) }}"
                                 class="basis-1/2 font-medium text-cyan-800 dark:text-cyan-600 hover:underline hover:font-bold">
                                 編 集</a>
                             {{-- <form action="{{ route('born_infos.destroy', $born_info) }}" method="post"> --}}
-                            <form action="{{ route('mix_infos.born_infos.destroy', [$bornInfo->mix_info, $bornInfo]) }}" method="post">
+                            <form
+                                action="{{ route('mix_infos.born_infos.destroy', [$bornInfo->mix_info, $bornInfo]) }}"
+                                method="post">
                                 @csrf
                                 @method('DELETE')
                                 <input type="submit" value="削 除"
@@ -439,10 +446,10 @@
             <div class="px-4 leading-10">
                 {{-- @can('update', $post) --}}
                 {{-- @if ($mixInfo) --}}
-                    <a href="{{ route('female_pigs.mix_infos.create', $femalePig) }}"
-                        class="text-sky-700 after:content-['_↗'] text-base dark:text-sky-500 py-1 px-3 transition-colors bg-transparent rounded-lg hover:underline hover:font-bold">
-                        新規登録
-                    </a>
+                <a href="{{ route('female_pigs.mix_infos.create', $femalePig) }}"
+                    class="text-sky-700 after:content-['_↗'] text-base dark:text-sky-500 py-1 px-3 transition-colors bg-transparent rounded-lg hover:underline hover:font-bold">
+                    新規登録
+                </a>
                 {{-- @endif --}}
                 {{-- @endcan --}}
             </div>
