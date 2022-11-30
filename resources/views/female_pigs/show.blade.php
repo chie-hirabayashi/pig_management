@@ -31,6 +31,26 @@
                     <div class="mx-2">
                         {{ $femalePig->age }}歳
                     </div>
+                    <div class="mx-2">
+                        @if ($bornInfos->first()->rotate_prediction <= 1.8)
+                            <span
+                                class="text-red-600 text-base font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-800">
+                        @elseif ($bornInfos->first()->rotate_prediction > 1.8)
+                            <span
+                                class="text-gray-800 text-base font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-800">
+                        @endif
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-arrow-repeat" viewBox="0 0 16 16">
+                                <path
+                                    d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z" />
+                                <path fill-rule="evenodd"
+                                    d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z" />
+                            </svg>
+                            <div class="ml-2">
+                                {{ $bornInfos->first()->rotate_prediction }}
+                            </div>
+                        </span>
+                    </div>
                     <div>
                         <form action="{{ route('female_pigs.updateFlag', $femalePig) }}" method="POST">
                             @csrf
@@ -56,57 +76,64 @@
                 <!-- schedule - start -->
                 <div class="text-gray-600">
                     <h2 class="text-center">予 定</h2>
-                    @if ($mixInfo && empty($mixInfo->born_day) && $mixInfo->trouble_id == 1)
-                        <div class="flex">
-                            <div class="mr-4">
-                                再発予定日1 : {{ $mixInfo->first_recurrence_schedule }}
+                    {{-- @if ($mixInfo && empty($mixInfo->born_day) && $mixInfo->trouble_id == 1) --}}
+                    @if ($mixInfos->isNotEmpty())
+                        @if ($bornInfos->isEmpty() || $mixInfos->last()->id !== $bornInfos->last()->mix_id)
+                            <div class="flex">
+                                <div class="mr-4">
+                                    {{-- 再発予定日1 : {{ $mixInfo->first_recurrence_schedule }} --}}
+                                    再発予定日1 : {{ $mixInfos->last()->first_recurrence_schedule }}
+                                </div>
+                                <div>
+                                    {{-- 再発予定3日前から表示 --}}
+                                    {{-- @if (date('Y-m-d H:i:s', strtotime('+3 day')) > $mixInfo->first_recurrence_schedule && $mixInfo->first_recurrence == 0) --}}
+                                    @if (date('Y-m-d H:i:s', strtotime('+3 day')) > $mixInfos->last()->first_recurrence_schedule &&
+                                        $mixInfos->last()->first_recurrence == 0)
+                                        <form action="{{ route('female_pigs.updateRecurrence', $femalePig) }}"
+                                            method="POST">
+                                            @csrf
+                                            @method('PATCH')
+                                            <input type="hidden" name="first_recurrence" id=""
+                                                value="{{ 1 }}">
+                                            <button class="text-red-500" type="submit"
+                                                onclick="if(!confirm('再発の確認をしました')){return false};">
+                                                <i class="fa-solid fa-circle-check"></i>
+                                            </button>
+                                        </form>
+                                    @endif
+                                </div>
                             </div>
-                            <div>
-                                {{-- 再発予定3日前から表示 --}}
-                                @if (date('Y-m-d H:i:s', strtotime('+3 day')) > $mixInfo->first_recurrence_schedule &&
-                                    $mixInfo->first_recurrence == 0)
-                                    <form action="{{ route('female_pigs.updateRecurrence', $femalePig) }}"
-                                        method="POST">
-                                        @csrf
-                                        @method('PATCH')
-                                        <input type="hidden" name="first_recurrence" id=""
-                                            value="{{ 1 }}">
-                                        <button class="text-red-500" type="submit"
-                                            onclick="if(!confirm('再発の確認をしました')){return false};">
-                                            <i class="fa-solid fa-circle-check"></i>
-                                        </button>
-                                    </form>
-                                @endif
+                            <div class="flex">
+                                <div class="mr-4">
+                                    {{-- 再発予定日2 : {{ $mixInfo->second_recurrence_schedule }} --}}
+                                    再発予定日2 : {{ $mixInfos->last()->second_recurrence_schedule }}
+                                </div>
+                                <div>
+                                    {{-- 再発予定3日前から表示 --}}
+                                    {{-- @if (date('Y-m-d H:i:s', strtotime('+3 day')) > $mixInfo->second_recurrence_schedule && $mixInfo->second_recurrence == 0) --}}
+                                    @if (date('Y-m-d H:i:s', strtotime('+3 day')) > $mixInfos->last()->second_recurrence_schedule &&
+                                        $mixInfos->last()->second_recurrence == 0)
+                                        <form action="{{ route('female_pigs.updateRecurrence', $femalePig) }}"
+                                            method="POST">
+                                            @csrf
+                                            @method('PATCH')
+                                            <input type="hidden" name="second_recurrence" id=""
+                                                value="{{ 1 }}">
+                                            <button class="text-red-500" type="submit"
+                                                onclick="if(!confirm('再発の確認をしました')){return false};">
+                                                <i class="fa-solid fa-circle-check"></i>
+                                            </button>
+                                        </form>
+                                    @endif
+                                </div>
                             </div>
-                        </div>
-                        <div class="flex">
-                            <div class="mr-4">
-                                再発予定日2 : {{ $mixInfo->second_recurrence_schedule }}
-                            </div>
-                            <div>
-                                {{-- 再発予定3日前から表示 --}}
-                                @if (date('Y-m-d H:i:s', strtotime('+3 day')) > $mixInfo->second_recurrence_schedule &&
-                                    $mixInfo->second_recurrence == 0)
-                                    <form action="{{ route('female_pigs.updateRecurrence', $femalePig) }}"
-                                        method="POST">
-                                        @csrf
-                                        @method('PATCH')
-                                        <input type="hidden" name="second_recurrence" id=""
-                                            value="{{ 1 }}">
-                                        <button class="text-red-500" type="submit"
-                                            onclick="if(!confirm('再発の確認をしました')){return false};">
-                                            <i class="fa-solid fa-circle-check"></i>
-                                        </button>
-                                    </form>
-                                @endif
-                            </div>
-                        </div>
-                        <div>出産予定日&ensp; : {{ $mixInfo->delivery_schedule }}</div>
+                            <div>出産予定日&ensp; : {{ $mixInfos->last()->delivery_schedule }}</div>
+                        @endif
                     @endif
                 </div>
                 <!-- schedule - end -->
 
-                <!-- border - start -->
+                <!-- Newborder - start -->
                 <div class="overflow-x-auto relative">
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-center text-xs text-gray-900 uppercase dark:text-gray-400">
@@ -130,30 +157,22 @@
                                     回転数
                                 </th>
                                 <td class="text-center py-3 px-6">
-                                    @if ($born_info)
-                                        @if ($born_info->rotate !== null)
-                                            {{ $born_info->rotate }} 回
-                                        @else
-                                            -
-                                        @endif
+                                    @if (!empty($bornInfos->first()->rotate))
+                                        {{ $bornInfos->first()->rotate }} 回
                                     @else
                                         -
                                     @endif
                                 </td>
                                 <td class="text-center py-3 px-6">
-                                    @if ($born_info_last_time)
-                                        {{ $born_info_last_time->rotate }} 回
+                                    @if (!empty($bornInfos[1]))
+                                        {{ $bornInfos[1]->rotate }} 回
                                     @else
                                         -
                                     @endif
                                 </td>
                                 <td class="text-center py-3 px-6">
-                                    @if ($born_info)
-                                        @if ($born_info->av_rotate !== null)
-                                            {{ $born_info->av_rotate }} 回
-                                        @else
-                                            -
-                                        @endif
+                                    @if (!empty($bornInfos->first()->rotate))
+                                        {{ round($bornInfos->avg('rotate'), 2) }} 回
                                     @else
                                         -
                                     @endif
@@ -165,22 +184,23 @@
                                     産子数
                                 </th>
                                 <td class="text-center py-3 px-6">
-                                    @if ($born_info)
-                                        {{ $born_info->born_num }} 匹
+                                    @if (!empty($bornInfos->first()))
+                                        {{ $bornInfos->first()->born_num }} 匹
                                     @else
                                         -
                                     @endif
                                 </td>
                                 <td class="text-center py-3 px-6">
-                                    @if ($born_info_last_time)
-                                        {{ $born_info_last_time->born_num }} 匹
+                                    @if (!empty($bornInfos[1]))
+                                        {{ $bornInfos[1]->born_num }} 匹
                                     @else
                                         -
                                     @endif
                                 </td>
                                 <td class="text-center py-3 px-6">
-                                    @if ($born_info)
-                                        {{ $born_info->av_born_num }} 匹
+                                    @if (!empty($bornInfos->first()))
+                                        {{ round($bornInfos->avg('born_num'), 2) }}
+                                        匹
                                     @else
                                         -
                                     @endif
@@ -212,15 +232,15 @@
                                     出産回数
                                 </th>
                                 <td class="text-center py-3 px-6">
-                                    @if ($born_info)
-                                        {{ $born_info->count_lastY_born }} 回
+                                    @if (!empty($bornInfos->first()))
+                                        {{ $bornInfos->first()->count_lastYearBorn }} 回
                                     @else
                                         0 回
                                     @endif
                                 </td>
                                 <td class="text-center py-3 px-6">
-                                    @if ($born_info)
-                                        {{ $born_info->count_born }} 回
+                                    @if (!empty($bornInfos->first()))
+                                        {{ $bornInfos->first()->count_allBorn }} 回
                                     @else
                                         0 回
                                     @endif
@@ -234,15 +254,15 @@
                                     再発回数
                                 </th>
                                 <td class="text-center py-3 px-6">
-                                    @if ($mixInfo)
-                                        {{ $mixInfo->lastYsum_recurrences }} 回
+                                    @if ($mixInfos->isNotEmpty())
+                                        {{ $mixInfos->last()->count_lastYear_recurrences }} 回
                                     @else
                                         0 回
                                     @endif
                                 </td>
                                 <td class="text-center py-3 px-6">
-                                    @if ($mixInfo)
-                                        {{ $mixInfo->sum_recurrence }} 回
+                                    @if ($mixInfos->isNotEmpty())
+                                        {{ $mixInfos->last()->count_recurrences }} 回
                                     @else
                                         0 回
                                     @endif
@@ -256,15 +276,15 @@
                                     流産回数
                                 </th>
                                 <td class="text-center py-3 px-6">
-                                    @if ($mixInfo)
-                                        {{ $mixInfo->lastYsum_abortions }} 回
+                                    @if ($mixInfos->isNotEmpty())
+                                        {{ $mixInfos->last()->count_lastYear_abortions }} 回
                                     @else
                                         0 回
                                     @endif
                                 </td>
                                 <td class="text-center py-3 px-6">
-                                    @if ($mixInfo)
-                                        {{ $mixInfo->sum_abortion }} 回
+                                    @if ($mixInfos->isNotEmpty())
+                                        {{ $mixInfos->last()->count_abortions }} 回
                                     @else
                                         0 回
                                     @endif
@@ -295,32 +315,31 @@
                             </tr>
                         </thead>
                         <tbody class="border-t border-b">
-                            @foreach ($good_oders as $oder)
+                            @foreach ($mix_ranking as $item)
                                 <tr class="bg-white dark:bg-gray-800">
                                     <th scope="row"
                                         class="py-3 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     </th>
                                     <td class="py-3 px-6">
-                                        {{ $oder['male'] }}
+                                        {{ $item['male'] }}
                                     </td>
                                     <td class="py-3 px-6">
-                                        {{ $oder['mix_all'] }} 回
+                                        {{ $item['mix_all'] }} 回
                                     </td>
                                     <td class="py-3 px-6">
-                                        ({{ $oder['mix_probability'] }} %)
+                                        ({{ $item['mix_probability'] }} %)
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
-                <!-- border - end -->
+                <!-- Newborder - end -->
 
                 <!-- edit & delete - start -->
                 <div class="flex flex-row text-center my-4">
                     {{-- @can('update', $post) --}}
-                    <a href="{{ route('female_pigs.edit', $femalePig) }}" {{-- class="bg-blue-400 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20 mr-2"> --}}
-                        {{-- class="bg-cyan-800 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20 mr-2"> --}}
+                    <a href="{{ route('female_pigs.edit', $femalePig) }}"
                         class="mr-2 py-1.5 px-4 transition-colors bg-gray-50 border active:bg-cyan-800 font-medium border-gray-200 hover:text-white text-cyan-600 hover:border-cyan-700 rounded-lg hover:bg-cyan-700 disabled:opacity-50">
                         編 集
                     </a>
@@ -330,9 +349,8 @@
                         @csrf
                         @method('DELETE')
                         <input type="submit" value="廃 用" onclick="if(!confirm('廃用にしますか？')){return false};"
-                            {{-- class="bg-pink-400 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20 mr-2"> --}}
-                            {{-- class="bg-red-700 hover:bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20 mr-2"> --}}
-                        class="py-1.5 px-4 transition-colors bg-gray-50 border active:bg-red-800 font-medium border-gray-200 hover:text-white text-red-600 hover:border-red-700 rounded-lg hover:bg-red-700 disabled:opacity-50">
+                            {{-- class="bg-pink-400 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20 mr-2"> --}} {{-- class="bg-red-700 hover:bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20 mr-2"> --}}
+                            class="py-1.5 px-4 transition-colors bg-gray-50 border active:bg-red-800 font-medium border-gray-200 hover:text-white text-red-600 hover:border-red-700 rounded-lg hover:bg-red-700 disabled:opacity-50">
                     </form>
                 </div>
                 <!-- edit & delete - end -->
@@ -342,7 +360,7 @@
     </div>
 
 
-    <!-- born_information - start -->
+    <!-- Newborn_information - start -->
     {{-- <div class="overflow-x-auto relative shadow-md sm:rounded-lg my-8"> --}}
     <div class="overflow-x-auto relative shadow-md my-8">
         <div
@@ -350,11 +368,14 @@
             <div class="MplusRound text-xl font-medium text-gray-600 py-2 px-8">出 産 情 報</div>
             <div class="px-4 leading-10">
                 {{-- @can('update', $post) --}}
-                @if ($mixInfo)
-                    <a href="{{ route('born_infos.create', $mixInfo) }}"
-                        class="text-sky-700 after:content-['_↗'] text-base dark:text-sky-500 py-1 px-3 transition-colors bg-transparent rounded-lg hover:underline hover:font-bold">
-                        新規登録
-                    </a>
+                {{-- @if ($mixInfos) --}}
+                @if ($mixInfos->isNotEmpty())
+                    @if ($bornInfos->isEmpty() || $mixInfos->last()->id !== $bornInfos->last()->mix_id)
+                        <a href="{{ route('mix_infos.born_infos.create', $mixInfos->first()) }}"
+                            class="text-sky-700 after:content-['_↗'] text-base dark:text-sky-500 py-1 px-3 transition-colors bg-transparent rounded-lg hover:underline hover:font-bold">
+                            New新規登録
+                        </a>
+                    @endif
                 @endif
                 {{-- @endcan --}}
             </div>
@@ -382,42 +403,45 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($born_infos as $born_info)
+                @foreach ($bornInfos as $bornInfo)
                     <tr
                         class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 whitespace-nowrap">
                         <td class="py-4 px-6">
-                            {{ $born_info->born_day }}
+                            {{ $bornInfo->born_day }}
                         </td>
                         <td class="py-4 px-6">
-                            {{ $born_info->born_num }} 匹
+                            {{ $bornInfo->born_num }} 匹
                         </td>
                         <td class="py-4 px-6">
-                            {{ $born_info->first_male }}
+                            {{ $bornInfo->first_male }}
                             <p class="line-through">
-                                {{ $born_info->first_delete_male }}
+                                {{ $bornInfo->first_delete_male }}
                             </p>
                         </td>
                         <td class="py-4 px-6">
-                            @if ($born_info->second_male == null && $born_info->second_delete_male == null)
+                            @if ($bornInfo->second_male == null && $bornInfo->second_delete_male == null)
                                 -
                             @else
-                                {{ $born_info->second_male }}
+                                {{ $bornInfo->second_male }}
                                 <p class="line-through">
-                                    {{ $born_info->second_delete_male }}
+                                    {{ $bornInfo->second_delete_male }}
                                 </p>
                             @endif
                         </td>
                         <td class="py-4 px-6">
-                            {{ $born_info->rotate }} 回
+                            {{ $bornInfo->rotate }} 回
                         </td>
                         {{-- <td class="flex flex-row items-center py-4 px-6 space-x-3"> --}}
                         <td class="flex flex-row items-center py-4 px-6">
-                            <a href="{{ route('born_infos.edit', $born_info) }}" {{-- class="basis-1/2 font-medium text-blue-600 dark:text-blue-500 hover:underline">編 集</a> --}}
-                                class="basis-1/2 font-medium text-cyan-800 dark:text-cyan-600 hover:underline hover:font-bold">編
-                                集</a>
-                            <form action="{{ route('born_infos.destroy', $born_info) }}" method="post">
+                            <a href="{{ route('mix_infos.born_infos.edit', [$bornInfo->mix_info, $bornInfo]) }}"
+                                class="basis-1/2 font-medium text-cyan-800 dark:text-cyan-600 hover:underline hover:font-bold">
+                                編 集</a>
+                            {{-- <form action="{{ route('born_infos.destroy', $born_info) }}" method="post"> --}}
+                            <form
+                                action="{{ route('mix_infos.born_infos.destroy', [$bornInfo->mix_info, $bornInfo]) }}"
+                                method="post">
                                 @csrf
-                                @method('PATCH')
+                                @method('DELETE')
                                 <input type="submit" value="削 除"
                                     onclick="if(!confirm('出産情報を削除しますか？')){return false};"
                                     class="basis-1/2 font-medium text-red-600 dark:text-red-500 hover:underline hover:font-bold">
@@ -429,7 +453,7 @@
         </table>
         <!-- born_table - end -->
     </div>
-    <!-- born_information - end -->
+    <!-- Newborn_information - end -->
 
     <div class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-10 px-8 py-4 dark:bg-gray-800">
         <canvas id="myChart"></canvas>
@@ -441,12 +465,12 @@
             <div class="MplusRound text-xl font-medium text-gray-600 py-2 px-8">交 配 記 録</div>
             <div class="px-4 leading-10">
                 {{-- @can('update', $post) --}}
-                @if ($mixInfo)
-                    <a href="{{ route('female_pigs.mix_infos.create', $femalePig) }}"
-                        class="text-sky-700 after:content-['_↗'] text-base dark:text-sky-500 py-1 px-3 transition-colors bg-transparent rounded-lg hover:underline hover:font-bold">
-                        新規登録
-                    </a>
-                @endif
+                {{-- @if ($mixInfo) --}}
+                <a href="{{ route('female_pigs.mix_infos.create', $femalePig) }}"
+                    class="text-sky-700 after:content-['_↗'] text-base dark:text-sky-500 py-1 px-3 transition-colors bg-transparent rounded-lg hover:underline hover:font-bold">
+                    新規登録
+                </a>
+                {{-- @endif --}}
                 {{-- @endcan --}}
             </div>
         </div>
@@ -564,7 +588,7 @@
     <!-- script - start -->
     <script>
         window.Laravel = {};
-        window.Laravel.bornInfos = @json($born_infos);
+        window.Laravel.bornInfos = @json($bornInfos);
         window.Laravel.mixInfos = @json($mixInfos);
 
         Data = [];

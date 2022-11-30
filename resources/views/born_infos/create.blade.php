@@ -10,16 +10,15 @@
     <section
         class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-10 px-8 py-4 bg-white border rounded shadow-md dark:bg-gray-800">
         <!-- title -->
-        <h2 class="text-lg ZenMaruGothic font-semibold text-gray-700 capitalize dark:text-white">出産情報の登録</h2>
         <h2 class="text-2xl MplusRound text-gray-700 capitalize dark:text-white">出産情報の登録</h2>
 
         <!-- message -->
         <x-error-validation :errors="$errors" />
 
         <!-- form - start -->
-        <form action="{{ route('born_infos.store', $mixInfo) }}" method="POST" class="rounded pt-3 mb-4">
+        <form action="{{ route('mix_infos.born_infos.store', $mixInfo) }}" method="POST" class="rounded pt-3 mb-4">
             @csrf
-            @method('PATCH')
+            {{-- @method('PATCH') --}}
             <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-3">
                 <!-- female - start -->
                 <div class="mb-4">

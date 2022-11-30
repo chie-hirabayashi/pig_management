@@ -66,4 +66,14 @@ class MixInfo extends Model
     {
         return $this->belongsTo(TroubleCategory::class, 'trouble_id', 'id');
     }
+
+    /**
+     * Get the born_info associated with the MixInfo
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function born_info()
+    {
+        return $this->hasOne(BornInfo::class, 'mix_id', 'id');
+    }
 }
