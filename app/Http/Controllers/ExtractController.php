@@ -44,23 +44,29 @@ class ExtractController extends Controller
         $conditions['option_operator'] = $option_operator;
 
         // 稼働中のfemalePigsを取得
-        $femalePigs = FemalePig::with('mix_infos')
-                        ->with('born_infos')
-                        ->where('deleted_at', null)
+        $femalePigs = FemalePig::where('deleted_at', null)
                         ->get();
+
+        // このコードだと無駄にクエリアタック
+        // $femalePigs = FemalePig::with('mix_infos')
+                        // ->with('born_infos') //無駄にクエリアタック
+                        // ->where('deleted_at', null)
+                        // ->get();
         // dd($femalePigs);
 
         foreach ($femalePigs as $femalePig) {
             // 基本情報
-            // $femalePig = $femalePigs[9];
-            // $bornInfos = $femalePig->born_infos()->latest()->get()
             $bornInfos = $femalePig->born_infos()
                         ->orderBy('born_day', 'desc') //注意:->latet()ではNG
-                        ->get()
-                        ->load('mix_info')
-                        ->load('female_pig')
-                        ->load('first_male_pig')
-                        ->load('second_male_pig');
+                        ->get();
+            // $bornInfos = $femalePig->born_infos
+            //             ->sortBy('born_day'); //注意:->latet()ではNG
+                        // ->get();
+                        // ->load('mix_info') // 不必要なものはloadしない.N+1問題の原因
+                        // ->load('female_pig')
+                        // ->load('first_male_pig')
+                        // ->load('second_male_pig');
+
             // $bornInfos = BornInfo::with('mix_info')
             //             ->with('female_pig')
             //             ->with('first_male_pig')
@@ -72,22 +78,24 @@ class ExtractController extends Controller
             // dd($bornInfos->first());
 
             // 再発、流産回数を取得
-            // $troubleInfos = $femalePig->mix_infos->where('trouble_day', !null);
-            // $count_troubles = count($troubleInfos);
-            $count_troubles = $femalePig->mix_infos()->whereNotNull('trouble_day')->count();
-            // dd($count_troubles);
+            $count_troubles = $femalePig->mix_infos()
+                                ->whereNotNull('trouble_day')
+                                // ->get() //これらも不要
+                                // ->load('female_pig')
+                                ->count();
 
             // 稼働中の全出産を取得
             // $mixInfos = $femalePig->mix_infos()->orderBy('id', 'desc')->get();
             // $bornInfos = self::getBornInfos($mixInfos);
             // $count_allBorn = count($bornInfos);
             $count_allBorn = $bornInfos->count();
-            // dd($count_allBorn);
+            // dd($bornInfos);
 
             // 全出産件数ごとに回転数を算出
             switch (true) {
                 case $count_allBorn >= 3:
                     $bornInfo_3past = $bornInfos->take(3); //過去3回の出産情報
+                    // dd($bornInfo_3past);
                     $rotates = self::getRotate($bornInfo_3past); //回転数算出
                     for ($i = 0; $i < 2; $i++) {
                         $bornInfo_3past[$i]['rotate'] = $rotates[$i];
@@ -235,24 +243,30 @@ class ExtractController extends Controller
             }
         }
 // dd($extracts);
-        foreach ($extracts as $info) {
+
+// ここまでに2つのN+1あり
+        foreach ($extracts as $extract) {
+            // $extract->mix_info->load('born_info');
+            // dd($extract);
             // first_male_pigのsoftDelete対策
-            $array = self::maleSoftDeleteResolution($info->mix_info->first_male_id);
+            // $mix_info = $extract->mix_info()->get()->load('born_info');
+            // dd($mix_info);
+            $array = self::maleSoftDeleteResolution($extract->mix_info->first_male_id);
             $exist_male = $array[0];
             $delete_male = $array[1];
-            $info->first_male = $exist_male;
-            $info->first_delete_male = $delete_male;
+            $extract->first_male = $exist_male;
+            $extract->first_delete_male = $delete_male;
 
             // second_male_pigのnullとsoftDelete対策
-            if ($info->mix_info->second_male_id !== null) {
-                $array = self::maleSoftDeleteResolution($info->mix_info->second_male_id);
+            if ($extract->mix_info->second_male_id !== null) {
+                $array = self::maleSoftDeleteResolution($extract->mix_info->second_male_id);
                 $exist_male = $array[0];
                 $delete_male = $array[1];
-                $info->second_male = $exist_male;
-                $info->second_delete_male = $delete_male;
+                $extract->second_male = $exist_male;
+                $extract->second_delete_male = $delete_male;
             } else {
-                $info->second_male = null;
-                $info->second_delete_male = null;
+                $extract->second_male = null;
+                $extract->second_delete_male = null;
             }
         }
 

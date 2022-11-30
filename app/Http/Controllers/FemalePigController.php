@@ -152,14 +152,17 @@ class FemalePigController extends Controller
     public function show(FemalePig $femalePig)
     {
         // リレーションで基本データを取得
-        $mixInfos = MixInfo::with('female_pig')
-                    ->with('first_male_pig')
-                    ->with('second_male_pig')
-                    ->where('female_id', $femalePig->id)
+        // $mixInfos = MixInfo::with('female_pig')
+                    // ->with('first_male_pig')
+                    // ->with('second_male_pig')
+                    // ->where('female_id', $femalePig->id)
+        $mixInfos = MixInfo::where('female_id', $femalePig->id)
                     ->get();
-        $bornInfos = BornInfo::with('female_pig')
-                    ->with('first_male_pig')
-                    ->with('second_male_pig')
+        // $bornInfos = BornInfo::with('mix_info')
+                    // ->with('female_pig')
+                    // ->with('first_male_pig')
+                    // ->with('second_male_pig')
+        $bornInfos = BornInfo::with('mix_info')
                     ->where('female_id', $femalePig->id)
                     ->get();
 
@@ -174,14 +177,17 @@ class FemalePigController extends Controller
             $count_recurrences = $femalePig
                 ->mix_infos()
                 ->where('trouble_id', 2)
+                // ->get() //これと
+                // ->load('female_pig') //これは無くてもOK
                 ->count();
-            // dd($count_recurrences);
             $mixInfos->last()->count_recurrences = $count_recurrences;
             
             // 流産総数を登録
             $count_abortions = $femalePig
                 ->mix_infos()
                 ->where('trouble_id', 3)
+                ->get() //これと
+                ->load('female_pig') //これを追加してN+1解消
                 ->count();
             $mixInfos->last()->count_abortions = $count_abortions;
 
@@ -190,6 +196,8 @@ class FemalePigController extends Controller
                 ->mix_infos()
                 ->where('trouble_id', 2)
                 ->where('trouble_day', '>', $last_year)
+                // ->get() //これと
+                // ->load('female_pig') //これは無くてもOK
                 ->count();
             $mixInfos->last()->count_lastYear_recurrences = $count_lastYear_recurrences;
 
@@ -198,6 +206,8 @@ class FemalePigController extends Controller
                 ->mix_infos()
                 ->where('trouble_id', 3)
                 ->where('trouble_day', '>', $last_year)
+                ->get() //これと
+                ->load('female_pig') //これを追加してN+1解消
                 ->count();
             $mixInfos->last()->count_lastYear_abortions = $count_lastYear_abortions;
         # $mixInfos end #
