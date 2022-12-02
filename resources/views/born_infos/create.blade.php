@@ -67,6 +67,7 @@
             </div>
             <!-- button - end -->
         </form>
+        <p>産子数は生存頭数を登録してください</p>
         <!-- form - end -->
         <a href="{{ route('female_pigs.show', $femalePig) }}"
             class="py-1.5 px-4 transition-colors bg-transparent active:bg-gray-200 font-medium text-blue-600 rounded-lg hover:bg-gray-100 disabled:opacity-50">

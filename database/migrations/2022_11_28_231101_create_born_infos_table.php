@@ -39,6 +39,9 @@ class CreateBornInfosTable extends Migration
                 ->cascadeOnDelete();
             $table->date('born_day');
             $table->integer('born_num');
+            $table->integer('childcare_num');
+            $table->date('weaning_day');
+            $table->integer('weaning_num');
             $table->timestamps();
         });
     }
