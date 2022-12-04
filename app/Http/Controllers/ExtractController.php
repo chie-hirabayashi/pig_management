@@ -58,18 +58,32 @@ class ExtractController extends Controller
                 // ->load('female_pig'); // これでN+1は解消 But クエリとモデルのアタックが増える
 
             // 再発、流産回数を取得
-            $count_troubles = $femalePig
-                ->mix_infos()
+            // $count_troubles = $femalePig
+            //     ->mix_infos()
+            //     ->whereNotNull('trouble_day')
+            //     ->count();
+            $count_troubles = MixInfo::where('female_id', $femalePig->id)
                 ->whereNotNull('trouble_day')
-                ->count();
+                ->count(); // これでN+1解消
 
             // 稼働中の全出産を取得
-            $count_allBorn = $bornInfos->count();
+            // $born_infos = $femalePig
+            //     ->mix_infos()
+            //     ->orderBy('id', 'desc')
+            //     ->whereNotNull('born_day')
+            //     ->get()
+            //     ->load('female_pig'); // これでN+1解消 but クエリ発行回数増加
+            
+            $born_infos = MixInfo::where('female_id', $femalePig->id)
+                ->orderBy('id', 'desc')
+                ->whereNotNull('born_day')
+                ->get(); //これでN+1解消
+            $count_born_all = count($born_infos); // 出産件数カウント
 
             // 全出産件数ごとに回転数を算出
             switch (true) {
-                case $count_allBorn >= 3:
-                    $bornInfo_3past = $bornInfos->take(3); //過去3回の出産情報
+                case $count_born_all >= 3:
+                    $bornInfo_3past = $born_infos->take(3); //過去3回の出産情報
                     $rotates = self::getRotate($bornInfo_3past); //回転数算出
                     for ($i = 0; $i < 2; $i++) {
                         $bornInfo_3past[$i]['rotate'] = $rotates[$i];
@@ -79,11 +93,11 @@ class ExtractController extends Controller
                     // 予測回転数
                     $bornInfo_2past[0][
                         'rotate_prediction'
-                    ] = self::getnPredictionRotate($bornInfos->first());
+                    ] = self::getPredictionRotate($femalePig);
                     break;
 
-                case $count_allBorn == 2:
-                    $bornInfo_2past = $bornInfos; //過去2回の出産情報
+                case $count_born_all == 2:
+                    $bornInfo_2past = $born_infos; //過去2回の出産情報
                     $rotates = self::getRotate($bornInfo_2past); //回転数算出
                     $rotates[1] = 99;
                     for ($i = 0; $i < 2; $i++) {
@@ -93,26 +107,27 @@ class ExtractController extends Controller
                     // 予測回転数
                     $bornInfo_2past[0][
                         'rotate_prediction'
-                    ] = self::getnPredictionRotate($bornInfos->first());
+                    ] = self::getPredictionRotate($femalePig);
                     break;
 
-                case $count_allBorn == 1:
-                    $bornInfo_first = $bornInfos->first(); //過去1回の出産情報
-                    $bornInfo_second = new BornInfo();
-                    $bornInfo_second->mix_id = $bornInfos->first()->mix_id;
+                case $count_born_all == 1:
+                    $bornInfo_first = $born_infos->first(); //過去1回の出産情報
+                    $bornInfo_second = new mixInfo();
+                    $bornInfo_second->female_id = $femalePig->id;
                     $bornInfo_second->born_num = 99; // 抽出できない値をセット
                     $bornInfo_second->rotate = 99; // 抽出できない値をセット
                     $bornInfo_second->troubles = $count_troubles;
-                    $bornInfo_second->female_num = $femalePig->individual_num;
                     $bornInfo_2past[0] = $bornInfo_first;
                     $bornInfo_2past[1] = $bornInfo_second;
+                    // 予測回転数
                     $bornInfo_2past[0][
                         'rotate_prediction'
-                    ] = self::getnPredictionRotate($bornInfos->first());
+                    ] = self::getPredictionRotate($femalePig);
                     break;
 
-                case $count_allBorn == 0:
-                    $bornInfo_pretend = new bornInfo();
+                case $count_born_all == 0:
+                    $bornInfo_pretend = new mixInfo();
+                    $bornInfo_pretend->female_id = $femalePig->id;
                     $bornInfo_pretend->born_num = 99; // 抽出できない値をセット
                     $bornInfo_pretend->rotate = 99; // 抽出できない値をセット
                     $bornInfo_pretend->troubles = $count_troubles;
@@ -121,7 +136,7 @@ class ExtractController extends Controller
                     $bornInfo_2past[0]['rotate_prediction'] = 99;
                     break;
             }
-            // dd($bornInfo_2past);
+
             // 抽出条件に従い抽出
             // 直前のみで抽出
             if ($condition == 1) {
@@ -240,25 +255,18 @@ class ExtractController extends Controller
         }
         // dd($extracts);
 
-        // ここまでに2つのN+1あり
         foreach ($extracts as $extract) {
-            // dd($extract);
             // first_male_pigのsoftDelete対策
-            // $mix_info = $extract->mix_info()->get()->load('born_info');
-            // dd($mix_info);
-// これが3つめもN+1
-            $array = self::maleSoftDeleteResolution(
-                $extract->mix_info->first_male_id
-            );
+            $array = self::maleSoftDeleteResolution($extract->first_male_id);
             $exist_male = $array[0];
             $delete_male = $array[1];
             $extract->first_male = $exist_male;
             $extract->first_delete_male = $delete_male;
 
             // second_male_pigのnullとsoftDelete対策
-            if ($extract->mix_info->second_male_id !== null) {
+            if ($extract->second_male_id !== null) {
                 $array = self::maleSoftDeleteResolution(
-                    $extract->mix_info->second_male_id
+                    $extract->second_male_id
                 );
                 $exist_male = $array[0];
                 $delete_male = $array[1];
@@ -269,7 +277,7 @@ class ExtractController extends Controller
                 $extract->second_delete_male = null;
             }
         }
-        // dd($extracts);
+
         return view('extracts.index')->with(compact('extracts', 'conditions'));
     }
 

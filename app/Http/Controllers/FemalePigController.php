@@ -23,11 +23,9 @@ class FemalePigController extends Controller
     public function index(Request $request)
     {
         $searchItems = FemalePig::all()->sortBy('individual_num');
-        $femalePigs = FemalePig::with('mix_infos')
-            ->with('born_infos')
-            ->get();
-        // $femalePigs = FemalePig::all(); これだとN+1
-        // dd($femalePigs);
+
+        $femalePigs = FemalePig::with('mix_infos')->get();
+
         // Explanation:状態statusの区分
         // 観察中:交配から120日間(交配~出産予定114日+6日)
         // 保育中:出産から24日間(離乳21~25日)
@@ -35,35 +33,40 @@ class FemalePigController extends Controller
 
         foreach ($femalePigs as $femalePig) {
             $mixInfo_last = $femalePig->mix_infos->last();
-            $bornInfo_last = $femalePig->born_infos->last();
+
+            $bornInfo_last = MixInfo::where('female_id', $femalePig->id)
+                ->whereNotNull('born_day')
+                ->get()
+                ->last();
+
             // $today = Carbon::now(); //本設定
             $today = Carbon::create('2022-10-25'); //仮設定
             // $today = Carbon::create('2022-8-1'); //仮設定
 
-            // if (!empty($mixInfo_last->mix_day)) {
-            if (!empty($mixInfo_last)) {
+
+            if (!empty($mixInfo_last->mix_day)) {
                 $mix_day = Carbon::create($mixInfo_last->mix_day);
             }
 
-            if (!empty($bornInfo_last)) {
-                $born_day = Carbon::create($bornInfo_last->born_day);
+            if (!empty($mixInfo_last->born_day)) {
+                $born_day = Carbon::create($mixInfo_last->born_day);
             }
 
             switch (true) {
                 // 観察中:交配から120日間(交配~出産予定114日+6日)
-                case !empty($mixInfo_last) &&
+                case !empty($mixInfo_last->mix_day) &&
                     $today->diffInDays($mix_day) <= 120:
                     $femalePig->status = '観察中';
                     break;
 
                 // 保育中:出産から24日間(離乳21~25日)
-                case !empty($bornInfo_last) &&
+                case !empty($mixInfo_last->born_day) &&
                     $today->diffInDays($born_day) < 24:
                     $femalePig->status = '保育中';
                     break;
 
                 // 待機中:再発、流産後
-                case !empty($mixInfo_last) && $mixInfo_last->trouble_id !== 1:
+                case !empty($mixInfo_last->trouble_id) && $mixInfo_last->trouble_id !== 1:
                     $femalePig->status = '待機中';
                     break;
 
@@ -72,6 +75,7 @@ class FemalePigController extends Controller
                     $femalePig->status = '待機中';
                     break;
             }
+            
             // bornInfoがある場合、予測回転数算出
             if ($bornInfo_last) {
                 $femalePig->rotate_prediction = self::getnPredictionRotate(
@@ -88,7 +92,7 @@ class FemalePigController extends Controller
         $search_age = $request->search_age;
         $search_flag = $request->search_flag;
         $search_rotate = $request->search_rotate;
-        if ($search !== null) {
+        if ($search) {
             $femalePigs = $femalePigs->where('id', $search);
         }
         if ($search_age) {
@@ -106,7 +110,6 @@ class FemalePigController extends Controller
                 ->where('rotate_prediction', '!==', null)
                 ->where('rotate_prediction', '<=', 1.8);
         }
-        // dd($femalePigs);
 
         return view('female_pigs.index')->with(
             compact('femalePigs', 'searchItems')
@@ -151,22 +154,9 @@ class FemalePigController extends Controller
      */
     public function show(FemalePig $femalePig)
     {
-        // リレーションで基本データを取得
-        // $mixInfos = MixInfo::with('female_pig')
-        // ->with('first_male_pig')
-        // ->with('second_male_pig')
-        // ->where('female_id', $femalePig->id)
         $mixInfos = MixInfo::where('female_id', $femalePig->id)->get();
-        // $bornInfos = BornInfo::with('mix_info')
-        // ->with('female_pig')
-        // ->with('first_male_pig')
-        // ->with('second_male_pig')
-        $bornInfos = BornInfo::with('mix_info')
-            ->where('female_id', $femalePig->id)
-            ->orderBy('born_day', 'desc')
-            ->get();
-// dd($bornInfos);
-        // 現在から1年前の日付を定義
+
+        // 1年前の日付
         $last_year = Carbon::now()
             ->subYear(1)
             ->toDateString();
@@ -177,8 +167,6 @@ class FemalePigController extends Controller
             $count_recurrences = $femalePig
                 ->mix_infos()
                 ->where('trouble_id', 2)
-                // ->get() //これと
-                // ->load('female_pig') //これは無くてもOK
                 ->count();
             $mixInfos->last()->count_recurrences = $count_recurrences;
 
@@ -196,8 +184,6 @@ class FemalePigController extends Controller
                 ->mix_infos()
                 ->where('trouble_id', 2)
                 ->where('trouble_day', '>', $last_year)
-                // ->get() //これと
-                // ->load('female_pig') //これは無くてもOK
                 ->count();
             $mixInfos->last()->count_lastYear_recurrences = $count_lastYear_recurrences;
 
@@ -210,16 +196,17 @@ class FemalePigController extends Controller
                 ->load('female_pig') //これを追加してN+1解消
                 ->count();
             $mixInfos->last()->count_lastYear_abortions = $count_lastYear_abortions;
-            # $mixInfos end #
         } else {
             # $mixInfosが0件の場合 start #
             $mix_ranking = [];
+            $born_infos = $mixInfos;
 
             return view('female_pigs.show')->with(
-                compact('femalePig', 'mixInfos', 'bornInfos', 'mix_ranking')
+                compact('femalePig', 'mixInfos', 'born_infos', 'mix_ranking')
             );
             # $mixInfosが0件の場合 end #
         }
+        # $mixInfos end #
 
         # mix_ranking start #
         // 全ての交配情報のarray作成 : $male_id => $count_allMixes
@@ -312,41 +299,53 @@ class FemalePigController extends Controller
         # mix_ranking end #
 
         # bornInfos start #
-        // 全出産回数
-        $count_allBorn = count($bornInfos);
-        // 過去１年間の出産回数
-        $count_lastYearBorn = $bornInfos
+        // 全ての出産情報
+        $born_infos = MixInfo::with('female_pig')
+            ->where('female_id', $femalePig->id)
+            ->whereNotNull('born_day')
+            // ->orderBy('mix_day', 'desc') //->latest()は不可
+            ->get();
+        // 過去１年間の出産情報
+        $lastYear_born_infos = MixInfo::where('female_id', $femalePig->id)
+            ->whereNotNull('born_day')
             ->where('born_day', '>', $last_year)
-            ->count();
+            ->get();
+
+        $count_allBorn = count($born_infos);
+        $count_lastYearBorn = count($lastYear_born_infos);
 
         switch (true) {
+            // case $count_allBorn == 0:
+                // 空の出産情報を登録
+                // $born_infos = $mixInfos;
+                // break;
+
             case $count_allBorn == 1:
                 // 1回の出産情報を登録(回転数なし)
-                $bornInfos->first()
+                $born_infos->last()
                         ->rotate = null; //回転数なし
-                $bornInfos->first()
+                $born_infos->last()
                         ->count_allBorn = $count_allBorn; //全出産回数
-                $bornInfos->first()
+                $born_infos->last()
                         ->count_lastYearBorn = $count_lastYearBorn; //過去1年間の出産回数
-                $bornInfos->first()
-                        ->rotate_prediction = self::getnPredictionRotate($bornInfos->first()); //予測回転数
-            
+                $born_infos->last()
+                        ->rotate_prediction = self::getPredictionRotate($femalePig); //予測回転数
                 break;
 
             case $count_allBorn > 1:
                 // 回転数を登録
-                $rotates = self::getRotate($bornInfos); //回転数算出
+                $rotates = self::getRotate($born_infos); //回転数算出
                 for ($i = 0; $i < $count_allBorn - 1; $i++) {
-                    $bornInfos[$i]['rotate'] = $rotates[$i];
+                    $born_infos[$i+1]['rotate'] = $rotates[$i];
                 }
 
                 // 2回以上の出産情報を登録(回転数あり)
-                $bornInfos->first()
+                $born_infos->last()
                         ->count_allBorn = $count_allBorn; //全出産回数
-                $bornInfos->first()
+                $born_infos->last()
                         ->count_lastYearBorn = $count_lastYearBorn; //過去1年間の出産回数
-                $bornInfos->first()
-                        ->rotate_prediction = self::getnPredictionRotate($bornInfos->first()); //予測回転数
+                $born_infos->last()
+                        ->rotate_prediction = self::getPredictionRotate($femalePig); //予測回転数
                 break;
         }
         # bornInfos end #
@@ -375,8 +374,9 @@ class FemalePigController extends Controller
         # mixInfosのmalesoftDelete対策 end #
 
         # bornInfosのmalesoftDelete対策 start #
-        foreach ($bornInfos as $bornInfo) {
-            $array = self::maleSoftDeleteResolution($bornInfo->first_male_id);
+        foreach ($born_infos as $info) {
+            // first_male_pigのsoftDelete対策
+            $array = self::maleSoftDeleteResolution($info->first_male_id);
             $exist_male = $array[0];
             $delete_male = $array[1];
             $bornInfo->first_male = $exist_male;
@@ -395,10 +395,15 @@ class FemalePigController extends Controller
                 $bornInfo->second_delete_male = null;
             }
         }
-        # bornInfosのmalesoftDelete対策 end #
-// dd($mixInfos);
+
+// dd($born_infos[count($born_infos)-1]);
         return view('female_pigs.show')->with(
-            compact('femalePig', 'mixInfos', 'mix_ranking', 'bornInfos')
+            compact(
+                'femalePig',
+                'mixInfos',
+                'born_infos',
+                'mix_ranking'
+            )
         );
     }
 

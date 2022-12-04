@@ -64,8 +64,12 @@ class Controller extends BaseController
     // 予測回転数算出
     public function getnPredictionRotate($bornInfo)
     {
+        $born_last = MixInfo::where('female_id', $femalePig->id)
+            ->whereNotNull('born_day')
+            ->get()
+            ->last();
         $carbon_now = Carbon::now();
-        $carbon_last = Carbon::create($bornInfo->born_day);
+        $carbon_last = Carbon::create($born_last->born_day);
         $rotate_prediction = 365 / $carbon_now->diffInDays($carbon_last);
 
         return round($rotate_prediction, 2);
