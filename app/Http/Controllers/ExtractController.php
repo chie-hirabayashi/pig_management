@@ -44,24 +44,26 @@ class ExtractController extends Controller
 
         foreach ($femalePigs as $femalePig) {
             // 再発、流産回数を取得
-            $count_troubles = $femalePig
-                ->mix_infos()
+            // $count_troubles = $femalePig
+            //     ->mix_infos()
+            //     ->whereNotNull('trouble_day')
+            //     ->count();
+            $count_troubles = MixInfo::where('female_id', $femalePig->id)
                 ->whereNotNull('trouble_day')
-                ->count();
-            // $troubleInfos = $femalePig->mix_infos->where('trouble_day', !null);
-            // $count_troubles = count($troubleInfos);
+                ->count(); // これでN+1解消
 
             // 稼働中の全出産を取得
-            $born_infos = $femalePig
-                ->mix_infos()
-                ->orderBy('id', 'desc')
-                ->whereNotNull('born_day')
-                ->get();
-
-            // $born_all = MixInfo::where('female_id', $femalePig->id)
+            // $born_infos = $femalePig
+            //     ->mix_infos()
             //     ->orderBy('id', 'desc')
             //     ->whereNotNull('born_day')
-            //     ->get();
+            //     ->get()
+            //     ->load('female_pig'); // これでN+1解消 but クエリ発行回数増加
+            
+            $born_infos = MixInfo::where('female_id', $femalePig->id)
+                ->orderBy('id', 'desc')
+                ->whereNotNull('born_day')
+                ->get(); //これでN+1解消
             $count_born_all = count($born_infos); // 出産件数カウント
 
             // 全出産件数ごとに回転数を算出
@@ -76,7 +78,9 @@ class ExtractController extends Controller
                     $bornInfo_2past = $bornInfo_3past->take(2);
 
                     // 予測回転数
-                    $bornInfo_2past[0]['rotate_prediction'] = self::getPredictionRotate($femalePig);
+                    $bornInfo_2past[0][
+                        'rotate_prediction'
+                    ] = self::getPredictionRotate($femalePig);
                     break;
 
                 case $count_born_all == 2:
@@ -89,7 +93,9 @@ class ExtractController extends Controller
                     }
 
                     // 予測回転数
-                    $bornInfo_2past[0]['rotate_prediction'] = self::getPredictionRotate($femalePig);
+                    $bornInfo_2past[0][
+                        'rotate_prediction'
+                    ] = self::getPredictionRotate($femalePig);
                     break;
 
                 case $count_born_all == 1:
@@ -102,9 +108,11 @@ class ExtractController extends Controller
                     $bornInfo_2past[0] = $bornInfo_first;
                     $bornInfo_2past[1] = $bornInfo_second;
                     // 予測回転数
-                    $bornInfo_2past[0]['rotate_prediction'] = self::getPredictionRotate($femalePig);
+                    $bornInfo_2past[0][
+                        'rotate_prediction'
+                    ] = self::getPredictionRotate($femalePig);
                     break;
-                
+
                 case $count_born_all == 0:
                     $bornInfo_pretend = new mixInfo();
                     $bornInfo_pretend->female_id = $femalePig->id;
@@ -120,9 +128,9 @@ class ExtractController extends Controller
             // 抽出条件に従い抽出
             // 直前のみで抽出
             if ($condition == 1) {
-                if ((
-                    $bornInfo_2past[0]->rotate <= $condition_first_rotate &&
-                    $bornInfo_2past[0]->born_num <= $condition_first_num) ||
+                if (
+                    ($bornInfo_2past[0]->rotate <= $condition_first_rotate &&
+                        $bornInfo_2past[0]->born_num <= $condition_first_num) ||
                     $bornInfo_2past[0]->rotate_prediction <= 1.8
                 ) {
                     $extracts[] = $bornInfo_2past[0];
@@ -136,11 +144,14 @@ class ExtractController extends Controller
                 switch (true) {
                     // かつ
                     case $option_operator == 1:
-                        if ((
-                            $bornInfo_2past[0]->rotate <= $condition_first_rotate &&
-                            $bornInfo_2past[0]->born_num <= $condition_first_num &&
-                            $bornInfo_2past[0]->troubles >= $condition_trouble_num &&
-                            $femalePig->age >= $condition_female_age ) ||
+                        if (
+                            ($bornInfo_2past[0]->rotate <=
+                                $condition_first_rotate &&
+                                $bornInfo_2past[0]->born_num <=
+                                    $condition_first_num &&
+                                $bornInfo_2past[0]->troubles >=
+                                    $condition_trouble_num &&
+                                $femalePig->age >= $condition_female_age) ||
                             $bornInfo_2past[0]->rotate_prediction <= 1.8
                         ) {
                             $extracts[] = $bornInfo_2past[0];
@@ -150,10 +161,14 @@ class ExtractController extends Controller
                     // または
                     case $option_operator == 2:
                         if (
-                            $bornInfo_2past[0]->rotate <= $condition_first_rotate &&
-                            $bornInfo_2past[0]->born_num <= $condition_first_num && (
-                            $bornInfo_2past[0]->troubles >= $condition_trouble_num ||
-                            $femalePig->age >= $condition_female_age ) ||
+                            ($bornInfo_2past[0]->rotate <=
+                                $condition_first_rotate &&
+                                $bornInfo_2past[0]->born_num <=
+                                    $condition_first_num &&
+                                ($bornInfo_2past[0]->troubles >=
+                                    $condition_trouble_num ||
+                                    $femalePig->age >=
+                                        $condition_female_age)) ||
                             $bornInfo_2past[0]->rotate_prediction <= 1.8
                         ) {
                             $extracts[] = $bornInfo_2past[0];
@@ -164,11 +179,13 @@ class ExtractController extends Controller
 
             // 過去2回で抽出
             if ($condition == 3) {
-                if ((
-                    $bornInfo_2past[0]->rotate <= $condition_first_rotate ||
-                    $bornInfo_2past[0]->born_num <= $condition_first_num) && (
-                    $bornInfo_2past[1]->rotate <= $condition_second_rotate ||
-                    $bornInfo_2past[1]->born_num <= $condition_second_num) ||
+                if (
+                    (($bornInfo_2past[0]->rotate <= $condition_first_rotate ||
+                        $bornInfo_2past[0]->born_num <= $condition_first_num) &&
+                        ($bornInfo_2past[1]->rotate <=
+                            $condition_second_rotate ||
+                            $bornInfo_2past[1]->born_num <=
+                                $condition_second_num)) ||
                     $bornInfo_2past[0]->rotate_prediction <= 1.8
                 ) {
                     $extracts[] = $bornInfo_2past[0];
@@ -181,13 +198,19 @@ class ExtractController extends Controller
                     // かつ
                     case $option_operator == 1:
                         if (
-                            $femalePig->age >= $condition_female_age &&
-                            $bornInfo_2past[0]->troubles >= $condition_trouble_num &&
-                            $bornInfo_2past[1]->troubles >= $condition_trouble_num && (
-                            $bornInfo_2past[0]->rotate <= $condition_first_rotate ||
-                            $bornInfo_2past[0]->born_num <= $condition_first_num) && (
-                            $bornInfo_2past[1]->rotate <= $condition_second_rotate ||
-                            $bornInfo_2past[1]->born_num <= $condition_second_num) ||
+                            ($femalePig->age >= $condition_female_age &&
+                                $bornInfo_2past[0]->troubles >=
+                                    $condition_trouble_num &&
+                                $bornInfo_2past[1]->troubles >=
+                                    $condition_trouble_num &&
+                                ($bornInfo_2past[0]->rotate <=
+                                    $condition_first_rotate ||
+                                    $bornInfo_2past[0]->born_num <=
+                                        $condition_first_num) &&
+                                ($bornInfo_2past[1]->rotate <=
+                                    $condition_second_rotate ||
+                                    $bornInfo_2past[1]->born_num <=
+                                        $condition_second_num)) ||
                             $bornInfo_2past[0]->rotate_prediction <= 1.8
                         ) {
                             $extracts[] = $bornInfo_2past[0];
@@ -197,14 +220,20 @@ class ExtractController extends Controller
 
                     // または
                     case $option_operator == 2:
-                        if ((
-                            $bornInfo_2past[0]->rotate <= $condition_first_rotate ||
-                            $bornInfo_2past[0]->born_num <= $condition_first_num) && (
-                            $bornInfo_2past[1]->rotate <= $condition_second_rotate ||
-                            $bornInfo_2past[1]->born_num <= $condition_second_num) && (
-                            $femalePig->age >= $condition_female_age ||
-                            $bornInfo_2past[0]->troubles >= $condition_trouble_num || 
-                            $bornInfo_2past[1]->troubles >= $condition_trouble_num) ||
+                        if (
+                            (($bornInfo_2past[0]->rotate <=
+                                $condition_first_rotate ||
+                                $bornInfo_2past[0]->born_num <=
+                                    $condition_first_num) &&
+                                ($bornInfo_2past[1]->rotate <=
+                                    $condition_second_rotate ||
+                                    $bornInfo_2past[1]->born_num <=
+                                        $condition_second_num) &&
+                                ($femalePig->age >= $condition_female_age ||
+                                    $bornInfo_2past[0]->troubles >=
+                                        $condition_trouble_num ||
+                                    $bornInfo_2past[1]->troubles >=
+                                        $condition_trouble_num)) ||
                             $bornInfo_2past[0]->rotate_prediction <= 1.8
                         ) {
                             $extracts[] = $bornInfo_2past[0];
@@ -226,7 +255,9 @@ class ExtractController extends Controller
 
             // second_male_pigのnullとsoftDelete対策
             if ($extract->second_male_id !== null) {
-                $array = self::maleSoftDeleteResolution($extract->second_male_id);
+                $array = self::maleSoftDeleteResolution(
+                    $extract->second_male_id
+                );
                 $exist_male = $array[0];
                 $delete_male = $array[1];
                 $extract->second_male = $exist_male;
@@ -236,7 +267,6 @@ class ExtractController extends Controller
                 $extract->second_delete_male = null;
             }
         }
-        
 
         return view('extracts.index')->with(compact('extracts', 'conditions'));
     }
