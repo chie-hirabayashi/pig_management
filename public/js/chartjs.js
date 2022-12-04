@@ -13708,7 +13708,8 @@ var myChart = new chart_js_auto__WEBPACK_IMPORTED_MODULE_0__["default"](ctx, {
     // labels: bornDay.reverse(),
     datasets: [{
       label: "産子数",
-      data: bornNum.reverse(),
+      // data: bornNum.reverse(),
+      data: bornNum,
       borderColor: "dimgray",
       backgroundColor: "dimgray",
       // borderColor: "rgb(75, 192, 192)",
@@ -13716,7 +13717,8 @@ var myChart = new chart_js_auto__WEBPACK_IMPORTED_MODULE_0__["default"](ctx, {
       yAxisID: "y"
     }, {
       label: "回転数",
-      data: rotate.reverse(),
+      // data: rotate.reverse(),
+      data: rotate,
       borderColor: "crimson",
       backgroundColor: "crimson",
       // borderColor: "rgb(153, 102, 255)",

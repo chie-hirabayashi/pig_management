@@ -44,7 +44,8 @@ const myChart = new Chart(ctx, {
         datasets: [
             {
                 label: "産子数",
-                data: bornNum.reverse(),
+                // data: bornNum.reverse(),
+                data: bornNum,
                 borderColor: "dimgray",
                 backgroundColor: "dimgray",
                 // borderColor: "rgb(75, 192, 192)",
@@ -53,7 +54,8 @@ const myChart = new Chart(ctx, {
             },
             {
                 label: "回転数",
-                data: rotate.reverse(),
+                // data: rotate.reverse(),
+                data: rotate,
                 borderColor: "crimson",
                 backgroundColor: "crimson",
                 // borderColor: "rgb(153, 102, 255)",
