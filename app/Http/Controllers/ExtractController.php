@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\MixInfo;
 use App\Models\FemalePig;
-use App\Models\MalePig;
-use Carbon\Carbon;
 
 class ExtractController extends Controller
 {
