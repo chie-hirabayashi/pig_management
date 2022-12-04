@@ -31,26 +31,6 @@
                     <div class="mx-2">
                         {{ $femalePig->age }}歳
                     </div>
-                    <div class="mx-2">
-                        @if ($bornInfos->first()->rotate_prediction <= 1.8)
-                            <span
-                                class="text-red-600 text-base font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-800">
-                        @elseif ($bornInfos->first()->rotate_prediction > 1.8)
-                            <span
-                                class="text-gray-800 text-base font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-800">
-                        @endif
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-arrow-repeat" viewBox="0 0 16 16">
-                                <path
-                                    d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z" />
-                                <path fill-rule="evenodd"
-                                    d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z" />
-                            </svg>
-                            <div class="ml-2">
-                                {{ $bornInfos->first()->rotate_prediction }}
-                            </div>
-                        </span>
-                    </div>
                     <div>
                         <form action="{{ route('female_pigs.updateFlag', $femalePig) }}" method="POST">
                             @csrf
@@ -129,7 +109,7 @@
                 </div>
                 <!-- schedule - end -->
 
-                <!-- Newborder - start -->
+                <!-- border - start -->
                 <div class="overflow-x-auto relative">
                     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-center text-xs text-gray-900 uppercase dark:text-gray-400">
@@ -153,7 +133,6 @@
                                     回転数
                                 </th>
                                 <td class="text-center py-3 px-6">
-
                                     {{-- @if ($born_infos) --}}
                                     @if (!empty($born_infos->last()->rotate))
                                         {{ $born_infos->last()->rotate }} 回
@@ -334,7 +313,7 @@
                         </tbody>
                     </table>
                 </div>
-                <!-- Newborder - end -->
+                <!-- border - end -->
 
                 <!-- edit & delete - start -->
                 <div class="flex flex-row text-center my-4">
@@ -360,7 +339,7 @@
     </div>
 
 
-    <!-- Newborn_information - start -->
+    <!-- born_information - start -->
     {{-- <div class="overflow-x-auto relative shadow-md sm:rounded-lg my-8"> --}}
     <div class="overflow-x-auto relative shadow-md my-8">
         <div
@@ -402,45 +381,42 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($bornInfos as $bornInfo)
+                @foreach ($born_infos as $born_info)
                     <tr
                         class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 whitespace-nowrap">
                         <td class="py-4 px-6">
-                            {{ $bornInfo->born_day }}
+                            {{ $born_info->born_day }}
                         </td>
                         <td class="py-4 px-6">
-                            {{ $bornInfo->born_num }} 匹
+                            {{ $born_info->born_num }} 匹
                         </td>
                         <td class="py-4 px-6">
-                            {{ $bornInfo->first_male }}
+                            {{ $born_info->first_male }}
                             <p class="line-through">
-                                {{ $bornInfo->first_delete_male }}
+                                {{ $born_info->first_delete_male }}
                             </p>
                         </td>
                         <td class="py-4 px-6">
-                            @if ($bornInfo->second_male == null && $bornInfo->second_delete_male == null)
+                            @if ($born_info->second_male == null && $born_info->second_delete_male == null)
                                 -
                             @else
-                                {{ $bornInfo->second_male }}
+                                {{ $born_info->second_male }}
                                 <p class="line-through">
-                                    {{ $bornInfo->second_delete_male }}
+                                    {{ $born_info->second_delete_male }}
                                 </p>
                             @endif
                         </td>
                         <td class="py-4 px-6">
-                            {{ $bornInfo->rotate }} 回
+                            {{ $born_info->rotate }} 回
                         </td>
                         {{-- <td class="flex flex-row items-center py-4 px-6 space-x-3"> --}}
                         <td class="flex flex-row items-center py-4 px-6">
-                            <a href="{{ route('mix_infos.born_infos.edit', [$bornInfo->mix_info, $bornInfo]) }}"
-                                class="basis-1/2 font-medium text-cyan-800 dark:text-cyan-600 hover:underline hover:font-bold">
-                                編 集</a>
-                            {{-- <form action="{{ route('born_infos.destroy', $born_info) }}" method="post"> --}}
-                            <form
-                                action="{{ route('mix_infos.born_infos.destroy', [$bornInfo->mix_info, $bornInfo]) }}"
-                                method="post">
+                            <a href="{{ route('born_infos.edit', $born_info) }}" {{-- class="basis-1/2 font-medium text-blue-600 dark:text-blue-500 hover:underline">編 集</a> --}}
+                                class="basis-1/2 font-medium text-cyan-800 dark:text-cyan-600 hover:underline hover:font-bold">編
+                                集</a>
+                            <form action="{{ route('born_infos.destroy', $born_info) }}" method="post">
                                 @csrf
-                                @method('DELETE')
+                                @method('PATCH')
                                 <input type="submit" value="削 除"
                                     onclick="if(!confirm('出産情報を削除しますか？')){return false};"
                                     class="basis-1/2 font-medium text-red-600 dark:text-red-500 hover:underline hover:font-bold">
@@ -452,7 +428,7 @@
         </table>
         <!-- born_table - end -->
     </div>
-    <!-- Newborn_information - end -->
+    <!-- born_information - end -->
 
     <div class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-10 px-8 py-4 dark:bg-gray-800">
         <canvas id="myChart"></canvas>
@@ -585,7 +561,7 @@
     <!-- script - start -->
     <script>
         window.Laravel = {};
-        window.Laravel.bornInfos = @json($bornInfos);
+        window.Laravel.bornInfos = @json($born_infos);
         window.Laravel.mixInfos = @json($mixInfos);
 
         Data = [];

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BornInfo;
 use Illuminate\Http\Request;
 use App\Models\MixInfo;
 use App\Models\FemalePig;
+use App\Models\MalePig;
+use Carbon\Carbon;
 
 class ExtractController extends Controller
 {
@@ -41,22 +42,7 @@ class ExtractController extends Controller
         // 稼働中のfemalePigsを取得
         $femalePigs = FemalePig::where('deleted_at', null)->get();
 
-        // このコードだと無駄にクエリアタック
-        // $femalePigs = FemalePig::with('mix_infos')
-        // ->with('born_infos')
-        // ->where('deleted_at', null)
-        // ->get();
-        // dd($femalePigs);
-
         foreach ($femalePigs as $femalePig) {
-            // 基本情報
-// これが1つめのN+1 BornInfo => Relation: female_pig
-            $bornInfos = $femalePig
-                ->born_infos()
-                ->orderBy('born_day', 'desc') //注意:->latet()ではNG
-                ->get();
-                // ->load('female_pig'); // これでN+1は解消 But クエリとモデルのアタックが増える
-
             // 再発、流産回数を取得
             // $count_troubles = $femalePig
             //     ->mix_infos()
@@ -90,6 +76,7 @@ class ExtractController extends Controller
                         $bornInfo_3past[$i]['troubles'] = $count_troubles;
                     }
                     $bornInfo_2past = $bornInfo_3past->take(2);
+
                     // 予測回転数
                     $bornInfo_2past[0][
                         'rotate_prediction'
@@ -104,6 +91,7 @@ class ExtractController extends Controller
                         $bornInfo_2past[$i]['rotate'] = $rotates[$i];
                         $bornInfo_2past[$i]['troubles'] = $count_troubles;
                     }
+
                     // 予測回転数
                     $bornInfo_2past[0][
                         'rotate_prediction'
@@ -148,9 +136,11 @@ class ExtractController extends Controller
                     $extracts[] = $bornInfo_2past[0];
                 }
             }
-            // dd($extracts);
+
             // 直前のみ、オプションありで抽出
+            // operator_conditionはかつだけでOK
             if ($condition == 2) {
+                // dd($option_operator);
                 switch (true) {
                     // かつ
                     case $option_operator == 1:

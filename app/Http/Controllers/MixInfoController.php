@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMixInfoRequest;
+use App\Http\Requests\StoreBornInfoRequest;
 use App\Http\Requests\UpdateMixInfoRequest;
+use App\Http\Requests\UpdateBornInfoRequest;
 use App\Exports\MixInfoExport;
 use App\Imports\MixInfoImport;
 use App\Models\FemalePig;
@@ -148,6 +150,9 @@ class MixInfoController extends Controller
         $femalePigs = FemalePig::all();
         $malePigs = MalePig::all();
         $troubleCategories = TroubleCategory::all();
+        // dd($mixInfo->first_male_pig);
+        // self::maleSoftDeleteResolution($mixInfo);
+        // self::softDeleteResolution($mixInfo);
         
         return view('mix_infos.edit')->with(
             compact(
@@ -282,6 +287,101 @@ class MixInfoController extends Controller
             return redirect()
                 ->route('female_pigs.show', $femalePig)
                 ->with('notice', '交配記録を削除しました');
+        } catch (\Throwable $th) {
+            return back()->withErrors($th->getMessage());
+        }
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function createBorn(MixInfo $mixInfo)
+    {
+        // 最後の交配記録に出産、再発、流産の記録がある場合、出産登録不可
+        if ($mixInfo->born_day !== null || $mixInfo->trouble_id !== 1) {
+            return back()->withErrors('出産登録できる交配記録がありません。');
+        }
+
+        $femalePig = $mixInfo->female_pig;
+        return view('born_infos.create')->with(compact('mixInfo', 'femalePig'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \App\Http\Requests\StoreBornInfoRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeBorn(StoreBornInfoRequest $request, MixInfo $mixInfo)
+    {
+        $mixInfo->fill($request->all());
+        $femalePig = $mixInfo->female_pig;
+
+        try {
+            $mixInfo->save();
+            return redirect()
+                ->route('female_pigs.show', $femalePig)
+                ->with('notice', '出産情報を登録しました');
+        } catch (\Throwable $th) {
+            return back()
+                ->withInput()
+                ->withErrors($th->getMessage());
+        }
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\MixInfo  $mixInfo
+     * @return \Illuminate\Http\Response
+     */
+    public function editBorn(MixInfo $mixInfo)
+    {
+        $femalePig = $mixInfo->female_pig;
+        return view('born_infos.edit')->with(compact('mixInfo', 'femalePig'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \App\Http\Requests\UpdateMixInfoRequest  $request
+     * @param  \App\Models\MixInfo  $mixInfo
+     * @return \Illuminate\Http\Response
+     */
+    public function updateBorn(UpdateBornInfoRequest $request, MixInfo $mixInfo)
+    {
+        $femalePig = $mixInfo->female_pig;
+        $mixInfo->fill($request->all());
+
+        try {
+            $mixInfo->save();
+            return redirect()
+                ->route('female_pigs.show', $femalePig)
+                ->with('notice', '出産情報を更新しました。');
+        } catch (\Throwable $th) {
+            return back()->withErrors($th->getMessage());
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\BornInfo  $bornInfo
+     * @return \Illuminate\Http\Response
+     */
+    public function destroyBorn(MixInfo $mixInfo)
+    {
+        $femalePig = $mixInfo->female_pig;
+        $mixInfo->born_day = null; //born_dayカラムを空に戻す
+        $mixInfo->born_num = null; //born_numカラムを空に戻す
+        
+        try {
+            $mixInfo->save();
+            return redirect()
+                ->route('female_pigs.show', $femalePig)
+                ->with('notice', '出産情報を削除しました');
         } catch (\Throwable $th) {
             return back()->withErrors($th->getMessage());
         }
