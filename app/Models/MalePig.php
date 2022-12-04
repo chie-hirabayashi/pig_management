@@ -45,6 +45,26 @@ class MalePig extends Model
         return $this->hasMany(MixInfo::class, 'second_male_id', 'id');
     }
 
+    /**
+     * Get all of the born_infos for the MalePig
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function first_born_infos()
+    {
+        return $this->hasMany(BornInfo::class, 'first_male_id', 'id');
+    }
+
+    /**
+     * Get all of the born_infos for the MalePig
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function second_Born_infos()
+    {
+        return $this->hasMany(MixInfo::class, 'second_male_id', 'id');
+    }
+
     // アクセサ
     public function getAgeAttribute()
     {

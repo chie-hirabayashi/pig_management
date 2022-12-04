@@ -8,7 +8,6 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use App\Models\FemalePig;
 use App\Models\MalePig;
-use App\Models\MixInfo;
 use Carbon\Carbon;
 
 class Controller extends BaseController
@@ -63,7 +62,7 @@ class Controller extends BaseController
     }
 
     // 予測回転数算出
-    public function getPredictionRotate($femalePig)
+    public function getnPredictionRotate($bornInfo)
     {
         $born_last = MixInfo::where('female_id', $femalePig->id)
             ->whereNotNull('born_day')

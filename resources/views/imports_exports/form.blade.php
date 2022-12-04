@@ -113,6 +113,32 @@
                         </form>
                     </div>
                     <!-- mixInfo_import - end -->
+
+                    <!-- bornInfo_import - start -->
+                    <div class="items-center justify-between w-full pt-8 px-8 pb-2">
+                        <h1 class="MplusRound font-semibold text-gray-700 dark:text-whit">
+                            出産記録のインポート
+                        </h1>
+                    </div>
+
+                    <div class="pb-8 px-8 text-sm text-gray-500 dark:text-gray-300">
+                        <form method="post" action="{{ route('born_infos.import') }}" enctype="multipart/form-data">
+                            @csrf
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="mt-2">
+                                    <input type="file" name="excel_file">
+                                </div>
+                                <div class="flex justify-end">
+                                    <button type="submit"
+                                        class="mr-2 py-1.5 px-4 transition-colors bg-gray-50 border active:bg-slate-700 font-medium border-gray-200 hover:text-white text-slate-700 hover:border-slate-700 rounded-lg hover:bg-slate-700 disabled:opacity-50">
+                                        <i class="fa-solid fa-file-import"></i>
+                                        &ensp;取 込
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- mixInfo_import - end -->
                 </div>
                 <!-- import - start -->
 

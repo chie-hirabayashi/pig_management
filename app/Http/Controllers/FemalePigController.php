@@ -8,6 +8,7 @@ use App\Models\FemalePig;
 use App\Models\MixInfo;
 use App\Exports\FemalePigExport;
 use App\Imports\FemalePigImport;
+use App\Models\BornInfo;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -22,7 +23,9 @@ class FemalePigController extends Controller
     public function index(Request $request)
     {
         $searchItems = FemalePig::all()->sortBy('individual_num');
+
         $femalePigs = FemalePig::with('mix_infos')->get();
+
         // Explanation:状態statusの区分
         // 観察中:交配から120日間(交配~出産予定114日+6日)
         // 保育中:出産から24日間(離乳21~25日)
@@ -30,13 +33,16 @@ class FemalePigController extends Controller
 
         foreach ($femalePigs as $femalePig) {
             $mixInfo_last = $femalePig->mix_infos->last();
+
             $bornInfo_last = MixInfo::where('female_id', $femalePig->id)
                 ->whereNotNull('born_day')
                 ->get()
                 ->last();
+
             // $today = Carbon::now(); //本設定
             $today = Carbon::create('2022-10-25'); //仮設定
             // $today = Carbon::create('2022-8-1'); //仮設定
+
 
             if (!empty($mixInfo_last->mix_day)) {
                 $mix_day = Carbon::create($mixInfo_last->mix_day);
@@ -69,11 +75,11 @@ class FemalePigController extends Controller
                     $femalePig->status = '待機中';
                     break;
             }
-
+            
             // bornInfoがある場合、予測回転数算出
             if ($bornInfo_last) {
-                $femalePig->rotate_prediction = self::getPredictionRotate(
-                    $femalePig
+                $femalePig->rotate_prediction = self::getnPredictionRotate(
+                    $bornInfo_last
                 );
             }
         }
@@ -373,19 +379,20 @@ class FemalePigController extends Controller
             $array = self::maleSoftDeleteResolution($info->first_male_id);
             $exist_male = $array[0];
             $delete_male = $array[1];
-            $info->first_male = $exist_male;
-            $info->first_delete_male = $delete_male;
+            $bornInfo->first_male = $exist_male;
+            $bornInfo->first_delete_male = $delete_male;
 
-            // second_male_pigのnullとsoftDelete対策
-            if ($info->second_male_id !== null) {
-                $array = self::maleSoftDeleteResolution($info->second_male_id);
+            if ($bornInfo->second_male_id !== null) {
+                $array = self::maleSoftDeleteResolution(
+                    $bornInfo->second_male_id
+                );
                 $exist_male = $array[0];
                 $delete_male = $array[1];
-                $info->second_male = $exist_male;
-                $info->second_delete_male = $delete_male;
+                $bornInfo->second_male = $exist_male;
+                $bornInfo->second_delete_male = $delete_male;
             } else {
-                $info->second_male = null;
-                $info->second_delete_male = null;
+                $bornInfo->second_male = null;
+                $bornInfo->second_delete_male = null;
             }
         }
 
