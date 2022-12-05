@@ -21,7 +21,7 @@ class Controller extends BaseController
         $judge = MalePig::where('id', $id)
             ->onlyTrashed()
             ->get();
-        if ($judge->isnotEmpty()) {
+        if ($judge->isNotEmpty()) {
             $exist_male = null;
             $delete_male = $judge[0]->individual_num;
         } else {
