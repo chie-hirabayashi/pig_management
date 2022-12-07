@@ -147,7 +147,6 @@ class MalePigController extends Controller
 
         // 1回目と2回目の交配回数をまとめる(経過異常含む)
         $all_mixes = self::mergeTowMixes($first_females, $second_females);
-
         // 1回目と2回目の交配回数をまとめる(経過順調のみ)
         $noTrouble_mixes = self::mergeTowMixes($first_noTrouble_females, $second_noTrouble_females);
 
@@ -169,6 +168,7 @@ class MalePigController extends Controller
                 }
             }
         }
+// dd($individual_mix_infos);
 
         $all_ids = array_keys($all_mixes);
         $noTrouble_ids = array_keys($noTrouble_mixes);

@@ -41,7 +41,8 @@ class Controller extends BaseController
             $exist_female = null;
             $delete_female = $judge[0]->individual_num;
         } else {
-            $exist_female = FemalePig::find($id)->individual_num;
+            // $exist_female = FemalePig::find($id)->individual_num;
+            $exist_female = FemalePig::find($id);
             $delete_female = null;
         }
         return [$exist_female, $delete_female];

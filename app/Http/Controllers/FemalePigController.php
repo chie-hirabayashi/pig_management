@@ -193,8 +193,8 @@ class FemalePigController extends Controller
         } else {
             # $mixInfosが0件の場合 start #
             $mix_ranking = [];
-            $born_infos = $mixInfos;
-
+            $born_infos = [];
+// dd($born_infos);
             return view('female_pigs.show')->with(
                 compact('femalePig', 'mixInfos', 'born_infos', 'mix_ranking')
             );
@@ -309,10 +309,10 @@ class FemalePigController extends Controller
         $count_lastYearBorn = count($lastYear_born_infos);
 
         switch (true) {
-            // case $count_allBorn == 0:
+            case $count_allBorn == 0:
                 // 空の出産情報を登録
-                // $born_infos = $mixInfos;
-                // break;
+                $born_infos = $mixInfos;
+                break;
 
             case $count_allBorn == 1:
                 // 1回の出産情報を登録(回転数なし)
@@ -388,7 +388,7 @@ class FemalePigController extends Controller
                 $info->second_delete_male = null;
             }
         }
-
+// dd($born_infos);
 // dd($born_infos[count($born_infos)-1]);
         return view('female_pigs.show')->with(
             compact(

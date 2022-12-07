@@ -6,7 +6,7 @@
         </h2>
     </x-slot>
     <!-- header - end -->
-TODO:母豚リンク
+    TODO:母豚リンク
     <!-- message -->
     <x-error-validation :errors="$errors" />
     <x-flash-msg :message="session('notice')" />
@@ -81,7 +81,12 @@ TODO:母豚リンク
                                     <th scope="row"
                                         class="py-3 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         <div>
-                                            {{ $info['female'] }}
+                                            @if ($info['female'])
+                                                <a href="{{ route('female_pigs.show', $info['female']) }}"
+                                                    class="text-blue-600 after:content-['_↗'] dark:text-blue-500 transition-colors bg-transparent hover:underline">
+                                                    {{ $info['female']->individual_num }}
+                                                </a>
+                                            @endif
                                             <p class="line-through">
                                                 {{ $info['delete_female'] }}
                                             </p>
@@ -104,7 +109,7 @@ TODO:母豚リンク
 
                 <a href="{{ route('male_pigs.index') }}"
                     class="py-1.5 px-4 transition-colors bg-transparent active:bg-gray-200 font-medium text-blue-600 rounded-lg hover:bg-gray-100 disabled:opacity-50">
-            <i class="fa-solid fa-arrow-left"></i>
+                    <i class="fa-solid fa-arrow-left"></i>
                     戻る
                 </a>
             </div>
