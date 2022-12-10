@@ -6,6 +6,7 @@ use App\Http\Controllers\FemalePigController;
 use App\Http\Controllers\MalePigController;
 use App\Http\Controllers\MixInfoController;
 use App\Http\Controllers\ImportExportController;
+use App\Http\Controllers\AchievementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,7 +71,6 @@ Route::get('/extracts/conditions', [
 Route::get('/imports_exports/form', [ImportExportController::class, 'form'])->name(
     'imports_exports.form'
 );
-
 // female_pigsのインポートとエクスポート
 Route::post('/female_pigs/export', [
     FemalePigController::class,
@@ -80,7 +80,6 @@ Route::post('/female_pigs/import', [
     FemalePigController::class,
     'import',
 ])->name('female_pigs.import');
-
 // male_pigsのインポートとエクスポート
 Route::post('/male_pigs/export', [MalePigController::class, 'export'])->name(
     'male_pigs.export'
@@ -88,7 +87,6 @@ Route::post('/male_pigs/export', [MalePigController::class, 'export'])->name(
 Route::post('/male_pigs/import', [MalePigController::class, 'import'])->name(
     'male_pigs.import'
 );
-
 // mix_infosのインポートとエクスポート
 Route::post('/mix_infos/export', [MixInfoController::class, 'export'])->name(
     'mix_infos.export'
@@ -102,7 +100,6 @@ Route::patch('/female_pigs/{female_pig}/updateFlag', [
     FemalePigController::class,
     'updateFlag',
 ])->name('female_pigs.updateFlag');
-
 // MalePigフラグのルーティング
 Route::patch('/male_pigs/{male_pig}/updateFlag', [
     MalePigController::class,
@@ -114,6 +111,11 @@ Route::patch('/female_pigs/{female_pig}/updateRecurrence', [
     FemalePigController::class,
     'updateRecurrence',
 ])->name('female_pigs.updateRecurrence');
+
+// 総合実績表
+Route::get('/achievements', [AchievementController::class, 'index'])->name(
+    'achievements.index'
+);
 
 // cssテスト用
 Route::get('/test', [MixInfoController::class, 'test'])->name(

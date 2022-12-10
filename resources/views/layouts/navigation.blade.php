@@ -39,6 +39,16 @@
                     </x-nav-link>
                 </div>
 
+                <!-- extracts Links -->
+                <div class="hidden items-center sm:flex">
+                    <span class="mx-5 text-gray-500">
+                        /
+                    </span>
+                    <x-nav-link :href="route('achievements.index')">
+                        {{ __('総合実績表') }}
+                    </x-nav-link>
+                </div>
+
                 <!-- Navigation Links -->
                 <div class="hidden items-center sm:flex">
                     <span class="mx-5 text-gray-500 ">

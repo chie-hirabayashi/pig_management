@@ -46,6 +46,8 @@ class CreateMixInfosTable extends Migration
                 ->cascadeOnDelete();
             $table->date('born_day')->nullable();
             $table->integer('born_num')->nullable();
+            $table->integer('childcare_num')->nullable();
+            $table->integer('weaning_num')->nullable();
             $table->timestamps();
         });
     }
