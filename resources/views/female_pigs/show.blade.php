@@ -559,11 +559,18 @@
             </tbody>
         </table>
         <!-- mix_table - end -->
+        <div class="mx-6 my-4 text-gray-700 text-right">
+            <p>再発、流産は編集から記録できます。</p>
+        </div>
     </div>
-    <div class="mt-2 mx-6 my-6 text-gray-700 text-right">
-        <p>再発、流産は編集から記録できます。</p>
+    <div class="flex flex-col items-center gap-4 md:gap-6">
+        <a href="javascript:history.back()"
+            class="py-1.5 px-4 transition-colors bg-transparent active:bg-gray-200 font-medium text-blue-600 rounded-lg hover:bg-gray-100 disabled:opacity-50">
+            <i class="fa-solid fa-arrow-left"></i>
+            戻る
+        </a>
     </div>
-    <div class="text-right">TODO:抽出画面に戻るボタンフラグ作業後に1回で戻る
+    {{-- <div class="text-right">TODO:抽出画面に戻るボタンフラグ作業後に1回で戻る
         <a href="#" onclick="history.back(-1);return false;">back-1戻る</a>
         <a href="#" onclick="history.back();return false;">back戻る</a>
         <a href="javascript:history.back()"
@@ -576,7 +583,7 @@
         <input type="button" value="リファラ表示" onclick="alert( document.referrer );" />
         <input type="button" value="referrer戻るNG" onclick="location.href=document.referrer" />
         <button id="btn--back" class="rounded-md bg-gray-800 text-white px-4 py-2">戻る</button>
-    </div>
+    </div> --}}
 
     <!-- script - start -->
     <script>
