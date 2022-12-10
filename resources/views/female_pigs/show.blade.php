@@ -32,23 +32,27 @@
                         {{ $femalePig->age }}歳
                     </div>
                     <div class="mx-2">
-                        @if ($born_infos->last()->rotate_prediction <= 1.8)
-                            <span
-                                class="text-red-600 text-base font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-800">
-                        @elseif ($born_infos->last()->rotate_prediction > 1.8)
-                            <span
-                                class="text-gray-800 text-base font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-800">
+                        @if ($born_infos)
+                            @if ($born_infos->last()->rotate_prediction <= 1.8)
+                                <span
+                                    class="text-red-600 text-base font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-800">
+                                @elseif ($born_infos->last()->rotate_prediction > 1.8)
+                                    <span
+                                        class="text-gray-800 text-base font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-800">
+                            @endif
                         @endif
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-arrow-repeat" viewBox="0 0 16 16">
-                                <path
-                                    d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z" />
-                                <path fill-rule="evenodd"
-                                    d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z" />
-                            </svg>
-                            <div class="ml-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-arrow-repeat" viewBox="0 0 16 16">
+                            <path
+                                d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z" />
+                            <path fill-rule="evenodd"
+                                d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z" />
+                        </svg>
+                        <div class="ml-2">
+                            @if ($born_infos)
                                 {{ $born_infos->last()->rotate_prediction }}
-                            </div>
+                            @endif
+                        </div>
                         </span>
                     </div>
                     <div>
@@ -153,25 +157,21 @@
                                     回転数
                                 </th>
                                 <td class="text-center py-3 px-6">
-                                    {{-- @if ($born_infos) --}}
-                                    @if (!empty($born_infos->last()->rotate))
+                                    @if ($born_infos && !empty($born_infos->last()->rotate))
                                         {{ $born_infos->last()->rotate }} 回
                                     @else
                                         -
                                     @endif
-                                    {{-- @else
-                                        -
-                                    @endif --}}
                                 </td>
                                 <td class="text-center py-3 px-6">
-                                    @if (!empty($born_infos[count($born_infos)-2]))
-                                        {{ $born_infos[count($born_infos)-2]->rotate }} 回
+                                    @if ($born_infos && !empty($born_infos[count($born_infos) - 2]))
+                                        {{ $born_infos[count($born_infos) - 2]->rotate }} 回
                                     @else
                                         -
                                     @endif
                                 </td>
                                 <td class="text-center py-3 px-6">
-                                    @if (!empty($born_infos->last()->rotate))
+                                    @if ($born_infos && !empty($born_infos->last()->rotate))
                                         {{ round($born_infos->avg('rotate'), 2) }} 回
                                     @else
                                         -
@@ -184,21 +184,21 @@
                                     産子数
                                 </th>
                                 <td class="text-center py-3 px-6">
-                                    @if (!empty($born_infos->last()))
+                                    @if ($born_infos && !empty($born_infos->last()))
                                         {{ $born_infos->last()->born_num }} 匹
                                     @else
                                         -
                                     @endif
                                 </td>
                                 <td class="text-center py-3 px-6">
-                                    @if (!empty($born_infos[count($born_infos)-2]))
-                                        {{ $born_infos[count($born_infos)-2]->born_num }} 匹
+                                    @if ($born_infos && !empty($born_infos[count($born_infos) - 2]))
+                                        {{ $born_infos[count($born_infos) - 2]->born_num }} 匹
                                     @else
                                         -
                                     @endif
                                 </td>
                                 <td class="text-center py-3 px-6">
-                                    @if (!empty($born_infos->last()))
+                                    @if ($born_infos && !empty($born_infos->last()))
                                         {{ round($born_infos->last()->avg('born_num'), 2) }} 匹
                                     @else
                                         -
@@ -231,14 +231,14 @@
                                     出産回数
                                 </th>
                                 <td class="text-center py-3 px-6">
-                                    @if (!empty($born_infos->last()))
+                                    @if ($born_infos && !empty($born_infos->last()))
                                         {{ $born_infos->last()->count_lastYearBorn }} 回
                                     @else
                                         0 回
                                     @endif
                                 </td>
                                 <td class="text-center py-3 px-6">
-                                    @if (!empty($born_infos->last()))
+                                    @if ($born_infos && !empty($born_infos->last()))
                                         {{ $born_infos->last()->count_allBorn }} 回
                                     @else
                                         0 回
@@ -559,11 +559,18 @@
             </tbody>
         </table>
         <!-- mix_table - end -->
+        <div class="mx-6 my-4 text-gray-700 text-right">
+            <p>再発、流産は編集から記録できます。</p>
+        </div>
     </div>
-    <div class="mt-2 mx-6 my-6 text-gray-700 text-right">
-        <p>再発、流産は編集から記録できます。</p>
+    <div class="flex flex-col items-center gap-4 md:gap-6">
+        <a href="javascript:history.back()"
+            class="py-1.5 px-4 transition-colors bg-transparent active:bg-gray-200 font-medium text-blue-600 rounded-lg hover:bg-gray-100 disabled:opacity-50">
+            <i class="fa-solid fa-arrow-left"></i>
+            戻る
+        </a>
     </div>
-    <div class="text-right">TODO:抽出画面に戻るボタンフラグ作業後に1回で戻る
+    {{-- <div class="text-right">TODO:抽出画面に戻るボタンフラグ作業後に1回で戻る
         <a href="#" onclick="history.back(-1);return false;">back-1戻る</a>
         <a href="#" onclick="history.back();return false;">back戻る</a>
         <a href="javascript:history.back()"
@@ -576,7 +583,7 @@
         <input type="button" value="リファラ表示" onclick="alert( document.referrer );" />
         <input type="button" value="referrer戻るNG" onclick="location.href=document.referrer" />
         <button id="btn--back" class="rounded-md bg-gray-800 text-white px-4 py-2">戻る</button>
-    </div>
+    </div> --}}
 
     <!-- script - start -->
     <script>

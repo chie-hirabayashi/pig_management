@@ -35,7 +35,8 @@
                         </label>
                         <div class="flex mt-2">
                             <input id="first_rotate" type="number" name="first_rotate"
-                                value="{{ 1.8, old('first_rotate') }}" step="0.1" min="1.0" max="2.5"
+                                {{-- value="{{ 1.8, old('first_rotate') }}" step="0.1" min="1.0" max="2.5" --}}
+                                value="{{ old('first_rotate', 1.8) }}" step="0.1" min="1.0" max="2.5"
                                 class="px-3 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
                             <p class="mt-5 ml-2 text-sm text-gray-700">以下</p>
                         </div>
@@ -57,7 +58,7 @@
                         </label>
                         <div class="flex mt-2">
                             <input id="first_born_num" type="number" name="first_born_num"
-                                value="{{ 8, old('first_born_num') }}" min="1" max="10"
+                                value="{{ old('first_born_num', 8) }}" min="1" max="10"
                                 class="px-3 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
                             <p class="mt-5 ml-2 text-sm text-gray-700">匹以下</p>
                         </div>
@@ -74,7 +75,7 @@
                         </label>
                         <div class="flex mt-2">
                             <input id="second_rotate" type="number" name="second_rotate"
-                                value="{{ 1.8, old('second_rotate') }}" step="0.1" min="1.0" max="2.5"
+                                value="{{ old('second_rotate', 1.8) }}" step="0.1" min="1.0" max="2.5"
                                 class="block px-3 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
                             <p class="mt-5 ml-2 text-sm text-gray-700">以下</p>
                         </div>
@@ -89,7 +90,7 @@
                         </label>
                         <div class="flex mt-2">
                             <input id="second_born_num" type="number" name="second_born_num"
-                                value="{{ 8, old('second_born_num') }}" min="1" max="10"
+                                value="{{ old('second_born_num', 8) }}" min="1" max="10"
                                 class="block px-3 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
                             <p class="mt-5 ml-2 text-sm text-gray-700">匹以下</p>
                         </div>
@@ -105,7 +106,7 @@
                             母豚の年齢
                         </label>
                         <div class="flex mt-2">
-                            <input id="female_age" type="number" name="female_age" value="{{ 4, old('female_age') }}"
+                            <input id="female_age" type="number" name="female_age" value="{{ old('female_age', 4) }}"
                                 min="1" max="10"
                                 class="px-3 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
                             <p class="mt-5 ml-2 text-sm text-gray-700">以上</p>
@@ -134,7 +135,7 @@
                         </label>
                         <div class="flex mt-2">
                             <input id="trouble_num" type="number" name="trouble_num"
-                                value="{{ 1, old('trouble_num') }}" min="1" max="10"
+                                value="{{ old('trouble_num', 1) }}" min="1" max="10"
                                 class="px-3 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
                             <p class="mt-5 ml-2 text-sm text-gray-700">回以上</p>
                         </div>

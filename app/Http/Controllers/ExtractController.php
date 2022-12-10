@@ -247,11 +247,16 @@ class ExtractController extends Controller
 
         foreach ($extracts as $extract) {
             // first_male_pigのsoftDelete対策
-            $array = self::maleSoftDeleteResolution($extract->first_male_id);
-            $exist_male = $array[0];
-            $delete_male = $array[1];
-            $extract->first_male = $exist_male;
-            $extract->first_delete_male = $delete_male;
+            if ($extract->first_male_id !== null) {
+                $array = self::maleSoftDeleteResolution($extract->first_male_id);
+                $exist_male = $array[0];
+                $delete_male = $array[1];
+                $extract->first_male = $exist_male;
+                $extract->first_delete_male = $delete_male;
+            } else {
+                $extract->first_male = null;
+                $extract->first_delete_male = null;
+            }
 
             // second_male_pigのnullとsoftDelete対策
             if ($extract->second_male_id !== null) {

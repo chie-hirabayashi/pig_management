@@ -295,9 +295,7 @@
                         class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 whitespace-nowrap">
                         <td class="py-4 px-6">
                             <a href="{{ route('female_pigs.show', $extract->female_pig) }}"
-                            {{-- <a href="{{ route('female_pigs.show', $extract->female_pig->load('born_infos')) }}" --}}
                                 class="text-blue-600 after:content-['_↗'] dark:text-blue-500 transition-colors bg-transparent hover:underline">
-                                {{-- {{ $extract->mix_info->female_pig->individual_num }} --}}
                                 {{ $extract->female_pig->individual_num }}
                             </a>
                         </td>
