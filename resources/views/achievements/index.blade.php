@@ -21,5 +21,5 @@
                 一覧
             </h2>
 
-            
+            <p>{{ $count_workingFemalePigs }} 匹</p>
 </x-app-layout>
