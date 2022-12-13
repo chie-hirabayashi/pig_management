@@ -24,6 +24,14 @@ class MixInfo extends Model
         'trouble_id',
         'born_day',
         'born_num',
+        'stillbirth_num',
+        'born_weight',
+        'foster_female',
+        'foster_male',
+        'control_num',
+        'weaning_day',
+        'weaning_num',
+        'weaning_weight',
     ];
 
     // リレーション
