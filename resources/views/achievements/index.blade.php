@@ -22,4 +22,8 @@
             </h2>
 
             <p>{{ $count_workingFemalePigs }} 匹</p>
+            <p>{{ $count_mixes }} 匹</p>
+            <p>{{ $count_borns }} 匹</p>
+            <p>{{ $count_bornPigs}} 匹</p>
+            <p>{{ $count_weaningPigs }} 匹</p>
 </x-app-layout>
