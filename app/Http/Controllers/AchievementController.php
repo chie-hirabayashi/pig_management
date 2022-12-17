@@ -54,7 +54,8 @@ class AchievementController extends Controller
 
         // 現在、稼働中の母豚の整理
         // DO:年単位の成績 ex.2021年
-        // TODO:母豚の年齢単位の成績 ex.5歳
+        // DO:母豚の年齢単位の成績 ex.5歳
+        // これには廃用個体が含まれない
         $existPigs = FemalePig::withCount([
             'mix_infos AS total_mix_count' => function ($query) {
                 // $query->select(DB::raw('COUNT(*) as count_sum'));
@@ -76,6 +77,7 @@ class AchievementController extends Controller
             },
         ])
         ->get();
+
         $test = $existPigs->groupBy('age');
         $count_byAge = $existPigs->groupBy('age')->map(function($age) { return $age->count();});
         $mixCount_byAge_total = $existPigs->groupBy('age')->map(function($age) { return $age->sum('total_mix_count');});
@@ -84,13 +86,44 @@ class AchievementController extends Controller
         $bornCount_byAge_average = $existPigs->groupBy('age')->map(function($age) { return $age->sum('total_born_count')/$age->count();});
         $childCount_byAge_total = $existPigs->groupBy('age')->map(function($age) { return $age->sum('total_childPigs');});
         $childCount_byAge_average = $existPigs->groupBy('age')->map(function($age) { return $age->sum('total_childPigs')/$age->count();});
-        // $existPigsにageキー追加
-        // foreach ($existPigs as $existPig) {
-        //     $existPig->age = $existPig->age;
-        // }
-        dd($childCount_byAge_average);
-        // 検算用:合計交配回数
+        // dd($childCount_byAge_average);
         
+        // 期間内に稼働中の母豚の整理
+        // DO:期間 ex.2021年
+        // DO:年齢で整理
+        // これには廃用個体を含む
+        // BUG:期間以降に導入された個体が含まれている
+        $femalePigs = FemalePig::withTrashed()
+            ->whereNull('left_day')
+            ->where('add_day', '<=', '2021-12-31')
+            ->orWhere('left_day', '>=', '2021-01-01')
+            ->withCount([
+            'mix_infos AS total_mix_count' => function ($query) {
+                $query->where('mix_day', '<=', '2021-12-31')
+                    ->where('mix_day', '>=', '2021-01-01');
+            },
+        ])->withCount([
+            'mix_infos AS total_born_count' => function ($query) {
+                $query->where('trouble_id', 1)
+                    ->where('mix_day', '<=', '2021-12-31')
+                    ->where('mix_day', '>=', '2021-01-01');
+            },
+        ])->withCount([
+            'mix_infos AS total_childPigs' => function ($query) {
+                $query->where('mix_day', '<=', '2021-12-31')
+                    ->where('mix_day', '>=', '2021-01-01')
+                    ->select(DB::raw('SUM(born_num) as count_sum'));
+            },
+        ])
+        ->get();
+        $count_byAge = $femalePigs->groupBy('age')->map(function($age) { return $age->count();});
+        $mixCount_byAge_total = $femalePigs->groupBy('age')->map(function($age) { return $age->sum('total_mix_count');});
+        $mixCount_byAge_average = $femalePigs->groupBy('age')->map(function($age) { return $age->sum('total_mix_count')/$age->count();});
+        $bornCount_byAge_total = $femalePigs->groupBy('age')->map(function($age) { return $age->sum('total_born_count');});
+        $bornCount_byAge_average = $femalePigs->groupBy('age')->map(function($age) { return $age->sum('total_born_count')/$age->count();});
+        $childCount_byAge_total = $femalePigs->groupBy('age')->map(function($age) { return $age->sum('total_childPigs');});
+        $childCount_byAge_average = $femalePigs->groupBy('age')->map(function($age) { return $age->sum('total_childPigs')/$age->count();});
+        dd($bornCount_byAge_average);
 
         return view('achievements.index')->with(
             compact(
