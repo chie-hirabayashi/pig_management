@@ -21,45 +21,87 @@ class AchievementController extends Controller
 
         // TODO:mix_dayのminとmaxからすべての年のデータを作成
         // viewで一覧表示
+        $first_mix_day = MixInfo::orderBy('mix_day')
+            ->first('mix_day');
+        $last_mix_day = MixInfo::orderBy('mix_day', 'desc')
+            ->first('mix_day');
+        // first_mix_dayにcarbonで1年加算、last_mix_dayを超えたら終わり
+        $carbon = new Carbon($first_mix_day->mix_day);
+        $year = substr($carbon->toDateString(), 0, 4);
+        $years = array($year);
+        while ($year <= '2022') {
+            $year = $carbon->addYear(1);
+            $years[] = substr($year->toDateString(), 0, 4);
+        }
+        // dd($years);
 
-        // 稼働母豚
-        $working_femalePigs = MixInfo::groupBy('female_id')
-            ->where('mix_day', '>=', '2021-01-01')
-            ->where('mix_day', '<=', '2021-12-31')
-            ->get('female_id');
-        $count_workingFemalePigs = count($working_femalePigs);
+        // 入れ物用意
+        $achievements = [];
+        foreach ($years as $year) {
+            // 日付
+            $begin_date = $year. '-01-01';
+            $end_date = $year. '-12-31';
+            // 稼働母豚
+            $working_femalePigs = MixInfo::groupBy('female_id')
+                ->where('mix_day', '>=', $begin_date)
+                ->where('mix_day', '<=', $end_date)
+                ->get('female_id');
+            $count_workingFemalePigs = count($working_femalePigs);
+    
+            // 交配回数
+            $count_mixes = MixInfo::where('mix_day', '>=', $begin_date)
+                ->where('mix_day', '<=', $end_date)
+                ->count();
+    
+            // 分娩腹数
+            $count_borns = MixInfo::
+                where('born_day', '>=', $begin_date)
+                ->where('born_day', '<=', $end_date)
+                ->whereNotNull('born_day')
+                ->count();
+    
+            // 開始子豚
+            $bornPigs = MixInfo::
+                where('born_day', '>=', $begin_date)
+                ->where('born_day', '<=', $end_date)
+                ->whereNotNull('born_day')
+                ->selectRaw('SUM(born_num) as sum_born_num')
+                ->get();
+            $count_bornPigs = $bornPigs->first()->sum_born_num;
+    
+            // 離乳子豚
+            $weaningPigs = MixInfo::
+                where('weaning_day', '>=', $begin_date)
+                ->where('weaning_day', '<=', $end_date)
+                ->whereNotNull('weaning_day')
+                ->selectRaw('SUM(weaning_num) as sum_weaning_num')
+                ->get();
+            $count_weaningPigs = $weaningPigs->first()->sum_weaning_num;
+            $achievements[] = (array(
+                'year' => $year,
+                'count_workingPigs' => $count_workingFemalePigs,
+                'count_mixes' => $count_mixes,
+                'count_borns' => $count_borns,
+                'count_bornPigs' => $count_bornPigs,
+                'count_weaningPigs' => $count_weaningPigs,
+                ));
+        }
+        // dd($achievements);
 
-        // 交配回数
-        $count_mixes = MixInfo::where('mix_day', '>=', '2020-01-01')
-            ->where('mix_day', '<=', '2020-12-31')
-            ->count();
+        return view('achievements.index')->with(
+            compact(
+                'achievements'
+            )
+        );
+    }
 
-        // 分娩腹数
-        $count_borns = MixInfo::
-            where('born_day', '>=', '2020-01-01')
-            ->where('born_day', '<=', '2020-12-31')
-            ->whereNotNull('born_day')
-            ->count();
-
-        // 開始子豚
-        $bornPigs = MixInfo::
-            where('born_day', '>=', '2020-01-01')
-            ->where('born_day', '<=', '2020-12-31')
-            ->whereNotNull('born_day')
-            ->selectRaw('SUM(born_num) as sum_born_num')
-            ->get();
-        $count_bornPigs = $bornPigs->first()->sum_born_num;
-
-        // 離乳子豚
-        $weaningPigs = MixInfo::
-            where('weaning_day', '>=', '2020-01-01')
-            ->where('weaning_day', '<=', '2020-12-31')
-            ->whereNotNull('weaning_day')
-            ->selectRaw('SUM(weaning_num) as sum_weaning_num')
-            ->get();
-        $count_weaningPigs = $weaningPigs->first()->sum_weaning_num;
-
-
+    public function show(Request $request)
+    {
+        // 2020年に稼働した母豚を抽出
+        $year = '2021';
+        $begin_date = $year. '-01-01';
+        $end_date = $year. '-12-31';
+        
         // 現在、稼働中の母豚の整理
         // DO:年単位の成績 ex.2021年
         // DO:母豚の年齢単位の成績 ex.5歳
@@ -151,15 +193,7 @@ class AchievementController extends Controller
         $childCount_byAge_total = $femalePigs->groupBy('age')->map(function($age) { return $age->sum('total_childPigs');});
         $childCount_byAge_average = $femalePigs->groupBy('age')->map(function($age) { return $age->sum('total_childPigs')/$age->count();});
         dd($bornCount_byAge_average);
-
-        return view('achievements.index')->with(
-            compact(
-                'count_workingFemalePigs',
-                'count_mixes',
-                'count_borns',
-                'count_bornPigs',
-                'count_weaningPigs'
-            )
-        );
+        
+        return view('achievements.show');
     }
 }

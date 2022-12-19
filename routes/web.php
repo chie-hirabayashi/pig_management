@@ -116,6 +116,9 @@ Route::patch('/female_pigs/{female_pig}/updateRecurrence', [
 Route::get('/achievements', [AchievementController::class, 'index'])->name(
     'achievements.index'
 );
+Route::get('/achievements/show', [AchievementController::class, 'show'])->name(
+    'achievements.show'
+);
 
 // cssテスト用
 Route::get('/test', [MixInfoController::class, 'test'])->name(

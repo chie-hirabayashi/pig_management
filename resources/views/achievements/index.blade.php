@@ -21,9 +21,58 @@
                 一覧
             </h2>
 
-            <p>{{ $count_workingFemalePigs }} 匹</p>
-            <p>{{ $count_mixes }} 匹</p>
-            <p>{{ $count_borns }} 匹</p>
-            <p>{{ $count_bornPigs}} 匹</p>
-            <p>{{ $count_weaningPigs }} 匹</p>
+            <!-- border - start -->
+            <div class="overflow-x-auto relative">
+                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                    <thead class="text-center border-t text-xs text-gray-900 uppercase dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="py-3 px-6">
+                                年
+                            </th>
+                            <th scope="col" class="py-3 px-6">
+                                稼働母豚
+                            </th>
+                            <th scope="col" class="py-3 px-6">
+                                交配頭数
+                            </th>
+                            <th scope="col" class="py-3 px-6">
+                                分娩腹数
+                            </th>
+                            <th scope="col" class="py-3 px-6">
+                                開始子豚
+                            </th>
+                            <th scope="col" class="py-3 px-6">
+                                離乳子豚
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="border-t border-b">
+                        @foreach ($achievements as $achievement)
+                        <tr class="bg-white dark:bg-gray-800">
+                            <th scope="row"
+                                class="py-3 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                <div>
+                                    {{ $achievement['year'] }} 年
+                                </div>
+                            </th>
+                            <td class="text-center py-3 px-6">
+                                {{ $achievement['count_workingPigs'] }} 匹
+                            </td>
+                            <td class="text-center py-3 px-6">
+                                {{ $achievement['count_mixes'] }} 匹
+                            </td>
+                            <td class="text-center py-3 px-6">
+                                {{ $achievement['count_borns'] }} 匹
+                            </td>
+                            <td class="text-center py-3 px-6">
+                                {{ $achievement['count_bornPigs'] }} 匹
+                            </td>
+                            <td class="text-center py-3 px-6">
+                                {{ $achievement['count_weaningPigs'] }} 匹
+                            </td>
+                        </tr>
+                        @endforeach
+                </table>
+            </div>
+            <!-- border - end -->
 </x-app-layout>
