@@ -60,4 +60,12 @@ class FemalePig extends Model
         
         return $now->addMonth(6)->diffInYears($add_day);
     }
+
+    public function getAgeInThoseDaysAttribute()
+    {
+        $add_day = Carbon::create($this->add_day);
+        $year = Carbon::create($this->year);
+
+        return $year->addYear(1)->addMonth(6)->diffInYears($add_day);
+    }
 }
