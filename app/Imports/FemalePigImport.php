@@ -25,7 +25,7 @@ class FemalePigImport implements OnEachRow, WithHeadingRow
             'individual_num' => $row['individual_num'],
             'add_day'=>Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['add_day'])),
             'left_day'=>Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['left_day'])),
-            'warn_flag'      => $row['warn_flag'],
+            // 'warn_flag'      => $row['warn_flag'],
             'deleted_at'=>Carbon::instance(\PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['deleted_at'])),
         ]);
 

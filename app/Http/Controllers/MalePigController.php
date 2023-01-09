@@ -38,9 +38,13 @@ class MalePigController extends Controller
                 1
             );
             // 交配成功率算出
-            $mix_probability =
-                (count($first_noTroubles) + count($second_noTroubles)) /
-                (count($first_mixs) + count($second_mixs));
+            if (count($first_mixs)==0 && count($second_mixs)==0) {
+                $mix_probability = 0;
+            } else {
+                $mix_probability =
+                    (count($first_noTroubles) + count($second_noTroubles)) /
+                    (count($first_mixs) + count($second_mixs));
+            }
 
             // 交配成功率をセット
             $malePig->mix_probability = round($mix_probability * 100, 0);

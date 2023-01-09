@@ -52,6 +52,9 @@
                             <th scope="col" class="py-3 px-6">
                                 産子数
                             </th>
+                            <th scope="col" class="py-3 px-6">
+                                廃用頭数
+                            </th>
                         </tr>
                     </thead>
                     <tbody class="border-t border-b">
@@ -88,9 +91,16 @@
                             <td class="text-center py-3 px-6">
                                 {{ $achievement['rotates'] }}
                             </td>
+                            <td class="text-center py-3 px-6">
+                                {{ $achievement['count_leftPigs'] }} 匹
+                            </td>
                         </tr>
                         @endforeach
                 </table>
+                <p>稼働母豚:当該年内に交配した個体</p>
             </div>
             <!-- border - end -->
+        </div>
+    </div>
+    
 </x-app-layout>

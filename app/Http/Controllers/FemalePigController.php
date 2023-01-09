@@ -34,9 +34,8 @@ class FemalePigController extends Controller
                 ->whereNotNull('born_day')
                 ->get()
                 ->last();
-            // $today = Carbon::now(); //本設定
-            $today = Carbon::create('2022-10-25'); //仮設定
-            // $today = Carbon::create('2022-8-1'); //仮設定
+            $today = Carbon::now(); //本設定
+            // $today = Carbon::create('2022-10-25'); //仮設定
 
             if (!empty($mixInfo_last->mix_day)) {
                 $mix_day = Carbon::create($mixInfo_last->mix_day);
