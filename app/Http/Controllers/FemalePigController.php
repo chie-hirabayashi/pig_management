@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreFemalePigRequest;
 use App\Http\Requests\UpdateFemalePigRequest;
+use App\Http\Requests\importRequest;
 use App\Models\FemalePig;
 use App\Models\MixInfo;
 use App\Exports\FemalePigExport;
@@ -29,52 +30,55 @@ class FemalePigController extends Controller
         // 待機中:再発、流産後(+上記以外)
 
         foreach ($femalePigs as $femalePig) {
-            $mixInfo_last = $femalePig->mix_infos->last();
-            $bornInfo_last = MixInfo::where('female_id', $femalePig->id)
-                ->whereNotNull('born_day')
-                ->get()
-                ->last();
-            $today = Carbon::now(); //本設定
-            // $today = Carbon::create('2022-10-25'); //仮設定
+            // $mixInfo_last = $femalePig->mix_infos->last();
+            // $bornInfo_last = MixInfo::where('female_id', $femalePig->id)
+            //     ->whereNotNull('born_day')
+            //     ->get()
+            //     ->last();
+            // $today = Carbon::now(); //本設定
+            // // $today = Carbon::create('2022-10-25'); //仮設定
 
-            if (!empty($mixInfo_last->mix_day)) {
-                $mix_day = Carbon::create($mixInfo_last->mix_day);
-            }
+            // if (!empty($mixInfo_last->mix_day)) {
+            //     $mix_day = Carbon::create($mixInfo_last->mix_day);
+            // }
 
-            if (!empty($mixInfo_last->born_day)) {
-                $born_day = Carbon::create($mixInfo_last->born_day);
-            }
+            // if (!empty($mixInfo_last->born_day)) {
+            //     $born_day = Carbon::create($mixInfo_last->born_day);
+            // }
 
-            switch (true) {
-                // 観察中:交配から120日間(交配~出産予定114日+6日)
-                case !empty($mixInfo_last->mix_day) &&
-                    $today->diffInDays($mix_day) <= 120:
-                    $femalePig->status = '観察中';
-                    break;
+            // switch (true) {
+            //     // 観察中:交配から120日間(交配~出産予定114日+6日)
+            //     case !empty($mixInfo_last->mix_day) &&
+            //         $today->diffInDays($mix_day) <= 120:
+            //         $femalePig->status = '観察中';
+            //         break;
 
-                // 保育中:出産から24日間(離乳21~25日)
-                case !empty($mixInfo_last->born_day) &&
-                    $today->diffInDays($born_day) < 24:
-                    $femalePig->status = '保育中';
-                    break;
+            //     // 保育中:出産から24日間(離乳21~25日)
+            //     case !empty($mixInfo_last->born_day) &&
+            //         $today->diffInDays($born_day) < 24:
+            //         $femalePig->status = '保育中';
+            //         break;
 
-                // 待機中:再発、流産後
-                case !empty($mixInfo_last->trouble_id) && $mixInfo_last->trouble_id !== 1:
-                    $femalePig->status = '待機中';
-                    break;
+            //     // 待機中:再発、流産後
+            //     case !empty($mixInfo_last->trouble_id) && $mixInfo_last->trouble_id !== 1:
+            //         $femalePig->status = '待機中';
+            //         break;
 
-                // 上記以外
-                default:
-                    $femalePig->status = '待機中';
-                    break;
-            }
+            //     // 上記以外
+            //     default:
+            //         $femalePig->status = '待機中';
+            //         break;
+            // }
 
-            // bornInfoがある場合、予測回転数算出
-            if ($bornInfo_last) {
-                $femalePig->rotate_prediction = self::getPredictionRotate(
-                    $femalePig
-                );
-            }
+            $femalePig->status;
+            $femalePig->rotate_prediction;
+
+            // // bornInfoがある場合、予測回転数算出
+            // if ($bornInfo_last) {
+            //     $femalePig->rotate_prediction = self::getPredictionRotate(
+            //         $femalePig
+            //     );
+            // }
         }
 
         // status順に並び替え
@@ -503,7 +507,7 @@ class FemalePigController extends Controller
         return Excel::download(new FemalePigExport(), 'femalePigs_data.xlsx');
     }
 
-    public function import(Request $request)
+    public function import(importRequest $request)
     {
         $excel_file = $request->file('excel_file');
         $excel_file->store('excels');

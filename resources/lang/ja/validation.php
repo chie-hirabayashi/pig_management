@@ -166,5 +166,6 @@ return [
         'born_day' => '出産日',
         'trouble_day' => '日付',
         'today' => '今日',
+        'excel_file' => 'エクセルファイル',
     ],
 ];

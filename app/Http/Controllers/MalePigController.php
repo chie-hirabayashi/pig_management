@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMalePigRequest;
 use App\Http\Requests\UpdateMalePigRequest;
+use App\Http\Requests\importRequest;
 use App\Exports\MalePigExport;
 use App\Imports\MalePigImport;
 use App\Models\MalePig;
@@ -25,65 +26,59 @@ class MalePigController extends Controller
             ->get();
 
         foreach ($malePigs as $malePig) {
-            // 全交配情報取得
-            $first_mixs = $malePig->first_mix_infos;
-            $second_mixs = $malePig->second_mix_infos;
-            // 異常のない交配情報取得
-            $first_noTroubles = $malePig->first_mix_infos->where(
-                'trouble_id',
-                1
-            );
-            $second_noTroubles = $malePig->second_mix_infos->where(
-                'trouble_id',
-                1
-            );
-            // 交配成功率算出
-            if (count($first_mixs)==0 && count($second_mixs)==0) {
-                $mix_probability = 0;
-            } else {
-                $mix_probability =
-                    (count($first_noTroubles) + count($second_noTroubles)) /
-                    (count($first_mixs) + count($second_mixs));
-            }
+            // // 全交配情報取得
+            // $first_mixes = $malePig->first_mix_infos;
+            // $second_mixes = $malePig->second_mix_infos;
+            // // 異常のない交配情報取得
+            // $first_noTroubles = $malePig->first_mix_infos->where(
+            //     'trouble_id',
+            //     1
+            // );
+            // $second_noTroubles = $malePig->second_mix_infos->where(
+            //     'trouble_id',
+            //     1
+            // );
+            // // 交配成功率算出
+            // if (count($first_mixes)==0 && count($second_mixes)==0) {
+            //     $mix_probability = 0;
+            // } else {
+            //     $mix_probability =
+            //         (count($first_noTroubles) + count($second_noTroubles)) /
+            //         (count($first_mixes) + count($second_mixes));
+            // }
 
-            // 交配成功率をセット
-            $malePig->mix_probability = round($mix_probability * 100, 0);
+            // // 交配成功率をセット
+            // $malePig->mix_probability = round($mix_probability * 100, 0);
+            $malePig->mix_probability;
 
-            // 交配相手ごとにデータを整理
-            $first_females = $first_mixs->groupBy('female_id');
-            $second_females = $second_mixs->groupBy('female_id');
-            $first_noTrouble_females = $first_noTroubles->groupBy('female_id');
-            $second_noTrouble_females = $second_noTroubles->groupBy(
-                'female_id'
-            );
+            // // 交配相手ごとにデータを整理
+            // $first_females = $first_mixes->groupBy('female_id');
+            // $second_females = $second_mixes->groupBy('female_id');
+            // // $first_noTrouble_females = $first_noTroubles->groupBy('female_id');
+            // // $second_noTrouble_females = $second_noTroubles->groupBy(
+            // //     'female_id'
+            // // );
 
-            // 交配相手ごとにデータを整理
-            $first_females = $first_mixs->groupBy('female_id');
-            $second_females = $second_mixs->groupBy('female_id');
-            $first_noTrouble_females = $first_noTroubles->groupBy('female_id');
-            $second_noTrouble_females = $second_noTroubles->groupBy(
-                'female_id'
-            );
+            // // 1回目と2回目の交配回数をまとめる(経過異常含む)
+            // $first_mixes = [];
+            // foreach ($first_females as $key => $val) {
+            //     $first_mixes[$key] = count($val);
+            // }
+            // $second_mixes = [];
+            // foreach ($second_females as $key => $val) {
+            //     $second_mixes[$key] = count($val);
+            // }
+            // foreach ($first_mixes as $key1 => $val1) {
+            //     foreach ($second_mixes as $key2 => $val2) {
+            //         if ($key1 == $key2) {
+            //             $first_mixes[$key1] = $val1 + $val2;
+            //         }
+            //     }
+            // }
 
-            // 1回目と2回目の交配回数をまとめる(経過異常含む)
-            $first_mixes = [];
-            foreach ($first_females as $key => $val) {
-                $first_mixes[$key] = count($val);
-            }
-            $second_mixes = [];
-            foreach ($second_females as $key => $val) {
-                $second_mixes[$key] = count($val);
-            }
-            foreach ($first_mixes as $key1 => $val1) {
-                foreach ($second_mixes as $key2 => $val2) {
-                    if ($key1 == $key2) {
-                        $first_mixes[$key1] = $val1 + $val2;
-                    }
-                }
-            }
-
-            $all_mixes = $first_mixes + $second_mixes;
-            $malePig->all_mixes = array_sum($all_mixes);
+            // $all_mixes = $first_mixes + $second_mixes;
+            // $malePig->all_mixes = array_sum($all_mixes);
+            $malePig->all_mixes;
         }
         // dd($malePig);
 
@@ -129,23 +124,23 @@ class MalePigController extends Controller
     public function show(MalePig $malePig)
     {
         // 全交配情報取得
-        $first_mixs = $malePig->first_mix_infos;
-        $second_mixs = $malePig->second_mix_infos;
+        $first_mixes = $malePig->first_mix_infos;
+        $second_mixes = $malePig->second_mix_infos;
         // 異常のない交配情報取得
-        $first_noTroubles = $first_mixs->where('trouble_id', 1);
-        $second_noTroubles = $second_mixs->where('trouble_id', 1);
+        $first_noTroubles = $first_mixes->where('trouble_id', 1);
+        $second_noTroubles = $second_mixes->where('trouble_id', 1);
 
         // 交配成功率算出
         $mix_probability =
             (count($first_noTroubles) + count($second_noTroubles)) /
-            (count($first_mixs) + count($second_mixs));
+            (count($first_mixes) + count($second_mixes));
 
         // 交配成功率をセット
         $malePig->mix_probability = round($mix_probability * 100, 0);
 
         // 交配相手ごとにデータを整理
-        $first_females = $first_mixs->groupBy('female_id');
-        $second_females = $second_mixs->groupBy('female_id');
+        $first_females = $first_mixes->groupBy('female_id');
+        $second_females = $second_mixes->groupBy('female_id');
         $first_noTrouble_females = $first_noTroubles->groupBy('female_id');
         $second_noTrouble_females = $second_noTroubles->groupBy('female_id');
 
@@ -332,7 +327,7 @@ class MalePigController extends Controller
         return Excel::download(new MalePigExport(), 'malePigs_data.xlsx');
     }
 
-    public function import(Request $request)
+    public function import(importRequest $request)
     {
         $excel_file = $request->file('excel_file');
         $excel_file->store('excels');
