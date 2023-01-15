@@ -1,5 +1,6 @@
 <x-app-layout>
-    TODO:インポートコントローラにリクエスト追加
+    FIXME:インポートコントローラにリクエスト追加
+    TODO:データ取込は初期化が必要
     <!-- header - start -->
     <x-slot name="header">
         <h2 class="">

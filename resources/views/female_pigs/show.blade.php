@@ -199,7 +199,7 @@
                                 </td>
                                 <td class="text-center py-3 px-6">
                                     @if ($born_infos && !empty($born_infos->last()))
-                                        {{ round($born_infos->last()->avg('born_num'), 2) }} 匹
+                                        {{ round($born_infos->avg('born_num'), 2) }} 匹
                                     @else
                                         -
                                     @endif

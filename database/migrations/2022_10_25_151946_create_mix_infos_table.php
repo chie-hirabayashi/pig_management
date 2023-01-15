@@ -46,6 +46,14 @@ class CreateMixInfosTable extends Migration
                 ->cascadeOnDelete();
             $table->date('born_day')->nullable();
             $table->integer('born_num')->nullable();
+            $table->integer('stillbirth_num')->nullable();
+            $table->float('born_weight')->nullable();
+            $table->integer('foster_female')->nullable();
+            $table->integer('foster_male')->nullable();
+            $table->char('control_num', 20)->nullable();
+            $table->date('weaning_day')->nullable();
+            $table->integer('weaning_num')->nullable();
+            $table->float('weaning_weight')->nullable();
             $table->timestamps();
         });
     }

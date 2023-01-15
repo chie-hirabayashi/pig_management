@@ -22,7 +22,7 @@ class MixInfoImport implements OnEachRow, WithHeadingRow
         $row = $row->toArray();
 
         $mixInfo = MixInfo::firstOrCreate([
-            'id' => $row['id'],
+            // 'id' => $row['id'],
             'female_id' => $row['female_id'],
             'first_male_id' => $row['first_male_id'],
             'second_male_id' => $row['second_male_id'],
@@ -58,6 +58,13 @@ class MixInfoImport implements OnEachRow, WithHeadingRow
                 )
             ),
             'born_num' => $row['born_num'],
+            'stillbirth_num' => $row['stillbirth_num'],
+            'weaning_day' => Carbon::instance(
+                \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject(
+                    $row['weaning_day']
+                )
+            ),
+            'weaning_num' => $row['weaning_num'],
         ]);
 
         if ($mixInfo->wasRecentlyCreated) {
@@ -77,6 +84,15 @@ class MixInfoImport implements OnEachRow, WithHeadingRow
             )->format('Y-m-d');
             if ($born_day == '1970-01-01') {
                 $mixInfo->born_day = null;
+                $mixInfo->update();
+            }
+            // weaning_dayの修正
+            $weaning_day = Carbon::createFromFormat(
+                'Y-m-d H:i:s',
+                $mixInfo->weaning_day
+            )->format('Y-m-d');
+            if ($weaning_day == '1970-01-01') {
+                $mixInfo->weaning_day = null;
                 $mixInfo->update();
             }
         }
