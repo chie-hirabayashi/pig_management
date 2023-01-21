@@ -7,16 +7,16 @@
     </x-slot>
     <!-- header - end -->
 
-    <!-- message -->
-    <x-error-validation :errors="$errors" />
-    <x-flash-msg :message="session('notice')" />
 
-    <div class="bg-white py-6 sm:py-8 lg:py-12">
+    <div class="bg-white py-4 sm:py-6 lg:py-10">
         <!-- base_information - start -->
         <div class="max-w-screen-2xl px-4 md:px-8 mx-auto">
+            <!-- message -->
+            <x-error-validation :errors="$errors" />
+            <x-flash-msg :message="session('notice')" />
             <div class="flex flex-col items-center gap-4 md:gap-6">
                 <!-- base - start -->
-                <div class="flex items-center">
+                <div class="flex items-center mt-6">
                     <div class="text-xl text-rose-800">
                         <i class="fa-solid fa-venus"></i>&ensp;
                     </div>

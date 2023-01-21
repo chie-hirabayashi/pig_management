@@ -10,7 +10,7 @@
     <section
         class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-10 px-8 py-4 bg-white border rounded shadow-md dark:bg-gray-800">
         <!-- title -->
-        <h2 class="text-2xl MplusRound text-gray-700 capitalize dark:text-white">父豚登録</h2>
+        <h2 class="text-2xl MplusRound text-gray-700 capitalize mb-6 dark:text-white">父豚登録</h2>
 
         <!-- message -->
         <x-error-validation :errors="$errors" />
