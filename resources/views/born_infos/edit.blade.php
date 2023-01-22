@@ -16,7 +16,8 @@
         <x-error-validation :errors="$errors" />
 
         <!-- form - start -->
-        <form action="{{ route('mix_infos.born_infos.update', [$mixInfo, $bornInfo]) }}" method="POST" class="rounded pt-3 mb-4">
+        {{-- <form action="{{ route('mix_infos.born_infos.update', [$mixInfo, $bornInfo]) }}" method="POST" class="rounded pt-3 mb-4"> --}}
+        <form action="{{ route('born_infos.update', $mixInfo) }}" method="POST" class="rounded pt-3 mb-4">
             @csrf
             @method('PATCH')
             <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-3">
@@ -40,7 +41,8 @@
                     <label class="text-sm text-gray-700 dark:text-gray-200" for="born_day">出産日</label>
                     <input type="date" name="born_day" required
                         class="block px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
-                        value="{{ old('born_day', $bornInfo->born_day) }}">
+                        {{-- value="{{ old('born_day', $bornInfo->born_day) }}"> --}}
+                        value="{{ old('born_day', $mixInfo->born_day) }}">
                 </div>
                 <!-- born_day - end -->
 
@@ -49,7 +51,7 @@
                     <label class="text-sm text-gray-700 dark:text-gray-200" for="born_day">産子数</label>
                     <input type="number" name="born_num" required
                         class="block px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
-                        placeholder="匹" value="{{ old('born_num', $bornInfo->born_num) }}" min="1" max="20">
+                        placeholder="匹" value="{{ old('born_num', $mixInfo->born_num) }}" min="1" max="20">
                 </div>
                 <!-- born_num - end -->
 

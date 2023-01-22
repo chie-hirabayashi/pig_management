@@ -348,8 +348,7 @@
                         @csrf
                         @method('DELETE')
                         <input type="submit" value="廃 用" onclick="if(!confirm('廃用にしますか？')){return false};"
-                            {{-- class="bg-pink-400 hover:bg-pink-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20 mr-2"> --}} {{-- class="bg-red-700 hover:bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20 mr-2"> --}}
-                            class="py-1.5 px-4 transition-colors bg-gray-50 border active:bg-red-800 font-medium border-gray-200 hover:text-white text-red-600 hover:border-red-700 rounded-lg hover:bg-red-700 disabled:opacity-50">
+                            class="py-1.5 px-4 transition-colors bg-gray-50 border active:bg-red-700 font-medium border-gray-200 hover:text-white text-red-600 hover:border-red-600 rounded-lg hover:bg-red-600 disabled:opacity-50">
                     </form>
                 </div>
                 <!-- edit & delete - end -->
@@ -429,11 +428,11 @@
                         <td class="py-4 px-6">
                             {{ $born_info->rotate }} 回
                         </td>
-                        {{-- <td class="flex flex-row items-center py-4 px-6 space-x-3"> --}}
                         <td class="flex flex-row items-center py-4 px-6">
-                            <a href="{{ route('born_infos.edit', $born_info) }}" {{-- class="basis-1/2 font-medium text-blue-600 dark:text-blue-500 hover:underline">編 集</a> --}}
-                                class="basis-1/2 font-medium text-cyan-800 dark:text-cyan-600 hover:underline hover:font-bold">編
-                                集</a>
+                            <a href="{{ route('born_infos.edit', $born_info) }}"
+                                class="basis-1/2 font-medium text-cyan-800 dark:text-cyan-600 hover:underline hover:font-bold">
+                                編 集
+                            </a>
                             <form action="{{ route('born_infos.destroy', $born_info) }}" method="post">
                                 @csrf
                                 @method('PATCH')
@@ -534,10 +533,9 @@
                             <td class="py-4 px-6">
                                 {{ $mixInfo->trouble_id == 2 ? '再発' : ($mixInfo->trouble_id == 3 ? '流産' : '') }}
                             </td>
-                            <td class="flex flex-row items-center py-4 px-6">
-                                @if ($mixInfo->first_delete_male == null && $mixInfo->second_delete_male == null)
+                            @if ($mixInfo->first_delete_male == null && $mixInfo->second_delete_male == null)
+                                <td class="flex flex-row items-center py-4 px-6">
                                     <a href="{{ route('female_pigs.mix_infos.edit', [$femalePig, $mixInfo]) }}"
-                                        {{-- class="font-medium text-blue-600 dark:text-blue-500 hover:underline">編 集</a> --}} {{-- class="basis-1/2 font-medium text-blue-600 dark:text-blue-500 hover:underline"> --}}
                                         class="basis-1/2 font-medium text-cyan-800 dark:text-cyan-600 hover:underline hover:font-bold">
                                         編 集
                                     </a>
@@ -548,11 +546,10 @@
                                         @method('DELETE')
                                         <input type="submit" value="削 除"
                                             onclick="if(!confirm('交配記録を削除しますか？')){return false};"
-                                            {{-- class="basis-1/2 font-medium text-red-600 dark:text-red-500 hover:underline"> --}}
                                             class="basis-1/2 font-medium text-red-600 dark:text-red-500 hover:underline hover:font-bold">
                                     </form>
-                                @endif
-                            </td>
+                                </td>
+                            @endif
                         </tr>
                     @endforeach
                 @endif

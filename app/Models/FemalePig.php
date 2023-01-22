@@ -72,7 +72,7 @@ class FemalePig extends Model
     public function getStatusAttribute()
     {
         $mixInfo_last = $this->mix_infos->last();
-        $today = Carbon::now(); //本設定
+        $today = Carbon::now(); 
         
         if (!empty($mixInfo_last->mix_day)) {
             $mix_day = Carbon::create($mixInfo_last->mix_day);
@@ -81,7 +81,7 @@ class FemalePig extends Model
         if (!empty($mixInfo_last->born_day)) {
             $born_day = Carbon::create($mixInfo_last->born_day);
         }
-
+        
         switch (true) {
             // 観察中:交配から120日間(交配~出産予定114日+6日)
             case !empty($mixInfo_last->mix_day) &&
