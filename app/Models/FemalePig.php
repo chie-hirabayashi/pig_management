@@ -68,4 +68,62 @@ class FemalePig extends Model
 
         return $year->addYear(1)->addMonth(6)->diffInYears($add_day);
     }
+
+    public function getStatusAttribute()
+    {
+        $mixInfo_last = $this->mix_infos->last();
+        $today = Carbon::now(); 
+        
+        if (!empty($mixInfo_last->mix_day)) {
+            $mix_day = Carbon::create($mixInfo_last->mix_day);
+        }
+
+        if (!empty($mixInfo_last->born_day)) {
+            $born_day = Carbon::create($mixInfo_last->born_day);
+        }
+        
+        switch (true) {
+            // 観察中:交配から120日間(交配~出産予定114日+6日)
+            case !empty($mixInfo_last->mix_day) &&
+                $today->diffInDays($mix_day) <= 120:
+                return '観察中';
+                break;
+
+            // 保育中:出産から24日間(離乳21~25日)
+            case !empty($mixInfo_last->born_day) &&
+                $today->diffInDays($born_day) < 24:
+                return '保育中';
+                break;
+
+            // 待機中:再発、流産後
+            case !empty($mixInfo_last->trouble_id) && $mixInfo_last->trouble_id !== 1:
+                return '待機中';
+                break;
+
+            // 上記以外
+            default:
+                return '待機中';
+                break;
+        }
+    }
+
+    public function getRotatePredictionAttribute()
+    {
+        $born_last = MixInfo::where('female_id', $this->id)
+            ->whereNotNull('born_day')
+            ->get()
+            ->last();
+
+        // bornInfoがある場合、予測回転数算出
+        if ($born_last) {
+            $carbon_now = Carbon::now();
+            $carbon_last = Carbon::create($born_last->born_day);
+            $rotate_prediction = 365 / $carbon_now->diffInDays($carbon_last);
+
+            return round($rotate_prediction, 2);
+            // return self::getPredictionRotate($this);
+        } else {
+            return 0;
+        }
+    }
 }

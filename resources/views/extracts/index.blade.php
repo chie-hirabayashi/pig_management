@@ -6,8 +6,7 @@
         </h2>
     </x-slot>
     <!-- header - end -->
-    予測回転数の定義:最後の出産から現在までの日数/365日<br>
-    次回出産時の回転数は予測回転数以下である
+    
     <!-- body - start -->
     <div class="bg-white py-6 sm:py-8 lg:py-12">
         <!-- base_information - start -->

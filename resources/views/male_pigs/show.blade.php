@@ -6,7 +6,7 @@
         </h2>
     </x-slot>
     <!-- header - end -->
-    TODO:母豚リンク
+    
     <!-- message -->
     <x-error-validation :errors="$errors" />
     <x-flash-msg :message="session('notice')" />

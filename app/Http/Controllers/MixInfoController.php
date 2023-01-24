@@ -394,13 +394,19 @@ class MixInfoController extends Controller
 
     public function import(Request $request)
     {
-        $excel_file = $request->file('excel_file');
-        $excel_file->store('excels');
-        Excel::import(new MixInfoImport(), $excel_file);
-        // return view('index');
-        return redirect()
-            ->route('female_pigs.index')
-            ->with('notice', 'インポートしました');
+        // FIXME:データの取込は初期化してから、初期化コマンド作成、バリデーション作成
+        try {
+            $excel_file = $request->file('excel_file');
+            $excel_file->store('excels');
+            Excel::import(new MixInfoImport(), $excel_file);
+            return redirect()
+                ->route('female_pigs.index')
+                ->with('notice', 'インポートしました');
+        } catch (\Throwable $th) {
+            return back()
+                ->withInput()
+                ->withErrors($th->getMessage());
+        }
     }
 
     // cssテスト用

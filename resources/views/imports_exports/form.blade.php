@@ -9,26 +9,26 @@
     </x-slot>
     <!-- header - end -->
 
-    <!-- validation - start -->
-    <x-error-validation :errors="$errors" />
-    <x-flash-msg :message="session('notice')" />
-    <!-- validation - end -->
-
     <!-- body - start -->
     <section class="bg-white dark:bg-gray-900">
         <div class="container max-w-4xl px-6 py-10 mx-auto">
-            <h1 class="text-4xl MplusRound text-center text-gray-800 dark:text-white">
+            <h1 class="text-4xl MplusRound text-center mb-8 text-gray-800 dark:text-white">
                 データの入出力
             </h1>
-
+            
+            <!-- validation - start -->
+            <x-error-validation :errors="$errors" />
+            <x-flash-msg :message="session('notice')" />
+            <!-- validation - end -->
+            
             <div class="mt-12 space-y-8">
                 <!-- import - start -->
                 <div class="border-2 border-gray-100 rounded-lg dark:border-gray-700">
-                    <button class="flex items-center justify-between w-full p-8">
-                        <h1 class="font-semibold text-lg text-gray-700 dark:text-white">
+                    <div class="flex items-center justify-between rounded-t-lg w-full bg-gray-300 px-8 py-6">
+                        <h1 class="font-semibold text-lg text-white dark:text-white">
                             インポート
                         </h1>
-                    </button>
+                    </div>
 
                     <hr class="border-gray-200 dark:border-gray-700">
 
@@ -119,11 +119,11 @@
 
                 <!-- export - start -->
                 <div class="border-2 border-gray-100 rounded-lg dark:border-gray-700">
-                    <button class="flex items-center justify-between w-full p-8">
-                        <h1 class="font-semibold text-lg text-gray-700 dark:text-white">
+                    <div class="flex items-center justify-between rounded-t-lg w-full bg-gray-300 px-8 py-6">
+                        <h1 class="font-semibold text-lg text-white dark:text-white">
                             エクスポート
                         </h1>
-                    </button>
+                    </div>
 
                     <hr class="border-gray-200 dark:border-gray-700">
 

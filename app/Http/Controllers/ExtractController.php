@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\MixInfo;
 use App\Models\FemalePig;
-use App\Models\MalePig;
-use Carbon\Carbon;
 
 class ExtractController extends Controller
 {
@@ -40,32 +38,33 @@ class ExtractController extends Controller
         $conditions['option_operator'] = $option_operator;
 
         // 稼働中のfemalePigsを取得
-        $femalePigs = FemalePig::where('deleted_at', null)->get();
-
+        // $femalePigs = FemalePig::where('deleted_at', null)->get();
+        $femalePigs = FemalePig::with('mix_infos')->where('deleted_at', null)->get();
         foreach ($femalePigs as $femalePig) {
             // 再発、流産回数を取得
-            // $count_troubles = $femalePig
-            //     ->mix_infos()
-            //     ->whereNotNull('trouble_day')
-            //     ->count();
-            $count_troubles = MixInfo::where('female_id', $femalePig->id)
+            $count_troubles = $femalePig
+                ->mix_infos
                 ->whereNotNull('trouble_day')
-                ->count(); // これでN+1解消
+                ->load('female_pig')
+                ->count(); # N+1解消 クエリ少ない モデル多い こっちが速い
+            // $count_troubles = MixInfo::with('female_pig')->where('female_id', $femalePig->id)
+            //     ->whereNotNull('trouble_day')
+            //     ->count(); # N+1解消 クエリ発行が多い モデル少ない
 
             // 稼働中の全出産を取得
-            // $born_infos = $femalePig
-            //     ->mix_infos()
+            $born_infos = $femalePig
+                ->mix_infos
+                ->load('female_pig')
+                ->whereNotNull('born_day')
+                ->sortByDesc('id')
+                ->values(); # N+1解消 クエリ少ない モデル多い こっちが速い
+            // $born_infos = MixInfo::with('female_pig')->where('female_id', $femalePig->id)
             //     ->orderBy('id', 'desc')
             //     ->whereNotNull('born_day')
-            //     ->get()
-            //     ->load('female_pig'); // これでN+1解消 but クエリ発行回数増加
-            
-            $born_infos = MixInfo::where('female_id', $femalePig->id)
-                ->orderBy('id', 'desc')
-                ->whereNotNull('born_day')
-                ->get(); //これでN+1解消
+            //     ->get(); # N+1解消 クエリ多い モデル少ない
             $count_born_all = count($born_infos); // 出産件数カウント
 
+            // dd($born_infos);
             // 全出産件数ごとに回転数を算出
             switch (true) {
                 case $count_born_all >= 3:
@@ -273,6 +272,7 @@ class ExtractController extends Controller
             }
         }
 
+// dd($femalePigs);
         return view('extracts.index')->with(compact('extracts', 'conditions'));
     }
 
