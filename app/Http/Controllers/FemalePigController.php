@@ -10,8 +10,10 @@ use App\Models\MixInfo;
 use App\Exports\FemalePigExport;
 use App\Imports\FemalePigImport;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use PhpParser\Node\Stmt\TryCatch;
 
 class FemalePigController extends Controller
 {
@@ -484,13 +486,19 @@ class FemalePigController extends Controller
 
     public function import(importRequest $request)
     {
-        $excel_file = $request->file('excel_file');
-        $excel_file->store('excels');
-        Excel::import(new FemalePigImport(), $excel_file);
-        // return view('index');
-        return redirect()
-            ->route('female_pigs.index')
-            ->with('notice', 'インポートしました');
+        // FIXME:データの取込は初期化してから、初期化コマンド作成、バリデーション作成
+        try {
+            $excel_file = $request->file('excel_file');
+            $excel_file->store('excels');
+            Excel::import(new FemalePigImport(), $excel_file);
+            return redirect()
+                ->route('female_pigs.index')
+                ->with('notice', 'インポートしました');
+        } catch (\Throwable $th) {
+            return back()
+                ->withInput()
+                ->withErrors($th->getMessage());
+        }
     }
 
     // // 回転数算出function

@@ -329,12 +329,18 @@ class MalePigController extends Controller
 
     public function import(importRequest $request)
     {
-        $excel_file = $request->file('excel_file');
-        $excel_file->store('excels');
-        Excel::import(new MalePigImport(), $excel_file);
-        // return view('index');
-        return redirect()
-            ->route('male_pigs.index')
-            ->with('notice', 'インポートしました');
+        // FIXME:データの取込は初期化してから、初期化コマンド作成、バリデーション作成
+        try {
+            $excel_file = $request->file('excel_file');
+            $excel_file->store('excels');
+            Excel::import(new MalePigImport(), $excel_file);
+            return redirect()
+                ->route('male_pigs.index')
+                ->with('notice', 'インポートしました');
+        } catch (\Throwable $th) {
+            return back()
+                ->withInput()
+                ->withErrors($th->getMessage());
+        }
     }
 }
