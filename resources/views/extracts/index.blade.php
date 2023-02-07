@@ -287,7 +287,6 @@
                     </th>
                 </tr>
             </thead>
-{{-- {{ dd($extracts) }} --}}
             <tbody>
                 @foreach ($extracts as $extract)
                     <tr
@@ -300,24 +299,25 @@
                         </td>
                         <td class="py-4 px-6">
                             <span class="text-red-500">
-                                {{-- {{ $extract->mix_info->female_pig->age >= $conditions['female_age'] ? $extract->mix_info->female_pig->age . '歳' : '' }} --}}
-                    <!-- これ -->
                                 {{ $extract->female_pig->age >= $conditions['female_age'] ? $extract->female_pig->age . '歳' : '' }}
                             </span>
-                            {{-- {{ $extract->mix_info->female_pig->age >= $conditions['female_age'] ? '' : $extract->mix_info->female_pig->age . '歳' }} --}}
                             {{ $extract->female_pig->age >= $conditions['female_age'] ? '' : $extract->female_pig->age . '歳' }}
                         </td>
                         <td class="py-4 px-6">
                             <span class="text-red-500">
                                 {{ $extract->rotate && $extract->rotate <= $conditions['first_rotate'] ? $extract->rotate . '回' : '' }}
                             </span>
-                            {{ $extract->rotate <= $conditions['first_rotate'] ? '' : $extract->rotate . '回' }}
+                            @if ($extract->rotate > $conditions['first_rotate'])
+                                {{ $extract->rotate == 99 ? '' : $extract->rotate . '回' }}
+                            @endif
                         </td>
                         <td class="py-4 px-6">
                             <span class="text-red-500">
                                 {{ $extract->born_num <= $conditions['first_num'] ? $extract->born_num . '匹' : '' }}
                             </span>
-                            {{ $extract->born_num <= $conditions['first_num'] ? '' : $extract->born_num . '匹' }}
+                            @if ($extract->born_num > $conditions['first_num'])
+                                {{ $extract->born_num == 99 ? '' : $extract->born_num . '匹' }}
+                            @endif
                         </td>
                         <td class="py-4 px-6">
                             {{ $extract->first_male }}
