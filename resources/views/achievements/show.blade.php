@@ -25,31 +25,31 @@
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-center border-t-2 text-xs text-gray-900 uppercase dark:text-gray-400">
                         <tr>
-                            <th scope="col" class="py-3 px-6">
+                            <th scope="col" class="py-3 px-4 lx:px-6 whitespace-nowrap">
                                 年
                             </th>
-                            <th scope="col" class="py-3 px-6">
+                            <th scope="col" class="py-3 px-4 lx:px-6 whitespace-nowrap">
                                 稼働母豚
                             </th>
-                            <th scope="col" class="py-3 px-6">
+                            <th scope="col" class="py-3 px-4 lx:px-6 whitespace-nowrap">
                                 交配頭数
                             </th>
-                            <th scope="col" class="py-3 px-6">
+                            <th scope="col" class="py-3 px-4 lx:px-6 whitespace-nowrap">
                                 分娩腹数
                             </th>
-                            <th scope="col" class="py-3 px-6">
+                            <th scope="col" class="py-3 px-4 lx:px-6 whitespace-nowrap">
                                 開始子豚
                             </th>
-                            <th scope="col" class="py-3 px-6">
+                            <th scope="col" class="py-3 px-4 lx:px-6 whitespace-nowrap">
                                 離乳子豚
                             </th>
-                            <th scope="col" class="py-3 px-6">
+                            <th scope="col" class="py-3 px-4 lx:px-6 whitespace-nowrap">
                                 交配率
                             </th>
-                            <th scope="col" class="py-3 px-6">
+                            <th scope="col" class="py-3 px-4 lx:px-6 whitespace-nowrap">
                                 一腹産数
                             </th>
-                            <th scope="col" class="py-3 px-6">
+                            <th scope="col" class="py-3 px-4 lx:px-6 whitespace-nowrap">
                                 回転数
                             </th>
                         </tr>
@@ -57,70 +57,70 @@
                     <tbody class="border-t border-b-2">
                         @foreach ($achievements_by_age as $achievement_by_age)
                             <tr class="bg-white dark:bg-gray-800">
-                                <th class="text-center py-3 px-6">
+                                <th class="text-center py-3 px-4 lx:px-6 whitespace-nowrap">
                                     {{ $achievement_by_age['age'] }} 年
                                 </th>
-                                <td class="text-center py-3 px-6">
+                                <td class="text-center py-3 px-4 lx:px-6 whitespace-nowrap">
                                     {{ $achievement_by_age['count_workingPigs'] }} 匹
                                 </td>
-                                <td class="text-center py-3 px-6">
+                                <td class="text-center py-3 px-4 lx:px-6 whitespace-nowrap">
                                     {{ $achievement_by_age['count_mixes_byAge_total'] }} 匹
                                 </td>
-                                <td class="text-center py-3 px-6">
+                                <td class="text-center py-3 px-4 lx:px-6 whitespace-nowrap">
                                     {{ $achievement_by_age['count_borns_byAge_total'] }} 匹
                                 </td>
-                                <td class="text-center py-3 px-6">
+                                <td class="text-center py-3 px-4 lx:px-6 whitespace-nowrap">
                                     {{ $achievement_by_age['count_bornPigs_byAge_total'] }} 匹
                                 </td>
-                                <td class="text-center py-3 px-6">
+                                <td class="text-center py-3 px-4 lx:px-6 whitespace-nowrap">
                                     {{ $achievement_by_age['count_weaningPigs_byAge_total'] }} 匹
                                 </td>
-                                <td class="text-center py-3 px-6">
+                                <td class="text-center py-3 px-4 lx:px-6 whitespace-nowrap">
                                     {{ $achievement_by_age['success_mix'] }}
                                 </td>
-                                <td class="text-center py-3 px-6">
+                                <td class="text-center py-3 px-4 lx:px-6 whitespace-nowrap">
                                     {{ $achievement_by_age['bornPigs_by_borns'] }}
                                 </td>
-                                <td class="text-center py-3 px-6">
+                                <td class="text-center py-3 px-4 lx:px-6 whitespace-nowrap">
                                     {{ $achievement_by_age['rotates'] }}
                                 </td>
                             </tr>
                         @endforeach
                             <tr class="border-t bg-white dark:bg-gray-800">
-                                <td class="text-center py-3 px-6">
+                                <td class="text-center py-3 px-4 lx:px-6 whitespace-nowrap">
                                     合計
                                 </td>
-                                <td class="text-center py-3 px-6">
+                                <td class="text-center py-3 px-4 lx:px-6 whitespace-nowrap">
                                     {{ count($femalePigs) }}匹
                                 </td>
-                                <td class="text-center py-3 px-6">
+                                <td class="text-center py-3 px-4 lx:px-6 whitespace-nowrap">
                                     {{ $achievement['count_mixes'] }}匹
                                 </td>
-                                <td class="text-center py-3 px-6">
+                                <td class="text-center py-3 px-4 lx:px-6 whitespace-nowrap">
                                     {{ $achievement['count_borns'] }}匹
                                 </td>
-                                <td class="text-center py-3 px-6">
+                                <td class="text-center py-3 px-4 lx:px-6 whitespace-nowrap">
                                     {{ $achievement['count_bornPigs'] }}匹
                                 </td>
-                                <td class="text-center py-3 px-6">
+                                <td class="text-center py-3 px-4 lx:px-6 whitespace-nowrap">
                                     {{ $achievement['count_weaningPigs'] }}匹
                                 </td>
-                                <td class="text-center py-3 px-6">
+                                <td class="text-center py-3 px-4 lx:px-6 whitespace-nowrap">
                                     {{ $achievement['success_mix'] }}
                                 </td>
-                                <td class="text-center py-3 px-6">
+                                <td class="text-center py-3 px-4 lx:px-6 whitespace-nowrap">
                                     {{ $achievement['bornPigs_by_borns'] }}
                                 </td>
-                                <td class="text-center py-3 px-6">
+                                <td class="text-center py-3 px-4 lx:px-6 whitespace-nowrap">
                                     {{ $achievement['rotates'] }}
                                 </td>
                             </tr>
                 </table>
-                <p>稼働母豚:当該年内に存在した個体(交配実績の無い個体も含む)</p>
             </div>
+                <p>稼働母豚:当該年内に存在した個体(交配実績の無い個体も含む)</p>
             <!-- border - end -->
 
-            <div class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-10 px-8 py-4 dark:bg-gray-800">
+            <div class="container lg:w-3/4 md:w-4/5 w-full mx-auto my-10 lg:px-8 lg:py-4">
                 <canvas id="myChart"></canvas>
             </div>
         </div>

@@ -317,7 +317,7 @@
                             @foreach ($mix_ranking as $item)
                                 <tr class="bg-white dark:bg-gray-800">
                                     <th scope="row"
-                                        class="py-3 px-4 lg:px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        class="py-3 px-4 lg:px-6 font-medium text-gray-900 whitespace-nowrap">
                                     </th>
                                     <td class="py-3 px-4 lg:px-6">
                                         {{ $item['male'] }}
@@ -359,80 +359,75 @@
 
 
     <!-- born_information - start -->
-    {{-- <div class="overflow-x-auto relative shadow-md sm:rounded-lg my-8"> --}}
     <div class="overflow-x-auto relative shadow-md my-8">
-        <div
-            class="flex h-10 whitespace-nowrap">
-            <div class="MplusRound text-xl font-medium text-gray-600 py-1 px-8">出 産 情 報</div>
-            <div class="px-4 leading-10">
-                {{-- @can('update', $post) --}}
-                @if ($mixInfos->isNotEmpty())
-                    @if ($born_infos->isEmpty() || $mixInfos->last()->id !== $born_infos->last()->mix_id)
-                        <a href="{{ route('born_infos.create', $mixInfos->last()) }}"
-                            class="text-sky-700 after:content-['_↗'] text-base dark:text-sky-500 px-3 transition-colors bg-transparent rounded-lg hover:underline hover:font-bold">
-                            新規登録
-                        </a>
+        <div class="flex h-10 whitespace-nowrap justify-between">
+            <div class="flex h-10 whitespace-nowrap">
+                <div class="MplusRound text-xl font-medium text-gray-600 py-1 px-8">出 産 情 報</div>
+                <div class="px-4 leading-10">
+                    {{-- @can('update', $post) --}}
+                    @if ($mixInfos->isNotEmpty())
+                        @if ($born_infos->isEmpty() || $mixInfos->last()->id !== $born_infos->last()->mix_id)
+                            <a href="{{ route('born_infos.create', $mixInfos->last()) }}"
+                                class="text-sky-700 after:content-['_↗'] text-base dark:text-sky-500 px-3 transition-colors bg-transparent rounded-lg hover:underline hover:font-bold">
+                                出産登録
+                            </a>
+                        @endif
                     @endif
-                @endif
-                {{-- @endcan --}}
+                    {{-- @endcan --}}
+                </div>
+            </div>
+            <div class="mx-6 text-sm text-gray-700 leading-10">
+                <p>離乳記録は
+                    <span class="font-semibold text-cyan-800 ">
+                        編 集
+                    </span>
+                から記録します。</p>
             </div>
         </div>
         <!-- born_table - start -->
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 border-t border-gray-400">
-            {{-- <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr class="border-b border-gray-400 whitespace-nowrap">
-                    <th colspan="2" class="MplusRound text-xl font-medium text-gray-600 py-2 pl-8">
-                        出 産 情 報
-                    </th>
-                    <th colspan="4" class="leading-10">
-                        @if ($mixInfos->isNotEmpty())
-                            @if ($born_infos->isEmpty() || $mixInfos->last()->id !== $born_infos->last()->mix_id)
-                                <a href="{{ route('born_infos.create', $mixInfos->last()) }}"
-                                    class="font-normal text-sky-700 after:content-['_↗'] text-base dark:text-sky-500 transition-colors bg-transparent rounded-lg hover:underline hover:font-bold">
-                                    新規登録
-                                </a>
-                            @endif
-                        @endif
-                    </th>
-                </tr>
-            </thead> --}}
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr class="border-b whitespace-nowrap">
-                    <th scope="col" class="py-3 pr-4 pl-6 w-1/6">
+                    <th scope="col" class="py-3 pr-4 pl-8 w-1/6">
                         出産日
                     </th>
-                    <th scope="col" class="py-3 px-4 w-1/6">
+                    <th scope="col" class="py-3 px-4 w-1/12 text-center">
                         出産子数
                     </th>
-                    <th scope="col" class="py-3 px-4 w-1/6">
+                    <th scope="col" class="py-3 px-4 w-1/12 text-center">
                         <i class="fa-solid fa-mars"></i>1_NO.
                     </th>
-                    <th scope="col" class="py-3 px-4 w-1/6">
+                    <th scope="col" class="py-3 px-4 w-1/12 text-center">
                         <i class="fa-solid fa-mars"></i>2_NO.
                     </th>
-                    <th colspan="3" scope="col" class="py-3 px-4">
+                    <th scope="col" class="py-3 px-4 w-1/12 text-center">
                         回転数
                     </th>
-                    {{-- <th scope="col" class="py-3"></th> --}}
+                    <th scope="col" class="py-3 px-4 w-1/6 text-center">
+                        離乳日
+                    </th>
+                    <th colspan="3" scope="col" class="py-3 pl-6 pr-4">
+                        離乳子数
+                    </th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($born_infos as $born_info)
-                    <tr
-                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 whitespace-nowrap">
+                    @if ($born_info->born_num)
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 whitespace-nowrap">
                         <td class="py-4 pr-4 pl-6 w-1/6">
                             {{ $born_info->born_day }}
                         </td>
-                        <td class="py-4 px-4 w-1/6">
-                            {{ $born_info->born_num }} 匹
+                        <td class="py-4 px-4 w-1/12 text-center">
+                            {{ empty($born_info->born_num) ? '' : $born_info->born_num . '匹' }}
                         </td>
-                        <td class="py-4 px-4 w-1/6">
+                        <td class="py-4 px-4 w-1/12 text-center">
                             {{ $born_info->first_male }}
                             <p class="line-through">
                                 {{ $born_info->first_delete_male }}
                             </p>
                         </td>
-                        <td class="py-4 px-4 w-1/6">
+                        <td class="py-4 px-4 w-1/12 text-center">
                             @if ($born_info->second_male == null && $born_info->second_delete_male == null)
                                 -
                             @else
@@ -442,10 +437,15 @@
                                 </p>
                             @endif
                         </td>
-                        <td class="py-4 px-4 w-1/6">
-                            {{ $born_info->rotate }} 回
+                        <td class="py-4 px-4 w-1/12 text-center">
+                            {{ empty($born_info->rotate) ? '' : $born_info->rotate . '回' }}
                         </td>
-                        {{-- <td class="flex flex-row mx-auto items-center py-4 px-4 w-2/6"> --}}
+                        <td class="py-4 px-4 w-1/6 text-center">
+                            {{ $born_info->weaning_day }}
+                        </td>
+                        <td class="py-4 px-4 w-1/12 text-center">
+                            {{ empty($born_info->weaning_num) ? '' : $born_info->weaning_num . '匹' }}
+                        </td>
                         <td class="text-center py-4 px-4 w-1/12">
                             <a href="{{ route('born_infos.edit', $born_info) }}"
                                 class="text-center basis-1/2 font-medium text-cyan-800 dark:text-cyan-600 hover:underline hover:font-bold">
@@ -462,6 +462,7 @@
                             </form>
                         </td>
                     </tr>
+                    @endif
                 @endforeach
             </tbody>
         </table>
@@ -469,21 +470,29 @@
     </div>
     <!-- born_information - end -->
 
-    <div class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-10 px-8 py-4 dark:bg-gray-800">
+    <div class="container lg:w-3/4 md:w-4/5 w-full mx-auto my-10 lg:px-8 lg:py-4">
         <canvas id="myChart"></canvas>
     </div>
 
     <div class="overflow-x-auto relative shadow-md my-8">
-        <div
-            class="flex h-10 whitespace-nowrap">
-            <div class="MplusRound text-xl font-medium text-gray-600 py-1 px-8">交 配 記 録</div>
-            <div class="px-4 leading-10">
-                {{-- @can('update', $post) --}}
-                <a href="{{ route('female_pigs.mix_infos.create', $femalePig) }}"
-                    class="text-sky-700 after:content-['_↗'] text-base dark:text-sky-500 py-1 px-3 transition-colors bg-transparent rounded-lg hover:underline hover:font-bold">
-                    新規登録
-                </a>
-                {{-- @endcan --}}
+        <div class="flex h-10 whitespace-nowrap justify-between">
+            <div class="flex h-10 whitespace-nowrap">
+                <div class="MplusRound text-xl font-medium text-gray-600 py-1 px-8">交 配 記 録</div>
+                <div class="px-4 leading-10">
+                    {{-- @can('update', $post) --}}
+                    <a href="{{ route('female_pigs.mix_infos.create', $femalePig) }}"
+                        class="text-sky-700 after:content-['_↗'] text-base dark:text-sky-500 py-1 px-3 transition-colors bg-transparent rounded-lg hover:underline hover:font-bold">
+                        交配登録
+                    </a>
+                    {{-- @endcan --}}
+                </div>
+            </div>
+            <div class="mx-6 text-sm text-gray-700 leading-10">
+                <p>再発、流産は
+                    <span class="font-semibold text-cyan-800 ">
+                        編 集
+                    </span>
+                から記録します。</p>
             </div>
         </div>
 
@@ -491,25 +500,25 @@
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 border-t border-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr class="border-b whitespace-nowrap">
-                    <th scope="col" class="py-3 px-6 w-1/6">
+                    <th scope="col" class="py-3 pr-4 pl-8 w-1/6">
                         交配日
                     </th>
-                    <th scope="col" class="py-3 px-6 w-1/12">
+                    <th scope="col" class="py-3 px-6 w-1/12 text-center">
                         <i class="fa-solid fa-mars"></i>1_NO.
                     </th>
-                    <th scope="col" class="py-3 px-6 w-1/12">
+                    <th scope="col" class="py-3 px-6 w-1/12 text-center">
                         <i class="fa-solid fa-mars"></i>2_NO.
                     </th>
-                    <th scope="col" class="py-3 px-6 w-1/6">
+                    <th scope="col" class="py-3 px-6 w-1/6 text-center">
                         再発予定日1
                     </th>
-                    <th scope="col" class="py-3 px-6 w-1/6">
+                    <th scope="col" class="py-3 px-6 w-1/6 text-center">
                         再発予定日2
                     </th>
-                    <th scope="col" class="py-3 px-6 w-1/6">
+                    <th scope="col" class="py-3 px-6 w-1/6 text-center">
                         出産予定日
                     </th>
-                    <th colspan="3" scope="col" class="py-3 px-6 w-1/12">
+                    <th colspan="3" scope="col" class="py-3 pr-4 pl-8 w-1/12">
                         経 過
                     </th>
                     {{-- <th scope="col" class="py-3 px-6"></th> --}}
@@ -523,13 +532,13 @@
                             <td class="py-4 px-6">
                                 {{ $mixInfo->mix_day }}
                             </td>
-                            <td class="py-4 px-6">
+                            <td class="py-4 px-6 text-center">
                                 {{ $mixInfo->first_male }}
                                 <p class="line-through">
                                     {{ $mixInfo->first_delete_male }}
                                 </p>
                             </td>
-                            <td class="py-4 px-6">
+                            <td class="py-4 px-6 text-center">
                                 @if ($mixInfo->second_male == null && $mixInfo->second_delete_male == null)
                                     -
                                 @else
@@ -539,22 +548,22 @@
                                     </p>
                                 @endif
                             </td>
-                            <td class="py-4 px-6">
+                            <td class="py-4 px-6 text-center">
                                 {{ $mixInfo->first_recurrence_schedule }}
                             </td>
-                            <td class="py-4 px-6">
+                            <td class="py-4 px-6 text-center">
                                 {{ $mixInfo->second_recurrence_schedule }}
                             </td>
-                            <td class="py-4 px-6">
+                            <td class="py-4 px-6 text-center">
                                 {{ $mixInfo->delivery_schedule }}
                             </td>
-                            <td class="py-4 px-6">
+                            <td class="py-4 px-6 text-center">
                                 {{ $mixInfo->trouble_id == 2 ? '再発' : ($mixInfo->trouble_id == 3 ? '流産' : '') }}
                             </td>
                             @if ($mixInfo->first_delete_male == null && $mixInfo->second_delete_male == null)
                                 <td class="flex flex-row items-center py-4 px-6">
                                     <a href="{{ route('female_pigs.mix_infos.edit', [$femalePig, $mixInfo]) }}"
-                                        class="mr-2 basis-1/2 font-medium text-cyan-800 dark:text-cyan-600 hover:underline hover:font-bold">
+                                        class="mr-2 basis-1/2 font-medium text-cyan-800 hover:underline hover:font-bold">
                                         編 集
                                     </a>
                                     <form
@@ -577,13 +586,10 @@
             </tbody>
         </table>
         <!-- mix_table - end -->
-        <div class="mx-6 my-4 text-gray-700 text-right">
-            <p>再発、流産は編集から記録できます。</p>
-        </div>
     </div>
     <div class="flex flex-col items-center gap-4 md:gap-6">
         <a href="javascript:history.back()"
-            class="py-1.5 px-4 transition-colors bg-transparent active:bg-gray-200 font-medium text-blue-600 rounded-lg hover:bg-gray-100 disabled:opacity-50">
+            class="py-1.5 px-4 mb-10 transition-colors bg-transparent active:bg-gray-200 font-medium text-slate-600 rounded-lg hover:bg-gray-100 disabled:opacity-50">
             <i class="fa-solid fa-arrow-left"></i>
             戻る
         </a>
