@@ -181,7 +181,7 @@
                                 交配出産記録のエクスポート
                             </h1>
 
-                            <form method="post" action="{{ route('male_pigs.export') }}">
+                            <form method="get" action="{{ route('mix_infos.export') }}">
                                 @csrf
                                 <div class="flex justify-end text-sm">
                                     <button type="submit"

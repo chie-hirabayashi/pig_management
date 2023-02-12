@@ -88,7 +88,8 @@ Route::post('/male_pigs/import', [MalePigController::class, 'import'])->name(
     'male_pigs.import'
 );
 // mix_infosのインポートとエクスポート
-Route::post('/mix_infos/export', [MixInfoController::class, 'export'])->name(
+// Route::post('/mix_infos/export', [MixInfoController::class, 'export'])->name(
+Route::get('/mix_infos/export', [MixInfoController::class, 'export'])->name(
     'mix_infos.export'
 );
 Route::post('/Mix_infos/import', [MixInfoController::class, 'import'])->name(
