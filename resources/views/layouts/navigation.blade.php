@@ -1,63 +1,156 @@
 <nav x-data="{ open: false }" class="bg-white shadow border-b border-gray-300">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-6">
-        <div class="flex justify-between h-16">
+        <div class="flex justify-between">
             <div class="flex">
                 <!-- Logo -->
-                <div class="shrink-0 flex items-center">
+                {{-- <div class="shrink-0 flex items-center">
                     <a href="{{ route('female_pigs.index') }}">
                         <x-application-logo class="" />
                     </a>
-                </div>
+                </div> --}}
 
-                <div class="hidden items-center sm:flex">
-                    <span class="mx-5 text-gray-500">
-                        /
-                    </span>
+                <nav x-data="{ isOpen: false }" class="relative bg-white">
+                    <div class="container items-center justify-center pl-4 pr-20 md:px-6 py-6 mx-auto md:flex md:justify-between md:items-center">
+                        <div class="">
+
+                            <!-- Mobile menu button -->
+                            <div class="flex md:hidden">
+                                <button x-cloak @click="isOpen = !isOpen" type="button"
+                                    class="text-gray-500 hover:text-gray-600 focus:outline-none focus:text-gray-600"
+                                    aria-label="toggle menu">
+                                    {{-- <svg x-show="!isOpen" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6"
+                                        fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 8h16M4 16h16" />
+                                    </svg> --}}
+                                    <svg x-show="!isOpen" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                                    </svg>
+
+                                    <svg x-show="isOpen" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6"
+                                        fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
+                        <div x-cloak :class="[isOpen ? 'block translate-x-0 opacity-100' : 'opacity-0 -translate-x-full']"
+                            class="absolute inset-x-0 z-20 w-full px-4 py-3 transition-all duration-300 ease-in-out bg-gray-100 md:bg-white border rounded-lg md:border-hidden md:mt-0 md:p-0 md:top-0 md:relative md:opacity-100 md:translate-x-0 md:flex md:items-center md:justify-between">
+                            <div class="flex flex-col md:flex-row md:mx-6">
+                                <!-- femalePigs Links -->
+                                <div class="items-center ms:flex">
+                                    <x-nav-link :href="route('female_pigs.index')">
+                                        <div class="text-sm text-rose-800">
+                                            <i class="fa-solid fa-venus"></i>&ensp;
+                                        </div>
+                                        {{ __('一覧') }}
+                                    </x-nav-link>
+                                </div>
+
+                                <!-- malePigs Links -->
+                                <div class="items-center md:flex">
+                                    <span class="invisible md:visible mx-5 text-gray-500">
+                                        /
+                                    </span>
+                                    <x-nav-link :href="route('male_pigs.index')">
+                                        <div class="text-sm text-sky-800">
+                                            <i class="fa-solid fa-mars"></i>&ensp;
+                                        </div>
+                                        {{ __('一覧') }}
+                                    </x-nav-link>
+                                </div>
+
+                                <!-- extracts Links -->
+                                <div class="items-center md:flex">
+                                    <span class="invisible md:visible mx-5 text-gray-500">
+                                        /
+                                    </span>
+                                    <x-nav-link :href="route('extracts.conditions')">
+                                        <div class="text-sm text-gray-600">
+                                            <i class="fa-solid fa-magnifying-glass"></i></i>&ensp;
+                                        </div>
+                                        {{ __('抽 出') }}
+                                    </x-nav-link>
+                                </div>
+
+                                <!-- extracts Links -->
+                                <div class="items-center md:flex">
+                                    <span class="invisible md:visible mx-5 text-gray-500">
+                                        /
+                                    </span>
+                                    <x-nav-link :href="route('achievements.index')">
+                                        {{ __('総合実績表') }}
+                                    </x-nav-link>
+                                </div>
+
+                                <!-- Navigation Links -->
+                                <div class="items-center md:flex">
+                                    <span class="invisible md:visible mx-5 text-gray-500">
+                                        /
+                                    </span>
+                                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                                        {{ __('取扱説明書') }}
+                                    </x-nav-link>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+
+                <!-- femalePigs Links -->
+                {{-- <div class="hidden items-center sm:flex">
                     <x-nav-link :href="route('female_pigs.index')">
-                        {{ __('femalePigs') }}
+                        <div class="text-sm text-rose-800">
+                            <i class="fa-solid fa-venus"></i>&ensp;
+                        </div>
+                        {{ __('Pigs') }}
                     </x-nav-link>
-                </div>
+                </div> --}}
 
                 <!-- malePigs Links -->
-                <div class="hidden items-center sm:flex">
+                {{-- <div class="hidden items-center sm:flex">
                     <span class="mx-5 text-gray-500">
                         /
                     </span>
                     <x-nav-link :href="route('male_pigs.index')">
-                        {{ __('malePigs') }}
+                        <div class="text-sm text-sky-800">
+                            <i class="fa-solid fa-mars"></i>&ensp;
+                        </div>
+                        {{ __('Pigs') }}
                     </x-nav-link>
-                </div>
+                </div> --}}
 
                 <!-- extracts Links -->
-                <div class="hidden items-center sm:flex">
+                {{-- <div class="hidden items-center sm:flex">
                     <span class="mx-5 text-gray-500">
                         /
                     </span>
                     <x-nav-link :href="route('extracts.conditions')">
                         {{ __('抽出') }}
                     </x-nav-link>
-                </div>
+                </div> --}}
 
                 <!-- extracts Links -->
-                <div class="hidden items-center sm:flex">
+                {{-- <div class="hidden items-center sm:flex">
                     <span class="mx-5 text-gray-500">
                         /
                     </span>
                     <x-nav-link :href="route('achievements.index')">
                         {{ __('総合実績表') }}
                     </x-nav-link>
-                </div>
+                </div> --}}
 
                 <!-- Navigation Links -->
-                <div class="hidden items-center sm:flex">
+                {{-- <div class="hidden items-center sm:flex">
                     <span class="mx-5 text-gray-500 ">
                         /
                     </span>
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('取扱説明書') }}
                     </x-nav-link>
-                </div>
+                </div> --}}
             </div>
 
             <!-- Settings Dropdown -->
@@ -106,10 +199,27 @@
                                 {{ __('インポート/エクスポート') }}
                             </x-dropdown-link>
                             <x-dropdown-link :href="route('female_pigs.create')">
-                                {{ __('母豚登録') }}
+                                <div class="inline-flex">
+                                    <div class="text-sm text-rose-800">
+                                        New&ensp;<i class="fa-solid fa-venus"></i>&ensp;
+                                    </div>
+                                    <div>
+                                        {{ __('Pig登録') }}
+                                    </div>
+                                </div>
                             </x-dropdown-link>
                             <x-dropdown-link :href="route('male_pigs.create')">
-                                {{ __('父豚登録') }}
+                                <div class="inline-flex">
+                                    <div class="text-sm text-sky-800">
+                                        New&ensp;
+                                    </div>
+                                    <div class="text-sm text-sky-800">
+                                        <i class="fa-solid fa-mars"></i>&ensp;
+                                    </div>
+                                    <div>
+                                        {{ __('Pig登録') }}
+                                    </div>
+                                </div>
                             </x-dropdown-link>
                         @endauth
                     </x-slot>

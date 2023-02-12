@@ -369,7 +369,7 @@ class FemalePigController extends Controller
             }
         }
 // dd($mixInfos);
-// dd($born_infos[count($born_infos)-1]);
+// dd($born_infos);
         return view('female_pigs.show')->with(
             compact(
                 'femalePig',

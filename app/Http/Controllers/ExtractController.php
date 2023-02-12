@@ -38,8 +38,7 @@ class ExtractController extends Controller
         $conditions['option_operator'] = $option_operator;
 
         // 稼働中のfemalePigsを取得
-        // $femalePigs = FemalePig::where('deleted_at', null)->get();
-        $femalePigs = FemalePig::with('mix_infos')->where('deleted_at', null)->get();
+        $femalePigs = FemalePig::with('mix_infos')->where('deleted_at', null)->get(); # N+1解消
         foreach ($femalePigs as $femalePig) {
             // 再発、流産回数を取得
             $count_troubles = $femalePig
@@ -64,7 +63,6 @@ class ExtractController extends Controller
             //     ->get(); # N+1解消 クエリ多い モデル少ない
             $count_born_all = count($born_infos); // 出産件数カウント
 
-            // dd($born_infos);
             // 全出産件数ごとに回転数を算出
             switch (true) {
                 case $count_born_all >= 3:
@@ -77,10 +75,10 @@ class ExtractController extends Controller
                     $bornInfo_2past = $bornInfo_3past->take(2);
 
                     // 予測回転数
-                    $bornInfo_2past[0][
-                        'rotate_prediction'
-                    ] = self::getPredictionRotate($femalePig);
+                    $rotate_prediction = self::getPredictionRotate($femalePig); # N+1解消
+                    $bornInfo_2past[0]['rotate_prediction'] = $rotate_prediction;
                     break;
+                    // $bornInfo_2past->load('female_pig')->get();
 
                 case $count_born_all == 2:
                     $bornInfo_2past = $born_infos; //過去2回の出産情報
@@ -92,9 +90,8 @@ class ExtractController extends Controller
                     }
 
                     // 予測回転数
-                    $bornInfo_2past[0][
-                        'rotate_prediction'
-                    ] = self::getPredictionRotate($femalePig);
+                    $rotate_prediction = self::getPredictionRotate($femalePig); # N+1解消
+                    $bornInfo_2past[0]['rotate_prediction'] = $rotate_prediction;
                     break;
 
                 case $count_born_all == 1:
@@ -105,11 +102,10 @@ class ExtractController extends Controller
                     $bornInfo_second->rotate = 99; // 抽出できない値をセット
                     $bornInfo_second->troubles = $count_troubles;
                     $bornInfo_2past[0] = $bornInfo_first;
-                    $bornInfo_2past[1] = $bornInfo_second;
+                    $bornInfo_2past[1] = $bornInfo_second->load('female_pig');
                     // 予測回転数
-                    $bornInfo_2past[0][
-                        'rotate_prediction'
-                    ] = self::getPredictionRotate($femalePig);
+                    $rotate_prediction = self::getPredictionRotate($femalePig); # N+1解消
+                    $bornInfo_2past[0]['rotate_prediction'] = $rotate_prediction;
                     break;
 
                 case $count_born_all == 0:
@@ -118,6 +114,7 @@ class ExtractController extends Controller
                     $bornInfo_pretend->born_num = 99; // 抽出できない値をセット
                     $bornInfo_pretend->rotate = 99; // 抽出できない値をセット
                     $bornInfo_pretend->troubles = $count_troubles;
+                    $bornInfo_pretend->load('female_pig'); # N+1解消
                     $bornInfo_2past[0] = $bornInfo_pretend;
                     $bornInfo_2past[1] = $bornInfo_pretend;
                     $bornInfo_2past[0]['rotate_prediction'] = 99;
@@ -139,7 +136,6 @@ class ExtractController extends Controller
             // 直前のみ、オプションありで抽出
             // operator_conditionはかつだけでOK
             if ($condition == 2) {
-                // dd($option_operator);
                 switch (true) {
                     // かつ
                     case $option_operator == 1:
@@ -188,7 +184,7 @@ class ExtractController extends Controller
                     $bornInfo_2past[0]->rotate_prediction <= 1.8
                 ) {
                     $extracts[] = $bornInfo_2past[0];
-                    $extracts[] = $bornInfo_2past[1];
+                    $extracts[] = $bornInfo_2past[1]; # これがN+1原因
                 }
             }
             // 過去2回、オプションありで抽出
@@ -242,7 +238,6 @@ class ExtractController extends Controller
                 }
             }
         }
-        // dd($extracts);
 
         foreach ($extracts as $extract) {
             // first_male_pigのsoftDelete対策
@@ -272,7 +267,7 @@ class ExtractController extends Controller
             }
         }
 
-// dd($femalePigs);
+// dd($extracts);
         return view('extracts.index')->with(compact('extracts', 'conditions'));
     }
 
