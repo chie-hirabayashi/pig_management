@@ -391,7 +391,7 @@ class MixInfoController extends Controller
     {
         // return Excel::download(new MixInfoExport(), 'mix_info.xlsx');
     
-        $mixInfos = MixInfo::with('female_pig_with_trashed', 'first_male_pig')->get();
+        $mixInfos = MixInfo::with('female_pig_with_trashed', 'first_male_pig_with_trashed', 'first_male_pig_with_trashed', 'second_male_pig_with_trashed')->get();
         // dd($mixInfos[0]);
         $view = view('mix_infos.export')->with(compact('mixInfos'));
         return Excel::download(new MixInfoExport($view), 'mix_info.xlsx');

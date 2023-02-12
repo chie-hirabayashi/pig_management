@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\View\Compilers\Concerns\CompilesLoops;
 
 class MixInfo extends Model
 {
@@ -71,13 +70,9 @@ class MixInfo extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function male_pig_with_trashed()
+    public function first_male_pig_with_trashed()
     {
-        return $this->belongsTo(
-            MalePig::class,
-            ['first_male_id', 'id'],
-            ['second_male_id', 'id'],
-        )->withTrashed();
+        return $this->belongsTo(MalePig::class, 'first_male_id', 'id')->withTrashed();
     }
 
     /**
@@ -97,7 +92,7 @@ class MixInfo extends Model
      */
     public function second_male_pig_with_trashed()
     {
-        return $this->belongsTo(MalePig::class, 'second_male_id', 'id')->withTrashed();
+        return $this->belongsTo(MalePig::class, 'second_male_id', 'id')->withDefault()->withTrashed();
     }
 
     /**

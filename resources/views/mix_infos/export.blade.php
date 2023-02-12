@@ -24,8 +24,8 @@
             <tr>
                 <td>{{ $mixInfo->mix_day }}</td>
                 <td>{{ $mixInfo->female_pig_with_trashed->individual_num }}</td>
-                <td>{{ $mixInfo->male_pig_with_trashed->individual_num }}</td>
-                <td>{{ $mixInfo->male_pig_with_trashed->individual_num }}</td>
+                <td>{{ $mixInfo->first_male_pig_with_trashed->individual_num }}</td>
+                <td>{{ $mixInfo->second_male_pig_with_trashed->individual_num }}</td>
                 <td>{{ $mixInfo->first_recurrencea_schedule }}</td>
                 <td>{{ $mixInfo->second_recurrencea_schedule }}</td>
                 <td>{{ $mixInfo->delivery_schedule }}</td>
