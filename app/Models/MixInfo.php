@@ -46,6 +46,16 @@ class MixInfo extends Model
     }
 
     /**
+     * Get the female_pig_with_trashed that owns the MixInfo
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function female_pig_with_trashed()
+    {
+        return $this->belongsTo(FemalePig::class, 'female_id', 'id')->withTrashed();
+    }
+
+    /**
      * Get the male_pig that owns the MixInfo
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -56,6 +66,16 @@ class MixInfo extends Model
     }
 
     /**
+     * Get the first_male_pig_with_trashed that owns the MixInfo
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function first_male_pig_with_trashed()
+    {
+        return $this->belongsTo(MalePig::class, 'first_male_id', 'id')->withTrashed();
+    }
+
+    /**
      * Get the male_pig that owns the MixInfo
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -63,6 +83,16 @@ class MixInfo extends Model
     public function second_male_pig()
     {
         return $this->belongsTo(MalePig::class, 'second_male_id', 'id');
+    }
+
+    /**
+     * Get the second_male_pig_with_trashed that owns the MixInfo
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function second_male_pig_with_trashed()
+    {
+        return $this->belongsTo(MalePig::class, 'second_male_id', 'id')->withDefault()->withTrashed();
     }
 
     /**

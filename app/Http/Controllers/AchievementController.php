@@ -45,14 +45,18 @@ class AchievementController extends Controller
             $count_mixes = MixInfo::where([
                 ['mix_day', '>=', $begin_date],
                 ['mix_day', '<=', $end_date],
-            ])
+                ])
                 // $count_mixes = MixInfo::where('mix_day', '>=', $begin_date)
                 // ->where('mix_day', '<=', $end_date)
                 ->count();
 
             // 分娩腹数
-            $count_borns = MixInfo::where('born_day', '>=', $begin_date)
-                ->where('born_day', '<=', $end_date)
+            // $count_borns = MixInfo::where('born_day', '>=', $begin_date)
+            //     ->where('born_day', '<=', $end_date)
+            $count_borns = MixInfo::where([
+                ['born_day', '>=', $begin_date],
+                ['born_day', '<=', $end_date],
+                ])
                 ->whereNotNull('born_day')
                 ->count();
 
@@ -81,6 +85,7 @@ class AchievementController extends Controller
 
             // 交配成功率
             $success_mix = round($count_borns / $count_mixes, 2);
+            
             // 一腹産数
             if ($count_borns !== 0) {
                 $bornPigs_by_borns = round($count_bornPigs / $count_borns, 2);
@@ -132,7 +137,10 @@ class AchievementController extends Controller
                 ['add_day', '<=', $end_date],
                 ['left_day', '>=', $begin_date],
             ])
-            ->orWhere([['add_day', '<=', $end_date], ['left_day', '=', null]])
+            ->orWhere([
+                ['add_day', '<=', $end_date],
+                ['left_day', '=', null],
+            ])
             // ->where('add_day', '<=', $end_date)
             // ->andWhere('left_day', '>=', $begin_date)
             // ->orWhere('left_day', '=', null)
@@ -143,10 +151,12 @@ class AchievementController extends Controller
                     $begin_date,
                     $end_date
                 ) {
-                    $query
-                        // ->where([['mix_day', '>=', $begin_date],['mix_day', '<=', $end_date]]);
-                        ->where('mix_day', '>=', $begin_date)
-                        ->where('mix_day', '<=', $end_date);
+                    $query->where([
+                        ['mix_day', '>=', $begin_date],
+                        ['mix_day', '<=', $end_date]
+                    ]);
+                        // ->where('mix_day', '>=', $begin_date)
+                        // ->where('mix_day', '<=', $end_date);
                 },
             ])
             ->withCount([
@@ -156,8 +166,21 @@ class AchievementController extends Controller
                 ) {
                     $query
                         ->where('trouble_id', 1)
-                        ->where('born_day', '>=', $begin_date)
-                        ->where('born_day', '<=', $end_date);
+                        ->where([['born_day', '>=', $begin_date],['born_day', '<=', $end_date]]);
+                        // ->where('mix_day', '>=', $begin_date)
+                        // ->where('mix_day', '<=', $end_date);
+                        // ->where('born_day', '>=', $begin_date)
+                        // ->where('born_day', '<=', $end_date);
+                },
+            ])
+            ->withCount([
+                'mix_infos AS total_born_count_by_mix_day' => function ($query) use (
+                    $begin_date,
+                    $end_date
+                ) {
+                    $query
+                        ->where('trouble_id', 1)
+                        ->where([['mix_day', '>=', $begin_date],['mix_day', '<=', $end_date]]);
                 },
             ])
             ->withCount([
@@ -185,12 +208,11 @@ class AchievementController extends Controller
             ->get();
         $femalePigs->load('mix_infos');
 
-        // dd($femalePigs[8]);
         // 当時の年齢を算出するためにyearセット
         foreach ($femalePigs as $femalePig) {
             $femalePig->year = $year;
         }
-        // dd($femalePigs);
+        // FIXME: 'age_in_those_days'は'age'のスコープに入らないようにするためだが、任意の文字列では機能しないのはなぜ？？
         $count_workingPigs_byAge = $femalePigs
             ->sortBy('age_in_those_days')
             ->groupBy('age_in_those_days')
@@ -209,6 +231,13 @@ class AchievementController extends Controller
             ->map(function ($age) {
                 return $age->sum('total_born_count');
             });
+        $count_borns_byAge_total_byMix_day = $femalePigs
+            ->sortBy('age_in_those_days')
+            ->groupBy('age_in_those_days')
+            ->map(function ($age) {
+                return $age->sum('total_born_count_by_mix_day');
+            });
+        // dd($count_borns_byAge_total);
         $count_bornPigs_byAge_total = $femalePigs
             ->sortBy('age_in_those_days')
             ->groupBy('age_in_those_days')
@@ -226,7 +255,8 @@ class AchievementController extends Controller
         foreach ($count_mixes_byAge_total as $key => $value) {
             if ($value !== 0) {
                 $success_mix[$key] = round(
-                    $count_borns_byAge_total[$key] /
+                    // $count_borns_byAge_total[$key] /
+                    $count_borns_byAge_total_byMix_day[$key] /
                         $count_mixes_byAge_total[$key],
                     2
                 );
@@ -283,85 +313,86 @@ class AchievementController extends Controller
         }
 
         $achievements_by_age = array_values($achievements_by_age);
-
+        // dd($achievements_by_age);
         return view('achievements.show')->with(
             compact('achievements_by_age', 'achievement', 'femalePigs')
         );
 
-        // 現在、稼働中の母豚の整理
-        // DO:年単位の成績 ex.2021年
-        // DO:母豚の年齢単位の成績 ex.5歳
-        // これには廃用個体が含まれない
-        $existPigs = FemalePig::withCount([
-            'mix_infos AS total_mix_count' => function ($query) use (
-                $begin_date,
-                $end_date
-            ) {
-                // $query->select(DB::raw('COUNT(*) as count_sum'));
-                $query
-                    ->where('mix_day', '>=', $begin_date)
-                    ->where('mix_day', '<=', $end_date);
-            },
-        ])
-            ->withCount([
-                'mix_infos AS total_born_count' => function ($query) use (
-                    $begin_date,
-                    $end_date
-                ) {
-                    $query
-                        ->where('trouble_id', 1)
-                        ->where('mix_day', '>=', $begin_date)
-                        ->where('mix_day', '<=', $end_date);
-                },
-            ])
-            ->withCount([
-                'mix_infos AS total_childPigs' => function ($query) use (
-                    $begin_date,
-                    $end_date
-                ) {
-                    // $query->select(DB::raw('SUM(born_num) as count_sum'));
-                    $query
-                        ->where('mix_day', '>=', $begin_date)
-                        ->where('mix_day', '<=', $end_date)
-                        ->select(DB::raw('SUM(born_num) as count_sum'));
-                },
-            ])
-            ->get();
+        ## ここから非表示
+        // // 現在、稼働中の母豚の整理
+        // // DO:年単位の成績 ex.2021年
+        // // DO:母豚の年齢単位の成績 ex.5歳
+        // // これには廃用個体が含まれない
+        // $existPigs = FemalePig::withCount([
+        //     'mix_infos AS total_mix_count' => function ($query) use (
+        //         $begin_date,
+        //         $end_date
+        //     ) {
+        //         // $query->select(DB::raw('COUNT(*) as count_sum'));
+        //         $query
+        //             ->where('mix_day', '>=', $begin_date)
+        //             ->where('mix_day', '<=', $end_date);
+        //     },
+        // ])
+        //     ->withCount([
+        //         'mix_infos AS total_born_count' => function ($query) use (
+        //             $begin_date,
+        //             $end_date
+        //         ) {
+        //             $query
+        //                 ->where('trouble_id', 1)
+        //                 ->where('mix_day', '>=', $begin_date)
+        //                 ->where('mix_day', '<=', $end_date);
+        //         },
+        //     ])
+        //     ->withCount([
+        //         'mix_infos AS total_childPigs' => function ($query) use (
+        //             $begin_date,
+        //             $end_date
+        //         ) {
+        //             // $query->select(DB::raw('SUM(born_num) as count_sum'));
+        //             $query
+        //                 ->where('mix_day', '>=', $begin_date)
+        //                 ->where('mix_day', '<=', $end_date)
+        //                 ->select(DB::raw('SUM(born_num) as count_sum'));
+        //         },
+        //     ])
+        //     ->get();
 
-        $test = $existPigs->groupBy('age');
-        $count_byAge = $existPigs->groupBy('age')->map(function ($age) {
-            return $age->count();
-        });
-        $mixCount_byAge_total = $existPigs
-            ->groupBy('age')
-            ->map(function ($age) {
-                return $age->sum('total_mix_count');
-            });
-        $mixCount_byAge_average = $existPigs
-            ->groupBy('age')
-            ->map(function ($age) {
-                return $age->sum('total_mix_count') / $age->count();
-            });
-        $bornCount_byAge_total = $existPigs
-            ->groupBy('age')
-            ->map(function ($age) {
-                return $age->sum('total_born_count');
-            });
-        $bornCount_byAge_average = $existPigs
-            ->groupBy('age')
-            ->map(function ($age) {
-                return $age->sum('total_born_count') / $age->count();
-            });
-        $childCount_byAge_total = $existPigs
-            ->groupBy('age')
-            ->map(function ($age) {
-                return $age->sum('total_childPigs');
-            });
-        $childCount_byAge_average = $existPigs
-            ->groupBy('age')
-            ->map(function ($age) {
-                return $age->sum('total_childPigs') / $age->count();
-            });
+        // $test = $existPigs->groupBy('age');
+        // $count_byAge = $existPigs->groupBy('age')->map(function ($age) {
+        //     return $age->count();
+        // });
+        // $mixCount_byAge_total = $existPigs
+        //     ->groupBy('age')
+        //     ->map(function ($age) {
+        //         return $age->sum('total_mix_count');
+        //     });
+        // $mixCount_byAge_average = $existPigs
+        //     ->groupBy('age')
+        //     ->map(function ($age) {
+        //         return $age->sum('total_mix_count') / $age->count();
+        //     });
+        // $bornCount_byAge_total = $existPigs
+        //     ->groupBy('age')
+        //     ->map(function ($age) {
+        //         return $age->sum('total_born_count');
+        //     });
+        // $bornCount_byAge_average = $existPigs
+        //     ->groupBy('age')
+        //     ->map(function ($age) {
+        //         return $age->sum('total_born_count') / $age->count();
+        //     });
+        // $childCount_byAge_total = $existPigs
+        //     ->groupBy('age')
+        //     ->map(function ($age) {
+        //         return $age->sum('total_childPigs');
+        //     });
+        // $childCount_byAge_average = $existPigs
+        //     ->groupBy('age')
+        //     ->map(function ($age) {
+        //         return $age->sum('total_childPigs') / $age->count();
+        //     });
         // dd($childCount_byAge_average);
     }
 }

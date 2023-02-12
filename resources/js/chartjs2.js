@@ -80,7 +80,7 @@ const myChart = new Chart(ctx, {
             // ],
             y: {
                 min: -10,
-                max: 25,
+                max: 20,
                 ticks: {
                     color: "dimgray",
                 },
@@ -103,8 +103,9 @@ const myChart = new Chart(ctx, {
                 // },
             },
             y2: {
-                min: -1,
-                max: 2.5,
+                min: 0,
+                max: 1.2,
+                // stepSize: 0.25,
                 position: "right",
                 ticks: {
                     color: "steelblue",
@@ -116,7 +117,7 @@ const myChart = new Chart(ctx, {
             },
             y3: {
                 min: 0,
-                max: 3.5,
+                max: 3.0,
                 position: "right",
                 ticks: {
                     color: "crimson",

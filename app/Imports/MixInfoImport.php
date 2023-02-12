@@ -22,7 +22,7 @@ class MixInfoImport implements OnEachRow, WithHeadingRow
         $row = $row->toArray();
 
         $mixInfo = MixInfo::firstOrCreate([
-            // 'id' => $row['id'],
+            'id' => $row['id'],
             'female_id' => $row['female_id'],
             'first_male_id' => $row['first_male_id'],
             'second_male_id' => $row['second_male_id'],
