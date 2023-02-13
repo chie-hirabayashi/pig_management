@@ -1657,18 +1657,6 @@ select {
 .line-through {
   text-decoration-line: line-through;
 }
-.decoration-sky-500\/30 {
-  text-decoration-color: rgb(14 165 233 / 0.3);
-}
-.decoration-lime-500\/30 {
-  text-decoration-color: rgb(132 204 22 / 0.3);
-}
-.decoration-pink-500\/30 {
-  text-decoration-color: rgb(236 72 153 / 0.3);
-}
-.decoration-8 {
-  text-decoration-thickness: 8px;
-}
 .antialiased {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -2182,11 +2170,6 @@ select {
     background-color: rgb(17 24 39 / var(--tw-bg-opacity));
   }
 
-  .dark\:bg-red-200 {
-    --tw-bg-opacity: 1;
-    background-color: rgb(254 202 202 / var(--tw-bg-opacity));
-  }
-
   .dark\:text-white {
     --tw-text-opacity: 1;
     color: rgb(255 255 255 / var(--tw-text-opacity));
@@ -2220,21 +2203,6 @@ select {
   .dark\:text-gray-500 {
     --tw-text-opacity: 1;
     color: rgb(107 114 128 / var(--tw-text-opacity));
-  }
-
-  .dark\:text-red-800 {
-    --tw-text-opacity: 1;
-    color: rgb(153 27 27 / var(--tw-text-opacity));
-  }
-
-  .dark\:text-sky-500 {
-    --tw-text-opacity: 1;
-    color: rgb(14 165 233 / var(--tw-text-opacity));
-  }
-
-  .dark\:text-cyan-600 {
-    --tw-text-opacity: 1;
-    color: rgb(8 145 178 / var(--tw-text-opacity));
   }
 
   .dark\:ring-offset-gray-800 {
@@ -2384,10 +2352,6 @@ select {
 
   .sm\:text-left {
     text-align: left;
-  }
-
-  .sm\:text-center {
-    text-align: center;
   }
 
   .sm\:text-right {
