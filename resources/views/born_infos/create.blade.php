@@ -18,7 +18,7 @@
         <!-- form - start -->
         <form action="{{ route('born_infos.store', $mixInfo) }}" method="POST" class="rounded pt-3 mb-4">
             @csrf
-            {{-- @method('PATCH') --}}
+            @method('PATCH')
             <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-4">
                 <!-- female - start -->
                 <div class="mb-4 mx-auto">
