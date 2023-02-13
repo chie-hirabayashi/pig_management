@@ -83,20 +83,25 @@ class FemalePig extends Model
         }
         
         switch (true) {
-            // 観察中:交配から120日間(交配~出産予定114日+6日)
+            // 観察中:mix_dayあり&&born_dayなし&&troubleなし
+            // 参考:120日間(交配~出産予定114日+6日)
             case !empty($mixInfo_last->mix_day) &&
-                $today->diffInDays($mix_day) <= 120:
+                empty($mixInfo_last->born_day) &&
+                $mixInfo_last->trouble_id == 1:
+                // $today->diffInDays($mix_day) <= 120:
                 return '観察中';
                 break;
 
-            // 保育中:出産から24日間(離乳21~25日)
+            // 保育中:born_dayあり&&weaning_dayなし
             case !empty($mixInfo_last->born_day) &&
-                $today->diffInDays($born_day) < 24:
+                empty($mixInfo_last->weaning_day):
+                // $today->diffInDays($born_day) < 24:
                 return '保育中';
                 break;
 
-            // 待機中:再発、流産後
-            case !empty($mixInfo_last->trouble_id) && $mixInfo_last->trouble_id !== 1:
+            // 待機中:再発、流産
+            // case !empty($mixInfo_last->trouble_id) && $mixInfo_last->trouble_id !== 1:
+            case $mixInfo_last->trouble_id !== 1:
                 return '待機中';
                 break;
 
