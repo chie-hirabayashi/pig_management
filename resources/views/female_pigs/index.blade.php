@@ -10,7 +10,7 @@
     <!-- message -->
     <x-flash-msg :message="session('notice')" />
 
-    {{-- TODO:メモ機能 --}}
+    {{-- TODO:メモ機能,出産予定日のアラート,離乳後一定期間交配していないアラート--}}
 
     <div class="bg-white py-6 sm:py-8 lg:py-12">
         <div class="max-w-screen-xl px-2 md:px-4 mx-auto">
@@ -157,40 +157,24 @@
                                     {{ $femalePig->age }} 歳
                                 </div>
                                 @if ($femalePig->status == '観察中')
-                                    {{-- <div
-                                        class="text-gray-500 underline decoration-8 decoration-sky-500/30 text-base md:text-base font-bold text-center sm:text-center">
-                                        {{ $femalePig->status }}
-                                    </div> --}}
                                     <div
                                         class="text-base MplusRound italic text-center before:block before:absolute before:-inset-1 before:-skew-y-3 before:bg-sky-500/50 relative inline-block">
                                         <span class="relative text-white">{{ $femalePig->status }}</span>
                                     </div>
                                 @endif
                                 @if ($femalePig->status == '待機中')
-                                    {{-- <div
-                                        class="text-gray-500 underline decoration-8 decoration-lime-500/30 text-base md:text-base font-bold text-center sm:text-center">
-                                        {{ $femalePig->status }}
-                                    </div> --}}
                                     <div
                                         class="text-base MplusRound italic text-center before:block before:absolute before:-inset-1 before:-skew-y-3 before:bg-lime-500/50 relative inline-block">
                                         <span class="relative text-white">{{ $femalePig->status }}</span>
                                     </div>
                                 @endif
                                 @if ($femalePig->status == '保育中')
-                                    {{-- <div
-                                        class="text-gray-500 underline decoration-8 decoration-pink-500/30 text-base md:text-base font-bold text-center sm:text-center">
-                                        {{ $femalePig->status }}
-                                    </div> --}}
                                     <div
                                         class="text-base MplusRound italic text-center before:block before:absolute before:-inset-1 before:-skew-y-3 before:bg-pink-500/50 relative inline-block">
                                         <span class="relative text-white">{{ $femalePig->status }}</span>
                                     </div>
                                 @endif
                             </div>
-                            {{-- <div
-                                class="text-base MplusRound italic text-center before:block before:absolute before:-inset-1 before:-skew-y-3 before:bg-pink-500/50 relative inline-block">
-                                <span class="relative text-white">保育中</span>
-                            </div> --}}
                             <!-- age & status - end -->
 
                             <!-- prediction rotate - start -->
@@ -237,7 +221,7 @@
                                                 d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zm-5.146-5.146-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708.708z" />
                                         </svg>
                                         <div class="ml-2">
-                                            再発確認
+                                            再発確認1
                                         </div>
                                     </span>
                                 @endif
@@ -253,7 +237,22 @@
                                                 d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zm-5.146-5.146-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708.708z" />
                                         </svg>
                                         <div class="ml-2">
-                                            再発確認
+                                            再発確認2
+                                        </div>
+                                    </span>
+                                @endif
+                                @if (date('Y-m-d', strtotime('+3 day')) > $femalePig->mix_infos->last()->delivery_schedule &&
+                                    $femalePig->mix_infos->last()->born_day == null)
+                                    <span
+                                        class="text-sky-700 text-sm font-medium inline-flex items-center px-2.5 py-0.5 rounded">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-calendar-check-fill"
+                                            viewBox="0 0 16 16">
+                                            <path
+                                                d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zm-5.146-5.146-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708.708z" />
+                                        </svg>
+                                        <div class="ml-2">
+                                            出産予定
                                         </div>
                                     </span>
                                 @endif

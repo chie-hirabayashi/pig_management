@@ -60,7 +60,6 @@
                                 </div>
                             </div>
                             <div>
-                                {{-- <div class="text-center text-gray-500 md:text-sm sm:text-left"> --}}
                                 <div class="text-gray-500 text-center text-sm font-semibold">
                                     交配実績
                                 </div>
