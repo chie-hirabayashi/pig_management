@@ -14,7 +14,7 @@
             <div class="flex flex-col items-center gap-4 md:gap-6">
                 <!-- base - start -->
                 <div class="text-2xl text-gray-500 active:text-gray-600 transition duration-100">
-                    <h2 class="text-2xl MplusRound text-gray-700 capitalize dark:text-white">抽出条件</h2>
+                    <h2 class="text-2xl MplusRound text-gray-700 capitalize">抽出条件</h2>
                 </div>
 
                 <div class="items-left">
@@ -254,12 +254,12 @@
     </div>
 
     <div class="overflow-x-auto relative shadow-md my-8">
-        <div class="bg-gray-100 border-b border-gray-400 dark:bg-gray-800 dark:border-gray-700 whitespace-nowrap">
+        <div class="bg-gray-100 border-b border-gray-400 whitespace-nowrap">
             <div class="MplusRound text-xl text-gray-600 py-2 px-8">抽 出 個 体 一 覧</div>
         </div>
         <!-- born_table - start -->
-        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <table class="w-full text-sm text-left text-gray-500">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                 <tr class="border-b whitespace-nowrap">
                     <th scope="col" class="py-3 px-6">
                         <i class="fa-solid fa-venus"></i>NO.
@@ -290,10 +290,10 @@
             <tbody>
                 @foreach ($extracts as $extract)
                     <tr
-                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 whitespace-nowrap">
+                        class="bg-white border-b hover:bg-gray-50 whitespace-nowrap">
                         <td class="py-4 px-6">
                             <a href="{{ route('female_pigs.show', $extract->female_pig) }}"
-                                class="text-blue-600 after:content-['_↗'] dark:text-blue-500 transition-colors bg-transparent hover:underline">
+                                class="text-blue-600 after:content-['_↗'] transition-colors bg-transparent hover:underline">
                                 {{ $extract->female_pig->individual_num }}
                             </a>
                         </td>

@@ -22,8 +22,8 @@
 
             <!-- border - start -->
             <div class="overflow-x-auto relative">
-                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <thead class="text-center border-t-2 text-xs text-gray-900 uppercase dark:text-gray-400">
+                <table class="w-full text-sm text-left text-gray-500">
+                    <thead class="text-center border-t-2 text-xs text-gray-900 uppercase">
                         <tr>
                             <th scope="col" class="py-3 px-4 lx:px-6 whitespace-nowrap">
                                 年
@@ -56,7 +56,7 @@
                     </thead>
                     <tbody class="border-t border-b-2">
                         @foreach ($achievements_by_age as $achievement_by_age)
-                            <tr class="bg-white dark:bg-gray-800">
+                            <tr class="bg-white">
                                 <th class="text-center py-3 px-4 lx:px-6 whitespace-nowrap">
                                     {{ $achievement_by_age['age'] }} 年
                                 </th>
@@ -86,7 +86,7 @@
                                 </td>
                             </tr>
                         @endforeach
-                            <tr class="border-t bg-white dark:bg-gray-800">
+                            <tr class="border-t bg-white">
                                 <td class="text-center py-3 px-4 lx:px-6 whitespace-nowrap">
                                     合計
                                 </td>

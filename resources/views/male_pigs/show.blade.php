@@ -58,8 +58,8 @@
 
                 <!-- border - start -->
                 <div class="overflow-x-auto relative">
-                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead class="text-center border-t text-xs text-gray-900 uppercase dark:text-gray-400">
+                    <table class="w-full text-sm text-left text-gray-500">
+                        <thead class="text-center border-t text-xs text-gray-900 uppercase">
                             <tr>
                                 <th scope="col" class="py-3 px-6">
                                     <i class="fa-solid fa-venus"></i>NO.
@@ -77,13 +77,13 @@
                         </thead>
                         <tbody class="border-t border-b">
                             @foreach ($malePig->individual_mix_infos as $info)
-                                <tr class="bg-white dark:bg-gray-800">
+                                <tr class="bg-white">
                                     <th scope="row"
-                                        class="py-3 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        class="py-3 px-6 font-medium text-gray-900 whitespace-nowrap">
                                         <div>
                                             @if ($info['female'])
                                                 <a href="{{ route('female_pigs.show', $info['female']) }}"
-                                                    class="text-blue-600 after:content-['_↗'] dark:text-blue-500 transition-colors bg-transparent hover:underline">
+                                                    class="text-blue-600 after:content-['_↗'] transition-colors bg-transparent hover:underline">
                                                     {{ $info['female']->individual_num }}
                                                 </a>
                                             @endif

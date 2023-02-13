@@ -10,9 +10,9 @@
     <!-- header - end -->
 
     <!-- body - start -->
-    <section class="bg-white dark:bg-gray-900">
+    <section class="bg-white">
         <div class="container max-w-4xl px-6 py-10 mx-auto">
-            <h1 class="text-4xl MplusRound text-center mb-8 text-gray-800 dark:text-white">
+            <h1 class="text-4xl MplusRound text-center mb-8 text-gray-800">
                 データの入出力
             </h1>
             
@@ -23,28 +23,28 @@
             
             <div class="mt-12 space-y-8">
                 <!-- import - start -->
-                <div class="border-2 border-gray-100 rounded-lg dark:border-gray-700">
+                <div class="border-2 border-gray-100 rounded-lg">
                     <div class="flex items-center justify-between rounded-t-lg w-full bg-gray-300 px-8 py-6">
-                        <h1 class="font-semibold text-lg text-white dark:text-white">
+                        <h1 class="font-semibold text-lg text-white">
                             インポート
                         </h1>
                     </div>
 
-                    <hr class="border-gray-200 dark:border-gray-700">
+                    <hr class="border-gray-200">
 
-                    <p class="p-8 text-sm text-gray-500 dark:text-gray-300">
+                    <p class="p-8 text-sm text-gray-500">
                         エクセルファイルを選択して取込をクリック<br>
                         交配出産記録は母豚データと父豚データの取込後にインポートできます
                     </p>
 
                     <!-- femalePig_import - start -->
                     <div class="items-center justify-between w-full pt-8 px-8 pb-2">
-                        <h1 class="MplusRound font-semibold text-gray-700 dark:text-whit">
+                        <h1 class="MplusRound font-semibold text-gray-700">
                             母豚データのインポート
                         </h1>
                     </div>
 
-                    <div class="pb-8 px-8 text-sm text-gray-500 dark:text-gray-300">
+                    <div class="pb-8 px-8 text-sm text-gray-500">
                         <form method="post" action="{{ route('female_pigs.import') }}" enctype="multipart/form-data">
                             @csrf
                             <div class="grid grid-cols-2 gap-4">
@@ -65,12 +65,12 @@
 
                     <!-- malePig_import - start -->
                     <div class="items-center justify-between w-full pt-8 px-8 pb-2">
-                        <h1 class="MplusRound font-semibold text-gray-700 dark:text-whit">
+                        <h1 class="MplusRound font-semibold text-gray-700">
                             父豚データのインポート
                         </h1>
                     </div>
 
-                    <div class="pb-8 px-8 text-sm text-gray-500 dark:text-gray-300">
+                    <div class="pb-8 px-8 text-sm text-gray-500">
                         <form method="post" action="{{ route('male_pigs.import') }}" enctype="multipart/form-data">
                             @csrf
                             <div class="grid grid-cols-2 gap-4">
@@ -91,12 +91,12 @@
 
                     <!-- mixInfo_import - start -->
                     <div class="items-center justify-between w-full pt-8 px-8 pb-2">
-                        <h1 class="MplusRound font-semibold text-gray-700 dark:text-whit">
+                        <h1 class="MplusRound font-semibold text-gray-700">
                             交配出産記録のインポート
                         </h1>
                     </div>
 
-                    <div class="pb-8 px-8 text-sm text-gray-500 dark:text-gray-300">
+                    <div class="pb-8 px-8 text-sm text-gray-500">
                         <form method="post" action="{{ route('mix_infos.import') }}" enctype="multipart/form-data">
                             @csrf
                             <div class="grid grid-cols-2 gap-4">
@@ -118,24 +118,24 @@
                 <!-- import - start -->
 
                 <!-- export - start -->
-                <div class="border-2 border-gray-100 rounded-lg dark:border-gray-700">
+                <div class="border-2 border-gray-100 rounded-lg">
                     <div class="flex items-center justify-between rounded-t-lg w-full bg-gray-300 px-8 py-6">
-                        <h1 class="font-semibold text-lg text-white dark:text-white">
+                        <h1 class="font-semibold text-lg text-white">
                             エクスポート
                         </h1>
                     </div>
 
-                    <hr class="border-gray-200 dark:border-gray-700">
+                    <hr class="border-gray-200">
 
-                    <p class="p-8 text-sm text-gray-500 dark:text-gray-300">
+                    <p class="p-8 text-sm text-gray-500">
                         出力をクリック<br>
                         エクセルファイルが出力されます
                     </p>
 
                     <!-- femalePig_export - start -->
-                    <div class="pb-8 px-8 text-gray-500 dark:text-gray-300">
+                    <div class="pb-8 px-8 text-gray-500">
                         <div class="grid grid-cols-2 gap-4">
-                            <h1 class="MplusRound font-semibold text-gray-700 dark:text-whit">
+                            <h1 class="MplusRound font-semibold text-gray-700">
                                 母豚データのエクスポート
                             </h1>
 
@@ -154,9 +154,9 @@
                     <!-- femalePig_export - end -->
 
                     <!-- malePig_export - start -->
-                    <div class="pb-8 px-8 text-gray-500 dark:text-gray-300">
+                    <div class="pb-8 px-8 text-gray-500">
                         <div class="grid grid-cols-2 gap-4">
-                            <h1 class="MplusRound font-semibold text-gray-700 dark:text-whit">
+                            <h1 class="MplusRound font-semibold text-gray-700">
                                 父豚データのエクスポート
                             </h1>
 
@@ -175,9 +175,9 @@
                     <!-- malePig_export - end -->
 
                     <!-- mixInfo_export - start -->
-                    <div class="pb-8 px-8 text-gray-500 dark:text-gray-300">
+                    <div class="pb-8 px-8 text-gray-500">
                         <div class="grid grid-cols-2 gap-4">
-                            <h1 class="MplusRound font-semibold text-gray-700 dark:text-whit">
+                            <h1 class="MplusRound font-semibold text-gray-700">
                                 交配出産記録のエクスポート
                             </h1>
 

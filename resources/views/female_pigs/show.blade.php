@@ -35,10 +35,10 @@
                         @if ($born_infos)
                             @if ($born_infos->last()->rotate_prediction <= 1.8)
                                 <span
-                                    class="text-red-600 text-base font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-800">
+                                    class="text-red-600 text-base font-medium inline-flex items-center px-2.5 py-0.5 rounded">
                                 @elseif ($born_infos->last()->rotate_prediction > 1.8)
                                     <span
-                                        class="text-gray-800 text-base font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-800">
+                                        class="text-gray-800 text-base font-medium inline-flex items-center px-2.5 py-0.5 rounded">
                             @endif
                         @endif
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -135,8 +135,8 @@
 
                 <!-- border - start -->
                 <div class="overflow-x-auto relative">
-                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead class="text-center text-xs text-gray-900 uppercase dark:text-gray-400">
+                    <table class="w-full text-sm text-left text-gray-500">
+                        <thead class="text-center text-xs text-gray-900 uppercase">
                             <tr class="whitespace-nowrap">
                                 <th scope="col" class="py-3 px-4 lg:px-6"></th>
                                 <th scope="col" class="py-3 px-4 lg:px-6">
@@ -151,9 +151,9 @@
                             </tr>
                         </thead>
                         <tbody class="border-t border-b">
-                            <tr class="bg-white dark:bg-gray-800">
+                            <tr class="bg-white">
                                 <th scope="row"
-                                    class="py-3 px-4 lg:px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    class="py-3 px-4 lg:px-6 font-medium text-gray-900 whitespace-nowrap">
                                     回転数
                                 </th>
                                 <td class="text-center py-3 px-4 lg:px-6">
@@ -178,9 +178,9 @@
                                     @endif
                                 </td>
                             </tr>
-                            <tr class="bg-white dark:bg-gray-800">
+                            <tr class="bg-white">
                                 <th scope="row"
-                                    class="py-3 px-4 lg:px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    class="py-3 px-4 lg:px-6 font-medium text-gray-900 whitespace-nowrap">
                                     産子数
                                 </th>
                                 <td class="text-center py-3 px-4 lg:px-6">
@@ -209,8 +209,8 @@
                     </table>
                 </div>
                 <div class="overflow-x-auto relative">
-                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead class="text-center text-xs text-gray-900 uppercase dark:text-gray-400">
+                    <table class="w-full text-sm text-left text-gray-500">
+                        <thead class="text-center text-xs text-gray-900 uppercase">
                             <tr>
                                 <th scope="col" class="py-3 px-4 lg:px-6"></th>
                                 <th scope="col" class="py-3 px-4 lg:px-6">
@@ -225,9 +225,9 @@
                             </tr>
                         </thead>
                         <tbody class="border-t border-b">
-                            <tr class="bg-white dark:bg-gray-800">
+                            <tr class="bg-white">
                                 <th scope="row"
-                                    class="py-3 px-4 lg:px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    class="py-3 px-4 lg:px-6 font-medium text-gray-900 whitespace-nowrap">
                                     出産回数
                                 </th>
                                 <td class="text-center py-3 px-4 lg:px-6">
@@ -247,9 +247,9 @@
                                 <td class="text-center py-3 px-8 lg:px-12">
                                 </td>
                             </tr>
-                            <tr class="bg-white dark:bg-gray-800">
+                            <tr class="bg-white">
                                 <th scope="row"
-                                    class="py-3 px-4 lg:px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    class="py-3 px-4 lg:px-6 font-medium text-gray-900 whitespace-nowrap">
                                     再発回数
                                 </th>
                                 <td class="text-center py-3 px-4 lg:px-6">
@@ -269,9 +269,9 @@
                                 <td class="text-center py-3 px-8 lg:px-12">
                                 </td>
                             </tr>
-                            <tr class="bg-white dark:bg-gray-800">
+                            <tr class="bg-white">
                                 <th scope="row"
-                                    class="py-3 px-4 lg:px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    class="py-3 px-4 lg:px-6 font-medium text-gray-900 whitespace-nowrap">
                                     流産回数
                                 </th>
                                 <td class="text-center py-3 px-4 lg:px-6">
@@ -295,8 +295,8 @@
                     </table>
                 </div>
                 <div class="overflow-x-auto relative">
-                    <table class="table w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead class="text-center text-xs text-gray-900 uppercase dark:text-gray-400">
+                    <table class="table w-full text-sm text-left text-gray-500">
+                        <thead class="text-center text-xs text-gray-900 uppercase">
                             <tr>
                                 <th scope="col" class="py-3 px-4 lg:px-6">
                                     交配実績
@@ -315,7 +315,7 @@
                         </thead>
                         <tbody class="border-t border-b">
                             @foreach ($mix_ranking as $item)
-                                <tr class="bg-white dark:bg-gray-800">
+                                <tr class="bg-white">
                                     <th scope="row"
                                         class="py-3 px-4 lg:px-6 font-medium text-gray-900 whitespace-nowrap">
                                     </th>
@@ -368,7 +368,7 @@
                     @if ($mixInfos->isNotEmpty())
                         @if ($born_infos->isEmpty() || $mixInfos->last()->id !== $born_infos->last()->mix_id)
                             <a href="{{ route('born_infos.create', $mixInfos->last()) }}"
-                                class="text-sky-700 after:content-['_↗'] text-base dark:text-sky-500 px-3 transition-colors bg-transparent rounded-lg hover:underline hover:font-bold">
+                                class="text-sky-700 after:content-['_↗'] text-base px-3 transition-colors bg-transparent rounded-lg hover:underline hover:font-bold">
                                 出産登録
                             </a>
                         @endif
@@ -385,8 +385,8 @@
             </div>
         </div>
         <!-- born_table - start -->
-        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 border-t border-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <table class="w-full text-sm text-left text-gray-500 border-t border-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                 <tr class="border-b whitespace-nowrap">
                     <th scope="col" class="py-3 pr-4 pl-8 w-1/6">
                         出産日
@@ -414,7 +414,7 @@
             <tbody>
                 @foreach ($born_infos as $born_info)
                     @if ($born_info->born_num)
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 whitespace-nowrap">
+                    <tr class="bg-white border-b hover:bg-gray-50 whitespace-nowrap">
                         <td class="py-4 pr-4 pl-6 w-1/6">
                             {{ $born_info->born_day }}
                         </td>
@@ -448,7 +448,7 @@
                         </td>
                         <td class="text-center py-4 px-4 w-1/12">
                             <a href="{{ route('born_infos.edit', $born_info) }}"
-                                class="text-center basis-1/2 font-medium text-cyan-800 dark:text-cyan-600 hover:underline hover:font-bold">
+                                class="text-center basis-1/2 font-medium text-cyan-800 hover:underline hover:font-bold">
                                 編 集
                             </a>
                         </td>
@@ -458,7 +458,7 @@
                                 @method('PATCH')
                                 <input type="submit" value="削 除"
                                     onclick="if(!confirm('出産情報を削除しますか？')){return false};"
-                                    class="basis-1/2 font-medium text-red-600 dark:text-red-500 hover:underline hover:font-bold">
+                                    class="basis-1/2 font-medium text-red-600 hover:underline hover:font-bold">
                             </form>
                         </td>
                     </tr>
@@ -481,7 +481,7 @@
                 <div class="px-4 leading-10">
                     {{-- @can('update', $post) --}}
                     <a href="{{ route('female_pigs.mix_infos.create', $femalePig) }}"
-                        class="text-sky-700 after:content-['_↗'] text-base dark:text-sky-500 py-1 px-3 transition-colors bg-transparent rounded-lg hover:underline hover:font-bold">
+                        class="text-sky-700 after:content-['_↗'] text-base py-1 px-3 transition-colors bg-transparent rounded-lg hover:underline hover:font-bold">
                         交配登録
                     </a>
                     {{-- @endcan --}}
@@ -497,8 +497,8 @@
         </div>
 
         <!-- mix_table - start -->
-        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 border-t border-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <table class="w-full text-sm text-left text-gray-500 border-t border-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                 <tr class="border-b whitespace-nowrap">
                     <th scope="col" class="py-3 pr-4 pl-8 w-1/6">
                         交配日
@@ -528,7 +528,7 @@
                 @if ($mixInfos)
                     @foreach ($mixInfos as $mixInfo)
                         <tr
-                            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 whitespace-nowrap">
+                            class="bg-white border-b hover:bg-gray-50 whitespace-nowrap">
                             <td class="py-4 px-6">
                                 {{ $mixInfo->mix_day }}
                             </td>
@@ -573,7 +573,7 @@
                                         @method('DELETE')
                                         <input type="submit" value="削 除"
                                             onclick="if(!confirm('交配記録を削除しますか？')){return false};"
-                                            class="basis-1/2 font-medium text-red-600 dark:text-red-500 hover:underline hover:font-bold">
+                                            class="basis-1/2 font-medium text-red-600 hover:underline hover:font-bold">
                                     </form>
                                 </td>
                             @else

@@ -64,11 +64,11 @@
                     </thead>
                     <tbody class="border-t border-b">
                         @foreach ($achievements as $achievement)
-                        <tr class="bg-white dark:bg-gray-800">
+                        <tr class="bg-white">
                             <th scope="row"
-                                class="py-3 px-4 lx:px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                class="py-3 px-4 lx:px-6 font-medium text-gray-900 whitespace-nowrap">
                                 <a href="{{ route('achievements.show', $achievement) }}"
-                                    class="text-blue-600 after:content-['_↗'] dark:text-blue-500 transition-colors bg-transparent hover:underline">
+                                    class="text-blue-600 after:content-['_↗'] transition-colors bg-transparent hover:underline">
                                     {{ $achievement['year'] }} 年
                                 </a>
                             </th>
