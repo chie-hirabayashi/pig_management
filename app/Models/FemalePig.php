@@ -72,15 +72,6 @@ class FemalePig extends Model
     public function getStatusAttribute()
     {
         $mixInfo_last = $this->mix_infos->last();
-        $today = Carbon::now(); 
-        
-        if (!empty($mixInfo_last->mix_day)) {
-            $mix_day = Carbon::create($mixInfo_last->mix_day);
-        }
-
-        if (!empty($mixInfo_last->born_day)) {
-            $born_day = Carbon::create($mixInfo_last->born_day);
-        }
         
         switch (true) {
             // 観察中:mix_dayあり&&born_dayなし&&troubleなし
@@ -88,19 +79,17 @@ class FemalePig extends Model
             case !empty($mixInfo_last->mix_day) &&
                 empty($mixInfo_last->born_day) &&
                 $mixInfo_last->trouble_id == 1:
-                // $today->diffInDays($mix_day) <= 120:
                 return '観察中';
                 break;
 
             // 保育中:born_dayあり&&weaning_dayなし
+            // 参考:24日間(出産~離乳)
             case !empty($mixInfo_last->born_day) &&
                 empty($mixInfo_last->weaning_day):
-                // $today->diffInDays($born_day) < 24:
                 return '保育中';
                 break;
 
             // 待機中:再発、流産
-            // case !empty($mixInfo_last->trouble_id) && $mixInfo_last->trouble_id !== 1:
             case $mixInfo_last->trouble_id !== 1:
                 return '待機中';
                 break;
@@ -129,6 +118,26 @@ class FemalePig extends Model
             // return self::getPredictionRotate($this);
         } else {
             return 0;
+        }
+    }
+
+    public function getSortDayAttribute()
+    {
+        $today = Carbon::now(); 
+        
+        $first_recurrence = Carbon::create($this->mix_infos->last()->first_recurrence_schedule);
+        $second_recurrence = Carbon::create($this->mix_infos->last()->second_recurrence_schedule);
+        $delivery_recurrence = Carbon::create($this->mix_infos->last()->delivery_schedule);
+        
+        $day1 = $today->diffInDays($first_recurrence);
+        $day2 = $today->diffInDays($second_recurrence);
+        $day3 = $today->diffInDays($delivery_recurrence);
+        $day = [$day1, $day2, $day3];
+
+        if ($this->status == '観察中') {
+            return min($day);
+        } else {
+            return 140;
         }
     }
 }
