@@ -625,6 +625,7 @@
         }
         console.log(Data);
     </script>
-    <script src="{{ mix('js/chartjs.js') }}"></script>
+    {{-- <script src="{{ mix('js/chartjs.js') }}"></script> --}}
+    <script src="{{ asset('js/chartjs.js') }}"></script>
     <!-- script - end -->
 </x-app-layout>

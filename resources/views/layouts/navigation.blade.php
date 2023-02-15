@@ -19,10 +19,6 @@
                                 <button x-cloak @click="isOpen = !isOpen" type="button"
                                     class="text-gray-500 hover:text-gray-600 focus:outline-none focus:text-gray-600"
                                     aria-label="toggle menu">
-                                    {{-- <svg x-show="!isOpen" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6"
-                                        fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 8h16M4 16h16" />
-                                    </svg> --}}
                                     <svg x-show="!isOpen" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 20 20" fill="currentColor">
                                         <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
                                     </svg>
@@ -99,58 +95,11 @@
                     </div>
                 </nav>
 
-                <!-- femalePigs Links -->
-                {{-- <div class="hidden items-center sm:flex">
-                    <x-nav-link :href="route('female_pigs.index')">
-                        <div class="text-sm text-rose-800">
-                            <i class="fa-solid fa-venus"></i>&ensp;
-                        </div>
-                        {{ __('Pigs') }}
-                    </x-nav-link>
-                </div> --}}
+            </div>
 
-                <!-- malePigs Links -->
-                {{-- <div class="hidden items-center sm:flex">
-                    <span class="mx-5 text-gray-500">
-                        /
-                    </span>
-                    <x-nav-link :href="route('male_pigs.index')">
-                        <div class="text-sm text-sky-800">
-                            <i class="fa-solid fa-mars"></i>&ensp;
-                        </div>
-                        {{ __('Pigs') }}
-                    </x-nav-link>
-                </div> --}}
-
-                <!-- extracts Links -->
-                {{-- <div class="hidden items-center sm:flex">
-                    <span class="mx-5 text-gray-500">
-                        /
-                    </span>
-                    <x-nav-link :href="route('extracts.conditions')">
-                        {{ __('抽出') }}
-                    </x-nav-link>
-                </div> --}}
-
-                <!-- extracts Links -->
-                {{-- <div class="hidden items-center sm:flex">
-                    <span class="mx-5 text-gray-500">
-                        /
-                    </span>
-                    <x-nav-link :href="route('achievements.index')">
-                        {{ __('総合実績表') }}
-                    </x-nav-link>
-                </div> --}}
-
-                <!-- Navigation Links -->
-                {{-- <div class="hidden items-center sm:flex">
-                    <span class="mx-5 text-gray-500 ">
-                        /
-                    </span>
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('取扱説明書') }}
-                    </x-nav-link>
-                </div> --}}
+            <!-- Date -->
+            <div class="shrink-0 flex items-center text-gray-700">
+                <p>{{ date('Y-m-d') }}</p>
             </div>
 
             <!-- Settings Dropdown -->
