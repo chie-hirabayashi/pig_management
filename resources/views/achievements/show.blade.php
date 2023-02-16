@@ -152,7 +152,8 @@
 
         // console.log(ages);
     </script>
-    <script src="{{ mix('js/chartjs2.js') }}"></script>
+    {{-- <script src="{{ mix('js/chartjs2.js') }}"></script> --}}
+    <script src="{{ asset('js/chartjs2.js') }}"></script>
     <!-- script - end -->
 
 </x-app-layout>
