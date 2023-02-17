@@ -56,12 +56,26 @@
                         </span>
                     </div>
                     <div>
-                        <form action="{{ route('female_pigs.updateFlag', $femalePig) }}" method="POST">
-                            @csrf
-                            @method('PATCH')
-                            <input type="hidden" name="warn_flag" id=""
-                                value="{{ $femalePig->warn_flag == 0 ? 1 : 0 }}">
-                            <button type="submit">
+                        @auth
+                            <form action="{{ route('female_pigs.updateFlag', $femalePig) }}" method="POST">
+                                @csrf
+                                @method('PATCH')
+                                <input type="hidden" name="warn_flag" id=""
+                                    value="{{ $femalePig->warn_flag == 0 ? 1 : 0 }}">
+                                <button type="submit">
+                                    @if ($femalePig->warn_flag == 0)
+                                        <div class="text-gray-100">
+                                            <i class="fa-solid fa-triangle-exclamation"></i>
+                                        </div>
+                                    @else
+                                        <div class="text-red-600">
+                                            <i class="fa-solid fa-triangle-exclamation"></i>
+                                        </div>
+                                    @endif
+                                </button>
+                            </form>
+                        @else
+                            <div>
                                 @if ($femalePig->warn_flag == 0)
                                     <div class="text-gray-100">
                                         <i class="fa-solid fa-triangle-exclamation"></i>
@@ -71,8 +85,8 @@
                                         <i class="fa-solid fa-triangle-exclamation"></i>
                                     </div>
                                 @endif
-                            </button>
-                        </form>
+                            </div>
+                        @endauth
                     </div>
                 </div>
                 <!-- base - end -->
@@ -80,9 +94,9 @@
                 <!-- schedule - start -->
                 <div class="text-gray-600">
                     <h2 class="text-center">予 定</h2>
-                    {{-- @if ($mixInfo_last && empty($mixInfo_last->born_day) && $mixInfo_last->trouble_id == 1) --}}
                     @if ($mixInfos->isNotEmpty())
                         @if ($mixInfos->last()->born_day == null && $mixInfos->last()->trouble_id == 1)
+                            
                             <div class="flex">
                                 <div class="mr-4">
                                     再発予定日1 : {{ $mixInfos->last()->first_recurrence_schedule }}
@@ -91,20 +105,27 @@
                                     {{-- 再発予定3日前から表示 --}}
                                     @if (date('Y-m-d H:i:s', strtotime('+3 day')) > $mixInfos->last()->first_recurrence_schedule &&
                                         $mixInfos->last()->first_recurrence == 0)
-                                        <form action="{{ route('female_pigs.updateRecurrence', $femalePig) }}"
-                                            method="POST">
-                                            @csrf
-                                            @method('PATCH')
-                                            <input type="hidden" name="first_recurrence" id=""
-                                                value="{{ 1 }}">
-                                            <button class="text-red-500" type="submit"
-                                                onclick="if(!confirm('再発の確認をしました')){return false};">
+                                        @auth
+                                            <form action="{{ route('female_pigs.updateRecurrence', $femalePig) }}"
+                                                method="POST">
+                                                @csrf
+                                                @method('PATCH')
+                                                <input type="hidden" name="first_recurrence" id=""
+                                                    value="{{ 1 }}">
+                                                <button class="text-red-500" type="submit"
+                                                    onclick="if(!confirm('再発の確認をしました')){return false};">
+                                                    <i class="fa-solid fa-circle-check"></i>
+                                                </button>
+                                            </form>
+                                        @else
+                                            <div class="text-red-500">
                                                 <i class="fa-solid fa-circle-check"></i>
-                                            </button>
-                                        </form>
+                                            </div>
+                                        @endauth
                                     @endif
                                 </div>
                             </div>
+
                             <div class="flex">
                                 <div class="mr-4">
                                     再発予定日2 : {{ $mixInfos->last()->second_recurrence_schedule }}
@@ -113,17 +134,23 @@
                                     {{-- 再発予定3日前から表示 --}}
                                     @if (date('Y-m-d H:i:s', strtotime('+3 day')) > $mixInfos->last()->second_recurrence_schedule &&
                                         $mixInfos->last()->second_recurrence == 0)
-                                        <form action="{{ route('female_pigs.updateRecurrence', $femalePig) }}"
-                                            method="POST">
-                                            @csrf
-                                            @method('PATCH')
-                                            <input type="hidden" name="second_recurrence" id=""
-                                                value="{{ 1 }}">
-                                            <button class="text-red-500" type="submit"
-                                                onclick="if(!confirm('再発の確認をしました')){return false};">
+                                        @auth
+                                            <form action="{{ route('female_pigs.updateRecurrence', $femalePig) }}"
+                                                method="POST">
+                                                @csrf
+                                                @method('PATCH')
+                                                <input type="hidden" name="second_recurrence" id=""
+                                                    value="{{ 1 }}">
+                                                <button class="text-red-500" type="submit"
+                                                    onclick="if(!confirm('再発の確認をしました')){return false};">
+                                                    <i class="fa-solid fa-circle-check"></i>
+                                                </button>
+                                            </form>
+                                        @else
+                                            <div class="text-red-500">
                                                 <i class="fa-solid fa-circle-check"></i>
-                                            </button>
-                                        </form>
+                                            </div>
+                                        @endauth
                                     @endif
                                 </div>
                             </div>
@@ -336,21 +363,23 @@
                 <!-- border - end -->
 
                 <!-- edit & delete - start -->
-                <div class="flex flex-row text-center my-4">
-                    {{-- @can('update', $post) --}}
-                    <a href="{{ route('female_pigs.edit', $femalePig) }}" {{-- class="bg-blue-400 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20 mr-2"> --}} {{-- class="bg-cyan-800 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20 mr-2"> --}}
-                        class="mr-2 py-1.5 px-4 transition-colors bg-gray-50 border active:bg-cyan-800 font-medium border-gray-200 hover:text-white text-cyan-600 hover:border-cyan-700 rounded-lg hover:bg-cyan-700 disabled:opacity-50">
-                        編 集
-                    </a>
-                    {{-- @endcan --}}
-                    {{-- @can('delete', $post) --}}
-                    <form action="{{ route('female_pigs.destroy', $femalePig) }}" method="post">
-                        @csrf
-                        @method('DELETE')
-                        <input type="submit" value="廃 用" onclick="if(!confirm('廃用にしますか？')){return false};"
-                            class="py-1.5 px-4 transition-colors bg-gray-50 border active:bg-red-700 font-medium border-gray-200 hover:text-white text-red-600 hover:border-red-600 rounded-lg hover:bg-red-600 disabled:opacity-50">
-                    </form>
-                </div>
+                @auth
+                    <div class="flex flex-row text-center my-4">
+                        {{-- @can('update', $post) --}}
+                        <a href="{{ route('female_pigs.edit', $femalePig) }}" {{-- class="bg-blue-400 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20 mr-2"> --}} {{-- class="bg-cyan-800 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20 mr-2"> --}}
+                            class="mr-2 py-1.5 px-4 transition-colors bg-gray-50 border active:bg-cyan-800 font-medium border-gray-200 hover:text-white text-cyan-600 hover:border-cyan-700 rounded-lg hover:bg-cyan-700 disabled:opacity-50">
+                            編 集
+                        </a>
+                        {{-- @endcan --}}
+                        {{-- @can('delete', $post) --}}
+                        <form action="{{ route('female_pigs.destroy', $femalePig) }}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <input type="submit" value="廃 用" onclick="if(!confirm('廃用にしますか？')){return false};"
+                                class="py-1.5 px-4 transition-colors bg-gray-50 border active:bg-red-700 font-medium border-gray-200 hover:text-white text-red-600 hover:border-red-600 rounded-lg hover:bg-red-600 disabled:opacity-50">
+                        </form>
+                    </div>
+                @endauth
                 <!-- edit & delete - end -->
             </div>
         </div>
@@ -364,16 +393,18 @@
             <div class="flex h-10 whitespace-nowrap">
                 <div class="MplusRound text-xl font-medium text-gray-600 py-1 px-8">出 産 情 報</div>
                 <div class="px-4 leading-10">
+                    @auth
                     {{-- @can('update', $post) --}}
-                    @if ($mixInfos->isNotEmpty())
-                        @if ($born_infos->isEmpty() || $mixInfos->last()->id !== $born_infos->last()->mix_id)
-                            <a href="{{ route('born_infos.create', $mixInfos->last()) }}"
-                                class="text-sky-700 after:content-['_↗'] text-base px-3 transition-colors bg-transparent rounded-lg hover:underline hover:font-bold">
-                                出産登録
-                            </a>
+                        @if ($mixInfos->isNotEmpty())
+                            @if ($born_infos->isEmpty() || $mixInfos->last()->id !== $born_infos->last()->mix_id)
+                                <a href="{{ route('born_infos.create', $mixInfos->last()) }}"
+                                    class="text-sky-700 after:content-['_↗'] text-base px-3 transition-colors bg-transparent rounded-lg hover:underline hover:font-bold">
+                                    出産登録
+                                </a>
+                            @endif
                         @endif
-                    @endif
                     {{-- @endcan --}}
+                    @endauth
                 </div>
             </div>
             <div class="mx-6 text-sm text-gray-700 leading-10">
@@ -447,19 +478,23 @@
                             {{ empty($born_info->weaning_num) ? '' : $born_info->weaning_num . '匹' }}
                         </td>
                         <td class="text-center py-4 px-4 w-1/12">
-                            <a href="{{ route('born_infos.edit', $born_info) }}"
-                                class="text-center basis-1/2 font-medium text-cyan-800 hover:underline hover:font-bold">
-                                編 集
-                            </a>
+                            @auth
+                                <a href="{{ route('born_infos.edit', $born_info) }}"
+                                    class="text-center basis-1/2 font-medium text-cyan-800 hover:underline hover:font-bold">
+                                    編 集
+                                </a>
+                            @endauth
                         </td>
                         <td class="py-4 pr-6 w-1/12">
-                            <form action="{{ route('born_infos.destroy', $born_info) }}" method="post">
-                                @csrf
-                                @method('PATCH')
-                                <input type="submit" value="削 除"
-                                    onclick="if(!confirm('出産情報を削除しますか？')){return false};"
-                                    class="basis-1/2 font-medium text-red-600 hover:underline hover:font-bold">
-                            </form>
+                            @auth
+                                <form action="{{ route('born_infos.destroy', $born_info) }}" method="post">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="submit" value="削 除"
+                                        onclick="if(!confirm('出産情報を削除しますか？')){return false};"
+                                        class="basis-1/2 font-medium text-red-600 hover:underline hover:font-bold">
+                                </form>
+                            @endauth
                         </td>
                     </tr>
                     @endif
@@ -479,12 +514,14 @@
             <div class="flex h-10 whitespace-nowrap">
                 <div class="MplusRound text-xl font-medium text-gray-600 py-1 px-8">交 配 記 録</div>
                 <div class="px-4 leading-10">
+                    @auth
                     {{-- @can('update', $post) --}}
-                    <a href="{{ route('female_pigs.mix_infos.create', $femalePig) }}"
-                        class="text-sky-700 after:content-['_↗'] text-base py-1 px-3 transition-colors bg-transparent rounded-lg hover:underline hover:font-bold">
-                        交配登録
-                    </a>
+                        <a href="{{ route('female_pigs.mix_infos.create', $femalePig) }}"
+                            class="text-sky-700 after:content-['_↗'] text-base py-1 px-3 transition-colors bg-transparent rounded-lg hover:underline hover:font-bold">
+                            交配登録
+                        </a>
                     {{-- @endcan --}}
+                    @endauth
                 </div>
             </div>
             <div class="mx-6 text-sm text-gray-700 leading-10">
@@ -521,7 +558,6 @@
                     <th colspan="3" scope="col" class="py-3 pr-4 pl-8 w-1/12">
                         経 過
                     </th>
-                    {{-- <th scope="col" class="py-3 px-6"></th> --}}
                 </tr>
             </thead>
             <tbody>
@@ -561,20 +597,26 @@
                                 {{ $mixInfo->trouble_id == 2 ? '再発' : ($mixInfo->trouble_id == 3 ? '流産' : '') }}
                             </td>
                             @if ($mixInfo->first_delete_male == null && $mixInfo->second_delete_male == null)
+                                <td class="py-4 px-6 text-center">
+                                    @auth
+                                        <a href="{{ route('female_pigs.mix_infos.edit', [$femalePig, $mixInfo]) }}"
+                                            class="mr-2 basis-1/2 font-medium text-cyan-800 hover:underline hover:font-bold">
+                                            編 集
+                                        </a>
+                                    @endauth
+                                </td>
                                 <td class="flex flex-row items-center py-4 px-6">
-                                    <a href="{{ route('female_pigs.mix_infos.edit', [$femalePig, $mixInfo]) }}"
-                                        class="mr-2 basis-1/2 font-medium text-cyan-800 hover:underline hover:font-bold">
-                                        編 集
-                                    </a>
-                                    <form
-                                        action="{{ route('female_pigs.mix_infos.destroy', [$femalePig, $mixInfo]) }}"
-                                        method="post">
-                                        @csrf
-                                        @method('DELETE')
-                                        <input type="submit" value="削 除"
-                                            onclick="if(!confirm('交配記録を削除しますか？')){return false};"
-                                            class="basis-1/2 font-medium text-red-600 hover:underline hover:font-bold">
-                                    </form>
+                                    @auth
+                                        <form
+                                            action="{{ route('female_pigs.mix_infos.destroy', [$femalePig, $mixInfo]) }}"
+                                            method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <input type="submit" value="削 除"
+                                                onclick="if(!confirm('交配記録を削除しますか？')){return false};"
+                                                class="basis-1/2 font-medium text-red-600 hover:underline hover:font-bold">
+                                        </form>
+                                    @endauth
                                 </td>
                             @else
                                 <td class="flex flex-row items-center py-4 px-6">

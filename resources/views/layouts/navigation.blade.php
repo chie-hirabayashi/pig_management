@@ -137,16 +137,6 @@
                                     {{ __('Log Out') }}
                                 </x-dropdown-link>
                             </form>
-                        @else
-                            <x-dropdown-link :href="route('register')">
-                                {{ __('Sign Up') }}
-                            </x-dropdown-link>
-                            <x-dropdown-link :href="route('login')">
-                                {{ __('Log In') }}
-                            </x-dropdown-link>
-                            <x-dropdown-link :href="route('imports_exports.form')">
-                                {{ __('インポート/エクスポート') }}
-                            </x-dropdown-link>
                             <x-dropdown-link :href="route('female_pigs.create')">
                                 <div class="inline-flex">
                                     <div class="text-sm text-rose-800">
@@ -169,6 +159,16 @@
                                         {{ __('Pig登録') }}
                                     </div>
                                 </div>
+                            </x-dropdown-link>
+                            <x-dropdown-link :href="route('imports_exports.form')">
+                                {{ __('インポート/エクスポート') }}
+                            </x-dropdown-link>
+                        @else
+                            <x-dropdown-link :href="route('register')">
+                                {{ __('Sign Up') }}
+                            </x-dropdown-link>
+                            <x-dropdown-link :href="route('login')">
+                                {{ __('Log In') }}
                             </x-dropdown-link>
                         @endauth
                     </x-slot>

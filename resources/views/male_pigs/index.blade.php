@@ -89,25 +89,23 @@
                                         class="bg-pink-400 hover:bg-pink-600 text-sm text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline w-16 mr-2">
                                 </form> --}}
 
-                                <div class="inline-flex rounded-md shadow-sm" role="group">
-                                    {{-- <button type="button" --}}
-                                    <a href="{{ route('male_pigs.edit', $malePig) }}"
-                                            {{-- class="py-1 px-3 text-sm font-medium text-gray-900 bg-white rounded-l-lg border border-gray-200 hover:bg-blue-200 hover:text-blue-800 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white"> --}}
-                                        {{-- class="py-1 px-3 text-sm font-medium transition-colors bg-gray-50 border active:bg-red-800 font-medium border-gray-200 hover:text-white text-red-600 hover:border-red-700 rounded-l-md hover:bg-red-700 disabled:opacity-50"> --}}
-                                        class="py-1 px-3 text-sm font-medium transition-colors bg-gray-50 border active:bg-cyan-800 font-medium border-gray-200 hover:text-white text-cyan-600 hover:border-cyan-700 rounded-l-lg hover:bg-cyan-700 disabled:opacity-50">
-                                        編 集
-                                    </a>
-                                    {{-- </button> --}}
-                                    <form action="{{ route('male_pigs.destroy', $malePig) }}" method="post">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" onclick="if(!confirm('廃用にしますか？')){return false};"
-                                            {{-- class="py-1 px-3 text-sm font-medium text-gray-900 bg-white rounded-r-md border border-gray-200 hover:bg-red-200 hover:text-red-800 focus:z-10 focus:ring-2 focus:ring-red-700 focus:text-red-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white"> --}}
-                                        class="py-1 px-3 text-sm font-medium transition-colors bg-gray-50 border active:bg-red-800 font-medium border-gray-200 hover:text-white text-red-600 hover:border-red-700 rounded-r-lg hover:bg-red-700 disabled:opacity-50">
-                                            廃 用
-                                        </button>
-                                    </form>
-                                </div>
+                                @auth
+                                    <div class="inline-flex rounded-md shadow-sm" role="group">
+                                        <a href="{{ route('male_pigs.edit', $malePig) }}"
+                                            class="py-1 px-3 text-sm font-medium transition-colors bg-gray-50 border active:bg-cyan-800 font-medium border-gray-200 hover:text-white text-cyan-600 hover:border-cyan-700 rounded-l-lg hover:bg-cyan-700 disabled:opacity-50">
+                                            編 集
+                                        </a>
+                                        <form action="{{ route('male_pigs.destroy', $malePig) }}" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" onclick="if(!confirm('廃用にしますか？')){return false};"
+                                                {{-- class="py-1 px-3 text-sm font-medium text-gray-900 bg-white rounded-r-md border border-gray-200 hover:bg-red-200 hover:text-red-800 focus:z-10 focus:ring-2 focus:ring-red-700 focus:text-red-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white"> --}}
+                                            class="py-1 px-3 text-sm font-medium transition-colors bg-gray-50 border active:bg-red-800 font-medium border-gray-200 hover:text-white text-red-600 hover:border-red-700 rounded-r-lg hover:bg-red-700 disabled:opacity-50">
+                                                廃 用
+                                            </button>
+                                        </form>
+                                    </div>
+                                @endauth
 
                             </div>
                             <!-- edit & delete - end -->

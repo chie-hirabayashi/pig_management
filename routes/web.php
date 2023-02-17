@@ -19,9 +19,7 @@ use App\Http\Controllers\AchievementController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [FemalePigController::class, 'index'])->name('root');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -32,31 +30,55 @@ Route::get('/dashboard', function () {
 require __DIR__ . '/auth.php';
 
 // 基本のルーティング
-Route::resource('female_pigs', FemalePigController::class);
-Route::resource('male_pigs', MalePigController::class);
-Route::resource('female_pigs.mix_infos', MixInfoController::class);
+Route::resource('female_pigs', FemalePigController::class)
+    ->only(['create', 'store', 'edit', 'update', 'destroy'])
+    ->middleware(['auth']);
+Route::resource('female_pigs', FemalePigController::class)->only([
+    'index',
+    'show',
+]);
+
+Route::resource('male_pigs', MalePigController::class)
+    ->only(['create', 'store', 'edit', 'update', 'destroy'])
+    ->middleware(['auth']);
+Route::resource('male_pigs', MalePigController::class)->only(['index', 'show']);
+
+Route::resource('female_pigs.mix_infos', MixInfoController::class)
+    ->only(['create', 'store', 'edit', 'update', 'destroy'])
+    ->middleware(['auth']);
 
 // 出産情報に関するルーティング
 Route::get('/mix_infos/{mix_info}/create', [
     MixInfoController::class,
     'createBorn',
-])->name('born_infos.create'); //createという名のedit
+])
+    ->middleware(['auth'])
+    ->name('born_infos.create'); //createという名のedit
+
 Route::patch('/mix_infos/{mix_info}/store', [
     MixInfoController::class,
     'storeBorn',
-])->name('born_infos.store'); //storeという名のpatch
-Route::get('/mix_infos/{mix_info}/edit', [
-    MixInfoController::class,
-    'editBorn',
-])->name('born_infos.edit');
+])
+    ->middleware(['auth'])
+    ->name('born_infos.store'); //storeという名のpatch
+
+Route::get('/mix_infos/{mix_info}/edit', [MixInfoController::class, 'editBorn'])
+    ->middleware(['auth'])
+    ->name('born_infos.edit');
+
 Route::patch('/mix_infos/{mix_info}/update', [
     MixInfoController::class,
     'updateBorn',
-])->name('born_infos.update');
+])
+    ->middleware(['auth'])
+    ->name('born_infos.update');
+
 Route::patch('/mix_infos/{mix_info}/delete', [
     MixInfoController::class,
     'destroyBorn',
-])->name('born_infos.destroy'); //deleteという名のpatch
+])
+    ->middleware(['auth'])
+    ->name('born_infos.destroy'); //deleteという名のpatch
 
 // 抽出のルーティング
 Route::post('/extracts', [ExtractController::class, 'index'])->name(
@@ -68,58 +90,62 @@ Route::get('/extracts/conditions', [
 ])->name('extracts.conditions');
 
 // インポートフォーム
-Route::get('/imports_exports/form', [ImportExportController::class, 'form'])->name(
-    'imports_exports.form'
-);
+Route::get('/imports_exports/form', [ImportExportController::class, 'form'])
+    ->middleware(['auth'])
+    ->name('imports_exports.form');
 // female_pigsのインポートとエクスポート
-Route::post('/female_pigs/export', [
-    FemalePigController::class,
-    'export',
-])->name('female_pigs.export');
-Route::post('/female_pigs/import', [
-    FemalePigController::class,
-    'import',
-])->name('female_pigs.import');
+Route::post('/female_pigs/export', [FemalePigController::class, 'export'])
+    ->middleware(['auth'])
+    ->name('female_pigs.export');
+Route::post('/female_pigs/import', [FemalePigController::class, 'import'])
+    ->middleware(['auth'])
+    ->name('female_pigs.import');
 // male_pigsのインポートとエクスポート
-Route::post('/male_pigs/export', [MalePigController::class, 'export'])->name(
-    'male_pigs.export'
-);
-Route::post('/male_pigs/import', [MalePigController::class, 'import'])->name(
-    'male_pigs.import'
-);
+Route::post('/male_pigs/export', [MalePigController::class, 'export'])
+    ->middleware(['auth'])
+    ->name('male_pigs.export');
+Route::post('/male_pigs/import', [MalePigController::class, 'import'])
+    ->middleware(['auth'])
+    ->name('male_pigs.import');
 // mix_infosのインポートとエクスポート
 // Route::post('/mix_infos/export', [MixInfoController::class, 'export'])->name(
-Route::get('/mix_infos/export', [MixInfoController::class, 'export'])->name(
-    'mix_infos.export'
-);
-Route::post('/Mix_infos/import', [MixInfoController::class, 'import'])->name(
-    'mix_infos.import'
-);
+Route::get('/mix_infos/export', [MixInfoController::class, 'export'])
+    ->middleware(['auth'])
+    ->name('mix_infos.export');
+Route::post('/Mix_infos/import', [MixInfoController::class, 'import'])
+    ->middleware(['auth'])
+    ->name('mix_infos.import');
 
 // FemalePigフラグのルーティング
 Route::patch('/female_pigs/{female_pig}/updateFlag', [
     FemalePigController::class,
     'updateFlag',
-])->name('female_pigs.updateFlag');
+])
+    ->middleware(['auth'])
+    ->name('female_pigs.updateFlag');
 // MalePigフラグのルーティング
 Route::patch('/male_pigs/{male_pig}/updateFlag', [
     MalePigController::class,
     'updateFlag',
-])->name('male_pigs.updateFlag');
+])
+    ->middleware(['auth'])
+    ->name('male_pigs.updateFlag');
 
 // FemalePig再発確認のルーティング
 Route::patch('/female_pigs/{female_pig}/updateRecurrence', [
     FemalePigController::class,
     'updateRecurrence',
-])->name('female_pigs.updateRecurrence');
+])
+    ->middleware(['auth'])
+    ->name('female_pigs.updateRecurrence');
 
 // 総合実績表
-Route::get('/achievements', [AchievementController::class, 'index'])->name(
-    'achievements.index'
-);
-Route::get('/achievements/show', [AchievementController::class, 'show'])->name(
-    'achievements.show'
-);
+Route::get('/achievements', [AchievementController::class, 'index'])
+    ->middleware(['auth'])
+    ->name('achievements.index');
+Route::get('/achievements/show', [AchievementController::class, 'show'])
+    ->middleware(['auth'])
+    ->name('achievements.show');
 
 // cssテスト用
 Route::get('/test', [MixInfoController::class, 'test'])->name(

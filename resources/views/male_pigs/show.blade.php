@@ -32,12 +32,26 @@
                         {{ $malePig->age }}歳
                     </div>
                     <div>
-                        <form action="{{ route('male_pigs.updateFlag', $malePig) }}" method="POST">
-                            @csrf
-                            @method('PATCH')
-                            <input type="hidden" name="warn_flag" id=""
-                                value="{{ $malePig->warn_flag == 0 ? 1 : 0 }}">
-                            <button type="submit">
+                        @auth
+                            <form action="{{ route('male_pigs.updateFlag', $malePig) }}" method="POST">
+                                @csrf
+                                @method('PATCH')
+                                <input type="hidden" name="warn_flag" id=""
+                                    value="{{ $malePig->warn_flag == 0 ? 1 : 0 }}">
+                                <button type="submit">
+                                    @if ($malePig->warn_flag == 0)
+                                        <div class="text-gray-100">
+                                            <i class="fa-solid fa-triangle-exclamation"></i>
+                                        </div>
+                                    @else
+                                        <div class="text-red-600">
+                                            <i class="fa-solid fa-triangle-exclamation"></i>
+                                        </div>
+                                    @endif
+                                </button>
+                            </form>
+                        @else
+                            <div>
                                 @if ($malePig->warn_flag == 0)
                                     <div class="text-gray-100">
                                         <i class="fa-solid fa-triangle-exclamation"></i>
@@ -47,8 +61,8 @@
                                         <i class="fa-solid fa-triangle-exclamation"></i>
                                     </div>
                                 @endif
-                            </button>
-                        </form>
+                            </div>
+                        @endauth
                     </div>
                 </div>
                 <div class="mx-2">
