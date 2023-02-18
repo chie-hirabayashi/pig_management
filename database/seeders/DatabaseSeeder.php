@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use CreateTroubleCategorysTable;
+// use CreateTroubleCategorysTable;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
-        $this->call(TroubleCategorySeeder::class);
+        // $this->call(TroubleCategorySeeder::class);
+        $this->call(PlaceSeeder::class);
     }
 }
