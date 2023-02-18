@@ -148,6 +148,14 @@
                                         {{ $femalePig->individual_num }}
                                     </span>
                                 </a>
+                                <div class="text-center -mx-2 px-4 h-10 relative">
+                                    <div class="text-4xl leading-10 w-full text-gray-100 absolute">
+                                        <i class="fa-solid fa-clipboard"></i>
+                                    </div>
+                                    <div class="absolute min-w-full">
+                                        <p class="leading-10 text-sm text-sky-700">{{ $femalePig->place->place_num }}</p>
+                                    </div>
+                                </div>
                             </div>
                             <!-- individual_num & flag - end -->
 
