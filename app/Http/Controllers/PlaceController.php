@@ -15,7 +15,9 @@ class PlaceController extends Controller
      */
     public function index()
     {
-        //
+        $places = Place::with('female_pig')->get();
+        // dd($places);
+        return view('places.index')->with(compact('places'));
     }
 
     /**

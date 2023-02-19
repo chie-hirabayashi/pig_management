@@ -23,6 +23,6 @@ class Place extends Model
      */
     public function female_pig()
     {
-        return $this->hasOne(FemalePig::class, 'female_id', 'id');
+        return $this->hasOne(FemalePig::class, 'id', 'female_id')->withDefault();
     }
 }

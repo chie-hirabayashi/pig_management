@@ -7,6 +7,8 @@ use App\Http\Controllers\MalePigController;
 use App\Http\Controllers\MixInfoController;
 use App\Http\Controllers\ImportExportController;
 use App\Http\Controllers\AchievementController;
+use App\Http\Controllers\PlaceController;
+use App\Models\Place;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +48,8 @@ Route::resource('male_pigs', MalePigController::class)->only(['index', 'show']);
 Route::resource('female_pigs.mix_infos', MixInfoController::class)
     ->only(['create', 'store', 'edit', 'update', 'destroy'])
     ->middleware(['auth']);
+
+Route::resource('places', PlaceController::class);
 
 // 出産情報に関するルーティング
 Route::get('/mix_infos/{mix_info}/create', [
