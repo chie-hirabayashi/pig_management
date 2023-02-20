@@ -1,3 +1,5 @@
+
+
 <x-app-layout>
     <!-- header - start -->
     <x-slot name="header">
@@ -6,7 +8,7 @@
         </h2>
     </x-slot>
     <!-- header - end -->
-    
+
     <!-- message -->
     <x-error-validation :errors="$errors" />
     <x-flash-msg :message="session('notice')" />
@@ -33,8 +35,7 @@
                             <tbody class="border-t border-b">
                                 @for ($i = 30; $i < 60; $i++)
                                     <tr class="bg-white">
-                                        <th 
-                                            class="py-3 px-6 text-center font-medium whitespace-nowrap">
+                                        <th class="py-3 px-6 text-center font-medium whitespace-nowrap">
                                             {{ $places[$i]->female_pig->individual_num }}
                                         </th>
                                         <td class="text-center py-3 px-6">
@@ -52,19 +53,20 @@
                         <table class="w-full text-sm text-left text-gray-500">
                             <thead class="text-center border-t text-xs text-gray-900 uppercase">
                                 <tr>
-                                    <th scope="col" class="py-3 px-6">
+                                    <th class="py-3 px-6">
                                         場所NO.
                                     </th>
-                                    <th scope="col" class="py-3 px-6">
+                                    <th class="py-3 px-6">
                                         個体番号
+                                    </th>
+                                    <th class="py-3 px-6">
                                     </th>
                                 </tr>
                             </thead>
                             <tbody class="border-t border-b">
                                 @for ($i = 0; $i < 30; $i++)
                                     <tr class="bg-white">
-                                        <th
-                                            class="py-3 px-6 text-center font-medium text-gray-900 whitespace-nowrap">
+                                        <th class="py-3 px-6 text-center font-medium text-gray-900 whitespace-nowrap">
                                             <div>
                                                 <p class="">
                                                     {{ $places[$i]->place_num }}
@@ -73,6 +75,33 @@
                                         </th>
                                         <td class="text-center py-3 px-6">
                                             {{ $places[$i]->female_pig->individual_num }}
+                                            {{-- FIXME:livewireへ --}}
+                                            {{-- <form action="{{ route('places.put', $places[$i]) }}" method="POST"
+                                                id="put">
+                                                @csrf
+                                                @method('PATCH')
+                                                <select name="female_id" required
+                                                    class="block pl-6 pr-8 py-2 mt-2 text-gray-700 bg-white focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring">
+                                                    <option hidden>選択してください</option>
+                                                    @foreach ($femalePigs as $femalePig)
+                                                        <option value="{{ $femalePig->id }}">
+                                                            {{ $femalePig->individual_num }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </form> --}}
+                                        </td>
+                                        <td class="text-center py-3 pl-6 pr-3">
+                                            <form action="{{ route('places.update', $places[$i]) }}" method="POST" id="out">
+                                                @csrf
+                                                @method('PATCH')
+                                                <input type="hidden" name="female_id" value="">
+                                                <input type="submit" value="退室" class="">
+                                            </form>
+                                        </td>
+                                        <td class="text-center py-3 pl-3 pr-6">
+                                            {{-- <input form="put" type="submit" value="入室" class=""> --}}
+                                            入室livewire
                                         </td>
                                     </tr>
                                 @endfor
@@ -98,19 +127,18 @@
                             <tbody class="border-t border-b">
                                 @for ($i = 60; $i < 80; $i++)
                                     @if ($i % 2 != 0)
-                                    <tr class="bg-white">
-                                        <th 
-                                            class="py-3 px-6 text-center font-medium whitespace-nowrap">
-                                            {{ $places[$i]->female_pig->individual_num }}
-                                        </th>
-                                        <td class="text-center py-3 px-6">
-                                            <div>
-                                                <p class="font-medium text-gray-900">
-                                                    {{ $places[$i]->place_num }}
-                                                </p>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                        <tr class="bg-white">
+                                            <th class="py-3 px-6 text-center font-medium whitespace-nowrap">
+                                                {{ $places[$i]->female_pig->individual_num }}
+                                            </th>
+                                            <td class="text-center py-3 px-6">
+                                                <div>
+                                                    <p class="font-medium text-gray-900">
+                                                        {{ $places[$i]->place_num }}
+                                                    </p>
+                                                </div>
+                                            </td>
+                                        </tr>
                                     @endif
                                 @endfor
                         </table>
@@ -160,3 +188,4 @@
         <!-- base_information - end -->
     </div>
 </x-app-layout>
+

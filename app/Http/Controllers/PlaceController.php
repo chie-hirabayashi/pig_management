@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePlaceRequest;
 use App\Http\Requests\UpdatePlaceRequest;
+use App\Models\FemalePig;
 use App\Models\Place;
 
 class PlaceController extends Controller
@@ -16,8 +17,9 @@ class PlaceController extends Controller
     public function index()
     {
         $places = Place::with('female_pig')->get();
+        $femalePigs = FemalePig::all();
         // dd($places);
-        return view('places.index')->with(compact('places'));
+        return view('places.index')->with(compact('places', 'femalePigs'));
     }
 
     /**
@@ -72,8 +74,16 @@ class PlaceController extends Controller
      */
     public function update(UpdatePlaceRequest $request, Place $place)
     {
-        //
+        $place->fill($request->all());
+        dd($place);
     }
+
+    // FIXME:livewireに変更
+    // public function put(UpdatePlaceRequest $request, Place $place)
+    // {
+    //     $place->fill($request->all());
+    //     dd($place);
+    // }
 
     /**
      * Remove the specified resource from storage.
@@ -86,3 +96,4 @@ class PlaceController extends Controller
         //
     }
 }
+
