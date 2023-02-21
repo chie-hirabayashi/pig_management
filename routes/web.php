@@ -53,8 +53,8 @@ Route::resource('places', PlaceController::class);
 // Route::patch('/places/{place}/put', [
     // PlaceController::class,'put'])->name('places.put');
 
-// use App\Http\Livewire\Places;
-// Route::get('place', Places::class);
+use App\Http\Livewire\PlaceIn;
+Route::get('place-in', PlaceIn::class);
 
 // 出産情報に関するルーティング
 Route::get('/mix_infos/{mix_info}/create', [
