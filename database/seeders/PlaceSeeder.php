@@ -15,7 +15,7 @@ class PlaceSeeder extends Seeder
     public function run()
     {
         $param = [
-            // ['place_num' => 1, 'category' => 1,],
+            ['place_num' => 1, 'category' => 1,],
             ['place_num' => 2, 'category' => 1,],
             ['place_num' => 3, 'category' => 1,],
             ['place_num' => 4, 'category' => 1,],

@@ -54,7 +54,7 @@ Route::resource('places', PlaceController::class);
     // PlaceController::class,'put'])->name('places.put');
 
 use App\Http\Livewire\PlaceIn;
-Route::get('place-in', PlaceIn::class);
+Route::get('place-in', PlaceIn::class)->name('livewire.place-in');
 
 // 出産情報に関するルーティング
 Route::get('/mix_infos/{mix_info}/create', [

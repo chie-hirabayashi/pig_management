@@ -219,8 +219,7 @@
                             @if ($femalePig->status == '観察中')
                                 @if (date('Y-m-d', strtotime('+3 day')) > $femalePig->mix_infos->last()->first_recurrence_schedule &&
                                     $femalePig->mix_infos->last()->first_recurrence == 0)
-                                    {{-- <p class="text-sm text-red-600">再発確認！</p> --}}
-                                    <span {{-- class="bg-red-100 text-red-800 text-sm font-medium inline-flex items-center px-2.5 py-0.5 rounded"> --}}
+                                    <span 
                                         class="text-red-700 text-sm font-medium inline-flex items-center px-2.5 py-0.5 rounded">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                             fill="currentColor" class="bi bi-calendar-check-fill"
