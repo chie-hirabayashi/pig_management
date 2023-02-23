@@ -25,7 +25,7 @@ class FemalePigController extends Controller
     public function index(Request $request)
     {
         $searchItems = FemalePig::all()->sortBy('individual_num');
-        $femalePigs = FemalePig::with('mix_infos')->get();
+        $femalePigs = FemalePig::with(['mix_infos', 'place'])->get();
 
         // foreach ($femalePigs as $femalePig) {
         //     $femalePig->status; # 状態プロパティ追加

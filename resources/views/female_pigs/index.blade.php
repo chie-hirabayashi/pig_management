@@ -148,6 +148,14 @@
                                         {{ $femalePig->individual_num }}
                                     </span>
                                 </a>
+                                <div class="text-center -mx-2 px-4 h-10 relative">
+                                    <div class="text-4xl leading-10 w-full text-gray-100 absolute">
+                                        <i class="fa-solid fa-clipboard"></i>
+                                    </div>
+                                    <div class="absolute min-w-full">
+                                        <p class="leading-10 text-sm text-sky-700">{{ $femalePig->place->place_num }}</p>
+                                    </div>
+                                </div>
                             </div>
                             <!-- individual_num & flag - end -->
 
@@ -211,8 +219,7 @@
                             @if ($femalePig->status == '観察中')
                                 @if (date('Y-m-d', strtotime('+3 day')) > $femalePig->mix_infos->last()->first_recurrence_schedule &&
                                     $femalePig->mix_infos->last()->first_recurrence == 0)
-                                    {{-- <p class="text-sm text-red-600">再発確認！</p> --}}
-                                    <span {{-- class="bg-red-100 text-red-800 text-sm font-medium inline-flex items-center px-2.5 py-0.5 rounded"> --}}
+                                    <span 
                                         class="text-red-700 text-sm font-medium inline-flex items-center px-2.5 py-0.5 rounded">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                             fill="currentColor" class="bi bi-calendar-check-fill"

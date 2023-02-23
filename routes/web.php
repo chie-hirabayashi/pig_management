@@ -7,6 +7,7 @@ use App\Http\Controllers\MalePigController;
 use App\Http\Controllers\MixInfoController;
 use App\Http\Controllers\ImportExportController;
 use App\Http\Controllers\AchievementController;
+use App\Http\Controllers\PlaceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +47,14 @@ Route::resource('male_pigs', MalePigController::class)->only(['index', 'show']);
 Route::resource('female_pigs.mix_infos', MixInfoController::class)
     ->only(['create', 'store', 'edit', 'update', 'destroy'])
     ->middleware(['auth']);
+
+Route::resource('places', PlaceController::class);
+// FIXME:livewireへ
+// Route::patch('/places/{place}/put', [
+    // PlaceController::class,'put'])->name('places.put');
+
+use App\Http\Livewire\PlaceIn;
+Route::get('place-in', PlaceIn::class)->name('livewire.place-in');
 
 // 出産情報に関するルーティング
 Route::get('/mix_infos/{mix_info}/create', [
@@ -151,3 +160,4 @@ Route::get('/achievements/show', [AchievementController::class, 'show'])
 Route::get('/test', [MixInfoController::class, 'test'])->name(
     'born_infos.index'
 );
+

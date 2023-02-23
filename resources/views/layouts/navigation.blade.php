@@ -1,6 +1,6 @@
 <nav x-data="{ open: false }" class="bg-white shadow border-b border-gray-300">
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-6">
+    <div class="max-w-7xl mx-auto pr-4">
         <div class="flex justify-between">
             <div class="flex">
                 <!-- Logo -->
@@ -33,10 +33,25 @@
 
                         <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
                         <div x-cloak :class="[isOpen ? 'block translate-x-0 opacity-100' : 'opacity-0 -translate-x-full']"
-                            class="absolute inset-x-0 z-20 w-full px-4 py-3 transition-all duration-300 ease-in-out bg-gray-100 md:bg-white border rounded-lg md:border-hidden md:mt-0 md:p-0 md:top-0 md:relative md:opacity-100 md:translate-x-0 md:flex md:items-center md:justify-between">
+                            class="absolute inset-x-0 z-20 w-40 md:w-full px-4 py-3 transition-all duration-300 ease-in-out bg-gray-100 md:bg-white border rounded-lg md:border-hidden md:mt-0 md:p-0 md:top-0 md:relative md:opacity-100 md:translate-x-0 md:flex md:items-center md:justify-between">
                             <div class="flex flex-col md:flex-row md:mx-6">
+                                <!-- places Links -->
+                                <div class="items-center md:flex">
+                                    <span class="invisible md:visible mx-2 text-gray-500">
+                                        &nbsp;
+                                    </span>
+                                    <x-nav-link :href="route('livewire.place-in')">
+                                        <div class="text-sm">
+                                            <i class="fa-regular fa-map"></i>
+                                        </div>
+                                    </x-nav-link>
+                                </div>
+
                                 <!-- femalePigs Links -->
-                                <div class="items-center ms:flex">
+                                <div class="items-center md:flex">
+                                    <span class="invisible md:visible mx-2 lg:mx-4 text-gray-500">
+                                        /
+                                    </span>
                                     <x-nav-link :href="route('female_pigs.index')">
                                         <div class="text-sm text-rose-800">
                                             <i class="fa-solid fa-venus"></i>&ensp;
@@ -47,7 +62,7 @@
 
                                 <!-- malePigs Links -->
                                 <div class="items-center md:flex">
-                                    <span class="invisible md:visible mx-5 text-gray-500">
+                                    <span class="invisible md:visible mx-2 lg:mx-4 text-gray-500">
                                         /
                                     </span>
                                     <x-nav-link :href="route('male_pigs.index')">
@@ -60,7 +75,7 @@
 
                                 <!-- extracts Links -->
                                 <div class="items-center md:flex">
-                                    <span class="invisible md:visible mx-5 text-gray-500">
+                                    <span class="invisible md:visible mx-2 lg:mx-4 text-gray-500">
                                         /
                                     </span>
                                     <x-nav-link :href="route('extracts.conditions')">
@@ -73,7 +88,7 @@
 
                                 <!-- extracts Links -->
                                 <div class="items-center md:flex">
-                                    <span class="invisible md:visible mx-5 text-gray-500">
+                                    <span class="invisible md:visible mx-2 lg:mx-4 text-gray-500">
                                         /
                                     </span>
                                     <x-nav-link :href="route('achievements.index')">
@@ -83,7 +98,7 @@
 
                                 <!-- Navigation Links -->
                                 <div class="items-center md:flex">
-                                    <span class="invisible md:visible mx-5 text-gray-500">
+                                    <span class="invisible md:visible mx-2 lg:mx-4 text-gray-500">
                                         /
                                     </span>
                                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">

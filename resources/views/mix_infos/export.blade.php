@@ -17,6 +17,10 @@
             <th>{{ __('female.id') }}</th>
             <th>{{ __('male1.id') }}</th>
             <th>{{ __('male2.id') }}</th>
+            <th>{{ __('first_recurrence') }}</th>
+            <th>{{ __('second_recurrence') }}</th>
+            <th>{{ __('trouble_day') }}</th>
+            <th>{{ __('trouble_id') }}</th>
         </tr>
     </thead>
     <tbody>
@@ -26,8 +30,8 @@
                 <td>{{ $mixInfo->female_pig_with_trashed->individual_num }}</td>
                 <td>{{ $mixInfo->first_male_pig_with_trashed->individual_num }}</td>
                 <td>{{ $mixInfo->second_male_pig_with_trashed->individual_num }}</td>
-                <td>{{ $mixInfo->first_recurrencea_schedule }}</td>
-                <td>{{ $mixInfo->second_recurrencea_schedule }}</td>
+                <td>{{ $mixInfo->first_recurrence_schedule }}</td>
+                <td>{{ $mixInfo->second_recurrence_schedule }}</td>
                 <td>{{ $mixInfo->delivery_schedule }}</td>
                 <td>{{ $mixInfo->born_day }}</td>
                 <td>{{ $mixInfo->born_num }}</td>
@@ -38,6 +42,10 @@
                 <td>{{ $mixInfo->female_id }}</td>
                 <td>{{ $mixInfo->first_male_id }}</td>
                 <td>{{ $mixInfo->second_male_id }}</td>
+                <td>{{ $mixInfo->first_recurrence }}</td>
+                <td>{{ $mixInfo->second_recurrence }}</td>
+                <td>{{ $mixInfo->trouble_day }}</td>
+                <td>{{ $mixInfo->trouble_id }}</td>
             </tr>
         @endforeach
     </tbody>

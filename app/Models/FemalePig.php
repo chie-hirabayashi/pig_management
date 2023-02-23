@@ -47,10 +47,14 @@ class FemalePig extends Model
     }
 
     /**
-     * Get all of the born_infos for the FemalePig
+     * Get the place associated with the FemalePig
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
+    public function place()
+    {
+        return $this->hasOne(Place::class, 'female_id', 'id')->withDefault();
+    }
 
     // アクセサ
     public function getAgeAttribute()
