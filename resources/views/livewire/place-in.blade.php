@@ -11,9 +11,9 @@
     <div class="bg-white py-6 sm:py-8 lg:py-12">
         <!-- base_information - start -->
         <div class="max-w-screen-2xl px-4 md:px-8 mx-auto">
-            @if ($isOpen)
+            {{-- @if ($isOpen)
                 @include('livewire.place-edit')
-            @endif
+            @endif --}}
 
             <!-- border - start -->
             <div class="grid xl:grid-cols-2 gap-4 md:gap-6">
