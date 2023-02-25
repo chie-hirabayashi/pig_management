@@ -54,8 +54,8 @@ return [
     |
     */
 
-    // 'asset_url' => null,
-    'asset_url' => '/assets',
+    'asset_url' => null,
+    // 'asset_url' => '/assets',
 
     /*
     |--------------------------------------------------------------------------
