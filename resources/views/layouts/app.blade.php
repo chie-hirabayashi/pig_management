@@ -41,7 +41,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-    <script src="{{ asset('vendor/livewire/livewire.js') }}"></script>
+    <script src="{{ asset('livewire/livewire.js') }}"></script>
 </head>
 
 <body class="font-sans antialiased">
