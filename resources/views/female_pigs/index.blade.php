@@ -188,19 +188,19 @@
                                 </div>
                                 @if ($femalePig->status == '観察中')
                                     <div
-                                        class="text-base MplusRound italic text-center before:block before:absolute before:-inset-1 before:-skew-y-3 before:bg-sky-500/50 relative inline-block">
+                                        class="text-base MplusRound italic text-center before:block before:absolute before:-inset-1 before:-skew-y-3 before:bg-red-200 relative inline-block">
                                         <span class="relative text-white">{{ $femalePig->status }}</span>
                                     </div>
                                 @endif
                                 @if ($femalePig->status == '待機中')
                                     <div
-                                        class="text-base MplusRound italic text-center before:block before:absolute before:-inset-1 before:-skew-y-3 before:bg-lime-500/50 relative inline-block">
+                                        class="text-base MplusRound italic text-center before:block before:absolute before:-inset-1 before:-skew-y-3 before:bg-amber-200 relative inline-block">
                                         <span class="relative text-white">{{ $femalePig->status }}</span>
                                     </div>
                                 @endif
                                 @if ($femalePig->status == '保育中')
                                     <div
-                                        class="text-base MplusRound italic text-center before:block before:absolute before:-inset-1 before:-skew-y-3 before:bg-pink-500/50 relative inline-block">
+                                        class="text-base MplusRound italic text-center before:block before:absolute before:-inset-1 before:-skew-y-3 before:bg-blue-200 relative inline-block">
                                         <span class="relative text-white">{{ $femalePig->status }}</span>
                                     </div>
                                 @endif
