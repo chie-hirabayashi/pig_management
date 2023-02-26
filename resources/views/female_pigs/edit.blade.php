@@ -57,10 +57,12 @@
             <!-- button - end -->
         </form>
         <!-- form - end -->
-        <a href="{{ route('female_pigs.show', $femalePig) }}"
-            class="py-1.5 px-4 transition-colors bg-transparent active:bg-gray-200 font-medium text-slate-600 rounded-lg hover:bg-gray-100 disabled:opacity-50">
-            <i class="fa-solid fa-arrow-left"></i>
-            戻る
-        </a>
+        <div class="flex flex-col">
+            <a href="{{ route('female_pigs.show', $femalePig) }}"
+                class="py-1.5 px-4 mb-6 transition-colors bg-transparent font-medium text-slate-600 rounded-lg disabled:opacity-50 transform hover:-translate-x-1">
+                <i class="fa-solid fa-arrow-left"></i>
+                戻る
+            </a>
+        </div>
     </section>
 </x-app-layout>
