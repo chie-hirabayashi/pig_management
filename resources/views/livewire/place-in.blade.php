@@ -57,17 +57,23 @@
                                                     {{-- 再発1確認 --}}
                                                     @if (date('Y-m-d', strtotime('+3 day')) > $places[$i]->female_pig->mix_infos->last()->first_recurrence_schedule &&
                                                         $places[$i]->female_pig->mix_infos->last()->first_recurrence == 0 )
-                                                        bg-pink-100
+                                                        bg-red-200
                                                     @endif
                                                     {{-- 再発2確認 --}}
                                                     @if (date('Y-m-d', strtotime('+3 day')) > $places[$i]->female_pig->mix_infos->last()->second_recurrence_schedule &&
                                                         $places[$i]->female_pig->mix_infos->last()->second_recurrence == 0)
-                                                        bg-pink-100
+                                                        bg-red-200
                                                     @endif
                                                     {{-- 分娩室異動 --}}
                                                     @if (date('Y-m-d', strtotime('+7 day')) > $places[$i]->female_pig->mix_infos->last()->delivery_schedule &&
                                                         $places[$i]->female_pig->mix_infos->last()->born_day == null )
-                                                        bg-blue-100
+                                                        bg-blue-200
+                                                    @endif
+                                                @endif
+                                                @if (!empty($places[$i]->female_pig->mix_infos->last()->id) && $places[$i]->female_pig->status == '待機中')
+                                                    {{-- 再発中 --}}
+                                                    @if ($places[$i]->female_pig->mix_infos->last()->trouble_id != 1)
+                                                        bg-amber-200
                                                     @endif
                                                 @endif
                                             ">
@@ -121,17 +127,23 @@
                                                     {{-- 再発1確認 --}}
                                                     @if (date('Y-m-d', strtotime('+3 day')) > $places[$i]->female_pig->mix_infos->last()->first_recurrence_schedule &&
                                                         $places[$i]->female_pig->mix_infos->last()->first_recurrence == 0 )
-                                                        bg-pink-100
+                                                        bg-red-200
                                                     @endif
                                                     {{-- 再発2確認 --}}
                                                     @if (date('Y-m-d', strtotime('+3 day')) > $places[$i]->female_pig->mix_infos->last()->second_recurrence_schedule &&
                                                         $places[$i]->female_pig->mix_infos->last()->second_recurrence == 0)
-                                                        bg-pink-100
+                                                        bg-red-200
                                                     @endif
                                                     {{-- 分娩室異動 --}}
                                                     @if (date('Y-m-d', strtotime('+7 day')) > $places[$i]->female_pig->mix_infos->last()->delivery_schedule &&
                                                         $places[$i]->female_pig->mix_infos->last()->born_day == null )
-                                                        bg-blue-100
+                                                        bg-blue-200
+                                                    @endif
+                                                @endif
+                                                @if (!empty($places[$i]->female_pig->mix_infos->last()->id) && $places[$i]->female_pig->status == '待機中')
+                                                    {{-- 再発中 --}}
+                                                    @if ($places[$i]->female_pig->mix_infos->last()->trouble_id != 1)
+                                                        bg-amber-200
                                                     @endif
                                                 @endif
                                             ">
