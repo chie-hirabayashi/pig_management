@@ -26,7 +26,7 @@ class StoreMixInfoRequest extends FormRequest
         return [
             'first_male_id' => 'required|select_male',
             // 'second_male_id' => 'required|select_male|different:first_male_id',
-            'second_male_id' => 'different:first_male_id',
+            // 'second_male_id' => 'different:first_male_id',
             'mix_day' => 'required|date|before_or_equal:today',
         ];
     }

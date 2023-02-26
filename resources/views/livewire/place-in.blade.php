@@ -11,9 +11,6 @@
     <div class="bg-white py-6 sm:py-8 lg:py-12">
         <!-- base_information - start -->
         <div class="max-w-screen-2xl px-4 md:px-8 mx-auto">
-            {{-- @if ($isOpen)
-                @include('livewire.place-edit')
-            @endif --}}
 
             <!-- border - start -->
             <div class="grid xl:grid-cols-2 gap-4 md:gap-6">
@@ -56,14 +53,21 @@
                                             </td>
                                             <td
                                                 class="border py-3 px-2 text-center font-medium whitespace-nowrap
-                                                @if (!empty($places[$i]->female_pig->mix_infos->last()->id)) @if ($places[$i]->female_pig->status == '観察中')
-                                                        @if (date('Y-m-d', strtotime('+3 day')) > $places[$i]->female_pig->mix_infos->last()->first_recurrence_schedule ||
-                                                                date('Y-m-d', strtotime('+3 day')) > $places[$i]->female_pig->mix_infos->last()->second_recurrence_schedule)
-                                                            @if (
-                                                                $places[$i]->female_pig->mix_infos->last()->first_recurrence == 0 ||
-                                                                    $places[$i]->female_pig->mix_infos->last()->second_recurrence == 0)
-                                                                bg-pink-100 @endif
-                                                        @endif
+                                                @if (!empty($places[$i]->female_pig->mix_infos->last()->id) && $places[$i]->female_pig->status == '観察中')
+                                                    {{-- 再発1確認 --}}
+                                                    @if (date('Y-m-d', strtotime('+3 day')) > $places[$i]->female_pig->mix_infos->last()->first_recurrence_schedule &&
+                                                        $places[$i]->female_pig->mix_infos->last()->first_recurrence == 0 )
+                                                        bg-pink-100
+                                                    @endif
+                                                    {{-- 再発2確認 --}}
+                                                    @if (date('Y-m-d', strtotime('+3 day')) > $places[$i]->female_pig->mix_infos->last()->second_recurrence_schedule &&
+                                                        $places[$i]->female_pig->mix_infos->last()->second_recurrence == 0)
+                                                        bg-pink-100
+                                                    @endif
+                                                    {{-- 分娩室異動 --}}
+                                                    @if (date('Y-m-d', strtotime('+7 day')) > $places[$i]->female_pig->mix_infos->last()->delivery_schedule &&
+                                                        $places[$i]->female_pig->mix_infos->last()->born_day == null )
+                                                        bg-blue-100
                                                     @endif
                                                 @endif
                                             ">
@@ -113,14 +117,21 @@
                                             </td>
                                             <td
                                                 class="border py-3 px-2 text-center font-medium whitespace-nowrap
-                                                @if (!empty($places[$i]->female_pig->mix_infos->last()->id)) @if ($places[$i]->female_pig->status == '観察中')
-                                                        @if (date('Y-m-d', strtotime('+3 day')) > $places[$i]->female_pig->mix_infos->last()->first_recurrence_schedule ||
-                                                                date('Y-m-d', strtotime('+3 day')) > $places[$i]->female_pig->mix_infos->last()->second_recurrence_schedule)
-                                                            @if (
-                                                                $places[$i]->female_pig->mix_infos->last()->first_recurrence == 0 ||
-                                                                    $places[$i]->female_pig->mix_infos->last()->second_recurrence == 0)
-                                                                    bg-pink-100 @endif
-                                                        @endif
+                                                @if (!empty($places[$i]->female_pig->mix_infos->last()->id) && $places[$i]->female_pig->status == '観察中')
+                                                    {{-- 再発1確認 --}}
+                                                    @if (date('Y-m-d', strtotime('+3 day')) > $places[$i]->female_pig->mix_infos->last()->first_recurrence_schedule &&
+                                                        $places[$i]->female_pig->mix_infos->last()->first_recurrence == 0 )
+                                                        bg-pink-100
+                                                    @endif
+                                                    {{-- 再発2確認 --}}
+                                                    @if (date('Y-m-d', strtotime('+3 day')) > $places[$i]->female_pig->mix_infos->last()->second_recurrence_schedule &&
+                                                        $places[$i]->female_pig->mix_infos->last()->second_recurrence == 0)
+                                                        bg-pink-100
+                                                    @endif
+                                                    {{-- 分娩室異動 --}}
+                                                    @if (date('Y-m-d', strtotime('+7 day')) > $places[$i]->female_pig->mix_infos->last()->delivery_schedule &&
+                                                        $places[$i]->female_pig->mix_infos->last()->born_day == null )
+                                                        bg-blue-100
                                                     @endif
                                                 @endif
                                             ">
@@ -194,19 +205,7 @@
                                                         </button>
                                                     @endif
                                                 </td>
-                                                <td
-                                                    class="border py-3 px-2 text-center font-medium whitespace-nowrap
-                                                @if (!empty($places[$i]->female_pig->mix_infos->last()->id)) @if ($places[$i]->female_pig->status == '観察中')
-                                                        @if (date('Y-m-d', strtotime('+3 day')) > $places[$i]->female_pig->mix_infos->last()->first_recurrence_schedule ||
-                                                                date('Y-m-d', strtotime('+3 day')) > $places[$i]->female_pig->mix_infos->last()->second_recurrence_schedule)
-                                                            @if (
-                                                                $places[$i]->female_pig->mix_infos->last()->first_recurrence == 0 ||
-                                                                    $places[$i]->female_pig->mix_infos->last()->second_recurrence == 0)
-                                                                bg-pink-100 @endif
-                                                        @endif
-                                                    @endif
-                                                @endif
-                                            ">
+                                                <td class="border py-3 px-2 text-center font-medium whitespace-nowrap">
                                                     @if ($places[$i]->female_pig->id)
                                                         <a
                                                             href="{{ route('female_pigs.show', $places[$i]->female_pig->id) }}">
@@ -253,19 +252,7 @@
                                                         </p>
                                                     </div>
                                                 </td>
-                                                <td
-                                                    class="border py-3 px-2 text-center font-medium whitespace-nowrap
-                                                @if (!empty($places[$i]->female_pig->mix_infos->last()->id)) @if ($places[$i]->female_pig->status == '観察中')
-                                                        @if (date('Y-m-d', strtotime('+3 day')) > $places[$i]->female_pig->mix_infos->last()->first_recurrence_schedule ||
-                                                                date('Y-m-d', strtotime('+3 day')) > $places[$i]->female_pig->mix_infos->last()->second_recurrence_schedule)
-                                                            @if (
-                                                                $places[$i]->female_pig->mix_infos->last()->first_recurrence == 0 ||
-                                                                    $places[$i]->female_pig->mix_infos->last()->second_recurrence == 0)
-                                                                    bg-pink-100 @endif
-                                                        @endif
-                                                    @endif
-                                                @endif
-                                            ">
+                                                <td class="border py-3 px-2 text-center font-medium whitespace-nowrap">
                                                     @if ($places[$i]->female_pig->id)
                                                         <a
                                                             href="{{ route('female_pigs.show', $places[$i]->female_pig->id) }}">

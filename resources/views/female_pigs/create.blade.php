@@ -7,8 +7,7 @@
     </x-slot>
     <!-- header - end -->
 
-    <section
-        class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-10 px-8 py-4 bg-white border rounded shadow-md">
+    <section class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-10 px-8 py-4 bg-white border rounded shadow-md">
         <!-- title -->
         <h2 class="text-2xl MplusRound text-gray-700 capitalize mb-6">
             <span class="text-rose-800">
@@ -56,10 +55,12 @@
             <!-- button - end -->
         </form>
         <!-- form - end -->
-        <a href="{{ route('female_pigs.index') }}"
-            class="py-1.5 px-4 transition-colors bg-transparent active:bg-gray-200 font-medium text-slate-600 rounded-lg hover:bg-gray-100 disabled:opacity-50">
-            <i class="fa-solid fa-arrow-left"></i>
-            戻る
-        </a>
+        <div class="flex flex-col">
+            <a href="{{ route('female_pigs.index') }}"
+                class="py-1.5 px-4 mb-4 transition-colors bg-transparent font-medium text-slate-600 rounded-lg disabled:opacity-50 transform hover:-translate-x-1">
+                <i class="fa-solid fa-arrow-left"></i>
+                戻る
+            </a>
+        </div>
     </section>
 </x-app-layout>

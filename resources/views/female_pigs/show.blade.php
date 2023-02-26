@@ -64,11 +64,11 @@
                                     value="{{ $femalePig->warn_flag == 0 ? 1 : 0 }}">
                                 <button type="submit">
                                     @if ($femalePig->warn_flag == 0)
-                                        <div class="text-gray-100">
+                                        <div class="text-gray-100 hover:text-red-300 transition transform hover:translate-y-0.5">
                                             <i class="fa-solid fa-triangle-exclamation"></i>
                                         </div>
                                     @else
-                                        <div class="text-red-600">
+                                        <div class="text-red-600 hover:text-red-300 transition transform hover:-translate-y-0.5">
                                             <i class="fa-solid fa-triangle-exclamation"></i>
                                         </div>
                                     @endif
@@ -96,15 +96,15 @@
                     <h2 class="text-center">予 定</h2>
                     @if ($mixInfos->isNotEmpty())
                         @if ($mixInfos->last()->born_day == null && $mixInfos->last()->trouble_id == 1)
-                            
+
                             <div class="flex">
-                                <div class="mr-4">
+                                <div class="mr-4 mb-1">
                                     再発予定日1 : {{ $mixInfos->last()->first_recurrence_schedule }}
                                 </div>
                                 <div>
                                     {{-- 再発予定3日前から表示 --}}
                                     @if (date('Y-m-d H:i:s', strtotime('+3 day')) > $mixInfos->last()->first_recurrence_schedule &&
-                                        $mixInfos->last()->first_recurrence == 0)
+                                            $mixInfos->last()->first_recurrence == 0)
                                         @auth
                                             <form action="{{ route('female_pigs.updateRecurrence', $femalePig) }}"
                                                 method="POST">
@@ -112,9 +112,16 @@
                                                 @method('PATCH')
                                                 <input type="hidden" name="first_recurrence" id=""
                                                     value="{{ 1 }}">
-                                                <button class="text-red-500" type="submit"
+                                                <button class="text-red-500 hover:text-red-700 transition transform hover:-translate-y-0.5" type="submit"
                                                     onclick="if(!confirm('再発の確認をしました')){return false};">
-                                                    <i class="fa-solid fa-circle-check"></i>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                        class="w-6 h-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M10.125 2.25h-4.5c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9M10.125 2.25h.375a9 9 0 019 9v.375M10.125 2.25A3.375 3.375 0 0113.5 5.625v1.5c0 .621.504 1.125 1.125 1.125h1.5a3.375 3.375 0 013.375 3.375M9 15l2.25 2.25L15 12" />
+                                                    </svg>
+
+                                                    {{-- <i class="fa-solid fa-circle-check"></i> --}}
                                                 </button>
                                             </form>
                                         @else
@@ -127,13 +134,13 @@
                             </div>
 
                             <div class="flex">
-                                <div class="mr-4">
+                                <div class="mr-4 mb-1">
                                     再発予定日2 : {{ $mixInfos->last()->second_recurrence_schedule }}
                                 </div>
                                 <div>
                                     {{-- 再発予定3日前から表示 --}}
                                     @if (date('Y-m-d H:i:s', strtotime('+3 day')) > $mixInfos->last()->second_recurrence_schedule &&
-                                        $mixInfos->last()->second_recurrence == 0)
+                                            $mixInfos->last()->second_recurrence == 0)
                                         @auth
                                             <form action="{{ route('female_pigs.updateRecurrence', $femalePig) }}"
                                                 method="POST">
@@ -141,9 +148,14 @@
                                                 @method('PATCH')
                                                 <input type="hidden" name="second_recurrence" id=""
                                                     value="{{ 1 }}">
-                                                <button class="text-red-500" type="submit"
+                                                <button class="text-red-500 hover:text-red-700 transition transform hover:-translate-y-0.5" type="submit"
                                                     onclick="if(!confirm('再発の確認をしました')){return false};">
-                                                    <i class="fa-solid fa-circle-check"></i>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                        class="w-6 h-6">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M10.125 2.25h-4.5c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9M10.125 2.25h.375a9 9 0 019 9v.375M10.125 2.25A3.375 3.375 0 0113.5 5.625v1.5c0 .621.504 1.125 1.125 1.125h1.5a3.375 3.375 0 013.375 3.375M9 15l2.25 2.25L15 12" />
+                                                    </svg>
                                                 </button>
                                             </form>
                                         @else
@@ -367,15 +379,15 @@
                     <div class="flex flex-row text-center my-4">
                         {{-- @can('update', $post) --}}
                         <a href="{{ route('female_pigs.edit', $femalePig) }}" {{-- class="bg-blue-400 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20 mr-2"> --}} {{-- class="bg-cyan-800 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-20 mr-2"> --}}
-                            class="mr-2 py-1.5 px-4 transition-colors bg-gray-50 border active:bg-cyan-800 font-medium border-gray-200 hover:text-white text-cyan-600 hover:border-cyan-700 rounded-lg hover:bg-cyan-700 disabled:opacity-50">
-                            編 集
+                            class="mr-2 py-1.5 px-9 transition-colors bg-gray-50 border active:bg-cyan-800 font-medium border-gray-200 hover:text-white text-cyan-600 hover:border-cyan-700 rounded-lg hover:bg-cyan-700 disabled:opacity-50">
+                            編&emsp;集
                         </a>
                         {{-- @endcan --}}
                         {{-- @can('delete', $post) --}}
                         <form action="{{ route('female_pigs.destroy', $femalePig) }}" method="post">
                             @csrf
                             @method('DELETE')
-                            <input type="submit" value="廃 用" onclick="if(!confirm('廃用にしますか？')){return false};"
+                            <input type="submit" value="死亡・廃用" onclick="if(!confirm('廃用にしますか？')){return false};"
                                 class="py-1.5 px-4 transition-colors bg-gray-50 border active:bg-red-700 font-medium border-gray-200 hover:text-white text-red-600 hover:border-red-600 rounded-lg hover:bg-red-600 disabled:opacity-50">
                         </form>
                     </div>
@@ -394,7 +406,7 @@
                 <div class="MplusRound text-xl font-medium text-gray-600 py-1 px-8">出 産 情 報</div>
                 <div class="px-4 leading-10">
                     @auth
-                    {{-- @can('update', $post) --}}
+                        {{-- @can('update', $post) --}}
                         @if ($mixInfos->isNotEmpty())
                             @if ($born_infos->isEmpty() || $mixInfos->last()->id !== $born_infos->last()->mix_id)
                                 <a href="{{ route('born_infos.create', $mixInfos->last()) }}"
@@ -403,7 +415,7 @@
                                 </a>
                             @endif
                         @endif
-                    {{-- @endcan --}}
+                        {{-- @endcan --}}
                     @endauth
                 </div>
             </div>
@@ -412,7 +424,8 @@
                     <span class="font-semibold text-cyan-800 ">
                         編 集
                     </span>
-                から記録します。</p>
+                    から記録します。
+                </p>
             </div>
         </div>
         <!-- born_table - start -->
@@ -445,58 +458,58 @@
             <tbody>
                 @foreach ($born_infos as $born_info)
                     @if ($born_info->born_num)
-                    <tr class="bg-white border-b hover:bg-gray-50 whitespace-nowrap">
-                        <td class="py-4 pr-4 pl-6 w-1/6">
-                            {{ $born_info->born_day }}
-                        </td>
-                        <td class="py-4 px-4 w-1/12 text-center">
-                            {{ empty($born_info->born_num) ? '' : $born_info->born_num . '匹' }}
-                        </td>
-                        <td class="py-4 px-4 w-1/12 text-center">
-                            {{ $born_info->first_male }}
-                            <p class="line-through">
-                                {{ $born_info->first_delete_male }}
-                            </p>
-                        </td>
-                        <td class="py-4 px-4 w-1/12 text-center">
-                            @if ($born_info->second_male == null && $born_info->second_delete_male == null)
-                                -
-                            @else
-                                {{ $born_info->second_male }}
+                        <tr class="bg-white border-b hover:bg-gray-50 whitespace-nowrap">
+                            <td class="py-4 pr-4 pl-6 w-1/6">
+                                {{ $born_info->born_day }}
+                            </td>
+                            <td class="py-4 px-4 w-1/12 text-center">
+                                {{ empty($born_info->born_num) ? '' : $born_info->born_num . '匹' }}
+                            </td>
+                            <td class="py-4 px-4 w-1/12 text-center">
+                                {{ $born_info->first_male }}
                                 <p class="line-through">
-                                    {{ $born_info->second_delete_male }}
+                                    {{ $born_info->first_delete_male }}
                                 </p>
-                            @endif
-                        </td>
-                        <td class="py-4 px-4 w-1/12 text-center">
-                            {{ empty($born_info->rotate) ? '' : $born_info->rotate . '回' }}
-                        </td>
-                        <td class="py-4 px-4 w-1/6 text-center">
-                            {{ $born_info->weaning_day }}
-                        </td>
-                        <td class="py-4 px-4 w-1/12 text-center">
-                            {{ empty($born_info->weaning_num) ? '' : $born_info->weaning_num . '匹' }}
-                        </td>
-                        <td class="text-center py-4 px-4 w-1/12">
-                            @auth
-                                <a href="{{ route('born_infos.edit', $born_info) }}"
-                                    class="text-center basis-1/2 font-medium text-cyan-800 hover:underline hover:font-bold">
-                                    編 集
-                                </a>
-                            @endauth
-                        </td>
-                        <td class="py-4 pr-6 w-1/12">
-                            @auth
-                                <form action="{{ route('born_infos.destroy', $born_info) }}" method="post">
-                                    @csrf
-                                    @method('PATCH')
-                                    <input type="submit" value="削 除"
-                                        onclick="if(!confirm('出産情報を削除しますか？')){return false};"
-                                        class="basis-1/2 font-medium text-red-600 hover:underline hover:font-bold">
-                                </form>
-                            @endauth
-                        </td>
-                    </tr>
+                            </td>
+                            <td class="py-4 px-4 w-1/12 text-center">
+                                @if ($born_info->second_male == null && $born_info->second_delete_male == null)
+                                    -
+                                @else
+                                    {{ $born_info->second_male }}
+                                    <p class="line-through">
+                                        {{ $born_info->second_delete_male }}
+                                    </p>
+                                @endif
+                            </td>
+                            <td class="py-4 px-4 w-1/12 text-center">
+                                {{ empty($born_info->rotate) ? '' : $born_info->rotate . '回' }}
+                            </td>
+                            <td class="py-4 px-4 w-1/6 text-center">
+                                {{ $born_info->weaning_day }}
+                            </td>
+                            <td class="py-4 px-4 w-1/12 text-center">
+                                {{ empty($born_info->weaning_num) ? '' : $born_info->weaning_num . '匹' }}
+                            </td>
+                            <td class="text-center py-4 px-4 w-1/12">
+                                @auth
+                                    <a href="{{ route('born_infos.edit', $born_info) }}"
+                                        class="text-center basis-1/2 font-medium text-cyan-800 hover:underline hover:font-bold">
+                                        編 集
+                                    </a>
+                                @endauth
+                            </td>
+                            <td class="py-4 pr-6 w-1/12">
+                                @auth
+                                    <form action="{{ route('born_infos.destroy', $born_info) }}" method="post">
+                                        @csrf
+                                        @method('PATCH')
+                                        <input type="submit" value="削 除"
+                                            onclick="if(!confirm('出産情報を削除しますか？')){return false};"
+                                            class="basis-1/2 font-medium text-red-600 hover:underline hover:font-bold">
+                                    </form>
+                                @endauth
+                            </td>
+                        </tr>
                     @endif
                 @endforeach
             </tbody>
@@ -515,12 +528,12 @@
                 <div class="MplusRound text-xl font-medium text-gray-600 py-1 px-8">交 配 記 録</div>
                 <div class="px-4 leading-10">
                     @auth
-                    {{-- @can('update', $post) --}}
+                        {{-- @can('update', $post) --}}
                         <a href="{{ route('female_pigs.mix_infos.create', $femalePig) }}"
                             class="text-sky-700 after:content-['_↗'] text-base py-1 px-3 transition-colors bg-transparent rounded-lg hover:underline hover:font-bold">
                             交配登録
                         </a>
-                    {{-- @endcan --}}
+                        {{-- @endcan --}}
                     @endauth
                 </div>
             </div>
@@ -529,7 +542,8 @@
                     <span class="font-semibold text-cyan-800 ">
                         編 集
                     </span>
-                から記録します。</p>
+                    から記録します。
+                </p>
             </div>
         </div>
 
@@ -563,8 +577,7 @@
             <tbody>
                 @if ($mixInfos)
                     @foreach ($mixInfos as $mixInfo)
-                        <tr
-                            class="bg-white border-b hover:bg-gray-50 whitespace-nowrap">
+                        <tr class="bg-white border-b hover:bg-gray-50 whitespace-nowrap">
                             <td class="py-4 px-6">
                                 {{ $mixInfo->mix_day }}
                             </td>
@@ -631,7 +644,7 @@
     </div>
     <div class="flex flex-col items-center gap-4 md:gap-6">
         <a href="javascript:history.back()"
-            class="py-1.5 px-4 mb-10 transition-colors bg-transparent active:bg-gray-200 font-medium text-slate-600 rounded-lg hover:bg-gray-100 disabled:opacity-50">
+            class="py-1.5 px-4 mb-10 transition-colors bg-transparent font-medium text-slate-600 rounded-lg disabled:opacity-50 transform hover:-translate-x-1">
             <i class="fa-solid fa-arrow-left"></i>
             戻る
         </a>

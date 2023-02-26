@@ -10,7 +10,7 @@
     <!-- message -->
     <x-flash-msg :message="session('notice')" />
 
-    {{-- TODO:メモ機能,出産予定日のアラート,離乳後一定期間交配していないアラート--}}
+    {{-- TODO:メモ機能,出産予定日のアラート,離乳後一定期間交配していないアラート --}}
 
     <div class="bg-white py-6 sm:py-8 lg:py-12">
         <div class="max-w-screen-xl px-2 md:px-4 mx-auto">
@@ -37,9 +37,11 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 8h16M4 16h16" />
                                 </svg> --}}
                                 <div x-show="!isOpen" class="inline-flex">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 p-2 rounded-md bg-white hover:bg-gray-100" fill="currentColor"
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        class="w-8 h-8 p-2 rounded-md bg-white hover:bg-gray-100" fill="currentColor"
                                         viewBox="0 0 512 512" stroke="currentColor" stroke-width="2">
-                                        <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/>
+                                        <path
+                                            d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z" />
                                     </svg>
                                     <div>search</div>
                                 </div>
@@ -149,11 +151,31 @@
                                     </span>
                                 </a>
                                 <div class="text-center -mx-2 px-4 h-10 relative">
-                                    <div class="text-4xl leading-10 w-full text-gray-100 absolute">
-                                        <i class="fa-solid fa-clipboard"></i>
+                                    <div class="leading-10 w-full text-gray-300 absolute">
+                                        {{-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="2 0 24 24"
+                                            fill="currentColor" class="w-10 h-10">
+                                            <path fill-rule="evenodd"
+                                                d="M5.337 21.718a6.707 6.707 0 01-.533-.074.75.75 0 01-.44-1.223 3.73 3.73 0 00.814-1.686c.023-.115-.022-.317-.254-.543C3.274 16.587 2.25 14.41 2.25 12c0-5.03 4.428-9 9.75-9s9.75 3.97 9.75 9c0 5.03-4.428 9-9.75 9-.833 0-1.643-.097-2.417-.279a6.721 6.721 0 01-4.246.997z"
+                                                clip-rule="evenodd" />
+                                        </svg> --}}
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                            fill="currentColor" class="w-6 h-6">
+                                            <path fill-rule="evenodd"
+                                                d="M19.902 4.098a3.75 3.75 0 00-5.304 0l-4.5 4.5a3.75 3.75 0 001.035 6.037.75.75 0 01-.646 1.353 5.25 5.25 0 01-1.449-8.45l4.5-4.5a5.25 5.25 0 117.424 7.424l-1.757 1.757a.75.75 0 11-1.06-1.06l1.757-1.757a3.75 3.75 0 000-5.304zm-7.389 4.267a.75.75 0 011-.353 5.25 5.25 0 011.449 8.45l-4.5 4.5a5.25 5.25 0 11-7.424-7.424l1.757-1.757a.75.75 0 111.06 1.06l-1.757 1.757a3.75 3.75 0 105.304 5.304l4.5-4.5a3.75 3.75 0 00-1.035-6.037.75.75 0 01-.354-1z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+
+
+
+
+
+
+
+                                        {{-- <i class="fa-solid fa-clipboard"></i> --}}
                                     </div>
                                     <div class="absolute min-w-full">
-                                        <p class="leading-10 text-sm text-sky-700">{{ $femalePig->place->place_num }}</p>
+                                        <p class="leading-10 text-sm text-sky-700">{{ $femalePig->place->place_num }}
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -218,14 +240,19 @@
                             <!-- alert - start -->
                             @if ($femalePig->status == '観察中')
                                 @if (date('Y-m-d', strtotime('+3 day')) > $femalePig->mix_infos->last()->first_recurrence_schedule &&
-                                    $femalePig->mix_infos->last()->first_recurrence == 0)
-                                    <span 
+                                        $femalePig->mix_infos->last()->first_recurrence == 0)
+                                    <span
                                         class="text-red-700 text-sm font-medium inline-flex items-center px-2.5 py-0.5 rounded">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                        {{-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                             fill="currentColor" class="bi bi-calendar-check-fill"
                                             viewBox="0 0 16 16">
                                             <path
                                                 d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zm-5.146-5.146-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708.708z" />
+                                        </svg> --}}
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M10.125 2.25h-4.5c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9M10.125 2.25h.375a9 9 0 019 9v.375M10.125 2.25A3.375 3.375 0 0113.5 5.625v1.5c0 .621.504 1.125 1.125 1.125h1.5a3.375 3.375 0 013.375 3.375M9 15l2.25 2.25L15 12" />
                                         </svg>
                                         <div class="ml-2">
                                             再発確認1
@@ -233,15 +260,20 @@
                                     </span>
                                 @endif
                                 @if (date('Y-m-d', strtotime('+3 day')) > $femalePig->mix_infos->last()->second_recurrence_schedule &&
-                                    $femalePig->mix_infos->last()->second_recurrence == 0)
+                                        $femalePig->mix_infos->last()->second_recurrence == 0)
                                     {{-- <p class="text-sm text-red-600">再発確認！</p> --}}
                                     <span
                                         class="text-red-700 text-sm font-medium inline-flex items-center px-2.5 py-0.5 rounded">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                        {{-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                             fill="currentColor" class="bi bi-calendar-check-fill"
                                             viewBox="0 0 16 16">
                                             <path
                                                 d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zm-5.146-5.146-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708.708z" />
+                                        </svg> --}}
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M10.125 2.25h-4.5c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9M10.125 2.25h.375a9 9 0 019 9v.375M10.125 2.25A3.375 3.375 0 0113.5 5.625v1.5c0 .621.504 1.125 1.125 1.125h1.5a3.375 3.375 0 013.375 3.375M9 15l2.25 2.25L15 12" />
                                         </svg>
                                         <div class="ml-2">
                                             再発確認2
@@ -249,14 +281,19 @@
                                     </span>
                                 @endif
                                 @if (date('Y-m-d', strtotime('+3 day')) > $femalePig->mix_infos->last()->delivery_schedule &&
-                                    $femalePig->mix_infos->last()->born_day == null)
+                                        $femalePig->mix_infos->last()->born_day == null)
                                     <span
                                         class="text-sky-700 text-sm font-medium inline-flex items-center px-2.5 py-0.5 rounded">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                        {{-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                             fill="currentColor" class="bi bi-calendar-check-fill"
                                             viewBox="0 0 16 16">
                                             <path
                                                 d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zm-5.146-5.146-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708.708z" />
+                                        </svg> --}}
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M10.125 2.25h-4.5c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9M10.125 2.25h.375a9 9 0 019 9v.375M10.125 2.25A3.375 3.375 0 0113.5 5.625v1.5c0 .621.504 1.125 1.125 1.125h1.5a3.375 3.375 0 013.375 3.375M9 15l2.25 2.25L15 12" />
                                         </svg>
                                         <div class="ml-2">
                                             出産予定

@@ -122,7 +122,7 @@
                 <!-- border - end -->
 
                 <a href="{{ route('male_pigs.index') }}"
-                    class="py-1.5 px-4 transition-colors bg-transparent active:bg-gray-200 font-medium text-slate-600 rounded-lg hover:bg-gray-100 disabled:opacity-50">
+                    class="py-1.5 px-4 mb-10 transition-colors bg-transparent active:bg-gray-200 font-medium text-slate-600 rounded-lg disabled:opacity-50 transform hover:-translate-x-1">
                     <i class="fa-solid fa-arrow-left"></i>
                     戻る
                 </a>

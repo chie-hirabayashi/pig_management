@@ -16,10 +16,10 @@ class PlaceController extends Controller
      */
     public function index()
     {
-        $places = Place::with('female_pig')->get();
-        $femalePigs = FemalePig::all();
-        // dd($places);
-        return view('places.index')->with(compact('places', 'femalePigs'));
+        // $places = Place::with('female_pig')->get();
+        // $femalePigs = FemalePig::all();
+        // // dd($places);
+        // return view('places.index')->with(compact('places', 'femalePigs'));
     }
 
     /**
@@ -74,8 +74,8 @@ class PlaceController extends Controller
      */
     public function update(UpdatePlaceRequest $request, Place $place)
     {
-        $place->fill($request->all());
-        dd($place);
+        // $place->fill($request->all());
+        // dd($place);
     }
 
     // FIXME:livewireに変更
