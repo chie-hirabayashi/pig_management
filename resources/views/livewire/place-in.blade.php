@@ -178,33 +178,6 @@
                                     @for ($i = 60; $i < 80; $i++)
                                         @if ($i % 2 != 0)
                                             <tr class="bg-white">
-                                                <td
-                                                    class="border py-3 px-2 text-center font-medium whitespace-nowrap
-                                                @if (!empty($places[$i]->female_pig->mix_infos->last()->id)) @if ($places[$i]->female_pig->status == '観察中')
-                                                        @if (date('Y-m-d', strtotime('+3 day')) > $places[$i]->female_pig->mix_infos->last()->first_recurrence_schedule ||
-                                                                date('Y-m-d', strtotime('+3 day')) > $places[$i]->female_pig->mix_infos->last()->second_recurrence_schedule)
-                                                            @if (
-                                                                $places[$i]->female_pig->mix_infos->last()->first_recurrence == 0 ||
-                                                                    $places[$i]->female_pig->mix_infos->last()->second_recurrence == 0)
-                                                                bg-pink-100 @endif
-                                                        @endif
-                                                    @endif
-                                                @endif
-                                                ">
-                                                    @if ($places[$i]->female_pig->id)
-                                                        <a
-                                                            href="{{ route('female_pigs.show', $places[$i]->female_pig->id) }}">
-                                                            {{ $places[$i]->female_pig->individual_num }}
-                                                        </a>
-                                                    @endif
-                                                </td>
-                                                <td class="border text-center py-3 px-6">
-                                                    <div>
-                                                        <p class="font-medium text-gray-900">
-                                                            {{ $places[$i]->place_num }}
-                                                        </p>
-                                                    </div>
-                                                </td>
                                                 <td class="border text-center px-2 py-0">
                                                     @if (empty($places[$i]->female_pig->individual_num))
                                                         <button wire:click="placeIn({{ $places[$i]->id }})"
@@ -220,6 +193,33 @@
                                                             退室
                                                         </button>
                                                     @endif
+                                                </td>
+                                                <td
+                                                    class="border py-3 px-2 text-center font-medium whitespace-nowrap
+                                                @if (!empty($places[$i]->female_pig->mix_infos->last()->id)) @if ($places[$i]->female_pig->status == '観察中')
+                                                        @if (date('Y-m-d', strtotime('+3 day')) > $places[$i]->female_pig->mix_infos->last()->first_recurrence_schedule ||
+                                                                date('Y-m-d', strtotime('+3 day')) > $places[$i]->female_pig->mix_infos->last()->second_recurrence_schedule)
+                                                            @if (
+                                                                $places[$i]->female_pig->mix_infos->last()->first_recurrence == 0 ||
+                                                                    $places[$i]->female_pig->mix_infos->last()->second_recurrence == 0)
+                                                                bg-pink-100 @endif
+                                                        @endif
+                                                    @endif
+                                                @endif
+                                            ">
+                                                    @if ($places[$i]->female_pig->id)
+                                                        <a
+                                                            href="{{ route('female_pigs.show', $places[$i]->female_pig->id) }}">
+                                                            {{ $places[$i]->female_pig->individual_num }}
+                                                        </a>
+                                                    @endif
+                                                </td>
+                                                <td class="border text-center py-3 px-6">
+                                                    <div>
+                                                        <p class="font-medium text-gray-900">
+                                                            {{ $places[$i]->place_num }}
+                                                        </p>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         @endif
