@@ -70,11 +70,11 @@
                                                         bg-blue-200
                                                     @endif
                                                 @endif
-                                                @if (!empty($places[$i]->female_pig->mix_infos->last()->id) && $places[$i]->female_pig->status == '待機中')
+                                                @if (!empty($places[$i]->female_pig->id) && $places[$i]->female_pig->status == '待機中')
                                                     {{-- 再発中 --}}
-                                                    @if ($places[$i]->female_pig->mix_infos->last()->trouble_id != 1)
+                                                    {{-- @if ($places[$i]->female_pig->mix_infos->last()->trouble_id != 1) --}}
                                                         bg-amber-200
-                                                    @endif
+                                                    {{-- @endif --}}
                                                 @endif
                                             ">
                                                 @if ($places[$i]->female_pig->id)
@@ -140,11 +140,11 @@
                                                         bg-blue-200
                                                     @endif
                                                 @endif
-                                                @if (!empty($places[$i]->female_pig->mix_infos->last()->id) && $places[$i]->female_pig->status == '待機中')
+                                                @if (!empty($places[$i]->female_pig->id) && $places[$i]->female_pig->status == '待機中')
                                                     {{-- 再発中 --}}
-                                                    @if ($places[$i]->female_pig->mix_infos->last()->trouble_id != 1)
+                                                    {{-- @if ($places[$i]->female_pig->mix_infos->last()->trouble_id != 1) --}}
                                                         bg-amber-200
-                                                    @endif
+                                                    {{-- @endif --}}
                                                 @endif
                                             ">
                                                 @if ($places[$i]->female_pig->id)

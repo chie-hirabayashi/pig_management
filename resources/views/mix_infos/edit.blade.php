@@ -6,11 +6,7 @@
         </h2>
     </x-slot>
     <!-- header - end -->
-    TODO:複数のバグを確認 <br>
-    1:オスの重複に対するバリデーションをなしにするか <br>
-    2:再発、流産の日付のrequireは他のバリデーションで使用するので必須だが、初期データが空の場合がある <br>
-    3:廃用したオスのIDは取得できない=エラーで修正できない。バリデーションを設定するか、最初からedit画面に遷移させない。 <br>
-    <section class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-10 px-8 py-4 bg-white border rounded shadow-md">
+    <section class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-10 px-8 py-4 bg-gray-100 border rounded shadow-md">
         <!-- title -->
         <h2 class="text-2xl MplusRound text-gray-700 capitalize">交配記録の修正</h2>
 
@@ -136,7 +132,7 @@
             <!-- button - start -->
             <div class="flex justify-end mt-6">
                 <input type="submit" value="更 新"
-                    class="mr-2 py-1.5 px-4 transition-colors bg-gray-50 border active:bg-cyan-800 font-medium border-gray-200 hover:text-white text-cyan-600 hover:border-cyan-700 rounded-lg hover:bg-cyan-700 disabled:opacity-50">
+                    class="mr-2 py-1.5 px-4 transition-colors text-gray-600 bg-white border font-medium border-gray-200 rounded-lg hover:bg-gray-100 disabled:opacity-50">
             </div>
             <!-- button - end -->
         </form>

@@ -8,7 +8,7 @@
     <!-- header - end -->
 
     <section
-        class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-10 px-8 py-4 bg-white border rounded shadow-md">
+        class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-10 px-8 py-4 bg-gray-100 border rounded shadow-md">
         <!-- title -->
         <h2 class="text-2xl MplusRound text-gray-700 capitalize">出産情報の修正</h2>
 
@@ -86,16 +86,18 @@
             <!-- button - start -->
             <div class="flex justify-end mt-4">
                 <input type="submit" value="更 新"
-                    class="mr-2 py-1.5 px-4 transition-colors bg-gray-50 border active:bg-cyan-800 font-medium border-gray-200 hover:text-white text-cyan-600 hover:border-cyan-700 rounded-lg hover:bg-cyan-700 disabled:opacity-50">
+                    class="mr-2 py-1.5 px-4 transition-colors text-gray-600 bg-white border font-medium border-gray-200 rounded-lg hover:bg-gray-100 disabled:opacity-50">
             </div>
             <!-- button - end -->
         </form>
         <!-- form - end -->
-        <a href="{{ route('female_pigs.show', $femalePig) }}"
-            class="py-1.5 px-4 mb-10 transition-colors bg-transparent active:bg-gray-200 font-medium text-slate-600 rounded-lg disabled:opacity-50 transform hover:-translate-x-1">
-            <i class="fa-solid fa-arrow-left"></i>
-            戻る
-        </a>
+        <div class="flex flex-col">
+            <a href="{{ route('female_pigs.show', $femalePig) }}"
+                class="py-1.5 px-4 mb-4 transition-colors bg-transparent font-medium text-slate-600 rounded-lg disabled:opacity-50 transform hover:-translate-x-1">
+                <i class="fa-solid fa-arrow-left"></i>
+                戻る
+            </a>
+        </div>
     </section>
     <div>&emsp;</div>
 </x-app-layout>
