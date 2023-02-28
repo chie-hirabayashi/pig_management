@@ -7,7 +7,8 @@
     </x-slot>
     <!-- header - end -->
 
-    <section class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-10 px-8 py-4 bg-white border rounded shadow-md">
+    {{-- <section class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-10 px-8 py-4 bg-white border rounded shadow-md"> --}}
+    <section class="container lg:w-3/4 md:w-4/5 w-11/12 mx-auto my-10 px-8 py-4 bg-gray-100 border rounded shadow-md">
         <!-- title -->
         <h2 class="text-2xl MplusRound text-gray-700 capitalize mb-6">
             <span class="text-rose-800">
@@ -50,7 +51,8 @@
             <!-- button - start -->
             <div class="flex justify-end mt-6">
                 <input type="submit" value="登 録"
-                    class="mr-2 py-1.5 px-4 transition-colors bg-gray-50 border active:bg-red-400 font-medium border-gray-200 hover:text-white text-rose-600 hover:border-red-400 rounded-lg hover:bg-red-400 disabled:opacity-50">
+                    class="mr-2 py-1.5 px-4 transition-colors text-gray-600 bg-white border font-medium border-gray-200 rounded-lg hover:bg-gray-100 disabled:opacity-50">
+                    {{-- class="mr-2 py-1.5 px-4 transition-colors bg-gray-50 border active:bg-red-400 font-medium border-gray-200 hover:text-white text-rose-600 hover:border-red-400 rounded-lg hover:bg-red-400 disabled:opacity-50"> --}}
             </div>
             <!-- button - end -->
         </form>

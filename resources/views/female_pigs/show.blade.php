@@ -401,16 +401,16 @@
 
     <!-- born_information - start -->
     <div class="overflow-x-auto relative shadow-md my-8">
-        <div class="flex h-10 whitespace-nowrap justify-between">
-            <div class="flex h-10 whitespace-nowrap">
-                <div class="MplusRound text-xl font-medium text-gray-600 py-1 px-8">出 産 情 報</div>
-                <div class="px-4 leading-10">
+        <div class="flex whitespace-nowrap justify-between">
+            <div class="flex whitespace-nowrap">
+                <div class="flex items-center MplusRound text-xl font-medium text-gray-600 py-1 px-8">出 産 情 報</div>
+                <div class="flex items-center px-4">
                     @auth
                         {{-- @can('update', $post) --}}
                         @if ($mixInfos->isNotEmpty())
                             @if ($born_infos->isEmpty() || $mixInfos->last()->id !== $born_infos->last()->mix_id)
                                 <a href="{{ route('born_infos.create', $mixInfos->last()) }}"
-                                    class="text-sky-700 after:content-['_↗'] text-base px-3 transition-colors bg-transparent rounded-lg hover:underline hover:font-bold">
+                                    class="text-sky-700 after:content-['_↗'] text-base py-1 px-3 transition-colors bg-transparent rounded-lg hover:font-bold transform hover:translate-x-1">
                                     出産登録
                                 </a>
                             @endif
@@ -523,14 +523,14 @@
     </div>
 
     <div class="overflow-x-auto relative shadow-md my-8">
-        <div class="flex h-10 whitespace-nowrap justify-between">
-            <div class="flex h-10 whitespace-nowrap">
-                <div class="MplusRound text-xl font-medium text-gray-600 py-1 px-8">交 配 記 録</div>
-                <div class="px-4 leading-10">
+        <div class="flex whitespace-nowrap justify-between">
+            <div class="flex whitespace-nowrap">
+                <div class="flex items-center MplusRound text-xl font-medium text-gray-600 px-8">交 配 記 録</div>
+                <div class="flex items-center px-4">
                     @auth
                         {{-- @can('update', $post) --}}
                         <a href="{{ route('female_pigs.mix_infos.create', $femalePig) }}"
-                            class="text-sky-700 after:content-['_↗'] text-base py-1 px-3 transition-colors bg-transparent rounded-lg hover:underline hover:font-bold">
+                            class="text-sky-700 after:content-['_↗'] text-base py-1 px-3 transition-colors bg-transparent rounded-lg hover:font-bold transform hover:translate-x-1">
                             交配登録
                         </a>
                         {{-- @endcan --}}

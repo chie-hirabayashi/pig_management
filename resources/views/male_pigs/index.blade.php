@@ -10,7 +10,7 @@
     <!-- message -->
     <x-flash-msg :message="session('notice')" />
 
-    <div class="bg-white py-6 sm:py-8 lg:py-12">
+    <div class="bg-gray-100 py-6 sm:py-8 lg:py-12">
         <div class="max-w-screen-xl px-4 md:px-8 mx-auto">
             <!-- title -->
             <h2 class="MplusRound text-gray-700 text-2xl lg:text-3xl text-center mb-8 md:mb-12">
@@ -22,9 +22,9 @@
             </h2>
 
             <!-- femalePig_data - start -->
-            <div class="grid sm:grid-cols-3 xl:grid-cols-5 gap-2 md:gap-4">
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-4">
                 @foreach ($malePigs as $malePig)
-                    <div class="flex flex-col border rounded-lg p-4 md:p-6">
+                    <div class="flex flex-col border rounded-lg p-4 md:p-6 bg-white shadow-md">
                         <div class="flex flex-col items-center gap-2 md:gap-4">
                             <!-- individual_num & flag - start -->
                             <div class="flex h-10 text-center">
@@ -74,26 +74,11 @@
 
                             <!-- edit & delete - start -->
                             <div class="flex flex-row text-center my-4 mx-2">
-                                {{-- @can('update', $post) --}}
-                                {{-- <a href="{{ route('male_pigs.edit', $malePig) }}"
-                                    class="bg-blue-400 hover:bg-blue-600 text-sm text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline w-16 mr-2">
-                                    編 集
-                                </a> --}}
-                                {{-- @endcan --}}
-                                {{-- @can('delete', $post) --}}
-                                {{-- <form action="{{ route('male_pigs.destroy', $malePig) }}" method="post">
-                                    @csrf
-                                    @method('DELETE')
-                                    <input type="submit" value="廃 用"
-                                        onclick="if(!confirm('廃用にしますか？')){return false};"
-                                        class="bg-pink-400 hover:bg-pink-600 text-sm text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline w-16 mr-2">
-                                </form> --}}
-
                                 @auth
                                     <div class="inline-flex rounded-md shadow-sm" role="group">
                                         <a href="{{ route('male_pigs.edit', $malePig) }}"
-                                            class="py-1 px-3 text-sm font-medium transition-colors bg-gray-50 border active:bg-cyan-800 font-medium border-gray-200 hover:text-white text-cyan-600 hover:border-cyan-700 rounded-l-lg hover:bg-cyan-700 disabled:opacity-50">
-                                            編 集
+                                            class="py-1 px-7 text-sm font-medium transition-colors bg-gray-50 border active:bg-cyan-800 font-medium border-gray-200 hover:text-white text-cyan-600 hover:border-cyan-700 rounded-l-lg hover:bg-cyan-700 disabled:opacity-50">
+                                            編&emsp;集
                                         </a>
                                         <form action="{{ route('male_pigs.destroy', $malePig) }}" method="post">
                                             @csrf
@@ -101,7 +86,7 @@
                                             <button type="submit" onclick="if(!confirm('廃用にしますか？')){return false};"
                                                 {{-- class="py-1 px-3 text-sm font-medium text-gray-900 bg-white rounded-r-md border border-gray-200 hover:bg-red-200 hover:text-red-800 focus:z-10 focus:ring-2 focus:ring-red-700 focus:text-red-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-blue-500 dark:focus:text-white"> --}}
                                             class="py-1 px-3 text-sm font-medium transition-colors bg-gray-50 border active:bg-red-800 font-medium border-gray-200 hover:text-white text-red-600 hover:border-red-700 rounded-r-lg hover:bg-red-700 disabled:opacity-50">
-                                                廃 用
+                                                死亡・廃用
                                             </button>
                                         </form>
                                     </div>

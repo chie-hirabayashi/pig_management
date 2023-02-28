@@ -12,7 +12,8 @@
 
     {{-- TODO:メモ機能,出産予定日のアラート,離乳後一定期間交配していないアラート --}}
 
-    <div class="bg-white py-6 sm:py-8 lg:py-12">
+    {{-- <div class="bg-white py-6 sm:py-8 lg:py-12"> --}}
+    <div class="bg-gray-100 py-6 sm:py-8 lg:py-12">
         <div class="max-w-screen-xl px-2 md:px-4 mx-auto">
             <!-- title -->
             <h2 class="MplusRound text-gray-700 text-2xl lg:text-3xl text-center mb-6">
@@ -24,7 +25,7 @@
             </h2>
 
             <!-- nav - start -->
-            <nav x-data="{ isOpen: false }" class="relative bg-white">
+            <nav x-data="{ isOpen: false }" class="relative bg-gray-100">
                 <div class="container px-6 py-2 mx-auto md:flex">
                     <div class="">
                         <!-- Mobile menu button -->
@@ -32,13 +33,9 @@
                             <button x-cloak @click="isOpen = !isOpen" type="button"
                                 class="leading-8 text-gray-500 hover:text-gray-600 focus:outline-none focus:text-gray-600"
                                 aria-label="toggle menu">
-                                {{-- <svg x-show="!isOpen" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 8h16M4 16h16" />
-                                </svg> --}}
                                 <div x-show="!isOpen" class="inline-flex">
                                     <svg xmlns="http://www.w3.org/2000/svg"
-                                        class="w-8 h-8 p-2 rounded-md bg-white hover:bg-gray-100" fill="currentColor"
+                                        class="w-8 h-8 p-2 rounded-md bg-gray-100 hover:bg-gray-100" fill="currentColor"
                                         viewBox="0 0 512 512" stroke="currentColor" stroke-width="2">
                                         <path
                                             d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z" />
@@ -56,7 +53,7 @@
 
                     <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
                     <div x-cloak :class="[isOpen ? 'translate-x-0 opacity-100 ' : 'opacity-0 -translate-x-full']"
-                        class="absolute inset-x-0 z-20 w-full px-4 py-3 transition-all duration-300 ease-in-out bg-white md:mt-0 md:p-0 md:top-0 md:relative md:opacity-100 md:translate-x-0 md:flex md:items-center md:justify-between">
+                        class="absolute inset-x-0 z-20 w-full px-4 py-3 transition-all duration-300 ease-in-out bg-gray-100 md:mt-0 md:p-0 md:top-0 md:relative md:opacity-100 md:translate-x-0 md:flex md:items-center md:justify-between">
 
                         <div class="relative mt-4 md:mt-0">
                             <div class="">
@@ -79,7 +76,7 @@
                                         @endforeach
                                     </select>
                                     <button type="submit"
-                                        class="text-sky-700 text-sm py-1 transition-colors bg-transparent rounded-lg hover:underline hover:font-semibold">
+                                        class="text-gray-700 text-sm py-1 transition-colors bg-transparent rounded-lg hover:font-semibold transform hover:-translate-x-1">
                                         <i class="fa-solid fa-hand-point-left"></i>
                                         個体検索
                                     </button>
@@ -102,7 +99,7 @@
                                 <input type="number" name="search_age" min=1 max=10 value="{{ 'search_age' }}"
                                     class="w-25 py-1 pl-10 pr-2 text-gray-700 bg-white border rounded-lg focus:border-blue-400 focus:outline-none focus:ring focus:ring-opacity-40 focus:ring-blue-300">
                                 <button type="submit"
-                                    class="text-sky-700 text-sm py-1 transition-colors bg-transparent rounded-lg hover:underline hover:font-semibold">
+                                    class="text-gray-700 text-sm py-1 transition-colors bg-transparent rounded-lg hover:font-semibold transform hover:-translate-x-1">
                                     <i class="fa-solid fa-hand-point-left"></i>
                                     年齢検索
                                 </button>
@@ -113,7 +110,7 @@
                             <form action="{{ route('female_pigs.index') }}" method="GET">
                                 <input type="hidden" name="search_flag" value="1">
                                 <input type="submit" value="要注意Pig"
-                                    class="mr-2 py-1.5 px-4 text-sm transition-colors bg-gray-50 border active:bg-sky-700 font-medium border-gray-200 hover:text-white text-sky-700 hover:border-sky-800 rounded-lg hover:bg-sky-700 disabled:opacity-50">
+                                    class="mr-2 py-1.5 px-4 text-sm transition-colors bg-white border font-medium border-gray-200 text-gray-600 rounded-lg hover:bg-gray-100 disabled:opacity-50 transform hover:-translate-y-1">
                             </form>
                         </div>
 
@@ -121,7 +118,7 @@
                             <form action="{{ route('female_pigs.index') }}" method="GET">
                                 <input type="hidden" name="search_rotate" value="1">
                                 <input type="submit" value="回転数低下Pig"
-                                    class="mr-2 py-1.5 px-4 text-sm transition-colors bg-gray-50 border active:bg-sky-700 font-medium border-gray-200 hover:text-white text-sky-700 hover:border-sky-800 rounded-lg hover:bg-sky-700 disabled:opacity-50">
+                                    class="mr-2 py-1.5 px-4 text-sm transition-colors bg-white border font-medium border-gray-200 text-gray-600 rounded-lg hover:bg-gray-100 disabled:opacity-50 transform hover:-translate-y-1">
                             </form>
                         </div>
                     </div>
@@ -132,7 +129,7 @@
             <!-- femalePig_data - start -->
             <div class="grid sm:grid-cols-3 xl:grid-cols-5 gap-2 md:gap-4">
                 @foreach ($femalePigs as $femalePig)
-                    <div class="flex flex-col border rounded-lg p-4 md:p-6">
+                    <div class="bg-white flex flex-col border rounded-lg p-4 md:p-6 shadow-md">
                         <div class="flex flex-col items-center gap-2 md:gap-4">
                             <!-- individual_num & flag - start -->
                             <div class="flex h-10 text-center">
@@ -165,12 +162,6 @@
                                                 clip-rule="evenodd" />
                                         </svg>
 
-
-
-
-
-
-
                                         {{-- <i class="fa-solid fa-clipboard"></i> --}}
                                     </div>
                                     <div class="absolute min-w-full">
@@ -188,19 +179,19 @@
                                 </div>
                                 @if ($femalePig->status == '観察中')
                                     <div
-                                        class="text-base MplusRound italic text-center before:block before:absolute before:-inset-1 before:-skew-y-3 before:bg-red-200 relative inline-block">
+                                        class="text-base MplusRound italic text-center before:block before:absolute before:-inset-1 before:-skew-y-3 before:bg-red-300 relative inline-block">
                                         <span class="relative text-white">{{ $femalePig->status }}</span>
                                     </div>
                                 @endif
                                 @if ($femalePig->status == '待機中')
                                     <div
-                                        class="text-base MplusRound italic text-center before:block before:absolute before:-inset-1 before:-skew-y-3 before:bg-amber-200 relative inline-block">
+                                        class="text-base MplusRound italic text-center before:block before:absolute before:-inset-1 before:-skew-y-3 before:bg-amber-300 relative inline-block">
                                         <span class="relative text-white">{{ $femalePig->status }}</span>
                                     </div>
                                 @endif
                                 @if ($femalePig->status == '保育中')
                                     <div
-                                        class="text-base MplusRound italic text-center before:block before:absolute before:-inset-1 before:-skew-y-3 before:bg-blue-200 relative inline-block">
+                                        class="text-base MplusRound italic text-center before:block before:absolute before:-inset-1 before:-skew-y-3 before:bg-blue-300 relative inline-block">
                                         <span class="relative text-white">{{ $femalePig->status }}</span>
                                     </div>
                                 @endif

@@ -1,6 +1,8 @@
-<nav x-data="{ open: false }" class="bg-white shadow border-b border-gray-300">
+{{-- <nav x-data="{ open: false }" class="bg-gray-200 shadow border-b border-gray-300"> --}}
+<nav x-data="{ open: false }" class="">
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto pr-4">
+    {{-- <div class="max-w-7xl mx-auto pr-4 bg-pink-300"> --}}
+    <div class="max-w-7xl mx-auto pr-4 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-gray-200 via-gray-100 to-gray-500">
         <div class="flex justify-between">
             <div class="flex">
                 <!-- Logo -->
@@ -10,8 +12,8 @@
                     </a>
                 </div> --}}
 
-                <nav x-data="{ isOpen: false }" class="relative bg-white">
-                    <div class="container items-center justify-center pl-4 pr-20 md:px-6 py-6 mx-auto md:flex md:justify-between md:items-center">
+                <nav x-data="{ isOpen: false }" class="relative">
+                    <div class="container items-center justify-center pl-4 pr-20 md:px-6 py-4 mx-auto md:flex md:justify-between md:items-center">
                         <div class="">
 
                             <!-- Mobile menu button -->
@@ -33,7 +35,7 @@
 
                         <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
                         <div x-cloak :class="[isOpen ? 'block translate-x-0 opacity-100' : 'opacity-0 -translate-x-full']"
-                            class="absolute inset-x-0 z-20 w-40 md:w-full px-4 py-3 transition-all duration-300 ease-in-out bg-gray-100 md:bg-white border rounded-lg md:border-hidden md:mt-0 md:p-0 md:top-0 md:relative md:opacity-100 md:translate-x-0 md:flex md:items-center md:justify-between">
+                            class="absolute inset-x-0 z-20 w-40 md:w-full px-2 py-3 ml-2 transition-all duration-300 ease-in-out bg-white md:bg-transparent border rounded-lg md:border-hidden md:mt-0 md:p-0 md:top-0 md:relative md:opacity-100 md:translate-x-0 md:flex md:items-center md:justify-between shadow-md md:shadow-none">
                             <div class="flex flex-col md:flex-row md:mx-6">
                                 <!-- places Links -->
                                 <div class="items-center md:flex">
@@ -122,7 +124,7 @@
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button
-                            class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
+                            class="flex items-center text-sm font-medium text-gray-700 hover:text-white hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
                             @auth
                                 <div>{{ Auth::user()->name }}</div>
                             @else
@@ -193,7 +195,7 @@
             <!-- Hamburger -->
             <div class="-mr-2 flex items-center sm:hidden">
                 <button @click="open = ! open"
-                    class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
+                    class="inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-white focus:outline-none focus:text-gray-500 transition duration-150 ease-in-out">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{ 'hidden': open, 'inline-flex': !open }" class="inline-flex"
                             stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

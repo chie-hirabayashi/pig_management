@@ -27,28 +27,9 @@ class FemalePigController extends Controller
         $searchItems = FemalePig::all()->sortBy('individual_num');
         $femalePigs = FemalePig::with(['mix_infos', 'place'])->get();
 
-        // foreach ($femalePigs as $femalePig) {
-        //     $femalePig->status; # 状態プロパティ追加
-        //     $femalePig->rotate_prediction; # 予測回転数プロパティ追加
-        //     $femalePig->sort_day;
-        // }
-
         // status順に並び替え
         $femalePigs = $femalePigs->sortByDesc('status')->sortBy('sort_day');
-
-        // $today = Carbon::now(); 
         
-        // $first_recurrence = Carbon::create($femalePigs[0]->mix_infos->last()->first_recurrence_schedule);
-        // $second_recurrence = Carbon::create($femalePigs[0]->mix_infos->last()->second_recurrence_schedule);
-        // $delivery_recurrence = Carbon::create($femalePigs[0]->mix_infos->last()->delivery_schedule);
-        
-        // $day1 = $today->diffInDays($first_recurrence);
-        // $day2 = $today->diffInDays($second_recurrence);
-        // $day3 = $today->diffInDays($delivery_recurrence);
-        // $box = [$day1, $day2, $day3];
-
-        // $femalePigs[0]->day = min($box);
-// dd($femalePigs);
         // 検索機能
         $search = $request->search;
         $search_age = $request->search_age;
