@@ -36,6 +36,7 @@
                                     @for ($i = 30; $i < 60; $i++)
                                         <tr class="bg-white">
                                             <td class="border text-center px-2 py-0">
+                                            @auth
                                                 @if (empty($places[$i]->female_pig->individual_num))
                                                     <button wire:click="placeIn({{ $places[$i]->id }})"
                                                         class="basis-1/2 font-medium text-cyan-800 hover:underline hover:font-bold">
@@ -50,22 +51,23 @@
                                                         退室
                                                     </button>
                                                 @endif
+                                            @endauth
                                             </td>
                                             <td
                                                 class="border py-3 px-2 text-center font-medium whitespace-nowrap
                                                 @if (!empty($places[$i]->female_pig->mix_infos->last()->id) && $places[$i]->female_pig->status == '観察中')
                                                     {{-- 再発1確認 --}}
                                                     @if (date('Y-m-d', strtotime('+3 day')) > $places[$i]->female_pig->mix_infos->last()->first_recurrence_schedule &&
-                                                        $places[$i]->female_pig->mix_infos->last()->first_recurrence == 0 )
+                                                        date('Y-m-d', strtotime('-4 day')) < $places[$i]->female_pig->mix_infos->last()->first_recurrence_schedule )
                                                         bg-red-200
                                                     @endif
                                                     {{-- 再発2確認 --}}
                                                     @if (date('Y-m-d', strtotime('+3 day')) > $places[$i]->female_pig->mix_infos->last()->second_recurrence_schedule &&
-                                                        $places[$i]->female_pig->mix_infos->last()->second_recurrence == 0)
+                                                        date('Y-m-d', strtotime('-4 day')) < $places[$i]->female_pig->mix_infos->last()->second_recurrence_schedule)
                                                         bg-red-200
                                                     @endif
                                                     {{-- 分娩室異動 --}}
-                                                    @if (date('Y-m-d', strtotime('+7 day')) > $places[$i]->female_pig->mix_infos->last()->delivery_schedule &&
+                                                    @if (date('Y-m-d', strtotime('+14 day')) > $places[$i]->female_pig->mix_infos->last()->delivery_schedule &&
                                                         $places[$i]->female_pig->mix_infos->last()->born_day == null )
                                                         bg-blue-200
                                                     @endif
@@ -155,6 +157,7 @@
                                                 @endif
                                             </td>
                                             <td class="border text-center px-2 py-0">
+                                                @auth
                                                 @if (empty($places[$i]->female_pig->individual_num))
                                                     <button wire:click="placeIn({{ $places[$i]->id }})"
                                                         class="basis-1/2 font-medium text-cyan-800 hover:underline hover:font-bold">
@@ -169,6 +172,7 @@
                                                         退室
                                                     </button>
                                                 @endif
+                                                @endauth
                                             </td>
                                         </tr>
                                     @endfor
@@ -202,6 +206,7 @@
                                         @if ($i % 2 != 0)
                                             <tr class="bg-white">
                                                 <td class="border text-center px-2 py-0">
+                                                    @auth
                                                     @if (empty($places[$i]->female_pig->individual_num))
                                                         <button wire:click="placeIn({{ $places[$i]->id }})"
                                                             class="basis-1/2 font-medium text-cyan-800 hover:underline hover:font-bold">
@@ -216,6 +221,7 @@
                                                             退室
                                                         </button>
                                                     @endif
+                                                    @endauth
                                                 </td>
                                                 <td class="border py-3 px-2 text-center font-medium whitespace-nowrap">
                                                     @if ($places[$i]->female_pig->id)
@@ -273,6 +279,7 @@
                                                     @endif
                                                 </td>
                                                 <td class="border text-center px-2 py-0">
+                                                    @auth
                                                     @if (empty($places[$i]->female_pig->individual_num))
                                                         <button wire:click="placeIn({{ $places[$i]->id }})"
                                                             class="basis-1/2 font-medium text-cyan-800 hover:underline hover:font-bold">
@@ -287,6 +294,7 @@
                                                             退室
                                                         </button>
                                                     @endif
+                                                    @endauth
                                                 </td>
                                             </tr>
                                         @endif

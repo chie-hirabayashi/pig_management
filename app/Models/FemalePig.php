@@ -61,7 +61,7 @@ class FemalePig extends Model
     {
         $add_day = Carbon::create($this->add_day);
         $now = Carbon::now();
-        
+
         return $now->addMonth(6)->diffInYears($add_day);
     }
 
@@ -70,13 +70,16 @@ class FemalePig extends Model
         $add_day = Carbon::create($this->add_day);
         $year = Carbon::create($this->year);
 
-        return $year->addYear(1)->addMonth(6)->diffInYears($add_day);
+        return $year
+            ->addYear(1)
+            ->addMonth(6)
+            ->diffInYears($add_day);
     }
 
     public function getStatusAttribute()
     {
         $mixInfo_last = $this->mix_infos->last();
-        
+
         switch (true) {
             // 観察中:mix_dayあり&&born_dayなし&&troubleなし
             // 参考:120日間(交配~出産予定114日+6日)
@@ -94,6 +97,10 @@ class FemalePig extends Model
                 break;
 
             // 待機中:再発、流産
+            case empty($mixInfo_last->trouble_id):
+                return '待機中';
+                break;
+
             case $mixInfo_last->trouble_id !== 1:
                 return '待機中';
                 break;
@@ -127,16 +134,27 @@ class FemalePig extends Model
 
     public function getSortDayAttribute()
     {
-        $today = Carbon::now(); 
-        
-        $first_recurrence = Carbon::create($this->mix_infos->last()->first_recurrence_schedule);
-        $second_recurrence = Carbon::create($this->mix_infos->last()->second_recurrence_schedule);
-        $delivery_recurrence = Carbon::create($this->mix_infos->last()->delivery_schedule);
-        
-        $day1 = $today->diffInDays($first_recurrence);
-        $day2 = $today->diffInDays($second_recurrence);
-        $day3 = $today->diffInDays($delivery_recurrence);
-        $day = [$day1, $day2, $day3];
+        $today = Carbon::now();
+
+        if (empty($this->mix_infos->last())) {
+            $this->status = '待機中';
+        }
+        if (!empty($this->mix_infos->last())) {
+            $first_recurrence = Carbon::create(
+                $this->mix_infos->last()->first_recurrence_schedule
+            );
+            $second_recurrence = Carbon::create(
+                $this->mix_infos->last()->second_recurrence_schedule
+            );
+            $delivery_recurrence = Carbon::create(
+                $this->mix_infos->last()->delivery_schedule
+            );
+
+            $day1 = $today->diffInDays($first_recurrence);
+            $day2 = $today->diffInDays($second_recurrence);
+            $day3 = $today->diffInDays($delivery_recurrence);
+            $day = [$day1, $day2, $day3];
+        }
 
         if ($this->status == '観察中') {
             return min($day);
