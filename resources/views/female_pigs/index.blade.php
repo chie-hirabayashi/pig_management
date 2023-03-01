@@ -149,12 +149,6 @@
                                 </a>
                                 <div class="text-center -mx-2 px-4 h-10 relative">
                                     <div class="leading-10 w-full text-gray-300 absolute">
-                                        {{-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="2 0 24 24"
-                                            fill="currentColor" class="w-10 h-10">
-                                            <path fill-rule="evenodd"
-                                                d="M5.337 21.718a6.707 6.707 0 01-.533-.074.75.75 0 01-.44-1.223 3.73 3.73 0 00.814-1.686c.023-.115-.022-.317-.254-.543C3.274 16.587 2.25 14.41 2.25 12c0-5.03 4.428-9 9.75-9s9.75 3.97 9.75 9c0 5.03-4.428 9-9.75 9-.833 0-1.643-.097-2.417-.279a6.721 6.721 0 01-4.246.997z"
-                                                clip-rule="evenodd" />
-                                        </svg> --}}
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             fill="currentColor" class="w-6 h-6">
                                             <path fill-rule="evenodd"
@@ -231,15 +225,9 @@
                             <!-- alert - start -->
                             @if ($femalePig->status == '観察中')
                                 @if (date('Y-m-d', strtotime('+3 day')) > $femalePig->mix_infos->last()->first_recurrence_schedule &&
-                                        $femalePig->mix_infos->last()->first_recurrence == 0)
+                                        date('Y-m-d', strtotime('-4 day')) < $femalePig->mix_infos->last()->first_recurrence_schedule)
                                     <span
                                         class="text-red-700 text-sm font-medium inline-flex items-center px-2.5 py-0.5 rounded">
-                                        {{-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            fill="currentColor" class="bi bi-calendar-check-fill"
-                                            viewBox="0 0 16 16">
-                                            <path
-                                                d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zm-5.146-5.146-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708.708z" />
-                                        </svg> --}}
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -251,16 +239,9 @@
                                     </span>
                                 @endif
                                 @if (date('Y-m-d', strtotime('+3 day')) > $femalePig->mix_infos->last()->second_recurrence_schedule &&
-                                        $femalePig->mix_infos->last()->second_recurrence == 0)
-                                    {{-- <p class="text-sm text-red-600">再発確認！</p> --}}
+                                        date('Y-m-d', strtotime('-4 day')) < $femalePig->mix_infos->last()->second_recurrence_schedule)
                                     <span
                                         class="text-red-700 text-sm font-medium inline-flex items-center px-2.5 py-0.5 rounded">
-                                        {{-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            fill="currentColor" class="bi bi-calendar-check-fill"
-                                            viewBox="0 0 16 16">
-                                            <path
-                                                d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zm-5.146-5.146-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708.708z" />
-                                        </svg> --}}
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -275,12 +256,6 @@
                                         $femalePig->mix_infos->last()->born_day == null)
                                     <span
                                         class="text-sky-700 text-sm font-medium inline-flex items-center px-2.5 py-0.5 rounded">
-                                        {{-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            fill="currentColor" class="bi bi-calendar-check-fill"
-                                            viewBox="0 0 16 16">
-                                            <path
-                                                d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zm-5.146-5.146-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708.708z" />
-                                        </svg> --}}
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                             <path stroke-linecap="round" stroke-linejoin="round"
