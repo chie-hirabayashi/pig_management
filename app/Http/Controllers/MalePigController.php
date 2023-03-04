@@ -6,6 +6,7 @@ use App\Http\Requests\StoreMalePigRequest;
 use App\Http\Requests\UpdateMalePigRequest;
 use App\Http\Requests\importRequest;
 use App\Exports\MalePigExport;
+use App\Exports\MalePigSourceExport;
 use App\Imports\MalePigImport;
 use App\Models\MalePig;
 use App\Models\MixInfo;
@@ -325,6 +326,11 @@ class MalePigController extends Controller
     public function export()
     {
         return Excel::download(new MalePigExport(), 'malePigs_data.xlsx');
+    }
+
+    public function source_export()
+    {
+        return Excel::download(new MalePigSourceExport(), 'malePigs_sourceData.xlsx');
     }
 
     public function import(importRequest $request)

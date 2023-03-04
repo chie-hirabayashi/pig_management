@@ -69,7 +69,7 @@
                 <!-- weaning_num - start -->
                 <div class="mb-4 mx-auto">
                     <label class="text-sm text-gray-700" for="born_day">離乳子数</label>
-                    <input type="number" name="born_num" required
+                    <input type="number" name="weaning_num" required
                         class="block px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 focus:outline-none focus:ring"
                         placeholder="匹" value="{{ old('weaning_num', $mixInfo->weaning_num) }}" min="1" max="20">
                 </div>

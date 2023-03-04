@@ -1,6 +1,4 @@
 <x-app-layout>
-    FIXME:インポートコントローラにリクエスト追加
-    TODO:データ取込は初期化が必要
     <!-- header - start -->
     <x-slot name="header">
         <h2 class="">
@@ -32,6 +30,10 @@
 
                     <hr class="border-gray-200">
 
+                        
+
+                    
+                    @if (empty($mix_infos->all()))
                     <p class="p-8 text-sm text-gray-500">
                         エクセルファイルを選択して取込をクリック<br>
                         交配出産記録は母豚データと父豚データの取込後にインポートできます
@@ -114,6 +116,12 @@
                         </form>
                     </div>
                     <!-- mixInfo_import - end -->
+                    @else
+                    <p class="p-8 text-sm text-gray-500">
+                        初期データはインポート済みです
+                    </p>
+                    @endif
+                    
                 </div>
                 <!-- import - start -->
 
@@ -139,16 +147,30 @@
                                 母豚データのエクスポート
                             </h1>
 
-                            <form method="post" action="{{ route('female_pigs.export') }}">
-                                @csrf
-                                <div class="flex justify-end text-sm">
-                                    <button type="submit"
-                                        class="mr-2 py-1.5 px-4 transition-colors bg-gray-50 border active:bg-slate-700 font-medium border-gray-200 hover:text-white text-slate-700 hover:border-slate-700 rounded-lg hover:bg-slate-700 disabled:opacity-50">
-                                        <i class="fa-solid fa-file-export"></i>
-                                        &ensp;出 力
-                                    </button>
+                            <div class="flex justify-end text-sm">
+                                <div class="grid grid-cols-2 gap-2">
+                                    <form method="post" action="{{ route('female_pigs.export') }}">
+                                        @csrf
+                                        <div class="flex justify-end text-sm">
+                                            <button type="submit"
+                                                class="mr-2 py-1.5 px-4 transition-colors bg-gray-50 border active:bg-slate-700 font-medium border-gray-200 hover:text-white text-slate-700 hover:border-slate-700 rounded-lg hover:bg-slate-700 disabled:opacity-50">
+                                                <i class="fa-solid fa-file-export"></i>
+                                                &ensp;帳簿出力
+                                            </button>
+                                        </div>
+                                    </form>
+                                    <form method="post" action="{{ route('female_pigs.source_export') }}">
+                                        @csrf
+                                        <div class="flex justify-end text-sm">
+                                            <button type="submit"
+                                                class="mr-2 py-1.5 px-4 transition-colors bg-gray-50 border active:bg-slate-700 font-medium border-gray-200 hover:text-white text-slate-700 hover:border-slate-700 rounded-lg hover:bg-slate-700 disabled:opacity-50">
+                                                <i class="fa-solid fa-file-export"></i>
+                                                &ensp;sourceデータ出力
+                                            </button>
+                                        </div>
+                                    </form>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                     <!-- femalePig_export - end -->
@@ -160,16 +182,30 @@
                                 父豚データのエクスポート
                             </h1>
 
-                            <form method="post" action="{{ route('male_pigs.export') }}">
-                                @csrf
-                                <div class="flex justify-end text-sm">
-                                    <button type="submit"
-                                        class="mr-2 py-1.5 px-4 transition-colors bg-gray-50 border active:bg-slate-700 font-medium border-gray-200 hover:text-white text-slate-700 hover:border-slate-700 rounded-lg hover:bg-slate-700 disabled:opacity-50">
-                                        <i class="fa-solid fa-file-export"></i>
-                                        &ensp;出 力
-                                    </button>
+                            <div class="flex justify-end text-sm">
+                                <div class="grid grid-cols-2 gap-2">
+                                    <form method="post" action="{{ route('male_pigs.export') }}">
+                                        @csrf
+                                        <div class="flex justify-end text-sm">
+                                            <button type="submit"
+                                                class="mr-2 py-1.5 px-4 transition-colors bg-gray-50 border active:bg-slate-700 font-medium border-gray-200 hover:text-white text-slate-700 hover:border-slate-700 rounded-lg hover:bg-slate-700 disabled:opacity-50">
+                                                <i class="fa-solid fa-file-export"></i>
+                                                &ensp;帳簿出力
+                                            </button>
+                                        </div>
+                                    </form>
+                                    <form method="post" action="{{ route('male_pigs.source_export') }}">
+                                        @csrf
+                                        <div class="flex justify-end text-sm">
+                                            <button type="submit"
+                                                class="mr-2 py-1.5 px-4 transition-colors bg-gray-50 border active:bg-slate-700 font-medium border-gray-200 hover:text-white text-slate-700 hover:border-slate-700 rounded-lg hover:bg-slate-700 disabled:opacity-50">
+                                                <i class="fa-solid fa-file-export"></i>
+                                                &ensp;sourceデータ出力
+                                            </button>
+                                        </div>
+                                    </form>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                     <!-- malePig_export - end -->
@@ -181,16 +217,30 @@
                                 交配出産記録のエクスポート
                             </h1>
 
-                            <form method="get" action="{{ route('mix_infos.export') }}">
-                                @csrf
-                                <div class="flex justify-end text-sm">
-                                    <button type="submit"
-                                        class="mr-2 py-1.5 px-4 transition-colors bg-gray-50 border active:bg-slate-700 font-medium border-gray-200 hover:text-white text-slate-700 hover:border-slate-700 rounded-lg hover:bg-slate-700 disabled:opacity-50">
-                                        <i class="fa-solid fa-file-export"></i>
-                                        &ensp;出 力
-                                    </button>
+                            <div class="flex justify-end text-sm">
+                                <div class="grid grid-cols-2 gap-2">
+                                    <form method="get" action="{{ route('mix_infos.export') }}">
+                                        @csrf
+                                        <div class="flex justify-end text-sm">
+                                            <button type="submit"
+                                                class="mr-2 py-1.5 px-4 transition-colors bg-gray-50 border active:bg-slate-700 font-medium border-gray-200 hover:text-white text-slate-700 hover:border-slate-700 rounded-lg hover:bg-slate-700 disabled:opacity-50">
+                                                <i class="fa-solid fa-file-export"></i>
+                                                &ensp;帳簿出力
+                                            </button>
+                                        </div>
+                                    </form>
+                                    <form method="get" action="{{ route('mix_infos.source_export') }}">
+                                        @csrf
+                                        <div class="flex justify-end text-sm">
+                                            <button type="submit"
+                                                class="mr-2 py-1.5 px-4 transition-colors bg-gray-50 border active:bg-slate-700 font-medium border-gray-200 hover:text-white text-slate-700 hover:border-slate-700 rounded-lg hover:bg-slate-700 disabled:opacity-50">
+                                                <i class="fa-solid fa-file-export"></i>
+                                                &ensp;sourceデータ出力
+                                            </button>
+                                        </div>
+                                    </form>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                     <!-- mixInfo_export - end -->
