@@ -52,7 +52,11 @@ class MixInfo extends Model
      */
     public function female_pig_with_trashed()
     {
-        return $this->belongsTo(FemalePig::class, 'female_id', 'id')->withTrashed();
+        return $this->belongsTo(
+            FemalePig::class,
+            'female_id',
+            'id'
+        )->withTrashed();
     }
 
     /**
@@ -72,7 +76,11 @@ class MixInfo extends Model
      */
     public function first_male_pig_with_trashed()
     {
-        return $this->belongsTo(MalePig::class, 'first_male_id', 'id')->withTrashed();
+        return $this->belongsTo(
+            MalePig::class,
+            'first_male_id',
+            'id'
+        )->withTrashed();
     }
 
     /**
@@ -92,15 +100,17 @@ class MixInfo extends Model
      */
     public function second_male_pig_with_trashed()
     {
-        return $this->belongsTo(MalePig::class, 'second_male_id', 'id')->withDefault()->withTrashed();
+        return $this->belongsTo(MalePig::class, 'second_male_id', 'id')
+            ->withDefault()
+            ->withTrashed();
     }
 
     /**
-     * Get the trouble_categosy that owns the MixInfo
+     * Get the trouble_category that owns the MixInfo
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function trouble_categosy()
+    public function trouble_category()
     {
         return $this->belongsTo(TroubleCategory::class, 'trouble_id', 'id');
     }

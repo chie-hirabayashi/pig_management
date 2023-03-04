@@ -7,6 +7,7 @@ use App\Http\Requests\StoreBornInfoRequest;
 use App\Http\Requests\UpdateMixInfoRequest;
 use App\Http\Requests\UpdateBornInfoRequest;
 use App\Exports\MixInfoExport;
+use App\Exports\MixInfoSourceExport;
 use App\Imports\MixInfoImport;
 use App\Models\FemalePig;
 use App\Models\MalePig;
@@ -387,6 +388,12 @@ class MixInfoController extends Controller
         }
     }
 
+    public function managementBook()
+    {
+        $mixInfos = MixInfo::with(['female_pig_with_trashed', 'first_male_pig_with_trashed', 'second_male_pig_with_trashed'])->get();
+        return view('management_book.index')->with(compact('mixInfos'));
+    }
+
     public function export()
     {
         # 全データ出力
@@ -396,6 +403,12 @@ class MixInfoController extends Controller
         $mixInfos = MixInfo::with('female_pig_with_trashed', 'first_male_pig_with_trashed', 'first_male_pig_with_trashed', 'second_male_pig_with_trashed')->get();
         $view = view('mix_infos.export')->with(compact('mixInfos'));
         return Excel::download(new MixInfoExport($view), 'mix_info.xlsx');
+    }
+
+    public function source_export()
+    {
+        # 全データ出力
+        return Excel::download(new MixInfoSourceExport(), 'source_mix_info.xlsx');
     }
 
     public function import(Request $request)

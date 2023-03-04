@@ -8,6 +8,7 @@ use App\Http\Requests\importRequest;
 use App\Models\FemalePig;
 use App\Models\MixInfo;
 use App\Exports\FemalePigExport;
+use App\Exports\FemalePigSourceExport;
 use App\Imports\FemalePigImport;
 use Carbon\Carbon;
 use Exception;
@@ -476,6 +477,11 @@ class FemalePigController extends Controller
     public function export()
     {
         return Excel::download(new FemalePigExport(), 'femalePigs_data.xlsx');
+    }
+
+    public function source_export()
+    {
+        return Excel::download(new FemalePigSourceExport(), 'femalePigs_sourceData.xlsx');
     }
 
     public function import(importRequest $request)

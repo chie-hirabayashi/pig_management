@@ -103,27 +103,35 @@ Route::get('/imports_exports/form', [ImportExportController::class, 'form'])
     ->middleware(['auth'])
     ->name('imports_exports.form');
 // female_pigsのインポートとエクスポート
-Route::post('/female_pigs/export', [FemalePigController::class, 'export'])
-    ->middleware(['auth'])
-    ->name('female_pigs.export');
 Route::post('/female_pigs/import', [FemalePigController::class, 'import'])
     ->middleware(['auth'])
     ->name('female_pigs.import');
-// male_pigsのインポートとエクスポート
-Route::post('/male_pigs/export', [MalePigController::class, 'export'])
+Route::post('/female_pigs/export', [FemalePigController::class, 'export'])
     ->middleware(['auth'])
-    ->name('male_pigs.export');
+    ->name('female_pigs.export');
+Route::post('/female_pigs/source_export', [FemalePigController::class, 'source_export'])
+    ->middleware(['auth'])
+    ->name('female_pigs.source_export');
+// male_pigsのインポートとエクスポート
 Route::post('/male_pigs/import', [MalePigController::class, 'import'])
     ->middleware(['auth'])
     ->name('male_pigs.import');
-// mix_infosのインポートとエクスポート
-// Route::post('/mix_infos/export', [MixInfoController::class, 'export'])->name(
-Route::get('/mix_infos/export', [MixInfoController::class, 'export'])
+Route::post('/male_pigs/export', [MalePigController::class, 'export'])
     ->middleware(['auth'])
-    ->name('mix_infos.export');
+    ->name('male_pigs.export');
+Route::post('/male_pigs/source_export', [MalePigController::class, 'source_export'])
+    ->middleware(['auth'])
+    ->name('male_pigs.source_export');
+// mix_infosのインポートとエクスポート
 Route::post('/Mix_infos/import', [MixInfoController::class, 'import'])
     ->middleware(['auth'])
     ->name('mix_infos.import');
+Route::get('/mix_infos/export', [MixInfoController::class, 'export'])
+    ->middleware(['auth'])
+    ->name('mix_infos.export');
+Route::get('/mix_infos/source_export', [MixInfoController::class, 'source_export'])
+    ->middleware(['auth'])
+    ->name('mix_infos.source_export');
 
 // FemalePigフラグのルーティング
 Route::patch('/female_pigs/{female_pig}/updateFlag', [
@@ -155,6 +163,11 @@ Route::get('/achievements', [AchievementController::class, 'index'])
 Route::get('/achievements/show', [AchievementController::class, 'show'])
     ->middleware(['auth'])
     ->name('achievements.show');
+
+// 管理簿
+Route::get('/management_book', [MixInfoController::class, 'managementBook'])
+    ->middleware(['auth'])
+    ->name('management_book.index');
 
 // cssテスト用
 Route::get('/test', [MixInfoController::class, 'test'])->name(

@@ -103,9 +103,12 @@
                                     <span class="invisible md:visible mx-2 lg:mx-4 text-gray-500">
                                         /
                                     </span>
-                                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                                        {{ __('取扱説明書') }}
+                                    <x-nav-link :href="route('management_book.index')">
+                                        {{ __('管理簿') }}
                                     </x-nav-link>
+                                    {{-- <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                                        {{ __('取扱説明書') }}
+                                    </x-nav-link> --}}
                                 </div>
                             </div>
                         </div>
