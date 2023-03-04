@@ -164,6 +164,11 @@ Route::get('/achievements/show', [AchievementController::class, 'show'])
     ->middleware(['auth'])
     ->name('achievements.show');
 
+// 管理簿
+Route::get('/management_book', [MixInfoController::class, 'managementBook'])
+    ->middleware(['auth'])
+    ->name('management_book.index');
+
 // cssテスト用
 Route::get('/test', [MixInfoController::class, 'test'])->name(
     'born_infos.index'

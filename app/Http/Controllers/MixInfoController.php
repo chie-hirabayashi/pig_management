@@ -388,6 +388,12 @@ class MixInfoController extends Controller
         }
     }
 
+    public function managementBook()
+    {
+        $mixInfos = MixInfo::with(['female_pig_with_trashed', 'first_male_pig_with_trashed', 'second_male_pig_with_trashed'])->get();
+        return view('management_book.index')->with(compact('mixInfos'));
+    }
+
     public function export()
     {
         # 全データ出力
