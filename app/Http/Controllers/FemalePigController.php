@@ -397,12 +397,16 @@ class FemalePigController extends Controller
         UpdateFemalePigRequest $request,
         FemalePig $femalePig
     ) {
-        // error:最初の交配日<導入日
-        $mix_day = $femalePig->mix_infos->first()->mix_day;
-        if ($mix_day < $request->add_day) {
-            return back()->withErrors(
-                '導入日が正しくありません。交配日より前の日付に変更してください。'
-            );
+        $mix_info = $femalePig->mix_infos->first();
+
+        if (!empty($mix_info)) {
+            // error:最初の交配日<導入日
+            $mix_day = $femalePig->mix_infos->first()->mix_day;
+            if ($mix_day < $request->add_day) {
+                return back()->withErrors(
+                    '導入日が正しくありません。交配日より前の日付に変更してください。'
+                );
+            }
         }
 
         // 変更前の個体番号を保持
