@@ -184,9 +184,9 @@
                                 {{ __('インポート/エクスポート') }}
                             </x-dropdown-link>
                         @else
-                            <x-dropdown-link :href="route('register')">
+                            {{-- <x-dropdown-link :href="route('register')">
                                 {{ __('Sign Up') }}
-                            </x-dropdown-link>
+                            </x-dropdown-link> --}}
                             <x-dropdown-link :href="route('login')">
                                 {{ __('Log In') }}
                             </x-dropdown-link>
@@ -240,25 +240,25 @@
                     </form>
                 </div>
             @else
-                <div class="px-4">
+                {{-- <div class="px-4">
                     <div class="font-medium text-base text-gray-800">guest</div>
-                </div>
+                </div> --}}
 
                 <div class="mt-3 space-y-1">
-                    <x-responsive-nav-link :href="route('register')">
+                    {{-- <x-responsive-nav-link :href="route('register')">
                         {{ __('Sign Up') }}
-                    </x-responsive-nav-link>
+                    </x-responsive-nav-link> --}}
                     <x-responsive-nav-link :href="route('login')">
                         {{ __('Log In') }}
                     </x-responsive-nav-link>
-                    <x-dropdown-link :href="route('imports_exports.form')">
-                        {{ __('インポート/エクスポート') }}
-                    </x-dropdown-link>
                     <x-dropdown-link :href="route('female_pigs.create')">
                         {{ __('母豚登録') }}
                     </x-dropdown-link>
                     <x-dropdown-link :href="route('male_pigs.create')">
                         {{ __('父豚登録') }}
+                    </x-dropdown-link>
+                    <x-dropdown-link :href="route('imports_exports.form')">
+                        {{ __('インポート/エクスポート') }}
                     </x-dropdown-link>
                 </div>
             @endauth
