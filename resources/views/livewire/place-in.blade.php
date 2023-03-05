@@ -12,27 +12,29 @@
         <div class="max-w-screen-2xl px-4 md:px-8 mx-auto">
 
             <!-- border - start -->
-            <div class="grid xl:grid-cols-2 gap-4 md:gap-6">
+            <div class="grid lg:grid-cols-2 gap-4 md:gap-6">
                 <div class="mb-10 items-center">
                     <h2 class="MplusRound text-gray-700 text-2xl lg:text-3xl text-center mb-4">繁殖室</h2>
 
                     <div class="my-4">
                         <div class="MplusRound px-8 py-2 text-gray-700">凡例</div>
-                        <div class="flex justify-between mx-6 gap-2">
-                            <p class="border py-2 px-3 text-sm text-gray-700 text-center w-40 bg-red-200">再発確認1</p>
-                            <p class="border py-2 px-3 text-sm text-gray-700 text-center w-40 bg-red-300">再発確認2</p>
-                            <p class="border py-2 px-3 text-sm text-gray-700 text-center w-40 bg-blue-200">出産予定14日前</p>
-                            <p class="border py-2 px-3 text-sm text-gray-700 text-center w-40 bg-blue-300">出産予定7日前</p>
+                        <div class="w-full grid grid-cols-2 xl:grid-cols-5 items-center gap-2 xl:gap-1">
+                            <p class="border py-2 px-3 text-sm lg:text-xs text-gray-700 text-center bg-red-200">再発確認1</p>
+                            <p class="border py-2 px-3 text-sm lg:text-xs text-gray-700 text-center bg-red-300">再発確認2</p>
+                            <p class="border py-2 px-3 text-sm lg:text-xs text-gray-700 text-center bg-blue-200">出産予定14日前</p>
+                            <p class="border py-2 px-3 text-sm lg:text-xs text-gray-700 text-center bg-blue-300">出産予定7日前</p>
+                            <p class="border py-2 px-3 text-sm lg:text-xs text-gray-700 text-center bg-amber-100">待機中</p>
                         </div>
                     </div>
 
-                    <div class="grid sm:grid-cols-2 xl:grid-cols-2 gap-4 md:gap-2">
+                    <div class="grid xl:grid-cols-2 gap-4 md:gap-2">
                         <div class="overflow-x-auto relative w-full xl:w-64 mx-auto">
                             <table class="w-full text-sm text-left text-gray-700">
                                 <thead class="text-center text-xs text-gray-900 uppercase">
                                     <tr>
-                                        <th class="border py-3 px-6 w-4/12">
-                                        </th>
+                                        @auth
+                                            <th class="border py-3 px-6 w-4/12"></th>
+                                        @endauth
                                         <th class="border py-3 px-2 w-5/12">
                                             個体番号
                                         </th>
@@ -44,8 +46,8 @@
                                 <tbody>
                                     @for ($i = 30; $i < 60; $i++)
                                         <tr class="bg-white">
-                                            <td class="border text-center px-2 py-0">
-                                                @auth
+                                            @auth
+                                                <td class="border text-center px-2 py-0">
                                                     @if (empty($places[$i]->female_pig->individual_num))
                                                         <button wire:click="placeIn({{ $places[$i]->id }})"
                                                             class="basis-1/2 font-medium text-cyan-800 hover:underline hover:font-bold">
@@ -60,8 +62,8 @@
                                                             退室
                                                         </button>
                                                     @endif
-                                                @endauth
-                                            </td>
+                                                </td>
+                                            @endauth
                                             <td
                                                 class="border py-3 px-2 text-center font-medium whitespace-nowrap
                                                 @if (!empty($places[$i]->female_pig->mix_infos->last()->id) && $places[$i]->female_pig->status == '観察中') {{-- 再発1確認 --}}
@@ -69,21 +71,27 @@
                                                     @if (date('Y-m-d', strtotime('+3 day')) > $places[$i]->female_pig->mix_infos->last()->first_recurrence_schedule &&
                                                             date('Y-m-d', strtotime('-4 day')) < $places[$i]->female_pig->mix_infos->last()->first_recurrence_schedule)
                                                         bg-red-200 @endif
+                                                @endif
+                                                @if (!empty($places[$i]->female_pig->mix_infos->last()->id) && $places[$i]->female_pig->status == '観察中') {{-- 再発1確認 --}}
                                                     {{-- 再発2確認 --}}
                                                     @if (date('Y-m-d', strtotime('+3 day')) > $places[$i]->female_pig->mix_infos->last()->second_recurrence_schedule &&
                                                             date('Y-m-d', strtotime('-4 day')) < $places[$i]->female_pig->mix_infos->last()->second_recurrence_schedule)
                                                         bg-red-300 @endif
+                                                @endif
+                                                @if (!empty($places[$i]->female_pig->mix_infos->last()->id) && $places[$i]->female_pig->status == '観察中') {{-- 再発1確認 --}}
                                                     {{-- 出産予定14日前 --}}
                                                     @if (date('Y-m-d', strtotime('+14 day')) > $places[$i]->female_pig->mix_infos->last()->delivery_schedule &&
                                                             date('Y-m-d', strtotime('+7 day')) < $places[$i]->female_pig->mix_infos->last()->delivery_schedule)
                                                         bg-blue-200 @endif
+                                                @endif
+                                                @if (!empty($places[$i]->female_pig->mix_infos->last()->id) && $places[$i]->female_pig->status == '観察中') {{-- 再発1確認 --}}
                                                     {{-- 出産予定7日前 --}}
                                                     @if (date('Y-m-d', strtotime('+7 day')) >= $places[$i]->female_pig->mix_infos->last()->delivery_schedule)
                                                         bg-blue-300 @endif
                                                 @endif
                                                 @if (!empty($places[$i]->female_pig->id) && $places[$i]->female_pig->status == '待機中')
                                                     {{-- 待機中 --}}
-                                                    bg-amber-200
+                                                    bg-amber-100
                                                 @endif
                                             ">
                                                 @if ($places[$i]->female_pig->id)
@@ -114,9 +122,9 @@
                                         <th class="border py-3 px-2 w-5/12">
                                             個体番号
                                         </th>
-                                        <th class="border py-3 px-6 w-4/12">
-                                            &emsp;
-                                        </th>
+                                        @auth
+                                            <th class="border py-3 px-6 w-4/12"></th>
+                                        @endauth
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -137,21 +145,27 @@
                                                     @if (date('Y-m-d', strtotime('+3 day')) > $places[$i]->female_pig->mix_infos->last()->first_recurrence_schedule &&
                                                             date('Y-m-d', strtotime('-4 day')) < $places[$i]->female_pig->mix_infos->last()->first_recurrence_schedule)
                                                         bg-red-200 @endif
+                                                @endif
+                                                @if (!empty($places[$i]->female_pig->mix_infos->last()->id) && $places[$i]->female_pig->status == '観察中') {{-- 再発1確認 --}}
                                                     {{-- 再発2確認 --}}
                                                     @if (date('Y-m-d', strtotime('+3 day')) > $places[$i]->female_pig->mix_infos->last()->second_recurrence_schedule &&
                                                             date('Y-m-d', strtotime('-4 day')) < $places[$i]->female_pig->mix_infos->last()->second_recurrence_schedule)
                                                         bg-red-300 @endif
+                                                @endif
+                                                @if (!empty($places[$i]->female_pig->mix_infos->last()->id) && $places[$i]->female_pig->status == '観察中') {{-- 再発1確認 --}}
                                                     {{-- 出産予定14日前 --}}
                                                     @if (date('Y-m-d', strtotime('+14 day')) > $places[$i]->female_pig->mix_infos->last()->delivery_schedule &&
                                                             date('Y-m-d', strtotime('+7 day')) < $places[$i]->female_pig->mix_infos->last()->delivery_schedule)
                                                         bg-blue-200 @endif
+                                                @endif
+                                                @if (!empty($places[$i]->female_pig->mix_infos->last()->id) && $places[$i]->female_pig->status == '観察中') {{-- 再発1確認 --}}
                                                     {{-- 出産予定7日前 --}}
                                                     @if (date('Y-m-d', strtotime('+7 day')) >= $places[$i]->female_pig->mix_infos->last()->delivery_schedule)
                                                         bg-blue-300 @endif
                                                 @endif
                                                 @if (!empty($places[$i]->female_pig->id) && $places[$i]->female_pig->status == '待機中')
                                                     {{-- 待機中 --}}
-                                                    bg-amber-200
+                                                    bg-amber-100
                                                 @endif
                                             ">
                                                 @if ($places[$i]->female_pig->id)
@@ -161,8 +175,8 @@
                                                     </a>
                                                 @endif
                                             </td>
-                                            <td class="border text-center px-2 py-0">
-                                                @auth
+                                            @auth
+                                                <td class="border text-center px-2 py-0">
                                                     @if (empty($places[$i]->female_pig->individual_num))
                                                         <button wire:click="placeIn({{ $places[$i]->id }})"
                                                             class="basis-1/2 font-medium text-cyan-800 hover:underline hover:font-bold">
@@ -177,8 +191,8 @@
                                                             退室
                                                         </button>
                                                     @endif
-                                                @endauth
-                                            </td>
+                                                </td>
+                                            @endauth
                                         </tr>
                                     @endfor
                             </table>
@@ -196,8 +210,9 @@
                             <table class="w-full text-sm text-left text-gray-700">
                                 <thead class="text-center text-xs text-gray-900 uppercase">
                                     <tr>
-                                        <th class="border py-3 px-6 w-4/12">
-                                        </th>
+                                        @auth
+                                            <th class="border py-3 px-6 w-4/12"></th>
+                                        @endauth
                                         <th class="border py-3 px-2 w-5/12">
                                             個体番号
                                         </th>
@@ -210,8 +225,8 @@
                                     @for ($i = 60; $i < 80; $i++)
                                         @if ($i % 2 != 0)
                                             <tr class="bg-white">
-                                                <td class="border text-center px-2 py-0">
-                                                    @auth
+                                                @auth
+                                                    <td class="border text-center px-2 py-0">
                                                         @if (empty($places[$i]->female_pig->individual_num))
                                                             <button wire:click="placeIn({{ $places[$i]->id }})"
                                                                 class="basis-1/2 font-medium text-cyan-800 hover:underline hover:font-bold">
@@ -226,8 +241,8 @@
                                                                 退室
                                                             </button>
                                                         @endif
-                                                    @endauth
-                                                </td>
+                                                    </td>
+                                                @endauth
                                                 <td class="border py-3 px-2 text-center font-medium whitespace-nowrap">
                                                     @if ($places[$i]->female_pig->id)
                                                         <a
@@ -258,9 +273,9 @@
                                         <th class="border py-3 px-2 w-5/12">
                                             個体番号
                                         </th>
-                                        <th class="border py-3 px-6 w-4/12">
-                                            &emsp;
-                                        </th>
+                                        @auth
+                                            <th class="border py-3 px-6 w-4/12"></th>
+                                        @endauth
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -283,8 +298,8 @@
                                                         </a>
                                                     @endif
                                                 </td>
-                                                <td class="border text-center px-2 py-0">
-                                                    @auth
+                                                @auth
+                                                    <td class="border text-center px-2 py-0">
                                                         @if (empty($places[$i]->female_pig->individual_num))
                                                             <button wire:click="placeIn({{ $places[$i]->id }})"
                                                                 class="basis-1/2 font-medium text-cyan-800 hover:underline hover:font-bold">
@@ -299,8 +314,8 @@
                                                                 退室
                                                             </button>
                                                         @endif
-                                                    @endauth
-                                                </td>
+                                                    </td>
+                                                @endauth
                                             </tr>
                                         @endif
                                     @endfor
