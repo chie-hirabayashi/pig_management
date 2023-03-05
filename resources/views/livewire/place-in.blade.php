@@ -71,20 +71,14 @@
                                                     @if (date('Y-m-d', strtotime('+3 day')) > $places[$i]->female_pig->mix_infos->last()->first_recurrence_schedule &&
                                                             date('Y-m-d', strtotime('-4 day')) < $places[$i]->female_pig->mix_infos->last()->first_recurrence_schedule)
                                                         bg-red-200 @endif
-                                                @endif
-                                                @if (!empty($places[$i]->female_pig->mix_infos->last()->id) && $places[$i]->female_pig->status == '観察中') {{-- 再発1確認 --}}
                                                     {{-- 再発2確認 --}}
                                                     @if (date('Y-m-d', strtotime('+3 day')) > $places[$i]->female_pig->mix_infos->last()->second_recurrence_schedule &&
                                                             date('Y-m-d', strtotime('-4 day')) < $places[$i]->female_pig->mix_infos->last()->second_recurrence_schedule)
                                                         bg-red-300 @endif
-                                                @endif
-                                                @if (!empty($places[$i]->female_pig->mix_infos->last()->id) && $places[$i]->female_pig->status == '観察中') {{-- 再発1確認 --}}
                                                     {{-- 出産予定14日前 --}}
                                                     @if (date('Y-m-d', strtotime('+14 day')) > $places[$i]->female_pig->mix_infos->last()->delivery_schedule &&
                                                             date('Y-m-d', strtotime('+7 day')) < $places[$i]->female_pig->mix_infos->last()->delivery_schedule)
                                                         bg-blue-200 @endif
-                                                @endif
-                                                @if (!empty($places[$i]->female_pig->mix_infos->last()->id) && $places[$i]->female_pig->status == '観察中') {{-- 再発1確認 --}}
                                                     {{-- 出産予定7日前 --}}
                                                     @if (date('Y-m-d', strtotime('+7 day')) >= $places[$i]->female_pig->mix_infos->last()->delivery_schedule)
                                                         bg-blue-300 @endif
@@ -145,20 +139,14 @@
                                                     @if (date('Y-m-d', strtotime('+3 day')) > $places[$i]->female_pig->mix_infos->last()->first_recurrence_schedule &&
                                                             date('Y-m-d', strtotime('-4 day')) < $places[$i]->female_pig->mix_infos->last()->first_recurrence_schedule)
                                                         bg-red-200 @endif
-                                                @endif
-                                                @if (!empty($places[$i]->female_pig->mix_infos->last()->id) && $places[$i]->female_pig->status == '観察中') {{-- 再発1確認 --}}
                                                     {{-- 再発2確認 --}}
                                                     @if (date('Y-m-d', strtotime('+3 day')) > $places[$i]->female_pig->mix_infos->last()->second_recurrence_schedule &&
                                                             date('Y-m-d', strtotime('-4 day')) < $places[$i]->female_pig->mix_infos->last()->second_recurrence_schedule)
                                                         bg-red-300 @endif
-                                                @endif
-                                                @if (!empty($places[$i]->female_pig->mix_infos->last()->id) && $places[$i]->female_pig->status == '観察中') {{-- 再発1確認 --}}
                                                     {{-- 出産予定14日前 --}}
                                                     @if (date('Y-m-d', strtotime('+14 day')) > $places[$i]->female_pig->mix_infos->last()->delivery_schedule &&
                                                             date('Y-m-d', strtotime('+7 day')) < $places[$i]->female_pig->mix_infos->last()->delivery_schedule)
                                                         bg-blue-200 @endif
-                                                @endif
-                                                @if (!empty($places[$i]->female_pig->mix_infos->last()->id) && $places[$i]->female_pig->status == '観察中') {{-- 再発1確認 --}}
                                                     {{-- 出産予定7日前 --}}
                                                     @if (date('Y-m-d', strtotime('+7 day')) >= $places[$i]->female_pig->mix_infos->last()->delivery_schedule)
                                                         bg-blue-300 @endif
