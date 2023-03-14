@@ -2,7 +2,7 @@
     <!-- header - start -->
     <x-slot name="header">
         <h2 class="">
-            {{ __('male_pigs.index') }}
+            {{ __('achievements.index') }}
         </h2>
     </x-slot>
     <!-- header - end -->

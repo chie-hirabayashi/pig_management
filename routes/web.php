@@ -169,6 +169,11 @@ Route::get('/management_book', [MixInfoController::class, 'managementBook'])
     ->middleware(['auth'])
     ->name('management_book.index');
 
+// 出荷予測
+Route::get('/forecast', [MixInfoController::class, 'forecast'])
+    ->middleware(['auth'])
+    ->name('forecast.index');
+
 // cssテスト用
 Route::get('/test', [MixInfoController::class, 'test'])->name(
     'born_infos.index'

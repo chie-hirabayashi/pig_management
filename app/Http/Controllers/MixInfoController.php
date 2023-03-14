@@ -16,6 +16,7 @@ use App\Models\TroubleCategory;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\DB;
 
 class MixInfoController extends Controller
 {
@@ -80,9 +81,10 @@ class MixInfoController extends Controller
         if ($femalePig->mix_infos->last()) {
             switch ($femalePig->mix_infos->last()->born_day == null) {
                 case true:
-                    $last_recode_day = $femalePig->mix_infos->last()->trouble_day;
+                    $last_recode_day = $femalePig->mix_infos->last()
+                        ->trouble_day;
                     break;
-                
+
                 case false:
                     $last_recode_day = $femalePig->mix_infos->last()->born_day;
                     break;
@@ -115,9 +117,7 @@ class MixInfoController extends Controller
         $mixInfo->second_recurrence_schedule = $mix_day
             ->addDay(42)
             ->toDateString();
-        $mixInfo->delivery_schedule = $mix_day
-            ->addDay(113)
-            ->toDateString();
+        $mixInfo->delivery_schedule = $mix_day->addDay(113)->toDateString();
 
         try {
             $femalePig->mix_infos()->save($mixInfo);
@@ -154,14 +154,14 @@ class MixInfoController extends Controller
         // dd($mixInfo->first_male_pig);
         // self::maleSoftDeleteResolution($mixInfo);
         // self::softDeleteResolution($mixInfo);
-        
+
         return view('mix_infos.edit')->with(
             compact(
                 'femalePigs',
                 'femalePig',
                 'malePigs',
                 'troubleCategories',
-                'mixInfo',
+                'mixInfo'
             )
         );
     }
@@ -185,19 +185,22 @@ class MixInfoController extends Controller
             // 交配記録があり、最後の交配で出産、再発、流産していれば更新処理を継続
             switch (true) {
                 case $mixInfo == null:
-                    return back()->withErrors('選択した母豚は、修正する交配記録がありません。');
+                    return back()->withErrors(
+                        '選択した母豚は、修正する交配記録がありません。'
+                    );
                     break;
 
-                case $mixInfo->born_day !== null ||
-                    $mixInfo->trouble_id !== 1:
+                case $mixInfo->born_day !== null || $mixInfo->trouble_id !== 1:
                     break;
 
                 default:
-                    return back()->withErrors('選択した母豚は、未処理の交配記録があります。');
+                    return back()->withErrors(
+                        '選択した母豚は、未処理の交配記録があります。'
+                    );
                     break;
             }
         }
-        
+
         // error:再発日、流産日<導入日
         if ($request->trouble_id !== '1') {
             $request->validate([
@@ -219,7 +222,10 @@ class MixInfoController extends Controller
         }
 
         // 直前の出産or再発or流産の日付
-        $end_recode = $femalePig->mix_infos()->latest()->get();
+        $end_recode = $femalePig
+            ->mix_infos()
+            ->latest()
+            ->get();
         if (count($end_recode) < 2) {
             // 直前の出産、再発、流産がない場合、母豚の導入日をセット
             $end_recode_day = $firstMale_add_day;
@@ -235,7 +241,7 @@ class MixInfoController extends Controller
                     break;
             }
         }
-        
+
         // error:交配日<導入日、交配日<前回の出産、再発、流産日
         switch (true) {
             case $request->mix_day < $femalePig->add_day ||
@@ -260,9 +266,7 @@ class MixInfoController extends Controller
         $mixInfo->second_recurrence_schedule = $mix_day
             ->addDay(42)
             ->toDateString();
-        $mixInfo->delivery_schedule = $mix_day
-            ->addDay(113)
-            ->toDateString();
+        $mixInfo->delivery_schedule = $mix_day->addDay(113)->toDateString();
 
         try {
             $mixInfo->save();
@@ -377,7 +381,7 @@ class MixInfoController extends Controller
         $femalePig = $mixInfo->female_pig;
         $mixInfo->born_day = null; //born_dayカラムを空に戻す
         $mixInfo->born_num = null; //born_numカラムを空に戻す
-        
+
         try {
             $mixInfo->save();
             return redirect()
@@ -390,17 +394,45 @@ class MixInfoController extends Controller
 
     public function managementBook()
     {
-        $mixInfos = MixInfo::with(['female_pig_with_trashed', 'first_male_pig_with_trashed', 'second_male_pig_with_trashed'])->get();
+        $mixInfos = MixInfo::with([
+            'female_pig_with_trashed',
+            'first_male_pig_with_trashed',
+            'second_male_pig_with_trashed',
+        ])->get();
         return view('management_book.index')->with(compact('mixInfos'));
+    }
+
+    public function forecast()
+    {
+        $now = Carbon::now();
+        $limit = $now->addDays(-180)->toDateString(); # 今日以降の出荷予定を取得:交配から出荷まで180日+7日(予備)-42日(再発確認)
+        // $mixInfos = DB::table('mix_infos')
+        $mixInfos = MixInfo::
+            where('mix_day', '>=', $limit)
+            ->where('trouble_id', 1)
+            ->get();
+
+        $forecast_num = $mixInfos->groupBy('forecast_date')
+        ->map(function ($f_date) {
+                return $f_date->sum('forecast_num');
+            });
+        // dd($forecast_num);
+
+        return view('forecast.index')->with(compact('forecast_num'));
     }
 
     public function export()
     {
         # 全データ出力
         // return Excel::download(new MixInfoExport(), 'mix_info.xlsx');
-    
+
         # 帳票出力
-        $mixInfos = MixInfo::with('female_pig_with_trashed', 'first_male_pig_with_trashed', 'first_male_pig_with_trashed', 'second_male_pig_with_trashed')->get();
+        $mixInfos = MixInfo::with(
+            'female_pig_with_trashed',
+            'first_male_pig_with_trashed',
+            'first_male_pig_with_trashed',
+            'second_male_pig_with_trashed'
+        )->get();
         $view = view('mix_infos.export')->with(compact('mixInfos'));
         return Excel::download(new MixInfoExport($view), 'mix_info.xlsx');
     }
@@ -408,7 +440,10 @@ class MixInfoController extends Controller
     public function source_export()
     {
         # 全データ出力
-        return Excel::download(new MixInfoSourceExport(), 'source_mix_info.xlsx');
+        return Excel::download(
+            new MixInfoSourceExport(),
+            'source_mix_info.xlsx'
+        );
     }
 
     public function import(Request $request)
