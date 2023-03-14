@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class MixInfo extends Model
 {
@@ -123,5 +124,30 @@ class MixInfo extends Model
     public function born_info()
     {
         return $this->hasOne(BornInfo::class, 'mix_id', 'id');
+    }
+
+    // アクセサ
+    public function getForecastDateAttribute()
+    {
+        $mix_day = Carbon::create($this->mix_day);
+        $born_day = Carbon::create($this->born_day);
+
+        if ($this->born_num) {
+            $forecast_date = $born_day->addDays(66); # 出産段階:出産頭数で予測,66日で出荷
+        } else {
+            $forecast_date = $mix_day->addDays(180); # 交配段階:推定出産頭数で予測180日で出荷
+        }
+        // return $forecast_date->toDateString();
+        return date('Y-m', strtotime($forecast_date));
+    }
+
+    public function getForecastNumAttribute()
+    {
+        if ($this->born_num) {
+            $forecast_num = $this->born_num;
+        } else {
+            $forecast_num = 10;
+        }
+        return $forecast_num;
     }
 }

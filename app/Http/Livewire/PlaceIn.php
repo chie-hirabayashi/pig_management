@@ -9,11 +9,6 @@ use App\Models\Place;
 
 class PlaceIn extends Component
 {
-    // protected $listeners = [
-    //     'refresh' => '$refresh', // 再読み込み
-    //     'destroy' => 'destroy'
-    // ];
-
     public $places, $place_id, $female_id;
     public $femalePigs;
     public $isOpen = false;
@@ -21,13 +16,8 @@ class PlaceIn extends Component
 
     public function render()
     {
-        // $this->places = Place::all();
         $this->places = Place::with('female_pig.mix_infos')->get();
-//         $mix_infos = MixInfo::whereHas('female_pig.place', function ($query) use ($placeId) {
-//     $query->where('id', $placeId);
-// })->get();
 
-        // dd($this->places[1]);
         return view('livewire.place-in');
     }
 

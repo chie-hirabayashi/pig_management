@@ -46,11 +46,6 @@
 
 <body class="font-sans antialiased">
     <div class="min-h-screen bg-white">
-        {{-- <div class="min-h-screen bg-gray-100"> --}}
-        {{-- <div class="max-h-96 bg-stone-300"> --}}
-        {{-- <div class="min-h-full bg-stone-300"> --}}
-        {{-- <div class="min-h-max bg-stone-300"> --}}
-        {{-- <div class="min-h-fit bg-stone-300"> --}}
         @include('layouts.navigation')
 
         <!-- Page Heading -->

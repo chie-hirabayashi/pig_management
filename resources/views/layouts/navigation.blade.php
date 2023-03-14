@@ -98,6 +98,16 @@
                                     </x-nav-link>
                                 </div>
 
+                                <!-- forecast Links -->
+                                <div class="items-center md:flex">
+                                    <span class="invisible md:visible mx-2 lg:mx-4 text-gray-500">
+                                        /
+                                    </span>
+                                    <x-nav-link :href="route('forecast.index')">
+                                        {{ __('出荷予測') }}
+                                    </x-nav-link>
+                                </div>
+
                                 <!-- Navigation Links -->
                                 <div class="items-center md:flex">
                                     <span class="invisible md:visible mx-2 lg:mx-4 text-gray-500">

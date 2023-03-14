@@ -2,7 +2,7 @@ http://localhost/test
 <x-app-layout>
     <x-slot name="header">
         <h2 class="">
-            {{ __('mix_infos/1/born_infos.sample') }}
+            {{ __('born_infos.index') }}
         </h2>
     </x-slot>
     <div class="bg-white py-6 sm:py-8 lg:py-12">
