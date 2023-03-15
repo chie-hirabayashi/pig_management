@@ -115,9 +115,9 @@ class MixInfoController extends Controller
             ->addDay(21)
             ->toDateString();
         $mixInfo->second_recurrence_schedule = $mix_day
-            ->addDay(42)
+            ->addDay(21)
             ->toDateString();
-        $mixInfo->delivery_schedule = $mix_day->addDay(113)->toDateString();
+        $mixInfo->delivery_schedule = $mix_day->addDay(71)->toDateString();
 
         try {
             $femalePig->mix_infos()->save($mixInfo);
@@ -264,9 +264,9 @@ class MixInfoController extends Controller
             ->addDay(21)
             ->toDateString();
         $mixInfo->second_recurrence_schedule = $mix_day
-            ->addDay(42)
+            ->addDay(21)
             ->toDateString();
-        $mixInfo->delivery_schedule = $mix_day->addDay(113)->toDateString();
+        $mixInfo->delivery_schedule = $mix_day->addDay(71)->toDateString();
 
         try {
             $mixInfo->save();
