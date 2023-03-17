@@ -21,11 +21,10 @@
                         <div class="w-full grid grid-cols-2 xl:grid-cols-5 items-center gap-2 xl:gap-1">
                             <p class="border py-2 px-3 text-sm lg:text-xs text-gray-700 text-center bg-red-200">再発確認1</p>
                             <p class="border py-2 px-3 text-sm lg:text-xs text-gray-700 text-center bg-red-300">再発確認2</p>
-                            <p class="border py-2 px-3 text-sm lg:text-xs text-gray-700 text-center bg-blue-200">
-                                出産予定14日前</p>
-                            <p class="border py-2 px-3 text-sm lg:text-xs text-gray-700 text-center bg-blue-300">出産予定7日前
-                            </p>
+                            <p class="border py-2 px-3 text-sm lg:text-xs text-gray-700 text-center bg-blue-200">出産予定14日前</p>
+                            <p class="border py-2 px-3 text-sm lg:text-xs text-gray-700 text-center bg-blue-300">出産予定7日前</p>
                             <p class="border py-2 px-3 text-sm lg:text-xs text-gray-700 text-center bg-amber-100">待機中
+                            <p class="border py-2 px-3 text-sm lg:text-xs text-gray-700 text-center bg-red-50">再発確認3以降</p>
                             </p>
                         </div>
                     </div>
@@ -66,6 +65,15 @@
                                                     {{-- 再発2確認 --}}
                                                     @if (date('Y-m-d', strtotime('+3 day')) > $places[$i]->female_pig->mix_infos->last()->second_recurrence_schedule &&
                                                             date('Y-m-d', strtotime('-4 day')) < $places[$i]->female_pig->mix_infos->last()->second_recurrence_schedule) bg-red-300 @endif
+                                                    {{-- 再発3確認 --}}
+                                                    @if (date('Y-m-d', strtotime('+3 day')) > date('Y-m-d', strtotime('+21day', strtotime($places[$i]->female_pig->mix_infos->last()->second_recurrence_schedule))) &&
+                                                            date('Y-m-d', strtotime('-4 day')) < date('Y-m-d', strtotime('+21day', strtotime($places[$i]->female_pig->mix_infos->last()->second_recurrence_schedule)))) bg-red-50 @endif
+                                                    {{-- 再発4確認 --}}
+                                                    @if (date('Y-m-d', strtotime('+3 day')) > date('Y-m-d', strtotime('+42day', strtotime($places[$i]->female_pig->mix_infos->last()->second_recurrence_schedule))) &&
+                                                            date('Y-m-d', strtotime('-4 day')) < date('Y-m-d', strtotime('+42day', strtotime($places[$i]->female_pig->mix_infos->last()->second_recurrence_schedule)))) bg-red-50 @endif
+                                                    {{-- 再発5確認 --}}
+                                                    @if (date('Y-m-d', strtotime('+3 day')) > date('Y-m-d', strtotime('+63day', strtotime($places[$i]->female_pig->mix_infos->last()->second_recurrence_schedule))) &&
+                                                            date('Y-m-d', strtotime('-4 day')) < date('Y-m-d', strtotime('+63day', strtotime($places[$i]->female_pig->mix_infos->last()->second_recurrence_schedule)))) bg-red-50 @endif
                                                     {{-- 出産予定14日前 --}}
                                                     @if (date('Y-m-d', strtotime('+14 day')) > $places[$i]->female_pig->mix_infos->last()->delivery_schedule &&
                                                             date('Y-m-d', strtotime('+7 day')) < $places[$i]->female_pig->mix_infos->last()->delivery_schedule) bg-blue-200 @endif
@@ -147,6 +155,15 @@
                                                     {{-- 再発2確認 --}}
                                                     @if (date('Y-m-d', strtotime('+3 day')) > $places[$i]->female_pig->mix_infos->last()->second_recurrence_schedule &&
                                                             date('Y-m-d', strtotime('-4 day')) < $places[$i]->female_pig->mix_infos->last()->second_recurrence_schedule) bg-red-300 @endif
+                                                    {{-- 再発3確認 --}}
+                                                    @if (date('Y-m-d', strtotime('+3 day')) > date('Y-m-d', strtotime('+21day', strtotime($places[$i]->female_pig->mix_infos->last()->second_recurrence_schedule))) &&
+                                                            date('Y-m-d', strtotime('-4 day')) < date('Y-m-d', strtotime('+21day', strtotime($places[$i]->female_pig->mix_infos->last()->second_recurrence_schedule)))) bg-red-50 @endif
+                                                    {{-- 再発4確認 --}}
+                                                    @if (date('Y-m-d', strtotime('+3 day')) > date('Y-m-d', strtotime('+42day', strtotime($places[$i]->female_pig->mix_infos->last()->second_recurrence_schedule))) &&
+                                                            date('Y-m-d', strtotime('-4 day')) < date('Y-m-d', strtotime('+42day', strtotime($places[$i]->female_pig->mix_infos->last()->second_recurrence_schedule)))) bg-red-50 @endif
+                                                    {{-- 再発5確認 --}}
+                                                    @if (date('Y-m-d', strtotime('+3 day')) > date('Y-m-d', strtotime('+63day', strtotime($places[$i]->female_pig->mix_infos->last()->second_recurrence_schedule))) &&
+                                                            date('Y-m-d', strtotime('-4 day')) < date('Y-m-d', strtotime('+63day', strtotime($places[$i]->female_pig->mix_infos->last()->second_recurrence_schedule)))) bg-red-50 @endif
                                                     {{-- 出産予定14日前 --}}
                                                     @if (date('Y-m-d', strtotime('+14 day')) > $places[$i]->female_pig->mix_infos->last()->delivery_schedule &&
                                                             date('Y-m-d', strtotime('+7 day')) < $places[$i]->female_pig->mix_infos->last()->delivery_schedule) bg-blue-200 @endif

@@ -17,7 +17,7 @@ class PlaceIn extends Component
     public function render()
     {
         $this->places = Place::with('female_pig.mix_infos')->get();
-
+        // dd(date('Y-m-d', strtotime('+21day', strtotime($this->places[1]->female_pig->mix_infos->last()->second_recurrence_schedule))));
         return view('livewire.place-in');
     }
 
