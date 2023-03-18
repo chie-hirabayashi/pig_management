@@ -18,7 +18,7 @@
 
                     <div class="my-4">
                         <div class="MplusRound px-8 py-2 text-gray-700">凡例</div>
-                        <div class="w-full grid grid-cols-2 xl:grid-cols-5 items-center gap-2 xl:gap-1">
+                        <div class="w-full grid grid-cols-2 xl:grid-cols-3 items-center gap-2 xl:gap-1">
                             <p class="border py-2 px-3 text-sm lg:text-xs text-gray-700 text-center bg-red-200">
                                 再発確認1
                                 <span class="text-xs ml-2">
@@ -54,7 +54,7 @@
                         </div>
                     </div>
 
-                    <div class="grid xl:grid-cols-2 gap-4 md:gap-2">
+                    <div class="grid sm:grid-cols-2 gap-4 sm:gap-2">
                         <div class="overflow-x-auto relative w-full xl:w-64 mx-auto">
                             <table class="w-full text-sm text-left text-gray-700">
                                 <thead class="text-center text-xs text-gray-900 uppercase">
@@ -109,22 +109,22 @@
                                                     bg-amber-100 @endif
                                             ">
                                                 <div class="flex justify-center items-center">
-                                                @if ($places[$i]->female_pig->warn_flag == 1)
-                                                        <div class="text-red-600 mr-2">
-                                                            <i class="fa-solid fa-triangle-exclamation"></i>
-                                                        </div>
-                                                @endif
-                                                @if ($places[$i]->female_pig->id)
-                                                        <a
-                                                            href="{{ route('female_pigs.show', $places[$i]->female_pig->id) }}">
-                                                            {{ $places[$i]->female_pig->individual_num }}
-                                                        </a>
-                                                @endif
-                                                @if (count($places[$i]->female_pig->mix_infos) != 0 && $places[$i]->female_pig->mix_infos->last()->trouble_id == 1 && $places[$i]->female_pig->mix_infos->last()->born_day == null)
-                                                        <div class="text-xs ml-2">
-                                                            &raquo;&nbsp;{{ $places[$i]->female_pig->mix_infos->last()->elapsed_days }}日
-                                                        </div>
-                                                @endif
+                                                    @if ($places[$i]->female_pig->warn_flag == 1)
+                                                            <div class="text-red-600 mr-2">
+                                                                <i class="fa-solid fa-triangle-exclamation"></i>
+                                                            </div>
+                                                    @endif
+                                                    @if ($places[$i]->female_pig->id)
+                                                            <a
+                                                                href="{{ route('female_pigs.show', $places[$i]->female_pig->id) }}">
+                                                                {{ $places[$i]->female_pig->individual_num }}
+                                                            </a>
+                                                    @endif
+                                                    @if (count($places[$i]->female_pig->mix_infos) != 0 && $places[$i]->female_pig->mix_infos->last()->trouble_id == 1 && $places[$i]->female_pig->mix_infos->last()->born_day == null)
+                                                            <div class="text-xs ml-2">
+                                                                &raquo;&nbsp;{{ $places[$i]->female_pig->mix_infos->last()->elapsed_days }}日
+                                                            </div>
+                                                    @endif
                                                 </div>
                                             </td>
                                             @auth
@@ -203,12 +203,24 @@
                                                 @if (!empty($places[$i]->female_pig->id) && $places[$i]->female_pig->status == '待機中') {{-- 待機中 --}}
                                                     bg-amber-100 @endif
                                             ">
+                                            <div class="flex justify-center items-center">
+                                                @if ($places[$i]->female_pig->warn_flag == 1)
+                                                        <div class="text-red-600 mr-2">
+                                                            <i class="fa-solid fa-triangle-exclamation"></i>
+                                                        </div>
+                                                @endif
                                                 @if ($places[$i]->female_pig->id)
                                                     <a
                                                         href="{{ route('female_pigs.show', $places[$i]->female_pig->id) }}">
                                                         {{ $places[$i]->female_pig->individual_num }}
                                                     </a>
                                                 @endif
+                                                @if (count($places[$i]->female_pig->mix_infos) != 0 && $places[$i]->female_pig->mix_infos->last()->trouble_id == 1 && $places[$i]->female_pig->mix_infos->last()->born_day == null)
+                                                        <div class="text-xs ml-2">
+                                                            &raquo;&nbsp;{{ $places[$i]->female_pig->mix_infos->last()->elapsed_days }}日
+                                                        </div>
+                                                @endif
+                                            </div>
                                             </td>
                                             @auth
                                                 <td class="border text-center px-2 py-0">
