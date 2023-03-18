@@ -127,6 +127,14 @@ class MixInfo extends Model
     }
 
     // アクセサ
+    public function getElapsedDaysAttribute()
+    {
+        $mix_day = Carbon::create($this->mix_day);
+        $today = Carbon::now();
+
+        return $today->diffInDays($mix_day);
+    }
+
     public function getForecastDateAttribute()
     {
         $mix_day = Carbon::create($this->mix_day);
@@ -137,7 +145,6 @@ class MixInfo extends Model
         } else {
             $forecast_date = $mix_day->addDays(180); # 交配段階:推定出産頭数で予測180日で出荷
         }
-        // return $forecast_date->toDateString();
         return date('Y-m', strtotime($forecast_date));
     }
 

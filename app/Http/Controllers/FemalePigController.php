@@ -11,10 +11,8 @@ use App\Exports\FemalePigExport;
 use App\Exports\FemalePigSourceExport;
 use App\Imports\FemalePigImport;
 use Carbon\Carbon;
-use Exception;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
-use PhpParser\Node\Stmt\TryCatch;
 
 class FemalePigController extends Controller
 {
@@ -111,10 +109,6 @@ class FemalePigController extends Controller
                 ->mix_infos
                 ->where('trouble_id', 2)
                 ->count();
-            // $count_recurrences = $femalePig
-            //     ->mix_infos()
-            //     ->where('trouble_id', 2)
-            //     ->count();
             $mixInfos->last()->count_recurrences = $count_recurrences;
 
             // 流産総数を登録
@@ -122,12 +116,6 @@ class FemalePigController extends Controller
                 ->mix_infos
                 ->where('trouble_id', 3)
                 ->count();
-            // $count_abortions = $femalePig
-            //     ->mix_infos()
-            //     ->where('trouble_id', 3)
-            //     ->get() //これと
-            //     ->load('female_pig') //これを追加してN+1解消
-            //     ->count();
             $mixInfos->last()->count_abortions = $count_abortions;
 
             // 過去1年間の再発回数を登録
@@ -136,11 +124,6 @@ class FemalePigController extends Controller
                 ->where('trouble_id', 2)
                 ->where('trouble_day', '>', $last_year)
                 ->count();
-            // $count_lastYear_recurrences = $femalePig
-            //     ->mix_infos()
-            //     ->where('trouble_id', 2)
-            //     ->where('trouble_day', '>', $last_year)
-            //     ->count();
             $mixInfos->last()->count_lastYear_recurrences = $count_lastYear_recurrences;
 
             // 過去1年間の流産回数を登録
@@ -149,19 +132,11 @@ class FemalePigController extends Controller
                 ->where('trouble_id', 3)
                 ->where('trouble_day', '>', $last_year)
                 ->count();
-            // $count_lastYear_abortions = $femalePig
-            //     ->mix_infos()
-            //     ->where('trouble_id', 3)
-            //     ->where('trouble_day', '>', $last_year)
-            //     ->get() //これと
-            //     ->load('female_pig') //これを追加してN+1解消
-            //     ->count();
             $mixInfos->last()->count_lastYear_abortions = $count_lastYear_abortions;
         } else {
             # $mixInfosが0件の場合 start #
             $mix_ranking = [];
             $born_infos = [];
-// dd($born_infos);
             return view('female_pigs.show')->with(
                 compact('femalePig', 'mixInfos', 'born_infos', 'mix_ranking')
             );

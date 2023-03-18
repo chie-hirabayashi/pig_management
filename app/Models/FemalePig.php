@@ -136,10 +136,11 @@ class FemalePig extends Model
     {
         $today = Carbon::now();
 
-        if (empty($this->mix_infos->last())) {
+        if (empty($this->mix_infos->last()) || $this->mix_infos->last()->trouble_id != 1) {
             $this->status = '待機中';
-        }
-        if (!empty($this->mix_infos->last())) {
+        } else {
+        // }
+        // if (!empty($this->mix_infos->last())) {
             $first_recurrence = Carbon::create(
                 $this->mix_infos->last()->first_recurrence_schedule
             );
