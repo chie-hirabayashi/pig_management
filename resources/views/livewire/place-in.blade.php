@@ -19,12 +19,37 @@
                     <div class="my-4">
                         <div class="MplusRound px-8 py-2 text-gray-700">凡例</div>
                         <div class="w-full grid grid-cols-2 xl:grid-cols-5 items-center gap-2 xl:gap-1">
-                            <p class="border py-2 px-3 text-sm lg:text-xs text-gray-700 text-center bg-red-200">再発確認1</p>
-                            <p class="border py-2 px-3 text-sm lg:text-xs text-gray-700 text-center bg-red-300">再発確認2</p>
-                            <p class="border py-2 px-3 text-sm lg:text-xs text-gray-700 text-center bg-blue-200">出産予定14日前</p>
-                            <p class="border py-2 px-3 text-sm lg:text-xs text-gray-700 text-center bg-blue-300">出産予定7日前</p>
+                            <p class="border py-2 px-3 text-sm lg:text-xs text-gray-700 text-center bg-red-200">
+                                再発確認1
+                                <span class="text-xs ml-2">
+                                &raquo;&nbsp;経過日数
+                                </span>
+                            </p>
+                            <p class="border py-2 px-3 text-sm lg:text-xs text-gray-700 text-center bg-red-300">
+                                再発確認2
+                                <span class="text-xs ml-2">
+                                &raquo;&nbsp;経過日数
+                                </span>
+                            </p>
+                            <p class="border py-2 px-3 text-sm lg:text-xs text-gray-700 text-center bg-blue-200">
+                                出産予定14日前
+                                <span class="text-xs ml-2">
+                                &raquo;&nbsp;経過日数
+                                </span>
+                            </p>
+                            <p class="border py-2 px-3 text-sm lg:text-xs text-gray-700 text-center bg-blue-300">
+                                出産予定7日前
+                                <span class="text-xs ml-2">
+                                &raquo;&nbsp;経過日数
+                                </span>
+                            </p>
                             <p class="border py-2 px-3 text-sm lg:text-xs text-gray-700 text-center bg-amber-100">待機中
-                            <p class="border py-2 px-3 text-sm lg:text-xs text-gray-700 text-center bg-red-50">再発確認3以降</p>
+                            <p class="border py-2 px-3 text-sm lg:text-xs text-gray-700 text-center bg-red-50">
+                                再発確認3以降
+                                <span class="text-xs ml-2">
+                                &raquo;&nbsp;経過日数
+                                </span>
+                            </p>
                             </p>
                         </div>
                     </div>
@@ -83,8 +108,8 @@
                                                 @if (!empty($places[$i]->female_pig->id) && $places[$i]->female_pig->status == '待機中') {{-- 待機中 --}}
                                                     bg-amber-100 @endif
                                             ">
+                                                <div class="flex justify-center items-center">
                                                 @if ($places[$i]->female_pig->warn_flag == 1)
-                                                    <div class="flex justify-center items-center">
                                                         <div class="text-red-600 mr-2">
                                                             <i class="fa-solid fa-triangle-exclamation"></i>
                                                         </div>
@@ -94,8 +119,13 @@
                                                             href="{{ route('female_pigs.show', $places[$i]->female_pig->id) }}">
                                                             {{ $places[$i]->female_pig->individual_num }}
                                                         </a>
-                                                    </div>
                                                 @endif
+                                                @if (count($places[$i]->female_pig->mix_infos) != 0 && $places[$i]->female_pig->mix_infos->last()->trouble_id == 1 && $places[$i]->female_pig->mix_infos->last()->born_day == null)
+                                                        <div class="text-xs ml-2">
+                                                            &raquo;&nbsp;{{ $places[$i]->female_pig->mix_infos->last()->elapsed_days }}日
+                                                        </div>
+                                                @endif
+                                                </div>
                                             </td>
                                             @auth
                                                 <td class="border text-center px-2 py-0">
