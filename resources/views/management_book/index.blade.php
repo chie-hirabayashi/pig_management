@@ -30,10 +30,19 @@
                         交配日
                     </th>
                     <th scope="col" class="py-3 px-6 w-1/12 text-center">
-                        <i class="fa-solid fa-mars"></i>1_NO.
+                        <span class="text-rose-800">
+                            <i class="fa-solid fa-venus"></i>
+                        </span>NO.
                     </th>
                     <th scope="col" class="py-3 px-6 w-1/12 text-center">
-                        <i class="fa-solid fa-mars"></i>2_NO.
+                        <span class="text-sky-800">
+                            <i class="fa-solid fa-mars"></i>
+                        </span>1_NO.
+                    </th>
+                    <th scope="col" class="py-3 px-6 w-1/12 text-center">
+                        <span class="text-sky-800">
+                            <i class="fa-solid fa-mars"></i>
+                        </span>2_NO.
                     </th>
                     <th scope="col" class="py-3 px-6 w-1/6 text-center">
                         再発予定日1
@@ -70,6 +79,9 @@
                         <tr class="bg-white border-b hover:bg-gray-50 whitespace-nowrap">
                             <td class="py-4 px-6">
                                 {{ $mixInfo->mix_day }}
+                            </td>
+                            <td class="py-4 px-6 text-center">
+                                {{ $mixInfo->female_pig_with_trashed->individual_num }}
                             </td>
                             <td class="py-4 px-6 text-center">
                                 {{ $mixInfo->first_male_pig_with_trashed->individual_num }}
@@ -110,5 +122,6 @@
         </table>
         <!-- mix_table - end -->
     </div>
+        {{ $mixInfos->links() }}
 </x-app-layout>
 
