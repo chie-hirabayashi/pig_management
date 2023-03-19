@@ -122,6 +122,8 @@
         </table>
         <!-- mix_table - end -->
     </div>
+    <div class="mb-6 w-full mx-auto">
         {{ $mixInfos->links() }}
+    </div>
 </x-app-layout>
 
