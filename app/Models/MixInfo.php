@@ -135,6 +135,20 @@ class MixInfo extends Model
         return $today->diffInDays($mix_day);
     }
 
+    public function getDeliveryDateAttribute()
+    {
+        $delivery_date = substr($this->delivery_schedule, -5);
+
+        return $delivery_date;
+    }
+
+    public function getBornDateAttribute()
+    {
+        $born_date = substr($this->born_day, -5);
+
+        return $born_date;
+    }
+
     public function getForecastDateAttribute()
     {
         $mix_day = Carbon::create($this->mix_day);
