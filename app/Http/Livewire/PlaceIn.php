@@ -50,9 +50,10 @@ class PlaceIn extends Component
     public function placeIn($id)
     {
         $place = Place::findOrFail($id);
+        # find($id):idが見つからない場合null
+        # findOrFail($id):idが見つからない場合エラー
         $this->place_id = $place->id;
         $this->female_id = $place->female_id;
-        // $this->description = $todo->description;
         $this->openModal();
     }
 

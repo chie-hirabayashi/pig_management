@@ -33,6 +33,7 @@
 
         .table>tbody>tr>th:first-child::before {
             content: "第"counter(rowCount)"位";
+            font-family: 'M PLUS Rounded 1c', sans-serif;
         }
     </style>
     <!-- Styles -->
