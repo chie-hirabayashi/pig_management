@@ -39,7 +39,7 @@
                             </p>
                             <p class="border py-2 px-8 text-sm lg:text-xs text-gray-700 text-right">
                                 <span class="text-xs ml-2">
-                                    &raquo;&nbsp;交配日からの経過日数
+                                    &raquo;&nbsp;交配からの経過日数
                                 </span>
                             </p>
                         </div>

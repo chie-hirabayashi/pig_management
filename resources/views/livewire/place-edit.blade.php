@@ -23,15 +23,17 @@
                 </div>
             </div>
             <div class="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+                <span class="my-2 flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
                     <button wire:click="closeModal()" type="button"
-                        class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+                        {{-- class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5"> --}}
+                        class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-cyan-800 text-base leading-6 font-medium text-white shadow-sm hover:bg-cyan-600 focus:outline-none focus:border-cyan-800 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5">
                         キャンセル
                     </button>
                 </span>
-                <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+                <span class="my-2 flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
                     <button wire:click.prevent="update()" type="button"
-                        class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+                        {{-- class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5"> --}}
+                        class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-cyan-800 text-base leading-6 font-medium text-white shadow-sm hover:bg-cyan-600 focus:outline-none focus:border-cyan-800 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5">
                         入 室
                     </button>
                 </span>

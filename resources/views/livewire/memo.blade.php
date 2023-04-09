@@ -8,7 +8,7 @@
             <p class="break-words">{!! $this->memo ? e($this->memo) : nl2br(e($femalePig->memo)) !!}</p>
             <div class="flex justify-end">
             <button wire:click="memoWrite()"
-                class="text-right basis-1/2 font-medium lg:text-xs xl:text-sm text-cyan-800 hover:underline hover:font-bold">
+                class="text-right basis-1/2 font-medium lg:text-xs xl:text-sm text-cyan-800 hover:underline hover:font-bold hover:text-cyan-600 focus:text-cyan-800 transition">
                 <i class="fa-solid fa-pencil"></i>
             </button>
             </div>
