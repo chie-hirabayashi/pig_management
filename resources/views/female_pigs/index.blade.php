@@ -12,12 +12,10 @@
 
     {{-- TODO:メモ機能,出産予定日のアラート,離乳後一定期間交配していないアラート --}}
 
-    {{-- <div class="bg-white py-6 sm:py-8 lg:py-12"> --}}
     <div class="bg-gray-100 py-6 sm:py-8 lg:py-12">
         <div class="max-w-screen-xl px-2 md:px-4 mx-auto">
             <!-- title -->
             <h2 class="MplusRound text-gray-700 text-2xl lg:text-3xl text-center mb-6">
-                {{-- <span class="text-rose-400"> --}}
                 <span class="text-rose-800">
                     <i class="fa-solid fa-venus"></i>
                 </span>
@@ -141,26 +139,33 @@
                                     @endif
                                 </div>
                                 <a href="{{ route('female_pigs.show', $femalePig) }}"
-                                    class="text-gray-700 text-base leading-10 after:content-['_↗'] transition-colors bg-transparent hover:underline hover:text-sky-700">
+                                    class="text-gray-700 text-base leading-10 transition-colors bg-transparent hover:underline hover:text-sky-700">
                                     No.
                                     <span class="text-xl">
                                         {{ $femalePig->individual_num }}
                                     </span>
                                 </a>
-                                <div class="text-center -mx-2 px-4 h-10 relative">
-                                    <div class="leading-10 w-full text-gray-300 absolute">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                <div class="text-center px-4">
+                                    <div class="text-gray-400">
+                                        {{-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                             fill="currentColor" class="w-6 h-6">
                                             <path fill-rule="evenodd"
                                                 d="M19.902 4.098a3.75 3.75 0 00-5.304 0l-4.5 4.5a3.75 3.75 0 001.035 6.037.75.75 0 01-.646 1.353 5.25 5.25 0 01-1.449-8.45l4.5-4.5a5.25 5.25 0 117.424 7.424l-1.757 1.757a.75.75 0 11-1.06-1.06l1.757-1.757a3.75 3.75 0 000-5.304zm-7.389 4.267a.75.75 0 011-.353 5.25 5.25 0 011.449 8.45l-4.5 4.5a5.25 5.25 0 11-7.424-7.424l1.757-1.757a.75.75 0 111.06 1.06l-1.757 1.757a3.75 3.75 0 105.304 5.304l4.5-4.5a3.75 3.75 0 00-1.035-6.037.75.75 0 01-.354-1z"
                                                 clip-rule="evenodd" />
+                                        </svg> --}}
+                                    <div class="">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                            fill="currentColor" class="w-4 h-4">
+                                            <path fill-rule="evenodd"
+                                                d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z"
+                                                clip-rule="evenodd" />
                                         </svg>
-
-                                        {{-- <i class="fa-solid fa-clipboard"></i> --}}
                                     </div>
-                                    <div class="absolute min-w-full">
-                                        <p class="leading-10 text-sm text-sky-700">{{ $femalePig->place->place_num }}
+
+                                    <div class="">
+                                        <p class="text-sm text-sky-700">{{ $femalePig->place->place_num }}
                                         </p>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -229,7 +234,7 @@
                                     <span
                                         class="text-red-700 text-sm font-medium inline-flex items-center px-2.5 py-0.5 rounded">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M10.125 2.25h-4.5c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9M10.125 2.25h.375a9 9 0 019 9v.375M10.125 2.25A3.375 3.375 0 0113.5 5.625v1.5c0 .621.504 1.125 1.125 1.125h1.5a3.375 3.375 0 013.375 3.375M9 15l2.25 2.25L15 12" />
                                         </svg>
@@ -243,7 +248,7 @@
                                     <span
                                         class="text-red-700 text-sm font-medium inline-flex items-center px-2.5 py-0.5 rounded">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M10.125 2.25h-4.5c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9M10.125 2.25h.375a9 9 0 019 9v.375M10.125 2.25A3.375 3.375 0 0113.5 5.625v1.5c0 .621.504 1.125 1.125 1.125h1.5a3.375 3.375 0 013.375 3.375M9 15l2.25 2.25L15 12" />
                                         </svg>
@@ -257,7 +262,7 @@
                                     <span
                                         class="text-sky-700 text-sm font-medium inline-flex items-center px-2.5 py-0.5 rounded">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M10.125 2.25h-4.5c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9M10.125 2.25h.375a9 9 0 019 9v.375M10.125 2.25A3.375 3.375 0 0113.5 5.625v1.5c0 .621.504 1.125 1.125 1.125h1.5a3.375 3.375 0 013.375 3.375M9 15l2.25 2.25L15 12" />
                                         </svg>

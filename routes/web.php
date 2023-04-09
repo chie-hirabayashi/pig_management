@@ -49,10 +49,6 @@ Route::resource('female_pigs.mix_infos', MixInfoController::class)
     ->middleware(['auth']);
 
 Route::resource('places', PlaceController::class);
-// FIXME:livewireへ
-// Route::patch('/places/{place}/put', [
-    // PlaceController::class,'put'])->name('places.put');
-
 use App\Http\Livewire\PlaceIn;
 Route::get('place-in', PlaceIn::class)->name('livewire.place-in');
 

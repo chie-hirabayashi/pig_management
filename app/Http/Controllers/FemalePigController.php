@@ -419,6 +419,9 @@ class FemalePigController extends Controller
         $flash_msg = $femalePig->individual_num . 'を廃用にしました';
 
         try {
+            $today = now()->format('Y-m-d');
+            $femalePig->left_day = $today;
+            $femalePig->save();
             $femalePig->delete();
             return redirect()
                 ->route('female_pigs.index')

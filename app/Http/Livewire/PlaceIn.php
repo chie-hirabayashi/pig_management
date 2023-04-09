@@ -3,7 +3,6 @@
 namespace App\Http\Livewire;
 
 use App\Models\FemalePig;
-use App\Models\MixInfo;
 use Livewire\Component;
 use App\Models\Place;
 
@@ -41,43 +40,30 @@ class PlaceIn extends Component
 
     public function update()
     {
-        // $this->validate([
-        //     'id' => 'required',
-        //     'female_id' => 'required'
-        // ]);
         Place::updateOrCreate(
             ['id' => $this->place_id],
-            [
-                'female_id' => $this->female_id,
-            ]
+            ['female_id' => $this->female_id],
         );
         $this->closeModal();
-        // $this->resetInputFields();
     }
 
     public function placeIn($id)
     {
         $place = Place::findOrFail($id);
+        # find($id):idが見つからない場合null
+        # findOrFail($id):idが見つからない場合エラー
         $this->place_id = $place->id;
         $this->female_id = $place->female_id;
-        // $this->description = $todo->description;
         $this->openModal();
-        // dd($place);
     }
 
     public function placeOut($id)
     {
         $place = Place::findOrFail($id);
-        // $this->validate([
-        //     'title' => 'required',
-        //     'description' => 'required'
-        // ]);
-        // dd($place);
+
         Place::updateOrCreate(
             ['id' => $place->id],
-            [
-                'female_id' => null,
-            ]
+            ['female_id' => null],
         );
         session()->flash(
             'message',
@@ -85,8 +71,6 @@ class PlaceIn extends Component
                 ? 'Todo Updated Successfully.'
                 : 'Todo Created Successfully.'
         );
-        // $this->closeModal();
-        // $this->resetInputFields();
     }
 
 }

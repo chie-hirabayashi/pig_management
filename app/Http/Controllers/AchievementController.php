@@ -22,6 +22,20 @@ class AchievementController extends Controller
             $year = $carbon->addYear(1);
             $years[] = substr($year->toDateString(), 0, 4);
         } # $years = ['2018', '2019', '2020', ...]
+
+        // mix_dayの年を配列に整理
+        // $first_mix_day = MixInfo::orderBy('mix_day')->first('mix_day'); # object['mix_day' => '2018-08-01']
+        // $last_mix_day = MixInfo::orderBy('mix_day', 'desc')->first('mix_day'); # object['mix_day' => '2022-12-27']
+        // $first_year = substr($first_mix_day->mix_day, 0, 4); # "2018"
+        // $last_year = substr($last_mix_day->mix_day, 0, 4); # "2022"
+        // $first_carbon = new Carbon($first_mix_day->mix_day); # date: 2018-08-01 00:00:00.0 Asia/Tokyo (+09:00)
+        // $years = [$first_year];
+        // while ($first_year <= $last_year) {
+        //     $next_year = $first_carbon->addYear(1);
+        //     $years[] = substr($next_year->toDateString(), 0, 4);
+        // } # $years = ['2018', '2019', '2020', ...]
+        // dd($years);
+
         // 箱用意
         $achievements = [];
         foreach ($years as $year) {
@@ -61,16 +75,20 @@ class AchievementController extends Controller
                 ->count();
 
             // 開始子豚
-            $bornPigs = MixInfo::where('born_day', '>=', $begin_date)
-                ->where('born_day', '<=', $end_date)
+            $bornPigs = MixInfo::where([
+                ['born_day', '>=', $begin_date],
+                ['born_day', '<=', $end_date],
+                ])
                 ->whereNotNull('born_day')
                 ->selectRaw('SUM(born_num) as sum_born_num')
                 ->get();
             $count_bornPigs = $bornPigs->first()->sum_born_num;
 
             // 離乳子豚
-            $weaningPigs = MixInfo::where('weaning_day', '>=', $begin_date)
-                ->where('weaning_day', '<=', $end_date)
+            $weaningPigs = MixInfo::where([
+                ['weaning_day', '>=', $begin_date],
+                ['weaning_day', '<=', $end_date],
+                ])
                 ->whereNotNull('weaning_day')
                 ->selectRaw('SUM(weaning_num) as sum_weaning_num')
                 ->get();
@@ -78,9 +96,9 @@ class AchievementController extends Controller
 
             // 廃用頭数
             $count_leftPigs = FemalePig::withTrashed()
-                // where([['left_day', '>=', $begin_date],['left_day', '<=', $end_date]])
-                ->where('left_day', '>=', $begin_date)
-                ->where('left_day', '<=', $end_date)
+                ->where([['left_day', '>=', $begin_date],['left_day', '<=', $end_date]])
+                // ->where('left_day', '>=', $begin_date)
+                // ->where('left_day', '<=', $end_date)
                 ->count();
 
             // 交配成功率

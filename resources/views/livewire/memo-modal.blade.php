@@ -6,17 +6,14 @@
             <div class="px-6 pt-5">
                 <div class="">
                     <div class="mb-4">
-                        <label for="female_id" class="block text-gray-700 text-sm font-bold mb-2">female_No</label>
-                        <select name="female_id" required wire:model="female_id"
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                            <option hidden>選択してください</option>
-                            @foreach ($femalePigs as $femalePig)
-                                <option value="{{ $femalePig->id }}">
-                                    {{ $femalePig->individual_num }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('title')
+                        <label for="memo" class="block text-gray-700 text-sm font-bold mb-2">memo</label>
+                        {{-- <input type="text" name="memo" value="{{ old('memo', $femalePig->memo) }}" required
+                            wire:model="memo"> --}}
+                        {{-- <p>{{ $femalePig->memo }}</p> --}}
+                        <textarea name="memo" wire:model="femalePig.memo" rows="5"
+                            class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 w-full py-2 px-3"
+                            required placeholder="メモ"></textarea>
+                        @error('femalePig.memo')
                             <span class="text-red-500">{{ $message }}</span>
                         @enderror
                     </div>
@@ -25,16 +22,14 @@
             <div class="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                 <span class="my-2 flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
                     <button wire:click="closeModal()" type="button"
-                        {{-- class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5"> --}}
                         class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-cyan-800 text-base leading-6 font-medium text-white shadow-sm hover:bg-cyan-600 focus:outline-none focus:border-cyan-800 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5">
                         キャンセル
                     </button>
                 </span>
                 <span class="my-2 flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
-                    <button wire:click.prevent="update()" type="button"
-                        {{-- class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5"> --}}
+                    <button wire:click.prevent="save()" type="button"
                         class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-cyan-800 text-base leading-6 font-medium text-white shadow-sm hover:bg-cyan-600 focus:outline-none focus:border-cyan-800 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5">
-                        入 室
+                        OK
                     </button>
                 </span>
             </div>

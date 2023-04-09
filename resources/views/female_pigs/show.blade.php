@@ -95,7 +95,7 @@
 
                 <!-- schedule - start -->
                 <div class="text-gray-600">
-                    <h2 class="text-center">予 定</h2>
+                    <h2 class="MplusRound text-center font-semibold">予 定</h2>
                     @if ($mixInfos->isNotEmpty())
                         @if ($mixInfos->last()->born_day == null && $mixInfos->last()->trouble_id == 1)
 
@@ -195,11 +195,19 @@
                 </div>
                 <!-- schedule - end -->
 
+                <!-- livewire - start -->
+                <div class="text-gray-600">
+                {{-- <livewire:memo :post="$femalePig"> これだとパラメータを渡せなかった --}}
+                @livewire('memo', ['femalePig' => $femalePig])
+                @livewireScripts
+                </div>
+                <!-- livewire - end -->
+
                 <!-- border - start -->
                 <div class="overflow-x-auto relative">
                     <table class="w-full text-sm text-left text-gray-500">
                         <thead class="text-center text-xs text-gray-900 uppercase">
-                            <tr class="whitespace-nowrap">
+                            <tr class="whitespace-nowrap MplusRound">
                                 <th scope="col" class="py-3 px-4 lg:px-6"></th>
                                 <th scope="col" class="py-3 px-4 lg:px-6">
                                     直近
@@ -215,7 +223,7 @@
                         <tbody class="border-t border-b">
                             <tr class="bg-white">
                                 <th scope="row"
-                                    class="py-3 px-4 lg:px-6 font-medium text-gray-900 whitespace-nowrap">
+                                    class="MplusRound py-3 px-4 lg:px-6 font-medium text-gray-900 whitespace-nowrap">
                                     回転数
                                 </th>
                                 <td class="text-center py-3 px-4 lg:px-6">
@@ -242,7 +250,7 @@
                             </tr>
                             <tr class="bg-white">
                                 <th scope="row"
-                                    class="py-3 px-4 lg:px-6 font-medium text-gray-900 whitespace-nowrap">
+                                    class="MplusRound py-3 px-4 lg:px-6 font-medium text-gray-900 whitespace-nowrap">
                                     産子数
                                 </th>
                                 <td class="text-center py-3 px-4 lg:px-6">
@@ -272,7 +280,7 @@
                 </div>
                 <div class="overflow-x-auto relative">
                     <table class="w-full text-sm text-left text-gray-500">
-                        <thead class="text-center text-xs text-gray-900 uppercase">
+                        <thead class="MplusRound text-center text-xs text-gray-900 uppercase">
                             <tr>
                                 <th scope="col" class="py-3 px-4 lg:px-6"></th>
                                 <th scope="col" class="py-3 px-4 lg:px-6">
@@ -289,7 +297,7 @@
                         <tbody class="border-t border-b">
                             <tr class="bg-white">
                                 <th scope="row"
-                                    class="py-3 px-4 lg:px-6 font-medium text-gray-900 whitespace-nowrap">
+                                    class="MplusRound py-3 px-4 lg:px-6 font-medium text-gray-900 whitespace-nowrap">
                                     出産回数
                                 </th>
                                 <td class="text-center py-3 px-4 lg:px-6">
@@ -311,7 +319,7 @@
                             </tr>
                             <tr class="bg-white">
                                 <th scope="row"
-                                    class="py-3 px-4 lg:px-6 font-medium text-gray-900 whitespace-nowrap">
+                                    class="MplusRound py-3 px-4 lg:px-6 font-medium text-gray-900 whitespace-nowrap">
                                     再発回数
                                 </th>
                                 <td class="text-center py-3 px-4 lg:px-6">
@@ -333,7 +341,7 @@
                             </tr>
                             <tr class="bg-white">
                                 <th scope="row"
-                                    class="py-3 px-4 lg:px-6 font-medium text-gray-900 whitespace-nowrap">
+                                    class="MplusRound py-3 px-4 lg:px-6 font-medium text-gray-900 whitespace-nowrap">
                                     流産回数
                                 </th>
                                 <td class="text-center py-3 px-4 lg:px-6">
@@ -358,7 +366,7 @@
                 </div>
                 <div class="overflow-x-auto relative">
                     <table class="table w-full text-sm text-left text-gray-500">
-                        <thead class="text-center text-xs text-gray-900 uppercase">
+                        <thead class="MplusRound text-center text-xs text-gray-900 uppercase">
                             <tr>
                                 <th scope="col" class="py-3 px-4 lg:px-6">
                                     交配実績
