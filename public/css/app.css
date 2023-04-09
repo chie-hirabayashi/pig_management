@@ -861,11 +861,11 @@ select {
 .h-5 {
   height: 1.25rem;
 }
-.h-6 {
-  height: 1.5rem;
-}
 .h-4 {
   height: 1rem;
+}
+.h-6 {
+  height: 1.5rem;
 }
 .h-20 {
   height: 5rem;
@@ -909,14 +909,14 @@ select {
 .w-4\/12 {
   width: 33.333333%;
 }
+.w-4 {
+  width: 1rem;
+}
 .w-6 {
   width: 1.5rem;
 }
 .w-40 {
   width: 10rem;
-}
-.w-4 {
-  width: 1rem;
 }
 .w-80 {
   width: 20rem;
@@ -935,6 +935,9 @@ select {
 }
 .w-auto {
   width: auto;
+}
+.w-24 {
+  width: 6rem;
 }
 .w-12 {
   width: 3rem;

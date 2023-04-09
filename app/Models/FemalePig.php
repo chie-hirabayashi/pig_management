@@ -19,6 +19,7 @@ class FemalePig extends Model
         'add_day',
         'left_day',
         'warn_flag',
+        'recurrence_flag',
         'memo',
         'created_at',
         'updated_at',

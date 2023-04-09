@@ -35,10 +35,10 @@
                         @if ($born_infos)
                             @if ($born_infos->last()->rotate_prediction <= 1.8)
                                 <span
-                                    class="text-red-600 text-base font-medium inline-flex items-center px-2.5 py-0.5 rounded">
+                                    class="text-red-600 text-base font-medium inline-flex items-center px-2.5 rounded">
                                 @elseif ($born_infos->last()->rotate_prediction > 1.8)
                                     <span
-                                        class="text-gray-800 text-base font-medium inline-flex items-center px-2.5 py-0.5 rounded">
+                                        class="text-gray-800 text-base font-medium inline-flex items-center px-2.5 rounded">
                             @endif
                         @endif
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -95,9 +95,78 @@
 
                 <!-- schedule - start -->
                 <div class="text-gray-600">
-                    <h2 class="MplusRound text-center font-semibold">予 定</h2>
                     @if ($mixInfos->isNotEmpty())
                         @if ($mixInfos->last()->born_day == null && $mixInfos->last()->trouble_id == 1)
+                            <div class="flex justify-between mb-1">
+                                <p class="w-24"></p>
+                                <h2 class="w-24 MplusRound text-center font-semibold">予 定</h2>
+                                <span class="w-24 pl-4 pt-1">
+
+                                    {{-- <div> --}}
+                                    @auth
+                                        <form action="{{ route('female_pigs.recurrenceFlag', $femalePig) }}" method="POST">
+                                            @csrf
+                                            @method('PATCH')
+                                            <input type="hidden" name="recurrence_flag" id=""
+                                                value="{{ $femalePig->recurrence_flag == 0 ? 1 : 0 }}">
+                                            <button type="submit" 
+                                                @if ($femalePig->recurrence_flag == 0)
+                                                onclick="if(!confirm('再発要注意')){return false};"
+                                                @endif
+                                                >
+                                                @if ($femalePig->recurrence_flag == 0)
+                                                    <div
+                                                        class="text-gray-100 hover:text-red-300 transition transform hover:translate-y-0.5">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                            fill="currentColor" class="w-5 h-5">
+                                                            <path
+                                                                d="M13.5 4.06c0-1.336-1.616-2.005-2.56-1.06l-4.5 4.5H4.508c-1.141 0-2.318.664-2.66 1.905A9.76 9.76 0 001.5 12c0 .898.121 1.768.35 2.595.341 1.24 1.518 1.905 2.659 1.905h1.93l4.5 4.5c.945.945 2.561.276 2.561-1.06V4.06zM18.584 5.106a.75.75 0 011.06 0c3.808 3.807 3.808 9.98 0 13.788a.75.75 0 11-1.06-1.06 8.25 8.25 0 000-11.668.75.75 0 010-1.06z" />
+                                                            <path
+                                                                d="M15.932 7.757a.75.75 0 011.061 0 6 6 0 010 8.486.75.75 0 01-1.06-1.061 4.5 4.5 0 000-6.364.75.75 0 010-1.06z" />
+                                                        </svg>
+                                                    </div>
+                                                @else
+                                                    <div
+                                                        class="text-red-600 hover:text-red-300 transition transform hover:-translate-y-0.5">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                            fill="currentColor" class="w-5 h-5">
+                                                            <path
+                                                                d="M13.5 4.06c0-1.336-1.616-2.005-2.56-1.06l-4.5 4.5H4.508c-1.141 0-2.318.664-2.66 1.905A9.76 9.76 0 001.5 12c0 .898.121 1.768.35 2.595.341 1.24 1.518 1.905 2.659 1.905h1.93l4.5 4.5c.945.945 2.561.276 2.561-1.06V4.06zM18.584 5.106a.75.75 0 011.06 0c3.808 3.807 3.808 9.98 0 13.788a.75.75 0 11-1.06-1.06 8.25 8.25 0 000-11.668.75.75 0 010-1.06z" />
+                                                            <path
+                                                                d="M15.932 7.757a.75.75 0 011.061 0 6 6 0 010 8.486.75.75 0 01-1.06-1.061 4.5 4.5 0 000-6.364.75.75 0 010-1.06z" />
+                                                        </svg>
+                                                    </div>
+                                                @endif
+                                            </button>
+                                        </form>
+                                    @else
+                                        <div>
+                                            @if ($femalePig->recurrence_flag == 0)
+                                                <div class="text-gray-100">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                        fill="currentColor" class="w-5 h-5">
+                                                        <path
+                                                            d="M13.5 4.06c0-1.336-1.616-2.005-2.56-1.06l-4.5 4.5H4.508c-1.141 0-2.318.664-2.66 1.905A9.76 9.76 0 001.5 12c0 .898.121 1.768.35 2.595.341 1.24 1.518 1.905 2.659 1.905h1.93l4.5 4.5c.945.945 2.561.276 2.561-1.06V4.06zM18.584 5.106a.75.75 0 011.06 0c3.808 3.807 3.808 9.98 0 13.788a.75.75 0 11-1.06-1.06 8.25 8.25 0 000-11.668.75.75 0 010-1.06z" />
+                                                        <path
+                                                            d="M15.932 7.757a.75.75 0 011.061 0 6 6 0 010 8.486.75.75 0 01-1.06-1.061 4.5 4.5 0 000-6.364.75.75 0 010-1.06z" />
+                                                    </svg>
+                                                </div>
+                                            @else
+                                                <div class="text-red-600">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                        fill="currentColor" class="w-5 h-5">
+                                                        <path
+                                                            d="M13.5 4.06c0-1.336-1.616-2.005-2.56-1.06l-4.5 4.5H4.508c-1.141 0-2.318.664-2.66 1.905A9.76 9.76 0 001.5 12c0 .898.121 1.768.35 2.595.341 1.24 1.518 1.905 2.659 1.905h1.93l4.5 4.5c.945.945 2.561.276 2.561-1.06V4.06zM18.584 5.106a.75.75 0 011.06 0c3.808 3.807 3.808 9.98 0 13.788a.75.75 0 11-1.06-1.06 8.25 8.25 0 000-11.668.75.75 0 010-1.06z" />
+                                                        <path
+                                                            d="M15.932 7.757a.75.75 0 011.061 0 6 6 0 010 8.486.75.75 0 01-1.06-1.061 4.5 4.5 0 000-6.364.75.75 0 010-1.06z" />
+                                                    </svg>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    @endauth
+                                    {{-- </div> --}}
+                                </span>
+                            </div>
 
                             <div class="flex">
                                 <div class="mr-4 mb-1">
@@ -123,15 +192,6 @@
                                                             d="M5.636 4.575a.75.75 0 010 1.06 9 9 0 000 12.729.75.75 0 01-1.06 1.06c-4.101-4.1-4.101-10.748 0-14.849a.75.75 0 011.06 0zm12.728 0a.75.75 0 011.06 0c4.101 4.1 4.101 10.749 0 14.85a.75.75 0 11-1.06-1.061 9 9 0 000-12.728.75.75 0 010-1.06zM7.757 6.696a.75.75 0 010 1.061 6 6 0 000 8.485.75.75 0 01-1.06 1.061 7.5 7.5 0 010-10.607.75.75 0 011.06 0zm8.486 0a.75.75 0 011.06 0 7.5 7.5 0 010 10.607.75.75 0 01-1.06-1.06 6 6 0 000-8.486.75.75 0 010-1.06zM9.879 8.818a.75.75 0 010 1.06 3 3 0 000 4.243.75.75 0 11-1.061 1.06 4.5 4.5 0 010-6.363.75.75 0 011.06 0zm4.242 0a.75.75 0 011.061 0 4.5 4.5 0 010 6.364.75.75 0 01-1.06-1.06 3 3 0 000-4.244.75.75 0 010-1.06zM10.875 12a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z"
                                                             clip-rule="evenodd" />
                                                     </svg>
-
-                                                    {{-- <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                        class="w-6 h-6">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="M10.125 2.25h-4.5c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9M10.125 2.25h.375a9 9 0 019 9v.375M10.125 2.25A3.375 3.375 0 0113.5 5.625v1.5c0 .621.504 1.125 1.125 1.125h1.5a3.375 3.375 0 013.375 3.375M9 15l2.25 2.25L15 12" />
-                                                    </svg> --}}
-
-                                                    {{-- <i class="fa-solid fa-circle-check"></i> --}}
                                                 </button>
                                             </form>
                                         @else
@@ -197,9 +257,9 @@
 
                 <!-- livewire - start -->
                 <div class="text-gray-600">
-                {{-- <livewire:memo :post="$femalePig"> これだとパラメータを渡せなかった --}}
-                @livewire('memo', ['femalePig' => $femalePig])
-                @livewireScripts
+                    {{-- <livewire:memo :post="$femalePig"> これだとパラメータを渡せなかった --}}
+                    @livewire('memo', ['femalePig' => $femalePig])
+                    @livewireScripts
                 </div>
                 <!-- livewire - end -->
 
