@@ -443,6 +443,18 @@ class FemalePigController extends Controller
         }
     }
 
+    public function recurrenceFlag(Request $request, FemalePig $femalePig)
+    {
+        $femalePig->recurrence_flag = $request->recurrence_flag;
+
+        try {
+            $femalePig->save();
+            return redirect(route('female_pigs.show', $femalePig));
+        } catch (\Throwable $th) {
+            return back()->withErrors($th->getMessage());
+        }
+    }
+
     public function updateRecurrence(Request $request, FemalePig $femalePig)
     {
         $mixInfo = $femalePig->mix_infos->last();

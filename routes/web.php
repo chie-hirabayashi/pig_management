@@ -136,6 +136,13 @@ Route::patch('/female_pigs/{female_pig}/updateFlag', [
 ])
     ->middleware(['auth'])
     ->name('female_pigs.updateFlag');
+// recurrenceフラグのルーティング
+Route::patch('/female_pigs/{female_pig}/recurrenceFlag', [
+    FemalePigController::class,
+    'recurrenceFlag',
+])
+    ->middleware(['auth'])
+    ->name('female_pigs.recurrenceFlag');
 // MalePigフラグのルーティング
 Route::patch('/male_pigs/{male_pig}/updateFlag', [
     MalePigController::class,
