@@ -67,6 +67,7 @@
                                     {{-- <div class="text-gray-500"> --}}
                                     回&emsp;数&ensp;:&ensp;{{ $malePig->all_mixes }} 回
                                 </div>
+                                {{-- FIXME:交配率は廃用母豚のデータを覗いて算出に変更 --}}
                                 <div class="text-gray-500">
                                     成功率&ensp;:&ensp;{{ $malePig->mix_probability }} %
                                 </div>

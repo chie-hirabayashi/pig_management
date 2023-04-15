@@ -2,7 +2,8 @@
 <nav x-data="{ open: false }" class="">
     <!-- Primary Navigation Menu -->
     {{-- <div class="max-w-7xl mx-auto pr-4 bg-pink-300"> --}}
-    <div class="max-w-7xl mx-auto pr-4 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-gray-200 via-gray-100 to-gray-500">
+    {{-- <div class="max-w-7xl mx-auto pr-4 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-gray-200 via-gray-100 to-gray-500"> --}}
+    <div class="max-w-7xl mx-auto pr-4 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-gray-100 via-gray-200 to-gray-50">
         <div class="flex justify-between">
             <div class="flex">
                 <!-- Logo -->
