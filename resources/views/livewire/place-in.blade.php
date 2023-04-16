@@ -49,17 +49,17 @@
                     <div class="grid sm:grid-cols-2 gap-4 sm:gap-2 xl:gap-3">
                         <!-- breeding1 - start -->
                         <div class="overflow-x-auto relative w-full mx-auto">
-                            <table class="w-full text-sm text-left text-gray-700">
+                            <table class="w-full text-sm text-left text-gray-700 border-2 border-gray-300">
                                 <thead class="text-center text-xs text-gray-900 uppercase">
                                     <tr>
-                                        <th class="border py-3 px-2 w-3/12">
-                                            屋NO.
+                                        <th class="border bg-gray-50 py-2 px-1 w-2/12">
+                                            部屋番
                                         </th>
-                                        <th class="border py-3 px-2 w-5/12">
+                                        <th class="border bg-gray-50 py-2 px-2 w-6/12">
                                             個体番号
                                         </th>
                                         @auth
-                                            <th class="border py-3 px-6 w-4/12"></th>
+                                            <th class="border bg-gray-50 py-2 px-2 w-4/12">入退室</th>
                                         @endauth
                                     </tr>
                                 </thead>
@@ -117,7 +117,6 @@
                                                                     strtotime('+63day', strtotime($places[$i]->female_pig->mix_infos->last()->second_recurrence_schedule)))) bg-red-50 @endif
                                                 @endif
                                                 @if (!empty($places[$i]->female_pig->id) && $places[$i]->female_pig->status == '待機中') {{-- 待機中 --}}
-                                                    {{-- Pastel bg-gradient-to-tr from-white via-white to-amber-100 @endif --}}
                                                     bg-amber-100 @endif
                                             ">
                                                 <div class="flex justify-between items-center">
@@ -125,6 +124,28 @@
                                                         <a class="flex justify-between items-center"
                                                             href="{{ route('female_pigs.show', $places[$i]->female_pig->id) }}">
                                                             {{ $places[$i]->female_pig->individual_num }}
+                                                            @if ($places[$i]->female_pig->well_flag == 1)
+                                                                <span class="text-amber-300 text-xs ml-1">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                        viewBox="0 0 24 24" fill="currentColor"
+                                                                        class="w-4 h-4">
+                                                                        <path fill-rule="evenodd"
+                                                                            d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-2.625 6c-.54 0-.828.419-.936.634a1.96 1.96 0 00-.189.866c0 .298.059.605.189.866.108.215.395.634.936.634.54 0 .828-.419.936-.634.13-.26.189-.568.189-.866 0-.298-.059-.605-.189-.866-.108-.215-.395-.634-.936-.634zm4.314.634c.108-.215.395-.634.936-.634.54 0 .828.419.936.634.13.26.189.568.189.866 0 .298-.059.605-.189.866-.108.215-.395.634-.936.634-.54 0-.828-.419-.936-.634a1.96 1.96 0 01-.189-.866c0-.298.059-.605.189-.866zm2.023 6.828a.75.75 0 10-1.06-1.06 3.75 3.75 0 01-5.304 0 .75.75 0 00-1.06 1.06 5.25 5.25 0 007.424 0z"
+                                                                            clip-rule="evenodd" />
+                                                                    </svg>
+                                                                </span>
+                                                            @endif
+                                                            @if ($places[$i]->female_pig->unwell_flag == 1)
+                                                                <span class="text-cyan-600 text-xs ml-1">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                        viewBox="0 0 24 24" fill="currentColor"
+                                                                        class="w-4 h-4">
+                                                                        <path fill-rule="evenodd"
+                                                                            d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-2.625 6c-.54 0-.828.419-.936.634a1.96 1.96 0 00-.189.866c0 .298.059.605.189.866.108.215.395.634.936.634.54 0 .828-.419.936-.634.13-.26.189-.568.189-.866 0-.298-.059-.605-.189-.866-.108-.215-.395-.634-.936-.634zm4.314.634c.108-.215.395-.634.936-.634.54 0 .828.419.936.634.13.26.189.568.189.866 0 .298-.059.605-.189.866-.108.215-.395.634-.936.634-.54 0-.828-.419-.936-.634a1.96 1.96 0 01-.189-.866c0-.298.059-.605.189-.866zm-4.34 7.964a.75.75 0 01-1.061-1.06 5.236 5.236 0 013.73-1.538 5.236 5.236 0 013.695 1.538.75.75 0 11-1.061 1.06 3.736 3.736 0 00-2.639-1.098 3.736 3.736 0 00-2.664 1.098z"
+                                                                            clip-rule="evenodd" />
+                                                                    </svg>
+                                                                </span>
+                                                            @endif
                                                             @if ($places[$i]->female_pig->warn_flag == 1)
                                                                 <span class="text-red-600 text-xs ml-1">
                                                                     <i class="fa-solid fa-triangle-exclamation"></i>
@@ -140,7 +161,6 @@
                                                                         <path
                                                                             d="M15.932 7.757a.75.75 0 011.061 0 6 6 0 010 8.486.75.75 0 01-1.06-1.061 4.5 4.5 0 000-6.364.75.75 0 010-1.06z" />
                                                                     </svg>
-                                                                    {{-- <i class="fa-solid fa-triangle-exclamation"></i> --}}
                                                                 </span>
                                                             @endif
                                                         </a>
@@ -180,17 +200,17 @@
 
                         <!-- breeding2 - start -->
                         <div class="overflow-x-auto relative w-full mx-auto">
-                            <table class="w-full text-sm text-left text-gray-700">
+                            <table class="w-full text-sm text-left text-gray-700 border-2 border-gray-300">
                                 <thead class="text-center text-xs text-gray-900 uppercase">
                                     <tr>
-                                        <th class="border py-3 px-2 w-3/12">
-                                            屋NO.
+                                        <th class="border bg-gray-50 py-2 px-1 w-2/12">
+                                            部屋番
                                         </th>
-                                        <th class="border py-3 px-2 w-5/12">
+                                        <th class="border bg-gray-50 py-2 px-2 w-6/12">
                                             個体番号
                                         </th>
                                         @auth
-                                            <th class="border py-3 px-6 w-4/12"></th>
+                                            <th class="border bg-gray-50 py-2 px-2 w-4/12">入退室</th>
                                         @endauth
                                     </tr>
                                 </thead>
@@ -252,12 +272,46 @@
                                             ">
                                                 <div class="flex justify-between items-center">
                                                     @if ($places[$i]->female_pig->id)
-                                                        <a
+                                                        <a class="flex justify-between items-center"
                                                             href="{{ route('female_pigs.show', $places[$i]->female_pig->id) }}">
                                                             {{ $places[$i]->female_pig->individual_num }}
+                                                            @if ($places[$i]->female_pig->well_flag == 1)
+                                                                <span class="text-amber-300 text-xs ml-1">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                        viewBox="0 0 24 24" fill="currentColor"
+                                                                        class="w-4 h-4">
+                                                                        <path fill-rule="evenodd"
+                                                                            d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-2.625 6c-.54 0-.828.419-.936.634a1.96 1.96 0 00-.189.866c0 .298.059.605.189.866.108.215.395.634.936.634.54 0 .828-.419.936-.634.13-.26.189-.568.189-.866 0-.298-.059-.605-.189-.866-.108-.215-.395-.634-.936-.634zm4.314.634c.108-.215.395-.634.936-.634.54 0 .828.419.936.634.13.26.189.568.189.866 0 .298-.059.605-.189.866-.108.215-.395.634-.936.634-.54 0-.828-.419-.936-.634a1.96 1.96 0 01-.189-.866c0-.298.059-.605.189-.866zm2.023 6.828a.75.75 0 10-1.06-1.06 3.75 3.75 0 01-5.304 0 .75.75 0 00-1.06 1.06 5.25 5.25 0 007.424 0z"
+                                                                            clip-rule="evenodd" />
+                                                                    </svg>
+                                                                </span>
+                                                            @endif
+                                                            @if ($places[$i]->female_pig->unwell_flag == 1)
+                                                                <span class="text-cyan-600 text-xs ml-1">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                        viewBox="0 0 24 24" fill="currentColor"
+                                                                        class="w-4 h-4">
+                                                                        <path fill-rule="evenodd"
+                                                                            d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-2.625 6c-.54 0-.828.419-.936.634a1.96 1.96 0 00-.189.866c0 .298.059.605.189.866.108.215.395.634.936.634.54 0 .828-.419.936-.634.13-.26.189-.568.189-.866 0-.298-.059-.605-.189-.866-.108-.215-.395-.634-.936-.634zm4.314.634c.108-.215.395-.634.936-.634.54 0 .828.419.936.634.13.26.189.568.189.866 0 .298-.059.605-.189.866-.108.215-.395.634-.936.634-.54 0-.828-.419-.936-.634a1.96 1.96 0 01-.189-.866c0-.298.059-.605.189-.866zm-4.34 7.964a.75.75 0 01-1.061-1.06 5.236 5.236 0 013.73-1.538 5.236 5.236 0 013.695 1.538.75.75 0 11-1.061 1.06 3.736 3.736 0 00-2.639-1.098 3.736 3.736 0 00-2.664 1.098z"
+                                                                            clip-rule="evenodd" />
+                                                                    </svg>
+                                                                </span>
+                                                            @endif
                                                             @if ($places[$i]->female_pig->warn_flag == 1)
                                                                 <span class="text-red-600 text-xs ml-1">
                                                                     <i class="fa-solid fa-triangle-exclamation"></i>
+                                                                </span>
+                                                            @endif
+                                                            @if ($places[$i]->female_pig->recurrence_flag == 1)
+                                                                <span class="text-red-600 text-xs ml-1">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                        viewBox="0 0 24 24" fill="currentColor"
+                                                                        class="w-4 h-4">
+                                                                        <path
+                                                                            d="M13.5 4.06c0-1.336-1.616-2.005-2.56-1.06l-4.5 4.5H4.508c-1.141 0-2.318.664-2.66 1.905A9.76 9.76 0 001.5 12c0 .898.121 1.768.35 2.595.341 1.24 1.518 1.905 2.659 1.905h1.93l4.5 4.5c.945.945 2.561.276 2.561-1.06V4.06zM18.584 5.106a.75.75 0 011.06 0c3.808 3.807 3.808 9.98 0 13.788a.75.75 0 11-1.06-1.06 8.25 8.25 0 000-11.668.75.75 0 010-1.06z" />
+                                                                        <path
+                                                                            d="M15.932 7.757a.75.75 0 011.061 0 6 6 0 010 8.486.75.75 0 01-1.06-1.061 4.5 4.5 0 000-6.364.75.75 0 010-1.06z" />
+                                                                    </svg>
                                                                 </span>
                                                             @endif
                                                         </a>
@@ -324,17 +378,17 @@
                     <div class="grid sm:grid-cols-2 gap-4 sm:gap-2 xl:gap-3">
                         <!-- delivery1 - start -->
                         <div class="overflow-x-auto relative w-full mx-auto">
-                            <table class="w-full text-sm text-left text-gray-700">
+                            <table class="w-full text-sm text-left text-gray-700 border-2 border-gray-300">
                                 <thead class="text-center text-xs text-gray-900 uppercase">
                                     <tr>
-                                        <th class="border py-3 px-2 w-3/12">
-                                            屋NO.
+                                        <th class="border bg-gray-50 py-2 px-2 w-2/12">
+                                            部屋番
                                         </th>
-                                        <th class="border py-3 px-2 w-5/12">
+                                        <th class="border bg-gray-50 py-2 px-2 w-6/12">
                                             個体番号
                                         </th>
                                         @auth
-                                            <th class="border py-3 px-6 w-4/12"></th>
+                                            <th class="border bg-gray-50 py-2 px-6 w-4/12">入退室</th>
                                         @endauth
                                     </tr>
                                 </thead>
@@ -370,7 +424,8 @@
                                                                 {{ $places[$i]->female_pig->individual_num }}
                                                                 @if ($places[$i]->female_pig->warn_flag == 1)
                                                                     <span class="text-red-600 text-xs ml-1">
-                                                                        <i class="fa-solid fa-triangle-exclamation"></i>
+                                                                        <i
+                                                                            class="fa-solid fa-triangle-exclamation"></i>
                                                                     </span>
                                                                 @endif
                                                             </a>
@@ -418,17 +473,17 @@
 
                         <!-- delivery2 - start -->
                         <div class="overflow-x-auto relative w-full mx-auto">
-                            <table class="w-full text-sm text-left text-gray-700">
+                            <table class="w-full text-sm text-left text-gray-700 border-2 border-gray-300">
                                 <thead class="text-center text-xs text-gray-900 uppercase">
                                     <tr>
-                                        <th class="border py-3 px-2 w-3/12">
-                                            屋NO.
+                                        <th class="border bg-gray-50 py-2 px-2 w-2/12">
+                                            部屋番
                                         </th>
-                                        <th class="border py-3 px-2 w-5/12">
+                                        <th class="border bg-gray-50 py-2 px-2 w-6/12">
                                             個体番号
                                         </th>
                                         @auth
-                                            <th class="border py-3 px-6 w-4/12"></th>
+                                            <th class="border bg-gray-50 py-2 px-6 w-4/12">入退室</th>
                                         @endauth
                                     </tr>
                                 </thead>
@@ -437,7 +492,6 @@
                                         @if ($i % 2 == 0)
                                             <tr class="bg-white">
                                                 <td class="border text-center py-3 px-5 lg:px-4">
-                                                    {{-- <td class="border text-center py-3 px-6"> --}}
                                                     <div>
                                                         <p class="font-medium text-gray-900">
                                                             {{ $places[$i]->place_num }}
