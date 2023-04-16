@@ -92,7 +92,6 @@
                                         </form>
                                     </div>
                                 @endauth
-
                             </div>
                             <!-- edit & delete - end -->
                         </div>
