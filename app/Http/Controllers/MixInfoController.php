@@ -400,7 +400,7 @@ class MixInfoController extends Controller
             'second_male_pig_with_trashed',
         ])->orderBy('mix_day', 'desc')->Paginate(50);
 
-        // dd($mixInfos);
+        // dd($mixInfos[0]->female_pig_with_trashed->exist);
         return view('management_book.index')->with(compact('mixInfos'));
     }
 

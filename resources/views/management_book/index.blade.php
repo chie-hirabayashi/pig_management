@@ -81,10 +81,16 @@
                                 {{ $mixInfo->mix_day }}
                             </td>
                             <td class="py-4 px-6 text-center">
-                                <a href="{{ route('female_pigs.show', $mixInfo->female_pig_with_trashed) }}"
-                                class="transition-colors bg-transparent hover:text-sky-700">
-                                {{ $mixInfo->female_pig_with_trashed->individual_num }}
-                                </a>
+                                @if ($mixInfo->female_pig_with_trashed->exist == 1)
+                                    <a href="{{ route('female_pigs.show', $mixInfo->female_pig_with_trashed) }}"
+                                        class="transition-colors bg-transparent hover:text-sky-700">
+                                        {{ $mixInfo->female_pig_with_trashed->individual_num }}
+                                    </a>
+                                @else
+                                    <p class="line-through">
+                                        {{ $mixInfo->female_pig_with_trashed->individual_num }}
+                                    </p>
+                                @endif
                             </td>
                             <td class="py-4 px-6 text-center">
                                 {{ $mixInfo->first_male_pig_with_trashed->individual_num }}
@@ -129,4 +135,3 @@
         {{ $mixInfos->links() }}
     </div>
 </x-app-layout>
-
